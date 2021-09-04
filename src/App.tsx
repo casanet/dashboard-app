@@ -51,6 +51,7 @@ function App() {
 	const toggleDark = () => {
 		const newMode = darkMode === 'dark' ? 'light' : 'dark';
 		localStorage.setItem('prefersDarkMode', newMode);
+		console.log(newMode);
 		setDarkMode(newMode);
 	};
 
