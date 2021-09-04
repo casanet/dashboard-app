@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "license": "Apache-2.0",
   "main": "index.js",
-  "private": true,
+  "private": false,
   "homepage": "https://v2.dashboard.casanet.casa/",
   "scripts": {
     "postinstall": "npm run build",
