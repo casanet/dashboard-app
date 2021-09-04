@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--
+          Customize this policy to fit your own app's needs. For more guidance, see:
+              https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+          Some notes:
+              * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+              * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+              * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                  * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <!-- <meta http-equiv="Content-Security-Policy"  -->
+          <!-- content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="theme-color" content="#000000" />
+        
+        <title>Casanet Dashboard</title>
+      </head>
+      <body>
+        <div id="root" />
+        <script src="cordova.js"></script>
+    </body>
+</html>

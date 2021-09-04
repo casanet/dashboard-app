@@ -1,0 +1,72 @@
+{
+  "name": "casanet-app",
+  "displayName": "Casanet App Dashboard",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "private": true,
+  "homepage": "https://v2.dashboard.casanet.casa/",
+  "scripts": {
+    "postinstall": "npm run build",
+    "start": "react-scripts start",
+    "build": "set BUILD_PATH=www&& react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "cordova": "npm run build && cordova run",
+    "cordova:android": "npm run build && cordova run android"
+  },
+  "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/pickers": "^3.2.8",
+    "date-fns": "^2.8.1",
+    "i18next": "^20.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-i18next": "^11.11.4",
+    "web-vitals": "^1.0.1"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-device": {}
+    },
+    "platforms": [
+      "browser",
+      "android"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "cordova-android": "^9.1.0",
+    "cordova-browser": "^6.0.0",
+    "cordova-plugin-device": "^2.0.3",
+    "cordova-plugin-whitelist": "^1.3.4",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2"
+  }
+}
