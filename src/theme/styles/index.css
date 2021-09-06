@@ -1,11 +1,11 @@
 @font-face {
 	font-family: "oxanium";
-	src: url("./static/fonts/oxanium-v6-latin-regular.woff2") format("woff2");
+	src: url("../../static/fonts/oxanium-v6-latin-regular.woff2") format("woff2");
 }
 
 @font-face {
 	font-family: "VarelaRound";
-	src: url("./static/fonts/VarelaRound-Regular.ttf") format("truetype");
+	src: url("../../static/fonts/VarelaRound-Regular.ttf") format("truetype");
 }
 
 body {

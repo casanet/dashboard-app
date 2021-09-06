@@ -1,0 +1,12 @@
+{
+	"global.powered.by.casanet" : "Powered by Casanet",
+	"Welcome to React": "ברוכים הבאים ל React ו react-i18next",
+	"general.casanet.dashboard": "Casanet Dashboard",
+	"login.welcome.message": "ברוכים הבאים לממשק ניהול ה-IoT של <1>casanet</1>",
+	"login.background.credit.message": "הרקע מ- {{url}}",
+	"login.sign.in": "התחברות",
+	"login.email.address": "כתובת דוא\"ל",
+	"login.password": "סיסמה",
+	"login.mfa.code": "קוד אימות",
+	"general.copyright.message": "Copyright © casanet {{year}}."
+}
