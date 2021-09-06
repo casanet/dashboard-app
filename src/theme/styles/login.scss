@@ -1,0 +1,81 @@
+.login-container {
+	.login-card-grid {
+		position: absolute;
+		top: 12vh;
+		.login-content-paper {
+			.login-content-container {
+				min-width: 25vw;
+			}
+		}
+	}
+
+	.casanet-credit {
+		cursor: pointer;
+		position: absolute;
+		bottom: 2vh;
+		left: 2vw;
+		.casanet-credit-paper {
+			background-color: rgba(255, 255, 255, 0.5);
+			.casanet-credit-container {
+				display: flex;
+				padding: 0.2em;
+				.casanet-credit-text {
+					margin-left: 0.5em;
+					margin-right: 0.2em;
+					margin-top: 0.2em;
+				}
+			}
+		}
+	}
+}
+
+.login-form-container {
+	padding: 3em;
+	padding-top: 2em;
+	padding-bottom: 2em;
+
+	.login-form-header {
+		.login-form-header-icon {
+			margin-bottom: 1vh;
+		}
+	}
+
+	.login-form-inputs {
+		margin-top: 1vh;
+		.login-form-input-item {
+			margin-bottom: 1em;
+		}
+	}
+
+	.login-form-submit {
+	}
+
+	.login-form-footer {
+		cursor: pointer;
+		margin-top: 2em;
+	}
+}
+
+#login-container-item {
+	height: 100vh;
+	width: 100vw;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url("../../static/background-full.jpg");
+	background-repeat: repeat;
+	background-position: 0 0;
+	background-size: auto 100%;
+	/*adjust s value for speed*/
+	animation: animatedLoginBackground 300s linear infinite;
+}
+
+@keyframes animatedLoginBackground {
+	from {
+		background-position: 0 0;
+	}
+	/*use negative width if you want it to flow right to left else and positive for left to right*/
+	to {
+		background-position: -10000px 0;
+	}
+}
