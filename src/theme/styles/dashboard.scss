@@ -1,0 +1,58 @@
+$sideBarExtendedWidth: 110px;
+$sideBarCollapseWidth: 55px;
+
+.dashboard-container {
+	height: 100vh;
+	width: 100vw;
+	.dashboard-header {
+		position: relative; // Set relative in oder to make z-index effect above the side menu
+		z-index: 2;
+		width: 100%;
+		.dashboard-header-tool-box {
+			width: 100%;
+			.dashboard-header-tool-box-controls {
+				justify-content: end;
+			}
+		}
+	}
+	.dashboard-content-dashboard {
+		z-index: 1;
+
+		height: calc(100vh - 64px);
+		display: flex;
+		.dashboard-side-menu {
+			height: 100%;
+			width: $sideBarExtendedWidth;
+			transition: width 0.2s;
+			&.--collapse {
+				width: $sideBarCollapseWidth;
+			}
+			.dashboard--side-menu-bar {
+				height: 100%;
+				.dashboard-side-menu-collapse-icon-container {
+					margin-top: 1.5vh;
+					margin-bottom: 1vh;
+					justify-content: center;
+				}
+
+				.dashboard-side-menu-tabs {
+					max-height: 70vh;
+				}
+				.dashboard-side-menu-bottom-area {
+					vertical-align: bottom;
+					justify-content: center;
+					width: $sideBarExtendedWidth;
+					position: fixed;
+					bottom: 0;
+				}
+			}
+		}
+		.dashboard-router {
+		}
+	}
+	.dashboard-footer-menu {
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+	}
+}

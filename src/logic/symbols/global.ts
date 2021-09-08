@@ -19,5 +19,7 @@ export interface ViewLanguage {
 	direction: Direction;
 	/** Fonts to use in current lang, speared by comma (fontA, fontB) */
 	fontFamily?: string;
+	/** The display name etc. info of the curr lang */
+	langInfo: LanguageDisplayInfo;
 }
 

@@ -6,6 +6,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import isEmail from "isemail";
 import { GitHub } from '@material-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 function LoginForm() {
 	const { t } = useTranslation();
@@ -17,6 +18,7 @@ function LoginForm() {
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
 	const [mfa, setMfa] = useState<string>();
+	const history = useHistory();
 
 	function submit() {
 		// First check the forms input that they OK, mark as error if case of not.
@@ -41,6 +43,10 @@ function LoginForm() {
 		}
 		if (mfaMode) {
 			setLoading(true);
+
+			setTimeout(() => {
+				history.push('/dashboard');
+			}, 3000)
 		} else {
 			setMfaMode(true);
 		}

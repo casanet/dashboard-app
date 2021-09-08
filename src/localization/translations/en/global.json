@@ -1,12 +1,18 @@
 {
 	"global.powered.by.casanet" : "Powered by Casanet",
+	"global.minions" : "Minions",
+	"global.users" : "Users",
+	"global.network" : "Network",
+	"global.settings" : "Settings",
 	"Welcome to React": "Welcome to React and react-i18next",
 	"general.casanet.dashboard": "Casanet Dashboard",
+	"general.copyright.message": "Copyright © casanet {{year}}.",
 	"login.welcome.message": "Welcome to the <1>casanet</1> IoT dashboard",
 	"login.background.credit.message": "Background from {{url}}",
 	"login.sign.in": "Sign in",
 	"login.email.address": "Email Address",
 	"login.password": "Password",
 	"login.mfa.code": "Multi-Factor code",
-	"general.copyright.message": "Copyright © casanet {{year}}."
+	"dashboard.toolbar.theme.toggle": "Toggle light/dark theme",
+	"dashboard.pages.menu" : "Dashboard pages menu"
 }

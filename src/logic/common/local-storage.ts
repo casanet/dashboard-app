@@ -1,6 +1,7 @@
 export enum LocalStorageKey {
 	Theme = 'THEME',
 	Lang = 'LANG',
+	CollapseMenu = 'COLLAPSE_MENU',
 }
 
 export interface LocalStorageItemOptions {

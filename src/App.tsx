@@ -8,16 +8,16 @@ import {
 	Route,
 	Redirect
 } from "react-router-dom";
-import { Dashboard } from './pages/Dashboard';
-import { getLocalStorageItem, LocalStorageKey } from './logic/common/local-storage';
+import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from './logic/common/local-storage';
 import { Loader } from './components/Loader';
 import { getLang } from './logic/services/localization.service';
 
 const Login = React.lazy(() => import('./pages/Login'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 
 function App() {
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-	const [darkMode, setDarkMode] = useState<PaletteType>(getLocalStorageItem<PaletteType>(LocalStorageKey.Theme, { itemType: 'string' }) || prefersDarkMode ? 'dark' : 'light');
+	const [darkMode, setDarkMode] = useState<PaletteType>(getLocalStorageItem<PaletteType>(LocalStorageKey.Theme, { itemType: 'string' }) || (prefersDarkMode ? 'dark' : 'light'));
 	const theme = React.useMemo(
 		() => {
 			const viewLanguage = getLang();
@@ -35,6 +35,11 @@ function App() {
 		[prefersDarkMode, darkMode],
 	);
 
+	function applyThemeMode(paletteType: PaletteType) {
+		setDarkMode(paletteType);
+		setLocalStorageItem<PaletteType>(LocalStorageKey.Theme, paletteType, { itemType: 'string' });
+	}
+
 	return (
 		<div className="App">
 			<ThemeProvider theme={theme}>
@@ -46,7 +51,7 @@ function App() {
 								<Login />
 							</Route>
 							<Route path="/dashboard">
-								<Dashboard />
+								<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />
 							</Route>
 							<Route exact path="/">
 								<Redirect to="/login" />
