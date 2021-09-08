@@ -1,7 +1,10 @@
 export enum LocalStorageKey {
+	Profile = 'PROFILE',
+	ApiToken = 'API_TOKEN',
 	Theme = 'THEME',
 	Lang = 'LANG',
 	CollapseMenu = 'COLLAPSE_MENU',
+	MinionsCardRation = 'MINION_CARD_RATION',
 }
 
 export interface LocalStorageItemOptions {
@@ -19,7 +22,7 @@ export function getLocalStorageItem<T>(localStorageKey: LocalStorageKey, LocalSt
 		case 'string':
 			return rawItem as unknown as T;
 		case 'number':
-			return parseInt(rawItem, 10) as unknown as T;
+			return parseFloat(rawItem) as unknown as T;
 		case 'object':
 			return JSON.parse(rawItem) as T;
 		case 'boolean':

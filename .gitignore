@@ -4,6 +4,9 @@
 /plugins
 /www/*
 
+# Generated API
+generated
+
 # Logs
 logs
 *.log
