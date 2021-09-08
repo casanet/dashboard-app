@@ -224,7 +224,7 @@ export default function Dashboard(props: DashboardProps) {
 								<Route exact path={`${path}/${dashboardPage.path}`}><dashboardPage.components /></Route>)}
 							{/* As fallback, redirect to the first page */}
 							<Route exact path={[`${path}`, `${path}/*`]}>
-								<Redirect to={`${path}/$${dashboardPages[0].path}`} />
+								<Redirect to={`${path}/${dashboardPages[0].path}`} />
 							</Route>
 						</Switch>
 					</HashRouter>
