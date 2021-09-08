@@ -1,5 +1,5 @@
 import { AppBar, Box, Grid, Tabs, Tab, IconButton, PaletteType, Toolbar, Tooltip, Typography, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
-import '../theme/styles/dashboard.scss'
+import '../theme/styles/dashboard.scss';
 import MenuIcon from '@material-ui/icons/Menu';
 import DarkIcon from '@material-ui/icons/Brightness4';
 import LightIcon from '@material-ui/icons/BrightnessHigh';
@@ -12,7 +12,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { SideBarBottom } from '../components/SideBarBottom';
 import { useTranslation } from "react-i18next";
 import { ComponentType, LazyExoticComponent, Suspense, useState } from "react";
-import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../logic/common/local-storage";
+import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 import { getLang } from "../logic/services/localization.service";
 import {
 	HashRouter,
@@ -48,6 +48,12 @@ interface DashboardPage {
 	path: string;
 	components: LazyExoticComponent<ComponentType<any>>;
 }
+
+// Const predefined dimensions of bars menus etc,
+const sideBarExtendedWidth = 110;
+const sideBarCollapseWidth = 55;
+const appBarHight = 64;
+const footerMenuHight = 60;
 
 const useStyles = makeStyles((theme: Theme) => ({
 	sideBarTab: {
@@ -110,7 +116,19 @@ export default function Dashboard(props: DashboardProps) {
 	// Find the current route shown component index  
 	const tabIndex = dashboardPages.findIndex(d => location?.pathname?.includes(d.path));
 
-	return <div className="dashboard-container">
+	// Inject dashboard bars and menu dimension to the global.scss
+	const dashboardCssVars = {
+		"--app-bar-hight": `${appBarHight}px`,
+		"--side-bar-extended-width": `${sideBarExtendedWidth}px`,
+		"--side-bar-collapse-width": `${sideBarCollapseWidth}px`,
+		"--footer-menu-hight": `${footerMenuHight}px`,
+	} as React.CSSProperties;
+
+	// Calculate the box size for the pages content
+	const routerContainerWidth = !desktopMode ? '100vw' : `calc(100vw - ${collapseMenu ? sideBarCollapseWidth : sideBarExtendedWidth}px)`;
+	const routerContainerHight = `calc(100vh - ${desktopMode ? appBarHight : (appBarHight + footerMenuHight)}px)`;
+
+	return <div className="dashboard-container" style={dashboardCssVars}>
 		<div className="dashboard-header">
 			<AppBar position="static" color="default">
 				<Toolbar className="dashboard-header-tool-box">
@@ -148,7 +166,7 @@ export default function Dashboard(props: DashboardProps) {
 				</Toolbar>
 			</AppBar>
 		</div>
-		<div className={"dashboard-content-dashboard"}>
+		<div className={"dashboard-content-dashboard"} style={{ height: `calc(100vh - ${appBarHight}px)` }}>
 			{/* Show side menu in desktop mode only */}
 			{desktopMode && <div className={`dashboard-side-menu  ${collapseMenu && '--collapse'} `}>
 				<AppBar position="static" color="default" className={"dashboard--side-menu-bar"}>
@@ -192,10 +210,16 @@ export default function Dashboard(props: DashboardProps) {
 					</div>}
 				</AppBar>
 			</div>}
-			<div className="dashboard-router" >
+			<div className="dashboard-router" style={{
+				maxWidth: routerContainerWidth,
+				width: routerContainerWidth,
+				maxHeight: routerContainerHight,
+				height: routerContainerHight,
+			}} >
 				<Suspense fallback={<Loader />}>
 					<HashRouter>
 						<Switch>
+							{/* Generate route for each page */}
 							{dashboardPages.map(dashboardPage =>
 								<Route exact path={`${path}/${dashboardPage.path}`}><dashboardPage.components /></Route>)}
 							{/* As fallback, redirect to the first page */}

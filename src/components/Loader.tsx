@@ -1,7 +1,9 @@
-export function Loader() {
+import { useTranslation } from "react-i18next"
 
+export function Loader() {
+	const { t } = useTranslation();
 
 	return <div>
-		Loading...
+		{t('global.loading')}
 	</div>
 }

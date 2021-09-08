@@ -1,0 +1,29 @@
+@use "global";
+
+.App {
+	text-align: center;
+}
+
+// Set scrollbar style 
+
+/* The emerging W3C standard
+   that is currently Firefox-only */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: global.$primaryColor global.$backgroundColor;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+	width: 5px;
+}
+*::-webkit-scrollbar-track {
+	background: global.$backgroundColor;
+	border: 1px solid global.$primaryColor;
+	border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb {
+	background-color: global.$primaryColor;
+	border-radius: 2px;
+	border: 1px solid transparent;
+}

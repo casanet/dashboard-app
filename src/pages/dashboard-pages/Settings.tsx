@@ -1,7 +1,7 @@
 import { MenuItem, Select } from "@material-ui/core";
 import { supportedLanguages } from "../../localization/languages";
 import { getLang, setLang } from "../../logic/services/localization.service";
-import { LangCode } from "../../logic/symbols/global";
+import { LangCode } from "../../infrastructure/symbols/global";
 
 export default function Settings() {
 

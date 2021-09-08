@@ -1,0 +1,45 @@
+@use "global";
+
+.minions-container {
+	width: 100%;
+	height: 100%;
+	.minions-grid-container {
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
+
+		.minion-card-container {
+			padding: 1em;
+			.minion-card {
+			}
+		}
+	}
+
+	.resize-slider-container {
+		position: fixed;
+		bottom: 0em;
+		right: 0em;
+		&.--mobile {
+			bottom: global.$footerMenuHight;
+		}
+
+		.resize-slider-icon-tip {
+			cursor: pointer;
+		}
+		.resize-slider {
+			margin-top: 6px;
+			width: 10em;
+			&.--mobile {
+				width: unset;
+				height: 5em;
+			}
+		}
+	}
+}
+
+// In RTL view, stick to the left
+[dir="rtl"] .resize-slider-container {
+	right: unset;
+	left: 0em;
+}

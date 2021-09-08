@@ -1,5 +1,6 @@
 {
 	"global.powered.by.casanet" : "Powered by Casanet",
+	"global.loading" : "Loading...",
 	"global.minions" : "Minions",
 	"global.users" : "Users",
 	"global.network" : "Network",
@@ -14,5 +15,7 @@
 	"login.password": "Password",
 	"login.mfa.code": "Multi-Factor code",
 	"dashboard.toolbar.theme.toggle": "Toggle light/dark theme",
-	"dashboard.pages.menu" : "Dashboard pages menu"
+	"dashboard.pages.menu" : "Dashboard pages menu",
+	"dashboard.minions.increase.card.ration" : "Increase view size ration",
+	"dashboard.minions.decrease.card.ration" : "Decrease view size ration"
 }

@@ -1,5 +1,4 @@
-$sideBarExtendedWidth: 110px;
-$sideBarCollapseWidth: 55px;
+@use "global";
 
 .dashboard-container {
 	height: 100vh;
@@ -16,16 +15,13 @@ $sideBarCollapseWidth: 55px;
 		}
 	}
 	.dashboard-content-dashboard {
-		z-index: 1;
-
-		height: calc(100vh - 64px);
 		display: flex;
 		.dashboard-side-menu {
 			height: 100%;
-			width: $sideBarExtendedWidth;
+			width: global.$sideBarExtendedWidth;
 			transition: width 0.2s;
 			&.--collapse {
-				width: $sideBarCollapseWidth;
+				width: global.$sideBarCollapseWidth;
 			}
 			.dashboard--side-menu-bar {
 				height: 100%;
@@ -41,13 +37,14 @@ $sideBarCollapseWidth: 55px;
 				.dashboard-side-menu-bottom-area {
 					vertical-align: bottom;
 					justify-content: center;
-					width: $sideBarExtendedWidth;
+					width: global.$sideBarExtendedWidth;
 					position: fixed;
 					bottom: 0;
 				}
 			}
 		}
 		.dashboard-router {
+			padding: 1em;
 		}
 	}
 	.dashboard-footer-menu {

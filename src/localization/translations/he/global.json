@@ -1,5 +1,6 @@
 {
 	"global.powered.by.casanet" : "Powered by Casanet",
+	"global.loading" : "טוען...",
 	"global.minions" : "מניונים",
 	"global.users" : "משתמשים",
 	"global.network" : "רשת",
@@ -14,5 +15,7 @@
 	"login.mfa.code": "קוד אימות",
 	"general.copyright.message": "Copyright © casanet {{year}}.",
 	"dashboard.toolbar.theme.toggle": "ערכת נושא חשוכה\\מוארת",
-	"dashboard.pages.menu" : "Dashboard pages menu"
+	"dashboard.pages.menu" : "Dashboard pages menu",
+	"dashboard.minions.increase.card.ration" : "הגדל את יחס גודל התצוגה",
+	"dashboard.minions.decrease.card.ration" : "הקטן את יחס גודל התצוגה"
 }
