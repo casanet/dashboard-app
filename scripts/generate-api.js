@@ -35,6 +35,7 @@ const INDEX_TS = 'index.ts';
 const OUTPUT_BASE_PATH = 'src/infrastructure/generated';
 const SWAGGER_API_OUTPUT_PATH = `${OUTPUT_BASE_PATH}/api`;
 const CHANNEL_SPEC_PATH = `${SWAGGER_API_OUTPUT_PATH}/channel-spec.ts`;
+const SHARED_MODELS_PATH = `${SWAGGER_API_OUTPUT_PATH}/sharedInterfaces.ts`;
 const PROXY_EMISSION_OUTPUT_DIR = `${OUTPUT_BASE_PATH}/proxies`;
 const PROXY_EMISSION_OUTPUT_FILE = `${PROXY_EMISSION_OUTPUT_DIR}/api-proxies.ts`;
 // #endregion Output Paths
@@ -222,5 +223,11 @@ function emitProxiesFile(proxiesToEmit) {
 	// Download the latest channel TS spec API
 	const channelSpecResponse = await nodeFetch(`https://raw.githubusercontent.com/casanet/casanet-server/${ENV_BRANCH}/backend/src/models/remote2localProtocol.ts`);
 	const channelSpecBuffer = await channelSpecResponse.buffer();
-	fs.writeFileSync(path.join(CHANNEL_SPEC_PATH), channelSpecBuffer);
+	fs.writeFileSync(CHANNEL_SPEC_PATH, AUTO_GEN_COMMENT);
+	fs.appendFileSync(path.join(CHANNEL_SPEC_PATH), channelSpecBuffer);
+
+	const sharedModelsResponse = await nodeFetch(`https://raw.githubusercontent.com/casanet/casanet-server/${ENV_BRANCH}/backend/src/models/sharedInterfaces.d.ts`);
+	const sharedModelsResponseBuffer = await sharedModelsResponse.buffer();
+	fs.writeFileSync(path.join(SHARED_MODELS_PATH), AUTO_GEN_COMMENT);
+	fs.appendFileSync(path.join(SHARED_MODELS_PATH), sharedModelsResponseBuffer);
 })();
