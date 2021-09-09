@@ -192,6 +192,18 @@ function emitProxiesFile(proxiesToEmit) {
 	fs.appendFileSync(PROXY_EMISSION_OUTPUT_FILE, FACADE_CLASS_END_STATEMENT);
 }
 
+/**
+ * Download a source (text) file in order to use (for example a TS declaration file etc)
+ * @param {*} filePath The file URI
+ * @param {*} sourceDestination The path/name where to place the fetched file
+ */
+async function downloadSourceFile(filePath, sourceDestination) {
+	const sharedModelsResponse = await nodeFetch(filePath);
+	const sharedModelsResponseBuffer = await sharedModelsResponse.buffer();
+	fs.writeFileSync(path.join(sourceDestination), AUTO_GEN_COMMENT);
+	fs.appendFileSync(path.join(sourceDestination), sharedModelsResponseBuffer);
+}
+
 (async () => {
 	// Send a Swagger Generation request
 	const generateClient = {
@@ -221,13 +233,6 @@ function emitProxiesFile(proxiesToEmit) {
 	emitProxiesFile(apiClassNames);
 
 	// Download the latest channel TS spec API
-	const channelSpecResponse = await nodeFetch(`https://raw.githubusercontent.com/casanet/casanet-server/${ENV_BRANCH}/backend/src/models/remote2localProtocol.ts`);
-	const channelSpecBuffer = await channelSpecResponse.buffer();
-	fs.writeFileSync(CHANNEL_SPEC_PATH, AUTO_GEN_COMMENT);
-	fs.appendFileSync(path.join(CHANNEL_SPEC_PATH), channelSpecBuffer);
-
-	const sharedModelsResponse = await nodeFetch(`https://raw.githubusercontent.com/casanet/casanet-server/${ENV_BRANCH}/backend/src/models/sharedInterfaces.d.ts`);
-	const sharedModelsResponseBuffer = await sharedModelsResponse.buffer();
-	fs.writeFileSync(path.join(SHARED_MODELS_PATH), AUTO_GEN_COMMENT);
-	fs.appendFileSync(path.join(SHARED_MODELS_PATH), sharedModelsResponseBuffer);
+	await downloadSourceFile(`https://raw.githubusercontent.com/casanet/casanet-server/${ENV_BRANCH}/backend/src/models/remote2localProtocol.ts`, CHANNEL_SPEC_PATH);
+	await downloadSourceFile(`https://raw.githubusercontent.com/casanet/casanet-server/${ENV_BRANCH}/backend/src/models/sharedInterfaces.d.ts`, SHARED_MODELS_PATH);
 })();
