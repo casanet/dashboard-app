@@ -27,6 +27,7 @@ import { ProfileAvatar } from "../components/dashboard/ProfileAvatar";
 
 import { AppRoutes, DashboardRoutes } from "../infrastructure/consts";
 import { ToolBarControls } from "../components/dashboard/ToolBarControls";
+import { sessionManager } from "../infrastructure/session-manager";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -128,6 +129,11 @@ export default function Dashboard(props: DashboardProps) {
 	const onTabSelected = (event: React.ChangeEvent<{}>, newValue: number) => {
 		history.push(dashboardPages[newValue].path);
 	};
+
+	// Redirect to login, in user not logged on
+	if (!sessionManager.isLoggedOn) {
+		history.push(AppRoutes.login.path);
+	}
 
 	// Find the current route shown component index  
 	const tabIndex = dashboardPages.findIndex(d => location?.pathname?.includes(d.path));

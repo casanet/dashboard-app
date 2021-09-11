@@ -1,6 +1,9 @@
 import { Direction } from "@material-ui/core";
 import { languagesDisplayInfoMap } from "../../localization/languages-map";
 
+/** Supported platforms */
+export type Platform = 'Android' | 'Browser';
+
 /** The lang available codes (en, he, fe, etc.) */
 export type LangCode = keyof typeof languagesDisplayInfoMap;
 

@@ -24,7 +24,7 @@ async function livelinessAck() {
 		await sleep(LIVELINESS_ACK_INTERVAL);
 
 		// Dont send ack while logged off
-		if (!sessionManager.isLoggedOn()) {
+		if (!sessionManager.isLoggedOn) {
 			continue;
 		}
 

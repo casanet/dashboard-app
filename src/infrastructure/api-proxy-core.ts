@@ -1,3 +1,5 @@
+import { AppRoutes } from './consts';
+import { envFacade } from './env-facade';
 import { sessionManager } from './session-manager';
 
 /**
@@ -16,8 +18,15 @@ function getGenericFunctionInterceptor<T extends () => void>(): ProxyHandler<T> 
 				return await target.apply(thisArg, argArray);
 			} catch (e: any) {
 				if (e?.status === 401) {
-					console.log(`[${objName}.${target.name}] User unauthorized, deleting profile & redirecting to login page`);
+					console.log(`[${objName}.${target.name}] User unauthorized, deleting profile & reloading to login page`);
 					sessionManager.onLogout();
+
+					if (envFacade.platform === 'Browser') {
+						window.location.href = `${envFacade.baseDashboardUri}/#${AppRoutes.login.path}`;
+					} else {
+						// Cordova WebView redirect not effect page, have to reload for it
+						window.location.reload();
+					}
 				}
 				console.log(`[${objName}.${target.name}] Exception intercepted- ${e?.statusText || e?.message || e}`);
 				throw e;

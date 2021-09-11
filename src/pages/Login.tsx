@@ -6,21 +6,66 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import isEmail from "isemail";
 import { GitHub } from '@material-ui/icons';
+import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
+import { sessionManager } from '../infrastructure/session-manager';
+import { envFacade } from '../infrastructure/env-facade';
+import { API_KEY_HEADER, AppRoutes, DASHBOARD_REPO_URL, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useHistory } from 'react-router-dom';
 
 function LoginForm() {
 	const { t } = useTranslation();
+	const history = useHistory();
 	const [loading, setLoading] = useState<boolean>();
 	const [mfaMode, setMfaMode] = useState<boolean>();
 	const [emailError, setEmailError] = useState<boolean>(false);
 	const [passwordError, setPasswordError] = useState<boolean>(false);
 	const [mfaError, setMfaError] = useState<boolean>(false);
-	const [email, setEmail] = useState<string>();
-	const [password, setPassword] = useState<string>();
-	const [mfa, setMfa] = useState<string>();
-	const history = useHistory();
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [mfa, setMfa] = useState<string>('');
 
-	function submit() {
+	async function applyLogin() {
+
+		try {
+			const profile = await ApiFacade.UsersApi.getProfile();
+			sessionManager.onLogin(profile);
+			history.push(AppRoutes.dashboard.path);
+		} catch (error) {
+			// TODO:NOTIFICATION
+		}
+
+	}
+
+	async function login() {
+		if (mfaMode) {
+			try {
+				await ApiFacade.AuthenticationApi.loginTfa({ email, mfa });
+				applyLogin();
+			} catch (error) {
+				// Throw some error
+			}
+			return;
+		}
+
+		try {
+			const authResponse = await ApiFacade.AuthenticationApi.login({ email, password });
+
+			if (authResponse.status === 201) {
+				setMfaMode(true);
+				return;
+			}
+
+			if (envFacade.isTokenAllowed) {
+				sessionManager.setToken(authResponse.headers.get(API_KEY_HEADER) || '');
+			}
+
+			applyLogin();
+
+		} catch (error: any) {
+		}
+	}
+
+	async function submit() {
 		// First check the forms input that they OK, mark as error if case of not.
 		let ignoreSubmit = false;
 		if (!email || !isEmail.validate(email)) {
@@ -41,15 +86,12 @@ function LoginForm() {
 		if (ignoreSubmit) {
 			return;
 		}
-		if (mfaMode) {
-			setLoading(true);
 
-			setTimeout(() => {
-				history.push('/dashboard');
-			}, 3000)
-		} else {
-			setMfaMode(true);
-		}
+		setLoading(true);
+
+		await login();
+
+		setLoading(false);
 	}
 
 	return <div className="login-form-container">
@@ -68,7 +110,7 @@ function LoginForm() {
 				</Typography>
 				<Typography variant="body1">
 					<Trans i18nKey="login.welcome.message">
-						Welcome to the <Link onClick={() => window.open('https://github.com/casanet/casanet-server', '_blank')}>casanet</Link> IoT dashboard
+						Welcome to the <Link onClick={() => window.open(SERVER_REPO_URL, '_blank')}>casanet</Link> IoT dashboard
 					</Trans>
 				</Typography>
 			</Grid>
@@ -141,11 +183,13 @@ function LoginForm() {
 		</div>
 		<div className="login-form-footer">
 			<Typography variant="body2" onClick={() => window.open('https://www.freepik.com/vectors/background', '_blank')}>
-				<Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
+				{/* <Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
 					Background from  www.freepik.com
-				</Trans>
+				</Trans> */}
+				{envFacade.apiUrl}
+				<br />
 			</Typography>
-			<Typography variant="body2" onClick={() => window.open('https://github.com/casanet', '_blank')}>
+			<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
 				{t('general.copyright.message', { year: new Date().getFullYear() })}
 			</Typography>
 		</div>
@@ -172,7 +216,7 @@ export default function Login() {
 				</Paper>
 			</Grid>
 			<div className="casanet-credit">
-				<Paper className="casanet-credit-paper" elevation={3} onClick={() => window.open('https://github.com/casanet/casanet-server', '_blank')}>
+				<Paper className="casanet-credit-paper" elevation={3} onClick={() => window.open(DASHBOARD_REPO_URL, '_blank')}>
 					<div className="casanet-credit-container">
 						<GitHub />
 						<Typography className="casanet-credit-text" variant="body2" >{t('global.powered.by.casanet')}</Typography>

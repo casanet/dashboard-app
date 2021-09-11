@@ -10,9 +10,12 @@ import PermIdentityOutlined from '@material-ui/icons/PermIdentityOutlined';
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
+import { useHistory } from "react-router-dom";
+import { AppRoutes } from "../../infrastructure/consts";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
+	const history = useHistory();
 	const [profile, setProfile] = useState<User>();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [avatarLetters, setAvatarLetters] = useState<string>('');
@@ -40,6 +43,7 @@ export function ProfileAvatar() {
 			// TODO:NOTIFICATION
 		}
 		sessionManager.onLogout();
+		history.push(AppRoutes.login.path);
 	};
 
 

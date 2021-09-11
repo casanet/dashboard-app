@@ -1,4 +1,7 @@
+import { Platform } from "./symbols/global";
+
 class EnvFacade {
+
 	private _apiUrl: string = (process.env.REACT_APP_API_URL || '') + '/API';
 	private _baseDashboardUri: string = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
 
@@ -11,7 +14,11 @@ class EnvFacade {
 	}
 
 	public get isTokenAllowed(): boolean {
-		return globalThis.device.platform !== 'Browser' || !!process.env.REACT_APP_LOCAL_DEV;
+		return this.platform !== 'Browser' || !!process.env.REACT_APP_LOCAL_DEV;
+	}
+
+	public get platform(): Platform {
+		return globalThis.device.platform as Platform;
 	}
 }
 
