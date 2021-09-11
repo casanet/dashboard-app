@@ -1969,6 +1969,18 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/lodash.clonedeep@^4.5.6":
+  version "4.5.6"
+  resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.6.tgz#3b6c40a0affe0799a2ce823b440a6cf33571d32b"
+  integrity sha512-cE1jYr2dEg1wBImvXlNtp0xDoS79rfEdGozQVgliDZj1uERH4k+rmEMTudP9b4VQ8O6nRb5gPqft0QzEQGMQgA==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.172"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.172.tgz#aad774c28e7bfd7a67de25408e03ee5a8c3d028a"
+  integrity sha512-/BHF5HAx3em7/KkzVKm3LrsD6HZAXuXO1AJZQ3cRRBZj4oHZDviWPYu0aEplAqDFNHZPW6d3G7KN+ONcCCC7pw==
+
 "@types/minimatch@*":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
@@ -11311,6 +11323,11 @@ tryer@^1.0.1:
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
   integrity sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==
 
+ts-events@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/ts-events/-/ts-events-3.4.0.tgz#08191aabfeec65a1141fbb2c7344a2737eb39fc5"
+  integrity sha512-WRTuuxHzqCVJUs4ZpHp82z2SFv1kp2Bodr8w4WIg0qFSce3sax/BN8kfWEOdWun4IKEglpGPK5FCEyGB3EwR3w==
+
 ts-pnp@1.2.0, ts-pnp@^1.1.6:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
@@ -11505,6 +11522,11 @@ unique-string@^1.0.0:
   integrity sha1-nhBXzKhRq7kzmPizOuGHuZyuwRo=
   dependencies:
     crypto-random-string "^1.0.0"
+
+unitsnet-js@^1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/unitsnet-js/-/unitsnet-js-1.0.25.tgz#e6a26c0117693651da08066d7c029dc96f12906b"
+  integrity sha512-Q7mFbRfYRJLiOjt6oeW75vybfSsCIvbHIk28CzDfO6aIpkwa8tiTatij5EFUOjzE7FnuRPf1e4QzD8xgS2xZ7g==
 
 universalify@^0.1.0, universalify@^0.1.2:
   version "0.1.2"

@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from './infrastructure/local-storage';
 import { Loader } from './components/Loader';
-import { getLang } from './logic/services/localization.service';
+import { getLang } from './services/localization.service';
 
 const Login = React.lazy(() => import('./pages/Login'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));

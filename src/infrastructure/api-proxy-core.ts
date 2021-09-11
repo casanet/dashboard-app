@@ -1,5 +1,4 @@
-import { envFacade } from './env-facade';
-import { LocalStorageKey, removeLocalStorageItem } from './local-storage';
+import { sessionManager } from './session-manager';
 
 /**
  * Gets a generic ProxyHandler who's purpose is to intercept object methods.
@@ -18,8 +17,7 @@ function getGenericFunctionInterceptor<T extends () => void>(): ProxyHandler<T> 
 			} catch (e: any) {
 				if (e?.status === 401) {
 					console.log(`[${objName}.${target.name}] User unauthorized, deleting profile & redirecting to login page`);
-					removeLocalStorageItem(LocalStorageKey.Profile);
-					window.location.href = `${envFacade.baseDashboardUri}/#/login`;
+					sessionManager.onLogout();
 				}
 				console.log(`[${objName}.${target.name}] Exception intercepted- ${e?.statusText || e?.message || e}`);
 				throw e;

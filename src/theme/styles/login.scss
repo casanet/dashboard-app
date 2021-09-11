@@ -11,7 +11,7 @@
 
 	.casanet-credit {
 		cursor: pointer;
-		position: absolute;
+		position: fixed;
 		bottom: 2vh;
 		left: 2vw;
 		.casanet-credit-paper {
@@ -57,25 +57,25 @@
 }
 
 #login-container-item {
-	height: 100vh;
-	width: 100vw;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: url("../../static/background-full.jpg");
-	background-repeat: repeat;
-	background-position: 0 0;
-	background-size: auto 100%;
-	/*adjust s value for speed*/
-	animation: animatedLoginBackground 300s linear infinite;
+	// height: 100vh;
+	// width: 100vw;
+	// position: absolute;
+	// top: 0;
+	// left: 0;
+	// background: url("../../static/background-full.jpg");
+	// background-repeat: repeat;
+	// background-position: 0 0;
+	// background-size: auto 100%;
+	// /*adjust s value for speed*/
+	// animation: animatedLoginBackground 300s linear infinite;
 }
 
-@keyframes animatedLoginBackground {
-	from {
-		background-position: 0 0;
-	}
-	/*use negative width if you want it to flow right to left else and positive for left to right*/
-	to {
-		background-position: -10000px 0;
-	}
-}
+// @keyframes animatedLoginBackground {
+// 	from {
+// 		background-position: 0 0;
+// 	}
+// 	/*use negative width if you want it to flow right to left else and positive for left to right*/
+// 	to {
+// 		background-position: -10000px 0;
+// 	}
+// }

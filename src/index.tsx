@@ -8,7 +8,7 @@ import { initReactI18next } from "react-i18next";
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
-import { getLang } from './logic/services/localization.service';
+import { getLang } from './services/localization.service';
 import translationEN from './localization/translations/en/global.json';
 import translationHE from './localization/translations/he/global.json';
 

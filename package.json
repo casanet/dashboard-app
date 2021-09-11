@@ -25,11 +25,14 @@
     "i18next": "^20.6.0",
     "isemail": "^3.2.0",
     "jss-rtl": "^0.3.0",
+    "lodash.clonedeep": "^4.5.0",
     "percent-normalizer": "^1.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.11.4",
     "react-router-dom": "^5.3.0",
+    "ts-events": "^3.4.0",
+    "unitsnet-js": "^1.0.25",
     "web-vitals": "^1.0.1"
   },
   "cordova": {
@@ -65,6 +68,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
+    "@types/lodash.clonedeep": "^4.5.6",
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

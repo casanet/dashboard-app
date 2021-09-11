@@ -22,4 +22,3 @@ export interface ViewLanguage {
 	/** The display name etc. info of the curr lang */
 	langInfo: LanguageDisplayInfo;
 }
-

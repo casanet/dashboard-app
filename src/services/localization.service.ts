@@ -1,6 +1,6 @@
-import { supportedLanguages } from "../../localization/languages";
-import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../../infrastructure/local-storage";
-import { ViewLanguage, LangCode } from "../../infrastructure/symbols/global";
+import { supportedLanguages } from "../localization/languages";
+import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
+import { ViewLanguage, LangCode } from "../infrastructure/symbols/global";
 
 /**
  * Get current user language info
