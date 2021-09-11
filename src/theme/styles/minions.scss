@@ -58,6 +58,11 @@ $minionFullInfoDesktopWidth: 500px;
 		margin-right: 1em;
 		margin-left: 1em;
 
+		&.--small-screen {
+			// Disable animation on small screen, the animation is only in case the view is beside the grid
+			transition: unset;
+		}
+
 		&.--minion-full-info-enabled {
 			width: 100%;
 			max-height: 100%;
