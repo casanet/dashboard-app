@@ -10,7 +10,7 @@
     "postinstall": "npm run build",
     "prepare": "node scripts/generate-api.js",
     "start": "react-scripts start",
-    "build": "set BUILD_PATH=www&& react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cordova": "npm run build && cordova run",
