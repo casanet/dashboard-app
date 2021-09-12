@@ -11,7 +11,7 @@ import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 import { getLang } from './services/localization.service';
 import translationEN from './localization/translations/en/global.json';
 import serverEN from './localization/translations/en/server.json';
-import translationHE from './localization/translations/en/global.json';
+import translationHE from './localization/translations/he/global.json';
 import serverHE from './localization/translations/he/server.json';
 
 // Configure JSS with RTL enables
