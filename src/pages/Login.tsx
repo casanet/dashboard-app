@@ -1,5 +1,5 @@
 
-import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link } from '@material-ui/core';
+import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType } from '@material-ui/core';
 import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
@@ -11,6 +11,12 @@ import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
 import { API_KEY_HEADER, AppRoutes, DASHBOARD_REPO_URL, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useHistory } from 'react-router-dom';
+import { ThemeToggle } from '../components/ThemeToggle';
+
+interface LoginProps {
+	theme: PaletteType;
+	setDarkMode: (paletteType: PaletteType) => void;
+}
 
 function LoginForm() {
 	const { t } = useTranslation();
@@ -197,10 +203,10 @@ function LoginForm() {
 }
 
 
-export default function Login() {
+export default function Login(props: LoginProps) {
 	const { t } = useTranslation();
 
-	return <div id="login-container-item" className="login-container">
+	return <div className={`login-container --theme-${props.theme}`}>
 		<div>
 			<Grid
 				className="login-card-grid"
@@ -212,6 +218,9 @@ export default function Login() {
 				<Paper className="login-content-paper" elevation={10}>
 					<div className="login-content-container">
 						<LoginForm />
+					</div>
+					<div className="login-content-paper-theme" >
+						<ThemeToggle theme={props.theme} setDarkMode={props.setDarkMode} />
 					</div>
 				</Paper>
 			</Grid>

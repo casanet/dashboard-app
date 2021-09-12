@@ -6,9 +6,8 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
-import DarkIcon from '@material-ui/icons/Brightness4';
-import LightIcon from '@material-ui/icons/BrightnessHigh';
 import { RemoteConnectionStatus } from "../../infrastructure/generated/api";
+import { ThemeToggle } from "../ThemeToggle";
 
 interface ToolBarControlsProps {
 	theme: PaletteType;
@@ -70,13 +69,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 				</Tooltip>
 			</div>
 			<div>
-				<Tooltip title={<span>{t('dashboard.toolbar.theme.toggle')}</span>} enterDelay={100}>
-					<IconButton
-						onClick={() => props.setDarkMode(props.theme === 'dark' ? 'light' : 'dark')}
-						color="inherit">
-						{props.theme === 'dark' ? <LightIcon fontSize="small" /> : <DarkIcon fontSize="small" />}
-					</IconButton>
-				</Tooltip>
+				<ThemeToggle theme={props.theme} setDarkMode={props.setDarkMode} />
 			</div>
 		</Grid>
 	</div>

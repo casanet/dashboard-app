@@ -58,7 +58,7 @@ function App() {
 					<HashRouter>
 						<Switch>
 							<Route exact path={AppRoutes.login.path}>
-								<Login />
+								<Login setDarkMode={applyThemeMode} theme={darkMode} />
 							</Route>
 							<Route path={AppRoutes.dashboard.path}>
 								<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />

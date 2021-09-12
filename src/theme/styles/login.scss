@@ -1,8 +1,31 @@
 .login-container {
+	height: 100vh;
+	width: 100vw;
+
+	&.--theme-dark {
+		background: url(../../static/wp-dark.jpg);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+
+	&.--theme-light {
+		background: url(../../static/wp-light.jpg);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+
 	.login-card-grid {
 		position: absolute;
 		top: 12vh;
 		.login-content-paper {
+			.login-content-paper-theme {
+				position: relative;
+				height: 0;
+				width: 50px;
+				top: -45px;
+			}
 			.login-content-container {
 				min-width: 25vw;
 			}
@@ -55,27 +78,3 @@
 		margin-top: 2em;
 	}
 }
-
-#login-container-item {
-	// height: 100vh;
-	// width: 100vw;
-	// position: absolute;
-	// top: 0;
-	// left: 0;
-	// background: url("../../static/background-full.jpg");
-	// background-repeat: repeat;
-	// background-position: 0 0;
-	// background-size: auto 100%;
-	// /*adjust s value for speed*/
-	// animation: animatedLoginBackground 300s linear infinite;
-}
-
-// @keyframes animatedLoginBackground {
-// 	from {
-// 		background-position: 0 0;
-// 	}
-// 	/*use negative width if you want it to flow right to left else and positive for left to right*/
-// 	to {
-// 		background-position: -10000px 0;
-// 	}
-// }
