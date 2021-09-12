@@ -1,5 +1,5 @@
 
-import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType } from '@material-ui/core';
+import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Tooltip } from '@material-ui/core';
 import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
@@ -12,6 +12,11 @@ import { envFacade } from '../infrastructure/env-facade';
 import { API_KEY_HEADER, AppRoutes, DASHBOARD_REPO_URL, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useHistory } from 'react-router-dom';
 import { ThemeToggle } from '../components/ThemeToggle';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import { isValidHttpUrl } from '../infrastructure/utils';
 
 interface LoginProps {
 	theme: PaletteType;
@@ -28,6 +33,11 @@ function LoginForm() {
 	const [mfaError, setMfaError] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [serverUrl, setServerUrl] = useState<string>(envFacade.apiServerUrl);
+	const [serverUrlEditMode, setServerUrlEditMode] = useState<boolean>(false);
+	const [serverUrlError, setServerUrlError] = useState<boolean>(false);
+
 	const [mfa, setMfa] = useState<string>('');
 
 	async function applyLogin() {
@@ -100,6 +110,32 @@ function LoginForm() {
 		setLoading(false);
 	}
 
+	function handleMouseDownInput(event: React.MouseEvent<HTMLButtonElement>) {
+		event.preventDefault();
+	};
+
+	function handleEditServerUrlToggle() {
+
+		setServerUrlError(false);
+
+		// If it's not in edit mode, set it 
+		if (!serverUrlEditMode) {
+			setServerUrlEditMode(true);
+			return;
+		}
+
+		// If URL is invalid, abort
+		if (!isValidHttpUrl(serverUrl)) {
+			setServerUrlError(true);
+			return;
+		}
+
+		// Set and save the new URL
+		setServerUrlEditMode(false);
+		setServerUrl(serverUrl);
+		envFacade.apiServerUrl = serverUrl;
+	}
+
 	return <div className="login-form-container">
 		<div className="login-form-header">
 			<Grid
@@ -152,7 +188,6 @@ function LoginForm() {
 					disabled={loading}
 					error={emailError}
 					className="login-form-input-item"
-					required
 					id="email-address-input"
 					label={t('login.email.address')}
 					type="email"
@@ -163,21 +198,35 @@ function LoginForm() {
 						setEmail(e.target.value);
 					}}
 				/>
-				<TextField
-					disabled={loading}
-					error={passwordError}
-					className="login-form-input-item"
-					required
-					id="outlined-password-input"
-					label={t('login.password')}
-					type="password"
-					autoComplete="current-password"
-					variant="outlined"
-					value={password}
-					onChange={(e) => {
-						setPassword(e.target.value);
-					}}
-				/>
+				<FormControl variant="outlined">
+					<InputLabel htmlFor="login-password">{t('login.password')}</InputLabel>
+					<OutlinedInput
+						className="login-form-input-item"
+						// required
+						disabled={loading}
+						error={passwordError}
+						id="login-password"
+						label={t('login.password')}
+						type={showPassword ? 'text' : 'password'}
+						value={password}
+						autoComplete="current-password"
+						onChange={(e) => {
+							setPassword(e.target.value);
+						}}
+						endAdornment={
+							<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle password visibility"
+									onClick={() => { setShowPassword(!showPassword); }}
+									onMouseDown={handleMouseDownInput}
+									edge="end"
+								>
+									{showPassword ? <Visibility /> : <VisibilityOff />}
+								</IconButton>
+							</InputAdornment>
+						}
+					/>
+				</FormControl>
 			</Grid>}
 		</div>
 		<div className="login-form-submit">
@@ -187,13 +236,37 @@ function LoginForm() {
 					{t('login.sign.in').toUpperCase()}
 				</Button>}
 		</div>
+		<FormControl className={'edit-server-url-container'}>
+			<InputLabel htmlFor="server-url-input">{t('global.server.url')}</InputLabel>
+			<Input
+				error={serverUrlError}
+				disabled={!serverUrlEditMode}
+				id="standard-adornment-password"
+				type={'text'}
+				value={serverUrl}
+				onChange={(e) => {
+					setServerUrl(e.target.value);
+				}}
+				endAdornment={
+					<InputAdornment position="end">
+						<Tooltip title={<span>{t(`login.${serverUrlEditMode ? 'save' : 'edit'}.server.url`)}</span>} enterDelay={100}>
+							<IconButton
+								aria-label="toggle edit mode"
+								onClick={handleEditServerUrlToggle}
+								onMouseDown={handleMouseDownInput}
+							>
+								{!serverUrlEditMode ? <EditIcon /> : <SaveIcon />}
+							</IconButton>
+						</Tooltip>
+					</InputAdornment>
+				}
+			/>
+		</FormControl>
 		<div className="login-form-footer">
 			<Typography variant="body2" onClick={() => window.open('https://www.freepik.com/vectors/background', '_blank')}>
 				{/* <Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
 					Background from  www.freepik.com
 				</Trans> */}
-				{envFacade.apiUrl}
-				<br />
 			</Typography>
 			<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
 				{t('general.copyright.message', { year: new Date().getFullYear() })}

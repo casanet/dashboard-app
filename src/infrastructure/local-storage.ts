@@ -6,6 +6,7 @@ export enum LocalStorageKey {
 	CollapseMenu = 'COLLAPSE_MENU',
 	CollapseAppToolbar = 'COLLAPSE_APP_TOOLBAR',
 	MinionsCardRatio = 'MINION_CARD_RATIO',
+	ServerURL = 'SERVER_URL',
 }
 
 export interface LocalStorageItemOptions {
