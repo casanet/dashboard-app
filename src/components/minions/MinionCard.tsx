@@ -1,9 +1,7 @@
-import { Grid, Typography, useTheme } from "@material-ui/core";
-import { useState } from "react";
-import { Minion, MinionStatus, SwitchOptions } from "../../infrastructure/generated/api";
+import { Grid, Typography } from "@material-ui/core";
+import { Minion } from "../../infrastructure/generated/api";
 import '../../theme/styles/components/minions/minionsCard.scss';
 import { useHistory, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import { DashboardRoutes } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
 import { sleep } from "../../infrastructure/utils";
@@ -15,7 +13,6 @@ interface MinionCardProps {
 }
 
 export function MinionCard(props: MinionCardProps) {
-	const { t } = useTranslation();
 	const { id } = useParams<{ id: string }>();
 	const history = useHistory();
 
@@ -44,6 +41,7 @@ export function MinionCard(props: MinionCardProps) {
 		smallFontSize = 'small';
 	} else if (ratio <= 100) {
 		fontSize = 'xxx-large';
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		smallFontSize = 'small';
 	}
 

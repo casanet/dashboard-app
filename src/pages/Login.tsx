@@ -5,11 +5,10 @@ import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import isEmail from "isemail";
-import { GitHub } from '@material-ui/icons';
 import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
 import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
-import { API_KEY_HEADER, AppRoutes, DASHBOARD_REPO_URL, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
+import { API_KEY_HEADER, AppRoutes, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useHistory } from 'react-router-dom';
 import { ThemeToggle } from '../components/ThemeToggle';
 import Visibility from '@material-ui/icons/Visibility';
@@ -278,8 +277,6 @@ function LoginForm() {
 
 
 export default function Login(props: LoginProps) {
-	const { t } = useTranslation();
-
 	return <div className={`login-container --theme-${props.theme}`}>
 		<div>
 			<Grid

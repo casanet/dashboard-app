@@ -1,7 +1,7 @@
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { User } from "../../infrastructure/generated/api";
-import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem } from "../../infrastructure/local-storage";
+import { getLocalStorageItem, LocalStorageKey } from "../../infrastructure/local-storage";
 import '../../theme/styles/components/profileAvatar.scss';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -17,6 +17,7 @@ import { handleServerRestError } from "../../services/notifications.service";
 export function ProfileAvatar() {
 	const { t } = useTranslation();
 	const history = useHistory();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [profile, setProfile] = useState<User>();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [avatarLetters, setAvatarLetters] = useState<string>('');

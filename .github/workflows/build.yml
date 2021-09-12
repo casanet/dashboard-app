@@ -20,8 +20,8 @@ jobs:
       run: |
         npm i -g yarn
         yarn install --frozen-lockfile
-        yarn run prebuild
-        yarn run build
+        # yarn run prebuild
+        # yarn run build
     - uses: actions/upload-artifact@v2
       with:
         name: assets 
