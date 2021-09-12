@@ -36,8 +36,8 @@ export abstract class DataService<T> {
 
 			// Mark flag as false for next time
 			this.fetchFlag = false;
-			// Return the original data
-			return this.data;
+
+			throw error;
 		}
 
 	}

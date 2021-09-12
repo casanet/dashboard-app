@@ -10,7 +10,9 @@ import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 import { getLang } from './services/localization.service';
 import translationEN from './localization/translations/en/global.json';
-import translationHE from './localization/translations/he/global.json';
+import serverEN from './localization/translations/en/server.json';
+import translationHE from './localization/translations/en/global.json';
+import serverHE from './localization/translations/he/server.json';
 
 // Configure JSS with RTL enables
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -38,9 +40,11 @@ i18n
 		resources: {
 			en: {
 				translation: translationEN,
+				server: serverEN
 			},
 			he: {
-				translation: translationHE
+				translation: translationHE,
+				server: serverHE
 			}
 		},
 		lng: viewLanguage.langCode, // if you're using a language detector, do not define the lng option

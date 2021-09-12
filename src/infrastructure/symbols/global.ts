@@ -1,5 +1,6 @@
 import { Direction } from "@material-ui/core";
 import { languagesDisplayInfoMap } from "../../localization/languages-map";
+import { Duration } from 'unitsnet-js';
 
 /** Supported platforms */
 export type Platform = 'Android' | 'Browser';
@@ -24,4 +25,11 @@ export interface ViewLanguage {
 	fontFamily?: string;
 	/** The display name etc. info of the curr lang */
 	langInfo: LanguageDisplayInfo;
+}
+
+export interface NotificationInfo {
+	/** The time duration for the notification to be shown */
+	duration: Duration;
+	/** An i18n key to show the content (depend on the lang) */
+	messageKey: string;
 }

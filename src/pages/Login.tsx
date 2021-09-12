@@ -17,6 +17,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import { isValidHttpUrl } from '../infrastructure/utils';
+import { handleServerRestError } from '../services/notifications.service';
 
 interface LoginProps {
 	theme: PaletteType;
@@ -47,9 +48,8 @@ function LoginForm() {
 			sessionManager.onLogin(profile);
 			history.push(AppRoutes.dashboard.path);
 		} catch (error) {
-			// TODO:NOTIFICATION
+			handleServerRestError(error);
 		}
-
 	}
 
 	async function login() {
@@ -58,7 +58,7 @@ function LoginForm() {
 				await ApiFacade.AuthenticationApi.loginTfa({ email, mfa });
 				applyLogin();
 			} catch (error) {
-				// Throw some error
+				handleServerRestError(error);
 			}
 			return;
 		}
@@ -78,6 +78,7 @@ function LoginForm() {
 			applyLogin();
 
 		} catch (error: any) {
+			handleServerRestError(error);
 		}
 	}
 
@@ -297,14 +298,14 @@ export default function Login(props: LoginProps) {
 					</div>
 				</Paper>
 			</Grid>
-			<div className="casanet-credit">
+			{/* <div className="casanet-credit">
 				<Paper className="casanet-credit-paper" elevation={3} onClick={() => window.open(DASHBOARD_REPO_URL, '_blank')}>
 					<div className="casanet-credit-container">
 						<GitHub />
 						<Typography className="casanet-credit-text" variant="body2" >{t('global.powered.by.casanet')}</Typography>
 					</div>
 				</Paper>
-			</div>
+			</div> */}
 		</div>
 	</div>
 }

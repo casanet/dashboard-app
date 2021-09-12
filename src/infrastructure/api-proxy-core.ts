@@ -24,7 +24,7 @@ function getGenericFunctionInterceptor<T extends () => void>(): ProxyHandler<T> 
 					if (envFacade.platform === 'Browser') {
 						window.location.href = `${envFacade.baseDashboardUri}/#${AppRoutes.login.path}`;
 					} else {
-						// Cordova WebView redirect not effect page, have to reload for it
+						// Cordova WebView redirect not effecting the page, have to reload for it
 						window.location.reload();
 					}
 				}

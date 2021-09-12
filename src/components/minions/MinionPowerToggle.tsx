@@ -6,6 +6,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { useTranslation } from "react-i18next";
+import { handleServerRestError } from "../../services/notifications.service";
 
 interface MinionPowerToggleProps {
 	minion: Minion;
@@ -29,7 +30,7 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 			await ApiFacade.MinionsApi.setMinion(newStatus, minion.minionId || '');
 			minion.minionStatus = newStatus;
 		} catch (error) {
-			// TODO:NOTIFICATION
+			handleServerRestError(error);
 		}
 		setLoading(false);
 	}

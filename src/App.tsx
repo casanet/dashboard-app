@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useMemo, useState } from 'react';
 import './theme/styles/global.scss';
 import './theme/styles/app.scss';
 import { createTheme, PaletteType, ThemeProvider, useMediaQuery, useTheme } from '@material-ui/core';
@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from './infrastructure/local-storage';
 import { Loader } from './components/Loader';
+import { NotificationContainer } from './components/NotificationContainer';
 import { getLang } from './services/localization.service';
 import { AppRoutes } from './infrastructure/consts';
 
@@ -27,7 +28,7 @@ function App() {
 		setLocalStorageItem<PaletteType>(LocalStorageKey.Theme, paletteType, { itemType: 'string' });
 	}
 
-	const theme = React.useMemo(
+	const theme = useMemo(
 		() => {
 			const viewLanguage = getLang();
 			return createTheme({
@@ -54,6 +55,7 @@ function App() {
 		<div className="App" style={globalCssVars}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
+				<NotificationContainer />
 				<Suspense fallback={<Loader />}>
 					<HashRouter>
 						<Switch>

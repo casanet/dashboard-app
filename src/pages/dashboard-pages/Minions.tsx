@@ -11,6 +11,7 @@ import { minionsService } from "../../services/minions.service";
 import { GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
 import { MinionFullInfo } from "../../components/minions/MinionFullInfo";
 import { useParams } from "react-router-dom";
+import { handleServerRestError } from "../../services/notifications.service";
 
 // For mock only, generate "minions"
 // const minions: Minion[] = new Array(200).fill(0).map((o,i) => ({ minionId: i, name: `${i}`, isProperlyCommunicated: true, minionType: MinionTypes.Switch, minionStatus: { switch: { status: i % 2 == 0 ? SwitchOptions.On : SwitchOptions.Off } } } as unknown as Minion));
@@ -38,8 +39,12 @@ export default function Minions() {
 		let minionsDetacher: () => void;
 
 		(async () => {
+			try {
 			// Subscribe to the minion data feed
 			minionsDetacher = await minionsService.attachDataSubs(setMinion);
+			} catch (error) {
+				await handleServerRestError(error);
+			}
 		})();
 
 		return () => {

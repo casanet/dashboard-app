@@ -47,31 +47,27 @@ class MinionsService extends DataService<Minion[]> {
 	}
 
 	fetchData(): Promise<Minion[]> {
-		try {
+		// Get the fetch data function (without activating it yet)
+		const minionsFetchFunc = ApiFacade.MinionsApi.getMinions();
 
-			// Get the fetch data function (without activating it yet)
-			const minionsFetchFunc = ApiFacade.MinionsApi.getMinions();
-
-			// Restart SSE feed
-			if (this.minionsServerFeed) {
-				this.minionsServerFeed.close();
-			}
-
-			// Open SSE connection
-			this.minionsServerFeed = new EventSource(`${envFacade.apiUrl}/feed/minions?${API_KEY_HEADER}=${sessionManager.getToken()}`, {
-				withCredentials: true,
-			});
-
-			// Subscribe to updated
-			this.minionsServerFeed.onmessage = (minionFeedEvent: MessageEvent) => {
-				this.onMinionFeedUpdate(minionFeedEvent);
-			};
-
-			return minionsFetchFunc;
-		} catch (error) {
-			// TODO:NOTIFICATION
-			throw error;
+		// Restart SSE feed
+		if (this.minionsServerFeed) {
+			this.minionsServerFeed.close();
 		}
+
+		// Open SSE connection
+		this.minionsServerFeed = new EventSource(`${envFacade.apiUrl}/feed/minions?${API_KEY_HEADER}=${sessionManager.getToken()}`, {
+			withCredentials: true,
+		});
+
+		// Subscribe to updated
+		this.minionsServerFeed.onmessage = (minionFeedEvent: MessageEvent) => {
+			this.onMinionFeedUpdate(minionFeedEvent);
+		};
+
+		// TODO: on close/error?
+
+		return minionsFetchFunc;
 	}
 }
 
