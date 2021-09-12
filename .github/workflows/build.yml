@@ -19,9 +19,9 @@ jobs:
     - name: Bundle
       run: |
         npm i -g yarn
-        yarn install --frozen-lockfile
-        # yarn run prebuild
-        # yarn run build
+        yarn install --frozen-lockfile --ignore-scripts
+        yarn run prepare
+        yarn run build
     - uses: actions/upload-artifact@v2
       with:
         name: assets 
