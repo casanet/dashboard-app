@@ -20,10 +20,15 @@ jobs:
         yarn install --frozen-lockfile --ignore-scripts
         yarn run prepare
         BUILD_PATH=www
+        echo $REACT_APP_API_URL
+        echo $BUILD_PATH
         yarn run build
         BUILD_PATH=internal
         REACT_APP_API_URL=
+        echo $REACT_APP_API_URL
+        echo $BUILD_PATH
         yarn run build
+        ls -a -l
     - uses: actions/upload-artifact@v2
       with:
         name: internal # The assets build for the local server, the api server is just ''
