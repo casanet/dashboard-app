@@ -14,26 +14,33 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Bundle
+    - name: Bundle www # The assets build for the local server, the api server is just ''
+      env:
+        BUILD_PATH: www
       run: |
         npm i -g yarn
         yarn install --frozen-lockfile --ignore-scripts
         yarn run prepare
-        BUILD_PATH=www
+        yarn run build
         echo $REACT_APP_API_URL
         echo $BUILD_PATH
+        ls -a -l
+      - uses: actions/upload-artifact@v2
+      with:
+        name: www
+        path: www
+    - name: Bundle internal # The assets build for the local server, the api server is just ''
+      env:
+        REACT_APP_API_URL: ''
+        BUILD_PATH: internal
+      run: |
+        ls -a -l
         yarn run build
-        BUILD_PATH=internal
-        REACT_APP_API_URL=
         echo $REACT_APP_API_URL
         echo $BUILD_PATH
-        yarn run build
         ls -a -l
     - uses: actions/upload-artifact@v2
       with:
-        name: internal # The assets build for the local server, the api server is just ''
+        name: internal 
         path: internal
-    - uses: actions/upload-artifact@v2
-      with:
-        name: www # The www build for the assets in www, the api server as default is the REACT_APP_API_URL stored in the GitHub Action dashboard
-        path: www
+
