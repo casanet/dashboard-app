@@ -5,8 +5,6 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      BUILD_PATH: www
     strategy:
       matrix:
         node-version: [12.x]
@@ -21,8 +19,16 @@ jobs:
         npm i -g yarn
         yarn install --frozen-lockfile --ignore-scripts
         yarn run prepare
+        BUILD_PATH=www
+        yarn run build
+        BUILD_PATH=internal
+        REACT_APP_API_URL=
         yarn run build
     - uses: actions/upload-artifact@v2
       with:
-        name: assets 
+        name: internal # The assets build for the local server, the api server is just ''
+        path: internal
+    - uses: actions/upload-artifact@v2
+      with:
+        name: www # The www build for the assets in www, the api server as default is the REACT_APP_API_URL stored in the GitHub Action dashboard
         path: www
