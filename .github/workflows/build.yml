@@ -22,9 +22,6 @@ jobs:
         yarn install --frozen-lockfile --ignore-scripts
         yarn run prepare
         yarn run build
-        echo $REACT_APP_API_URL
-        echo $BUILD_PATH
-        ls -a -l
     - uses: actions/upload-artifact@v2
       with:
         name: www
@@ -34,11 +31,7 @@ jobs:
         REACT_APP_API_URL: ''
         BUILD_PATH: internal
       run: |
-        ls -a -l
         yarn run build
-        echo $REACT_APP_API_URL
-        echo $BUILD_PATH
-        ls -a -l
     - uses: actions/upload-artifact@v2
       with:
         name: internal 
