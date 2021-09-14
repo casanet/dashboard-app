@@ -19,9 +19,7 @@ jobs:
         BUILD_PATH: www
       run: |
         npm i -g yarn
-        yarn install --frozen-lockfile --ignore-scripts
-        yarn run prepare
-        yarn run build
+        yarn install --frozen-lockfile
     - uses: actions/upload-artifact@v2
       with:
         name: www

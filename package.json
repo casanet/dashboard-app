@@ -8,7 +8,7 @@
   "homepage": "./",
   "scripts": {
     "postinstall": "npm run build",
-    "prepare": "node scripts/generate-api.js",
+    "prebuild": "node scripts/generate-api.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
