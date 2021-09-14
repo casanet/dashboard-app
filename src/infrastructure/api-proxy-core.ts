@@ -17,7 +17,7 @@ function getGenericFunctionInterceptor<T extends () => void>(): ProxyHandler<T> 
 				// eslint-disable-next-line @typescript-eslint/return-await
 				return await target.apply(thisArg, argArray);
 			} catch (e: any) {
-				if (e?.status === 401) {
+				if (e?.status === 401 || e?.status === 403) {
 					console.log(`[${objName}.${target.name}] User unauthorized, deleting profile & reloading to login page`);
 					sessionManager.onLogout();
 
