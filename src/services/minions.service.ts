@@ -23,24 +23,40 @@ class MinionsService extends DataService<Minion[]> {
 		// Update the minion collection with the change
 		switch (minionFeed.event) {
 			case FeedEvent.Update: {
-				const minionIndex = this.data.findIndex(m => m.minionId === minionFeed.minion.minionId);
-				if (minionIndex !== -1) {
-					this.data[minionIndex] = minionFeed.minion;
-				}
+				this.updateMinion(minionFeed.minion);
 				break;
 			}
 			case FeedEvent.Created: {
-				this.data.push(minionFeed.minion);
+				this.createMinion(minionFeed.minion);
 				break;
 			}
 			case FeedEvent.Removed: {
-				const minionIndex = this.data.findIndex(m => m.minionId === minionFeed.minion.minionId);
-
-				if (minionIndex !== -1) {
-					this.data.splice(minionIndex, 1);
-				}
+				this.deleteMinion(minionFeed.minion);
 				break;
 			}
+		}
+	}
+
+	public updateMinion(minion: Minion) {
+		const minionIndex = this.data.findIndex(m => m.minionId === minion.minionId);
+		if (minionIndex !== -1) {
+			this.data[minionIndex] = minion;
+		}
+		// Publish the update
+		this.postNewData(this.data);
+	}
+
+	public createMinion(minion: Minion) {
+		this.data.push(minion);
+		// Publish the update
+		this.postNewData(this.data);
+	}
+
+	public deleteMinion(minion: Minion) {
+		const minionIndex = this.data.findIndex(m => m.minionId === minion.minionId);
+
+		if (minionIndex !== -1) {
+			this.data.splice(minionIndex, 1);
 		}
 		// Publish the update
 		this.postNewData(this.data);
@@ -50,20 +66,24 @@ class MinionsService extends DataService<Minion[]> {
 		// Get the fetch data function (without activating it yet)
 		const minionsFetchFunc = ApiFacade.MinionsApi.getMinions();
 
-		// Restart SSE feed
-		if (this.minionsServerFeed) {
-			this.minionsServerFeed.close();
-		}
+		try {
+			// Restart SSE feed
+			if (this.minionsServerFeed) {
+				this.minionsServerFeed.close();
+			}
 
-		// Open SSE connection
-		this.minionsServerFeed = new EventSource(`${envFacade.apiUrl}/feed/minions?${API_KEY_HEADER}=${sessionManager.getToken()}`, {
-			withCredentials: true,
-		});
+			// Open SSE connection
+			this.minionsServerFeed = new EventSource(`${envFacade.apiUrl}/feed/minions?${API_KEY_HEADER}=${sessionManager.getToken()}`, {
+				withCredentials: true,
+			});
 
-		// Subscribe to updated
-		this.minionsServerFeed.onmessage = (minionFeedEvent: MessageEvent) => {
-			this.onMinionFeedUpdate(minionFeedEvent);
-		};
+			// Subscribe to updated
+			this.minionsServerFeed.onmessage = (minionFeedEvent: MessageEvent) => {
+				this.onMinionFeedUpdate(minionFeedEvent);
+			};
+		} catch (error) {
+			// TODO:LOG
+		}	
 
 		// TODO: on close/error?
 

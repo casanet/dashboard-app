@@ -7,6 +7,7 @@ import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { useTranslation } from "react-i18next";
 import { handleServerRestError } from "../../services/notifications.service";
+import { minionsService } from "../../services/minions.service";
 
 interface MinionPowerToggleProps {
 	minion: Minion;
@@ -29,6 +30,7 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 			const newStatus: MinionStatus = { switch: { status: isOn ? SwitchOptions.Off : SwitchOptions.On } };
 			await ApiFacade.MinionsApi.setMinion(newStatus, minion.minionId || '');
 			minion.minionStatus = newStatus;
+			minionsService.updateMinion(minion);
 		} catch (error) {
 			handleServerRestError(error);
 		}
