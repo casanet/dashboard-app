@@ -41,11 +41,12 @@ export function ProfileAvatar() {
 	async function handleLogout() {
 		try {
 			await ApiFacade.AuthenticationApi.logout();
-			sessionManager.onLogout();
-			history.push(AppRoutes.login.path);
 		} catch (error) {
-			handleServerRestError(error);
+			// TODO: make sue to somehow delete the session without connection to the server since it's HTTP ONLY cookie session.
+			// handleServerRestError(error);
 		}
+		sessionManager.onLogout();
+		history.push(AppRoutes.login.path);
 	};
 
 
