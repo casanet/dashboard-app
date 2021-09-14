@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
 import { useHistory } from "react-router-dom";
 import { AppRoutes } from "../../infrastructure/consts";
-import { handleServerRestError } from "../../services/notifications.service";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
