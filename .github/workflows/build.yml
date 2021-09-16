@@ -26,12 +26,15 @@ jobs:
         path: www
     - name: Bundle Android APK # The assets build for the Android APP
       uses: oxr463/setup-cordova@0.0.2
-      run: |
-        npm run release:android
+      exec: |
+        cordova platform add android && \
+        npm run release:android && \
+        mkdir release && \
+        cp "$(find . -name '*.apk')" ./release
     - uses: actions/upload-artifact@v2
       with:
         name: android 
-        path: platforms/android/app/build/outputs/apk/release
+        path: release
     - name: Bundle internal # The assets build for the local server, the api server is just ''
       env:
         REACT_APP_API_URL: ''
