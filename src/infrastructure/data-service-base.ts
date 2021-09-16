@@ -11,7 +11,7 @@ export abstract class DataService<T> {
 	private dataFeed = new SyncEvent<T>();
 
 	/** The lag to detect whenever the data already fetched from the API */
-	private fetchFlag = false;
+	public fetchFlag = false;
 
 	/** The child required to implement this function, to fetch the data from the API or any other resource */
 	abstract fetchData(): Promise<T>;
