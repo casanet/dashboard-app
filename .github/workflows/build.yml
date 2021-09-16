@@ -26,11 +26,12 @@ jobs:
         path: www
     - name: Bundle Android APK # The assets build for the Android APP
       uses: oxr463/setup-cordova@0.0.2
-      exec: |
-        cordova platform add android && \
-        npm run release:android && \
-        mkdir release && \
-        cp "$(find . -name '*.apk')" ./release
+      with:
+        exec: |
+          cordova platform add android && \
+          npm run release:android && \
+          mkdir release && \
+          cp "$(find . -name '*.apk')" ./release
     - uses: actions/upload-artifact@v2
       with:
         name: android 
