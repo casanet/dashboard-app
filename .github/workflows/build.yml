@@ -24,14 +24,13 @@ jobs:
       with:
         name: www
         path: www
-    - name: Bundle Android APK # The assets build for the Android APP
+    - name: Use oxr463/setup-cordova
       uses: oxr463/setup-cordova@0.0.2
       with:
         exec: |
           cordova platform add android && \
-          npm run release:android && \
-          mkdir release && \
-          cp "$(find . -name '*.apk')" ./release
+          cordova build --no-telemetry && \
+          cp "$(find . -name '*.apk')" .
     - uses: actions/upload-artifact@v2
       with:
         name: android 
@@ -41,6 +40,7 @@ jobs:
         REACT_APP_API_URL: ''
         BUILD_PATH: internal
       run: |
+        la -a -l
         yarn run build
     - uses: actions/upload-artifact@v2
       with:
