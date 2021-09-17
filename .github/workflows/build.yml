@@ -33,7 +33,7 @@ jobs:
       uses: android-actions/setup-android@v2
     - name: Bundle Android APP # https://stackoverflow.com/questions/68387270/android-studio-error-installed-build-tools-revision-31-0-0-is-corrupted
       run: |
-        cd ~/Library/Android/sdk/build-tools/31.0.0 && mv d8 dx && cd lib && mv d8.jar dx.jar 
+        cd $ANDROID_HOME/build-tools/31.0.0 && mv d8 dx && cd lib && mv d8.jar dx.jar 
         npm i -g cordova
         cordova platform add android
         npm run release:android  
