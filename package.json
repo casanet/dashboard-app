@@ -11,6 +11,7 @@
     "prebuild": "node scripts/generate-api.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "node scripts/fetch-light-app.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "android": "cordova build",
