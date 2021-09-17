@@ -32,27 +32,28 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
     
-    - name: Bundle Android APP # https://stackoverflow.com/questions/68387270/android-studio-error-installed-build-tools-revision-31-0-0-is-corrupted
+    - name: Fix Android SDK 31 # https://stackoverflow.com/questions/68387270/android-studio-error-installed-build-tools-revision-31-0-0-is-corrupted
       run: |
         echo ${pwd}
         cd $ANDROID_HOME/build-tools/31.0.0 && cp d8 dx && cd lib && cp d8.jar dx.jar
 
     - name: Bundle Android APP
+      env:
+        BUILD_PATH: www
       run: |
         npm i -g cordova
         cordova platform add android
-        npm run release:android  
+        npm run android
     - uses: actions/upload-artifact@v2
       with:
         name: android 
-        path: platforms/android/app/build/outputs/apk/release
+        path: platforms/android/app/build/outputs/apk
 
     - name: Bundle internal # The assets build for the local server, the api server is just ''
       env:
         REACT_APP_API_URL: ''
         BUILD_PATH: internal
       run: |
-        la -a -l
         yarn run build
     - uses: actions/upload-artifact@v2
       with:
