@@ -4,7 +4,7 @@ import jsZip from 'jszip';
 import nodeFetch from 'node-fetch';
 
 const BUILD_MODE = process.env.BUILD_PATH || 'www';
-const dashboardDist = path.join(BUILD_MODE);
+const dashboardDist = path.join(BUILD_MODE, 'light-app');
 
 const ENV_BRANCH = process.env.GITHUB_REF !== 'main' ? 'develop' : 'main';
 
