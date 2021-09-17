@@ -4,7 +4,7 @@
 
 The new react based modern hybrid dashboard for web &amp; mobile
 
-* `npm run prepare`
+* `npm i -g cordova`
 * `cordova platform add android`
 * `cordova platform add browser`
 
