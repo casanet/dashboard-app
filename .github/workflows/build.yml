@@ -17,9 +17,14 @@ jobs:
     - name: Bundle www # The assets build for the public CDN
       env:
         BUILD_PATH: www
+        API_URL_PROD: '${{ secrets.API_URL }}'
+        API_URL_DEV: '${{ secrets.API_URL_DEV }}'
       run: |
+        export ON_BRANCH=${GITHUB_REF##*/}
+        if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_API_URL=$API_URL_PROD ; else export REACT_APP_API_URL=$API_URL_DEV; fi
         npm i -g yarn
         yarn install --frozen-lockfile
+        yarn run postbuild
     - uses: actions/upload-artifact@v2
       with:
         name: www
@@ -55,6 +60,7 @@ jobs:
         BUILD_PATH: internal
       run: |
         yarn run build
+        yarn run postbuild
     - uses: actions/upload-artifact@v2
       with:
         name: internal 
