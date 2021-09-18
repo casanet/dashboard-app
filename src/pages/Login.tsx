@@ -1,5 +1,5 @@
 
-import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Tooltip } from '@material-ui/core';
+import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Tooltip, Select, MenuItem } from '@material-ui/core';
 import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
@@ -18,6 +18,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import { isValidHttpUrl } from '../infrastructure/utils';
 import { handleServerRestError } from '../services/notifications.service';
 
+interface LocalServer {
+	displayName: string;
+	localServerId: string;
+}
+
 interface LoginProps {
 	theme: PaletteType;
 	setDarkMode: (paletteType: PaletteType) => void;
@@ -28,11 +33,15 @@ function LoginForm() {
 	const history = useHistory();
 	const [loading, setLoading] = useState<boolean>();
 	const [mfaMode, setMfaMode] = useState<boolean>();
+	const [localServerSelectionMode, setLocalServerSelectionMode] = useState<boolean>();
 	const [emailError, setEmailError] = useState<boolean>(false);
 	const [passwordError, setPasswordError] = useState<boolean>(false);
+	const [localServerIdError, setLocalServerIdError] = useState<boolean>(false);
 	const [mfaError, setMfaError] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
+	const [localServerId, setLocalServerId] = useState<string>('');
+	const [localServers, setLocalServers] = useState<LocalServer[]>([]);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [serverUrl, setServerUrl] = useState<string>(envFacade.apiServerUrl);
 	const [serverUrlEditMode, setServerUrlEditMode] = useState<boolean>(false);
@@ -54,7 +63,7 @@ function LoginForm() {
 	async function login() {
 		if (mfaMode) {
 			try {
-				await ApiFacade.AuthenticationApi.loginTfa({ email, mfa });
+				await ApiFacade.AuthenticationApi.loginTfa({ email, mfa, localServerId });
 				applyLogin();
 			} catch (error) {
 				handleServerRestError(error);
@@ -63,7 +72,19 @@ function LoginForm() {
 		}
 
 		try {
-			const authResponse = await ApiFacade.AuthenticationApi.login({ email, password });
+			const authResponse = await ApiFacade.AuthenticationApi.login({ email, password, localServerId });
+
+			// If the login request is OK, but user need to select the local server to connect 
+			// (In case there are more than one local server for same user)
+			if (authResponse.status === 210) {
+				// Get the local servers, and let the user to select one of them
+				const localServers = await authResponse.json() as LocalServer[];
+				setLocalServerSelectionMode(true);
+				setLocalServers(localServers);
+				return;
+			}
+			setLocalServerSelectionMode(false);
+
 
 			if (authResponse.status === 201) {
 				setMfaMode(true);
@@ -77,6 +98,9 @@ function LoginForm() {
 			applyLogin();
 
 		} catch (error: any) {
+			// In any case of failure, clean the local server selection 
+			setLocalServerId('');
+			setLocalServerSelectionMode(false);
 			handleServerRestError(error);
 		}
 	}
@@ -96,6 +120,11 @@ function LoginForm() {
 		if (mfaMode && (!mfa || mfa.length < 6)) {
 			ignoreSubmit = true;
 			setMfaError(true);
+		}
+
+		if (localServerSelectionMode && !localServerId) {
+			ignoreSubmit = true;
+			setLocalServerIdError(true);
 		}
 
 		// Abort submit in case of error
@@ -185,7 +214,7 @@ function LoginForm() {
 				direction="column"
 			>
 				<TextField
-					disabled={loading}
+					disabled={loading || localServerSelectionMode}
 					error={emailError}
 					className="login-form-input-item"
 					id="email-address-input"
@@ -203,7 +232,7 @@ function LoginForm() {
 					<OutlinedInput
 						className="login-form-input-item"
 						// required
-						disabled={loading}
+						disabled={loading || localServerSelectionMode}
 						error={passwordError}
 						id="login-password"
 						label={t('login.password')}
@@ -227,6 +256,24 @@ function LoginForm() {
 						}
 					/>
 				</FormControl>
+				{localServerSelectionMode && <FormControl variant="outlined">
+					<InputLabel id="local-server-select-label">{t('login.select.local.server')}</InputLabel>
+					<Select
+						error={localServerIdError}
+						className="login-form-input-item"
+						labelId="local-server-select-label"
+						value={localServerId}
+						label={t('login.select.local.server')}
+						onChange={(e) => {
+							setLocalServerIdError(false);
+							setLocalServerId(e.target.value as string);
+						}}
+					>
+						{
+							localServers.map(s => <MenuItem value={s.localServerId}>{s.displayName}</MenuItem>)
+						}
+					</Select>
+				</FormControl>}
 			</Grid>}
 		</div>
 		<div className="login-form-submit">

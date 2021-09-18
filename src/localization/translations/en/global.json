@@ -20,6 +20,7 @@
 	"login.email.address": "Email Address",
 	"login.password": "Password",
 	"login.mfa.code": "Multi-Factor code",
+	"login.select.local.server": "Local server to connect",
 	"login.save.server.url": "Save the Casanet server address",
 	"login.edit.server.url": "Change the Casanet server address",
 	"dashboard.pages.menu" : "Dashboard pages menu",

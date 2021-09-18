@@ -19,6 +19,7 @@
 	"login.sign.in": "התחבר",
 	"login.email.address": "דוא\"ל",
 	"login.password": "סיסמה",
+	"login.select.local.server": "שרת מקומי להתחברות",
 	"login.mfa.code": "אימות דו-שלבי",
 	"login.save.server.url": "שמור את כתובת שרת ה-Casanet",
 	"login.edit.server.url": "שנה את כתובת שרת ה-Casanet",

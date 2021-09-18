@@ -39,7 +39,6 @@ jobs:
     
     - name: Fix Android SDK 31 # https://stackoverflow.com/questions/68387270/android-studio-error-installed-build-tools-revision-31-0-0-is-corrupted
       run: |
-        echo ${pwd}
         cd $ANDROID_HOME/build-tools/31.0.0 && cp d8 dx && cd lib && cp d8.jar dx.jar
 
     - name: Bundle Android APP
