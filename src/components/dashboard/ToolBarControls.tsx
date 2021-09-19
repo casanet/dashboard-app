@@ -1,7 +1,7 @@
 import { Grid, IconButton, PaletteType, Tooltip } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { livelinessFeed } from "../../services/settings.service";
+import { livelinessFeed, livelinessFlag } from "../../services/settings.service";
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
@@ -25,8 +25,8 @@ const remoteConnectionDisplayKey: { [key in RemoteConnectionStatus]: string } = 
 export function ToolBarControls(props: ToolBarControlsProps) {
 	const { t } = useTranslation();
 
-	const [online, setOnline] = useState<boolean>(true);
-	const [remoteConnection, setRemoteConnection] = useState<RemoteConnectionStatus>(RemoteConnectionStatus.NotConfigured);
+	const [online, setOnline] = useState<boolean>(livelinessFlag.online);
+	const [remoteConnection, setRemoteConnection] = useState<RemoteConnectionStatus>(livelinessFlag.remoteConnection);
 
 	useEffect(() => {
 		let livelinessDetacher: () => void;

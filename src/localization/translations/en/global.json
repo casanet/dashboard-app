@@ -35,8 +35,22 @@
 	"dashboard.toolbar.remote.connection.auth.failed" : "Authorization to the remote server failed",
 	"dashboard.toolbar.connection.on" : "Connected to server",
 	"dashboard.toolbar.connection.off" : "Disconnected from server",
+	"dashboard.minions.toggle" : "Toggle",
+	"dashboard.minions.switch" : "Switch",
+	"dashboard.minions.air.conditioning" : "Air Conditioning",
+	"dashboard.minions.light" : "Light",
+	"dashboard.minions.temperature.light" : "Temperature Light",
+	"dashboard.minions.color.light" : "Color Light",
+	"dashboard.minions.cleaner" : "Cleaner",
+	"dashboard.minions.roller" : "Roller",
 	"dashboard.minions.increase.card.ration" : "Increase view size ration",
 	"dashboard.minions.decrease.card.ration" : "Decrease view size ration",
 	"dashboard.minions.press.to.on" : "Press to turn ON",
-	"dashboard.minions.press.to.off" : "Press to turn OFF"
+	"dashboard.minions.press.to.off" : "Press to turn OFF",
+	"dashboard.minions.auto.turn.off.info" : "Auto turn off: {{hours}} hours {{minutes}} minutes {{seconds}} seconds",
+	"dashboard.minions.communication.error.tip" : "The communication with minion got errors, try to power on/off minion again or re-scan local network",
+	"dashboard.minions.lock.on.tip" : "The minion is lock ON",
+	"dashboard.minions.lock.off.tip" : "The minion is lock OFF",
+	"dashboard.minions.shabbat.mode.tip" : "Shabbat mode is active, rotating mode each {{minutes}} minutes",
+	"dashboard.minions.calibration.tip" : "Calibrating minion status each {{minutes}} minutes"
 }

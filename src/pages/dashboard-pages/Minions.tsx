@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import '../../theme/styles/minions.scss'
 import { LocalStorageKey, setLocalStorageItem, getLocalStorageItem } from "../../infrastructure/local-storage";
 import { Minion } from "../../infrastructure/generated/api";
-import { MinionCard } from "../../components/minions/MinionCard";
+import { MinionOverview } from "../../components/minions/MinionOverview";
 import { minionsService } from "../../services/minions.service";
 import { GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
 import { MinionFullInfo } from "../../components/minions/MinionFullInfo";
@@ -20,7 +20,7 @@ import { handleServerRestError } from "../../services/notifications.service";
 
 // The default minion card size
 const defaultWidth = 410;
-const defaultHeight = 350;
+const defaultHeight = 240;
 
 // The max/min ration (in %) to change from the default size
 const maxRation = 100;
@@ -85,7 +85,7 @@ export default function Minions() {
 						<Paper className="" elevation={3}>
 							{/* Set the minion card content container size  */}
 							<div className="minion-grid-box" style={{ width: `${calculatedWidth}px`, height: `${calculatedHeight}px` }}>
-								<MinionCard minion={minion} ratio={sizeRatio} />
+								<MinionOverview minion={minion} ratio={sizeRatio} />
 							</div>
 						</Paper>
 					</div>)}

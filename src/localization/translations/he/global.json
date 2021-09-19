@@ -35,8 +35,22 @@
 	"dashboard.toolbar.remote.connection.auth.failed" : "אימות מול שרת מרוחק נכשל",
 	"dashboard.toolbar.connection.on" : "שרת מחובר",
 	"dashboard.toolbar.connection.off" : "מנותק מהשרת",
+	"dashboard.minions.toggle" : "מתג חד-כיווני",
+	"dashboard.minions.switch" : "מתג",
+	"dashboard.minions.air.conditioning" : "מזגן",
+	"dashboard.minions.light" : "תאורה",
+	"dashboard.minions.temperature.light" : "תאורה עם טמפ'",
+	"dashboard.minions.color.light" : "תאורה צבעונית",
+	"dashboard.minions.cleaner" : "מנקה",
+	"dashboard.minions.roller" : "גלגלון",
 	"dashboard.minions.increase.card.ration" : "הגדל יחס תצוגה",
 	"dashboard.minions.decrease.card.ration" : "הקטן יחס תצוגה",
 	"dashboard.minions.press.to.on" : "לחץ להדלקה",
-	"dashboard.minions.press.to.off" : "לחץ לכיבוי"
+	"dashboard.minions.press.to.off" : "לחץ לכיבוי",
+	"dashboard.minions.auto.turn.off.info" : "כיבוי אוטומטי: {{hours}} שעות {{minutes}} דקות {{seconds}} שניות",
+	"dashboard.minions.communication.error.tip" : "התקשורת עם המניון תקולה, נסה להדליק\\לכבות שוב או סרוק מחדש את הרשת המקומית",
+	"dashboard.minions.lock.on.tip" : "המניון נעול במצב דלוק",
+	"dashboard.minions.lock.off.tip" : "המניון נעול במצב כבוי",
+	"dashboard.minions.shabbat.mode.tip" : "מצב שבת פעיל, מחליף מצב בכל  {{minutes}} דקות",
+	"dashboard.minions.calibration.tip" : "מכייל סטטוס מניון בכל {{minutes}} דקות"
 }
