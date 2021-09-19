@@ -52,7 +52,7 @@ function App() {
 	} as React.CSSProperties;
 
 	return (
-		<div className="App" style={globalCssVars}>
+		<div style={globalCssVars}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
 				<NotificationContainer />

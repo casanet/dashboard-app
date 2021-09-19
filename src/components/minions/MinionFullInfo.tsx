@@ -1,6 +1,5 @@
 import { Grid, IconButton, Tooltip } from "@material-ui/core";
 import { Minion } from "../../infrastructure/generated/api";
-import '../../theme/styles/components/minions/minionsCard.scss';
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { DashboardRoutes } from "../../infrastructure/consts";
@@ -39,7 +38,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						<CloseIcon />
 					</IconButton>
 				</Tooltip>
-				<MinionPowerToggle minion={minion} fontSize={'xxx-large'} />
+				<MinionPowerToggle minion={minion} fontRatio={50} />
 			</div>
 		</Grid>
 	</div>
