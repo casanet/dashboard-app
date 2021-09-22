@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, makeStyles, Theme, Tooltip, useTheme } from "@material-ui/core";
+import { Button, Grid, IconButton, Tooltip } from "@material-ui/core";
 import { Minion, MinionStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";

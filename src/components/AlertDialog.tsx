@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, PropTypes, Slide } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@material-ui/core';
 import MuiButton from "@mui/material/Button";
 import { TransitionProps } from '@material-ui/core/transitions';
 import * as React from 'react';
