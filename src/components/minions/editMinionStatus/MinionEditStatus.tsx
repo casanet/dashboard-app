@@ -25,13 +25,13 @@ export function MinionEditStatus(props: EditStatusProps) {
 	const { minionStatus, minionType, disabled } = props;
 
 	const isOn = !disabled && minionStatus[minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;
-	
+
 	return <div className="minion-edit-status-overview-container">
 		{minionType === MinionTypes.Toggle && <ToggleEditStatus {...props} isOn={isOn} />}
 		{minionType === MinionTypes.Switch && <SwitchEditStatus {...props} isOn={isOn} />}
 		{minionType === MinionTypes.Light && <LightEditStatus {...props} isOn={isOn} />}
 		{minionType === MinionTypes.TemperatureLight && <TemperatureLightEditStatus {...props} isOn={isOn} />}
-		{minionType === MinionTypes.ColorLight && <ColorLightEditStatus {...props}  isOn={isOn} />}
+		{minionType === MinionTypes.ColorLight && <ColorLightEditStatus {...props} isOn={isOn} />}
 		{minionType === MinionTypes.AirConditioning && <EditAirConditioning {...props} isOn={isOn} />}
 		{minionType === MinionTypes.Roller && <RollerEditStatus {...props} isOn={isOn} />}
 		{minionType === MinionTypes.Cleaner && <CleanerEditStatus {...props} isOn={isOn} />}

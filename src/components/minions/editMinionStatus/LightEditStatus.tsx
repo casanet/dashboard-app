@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import clonedeep from 'lodash.clonedeep';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { Stack } from "@mui/material";
+import { Stack, Theme, useMediaQuery } from "@mui/material";
 import BrightnessHighIcon from '@mui/icons-material/BrightnessHigh';
 import BrightnessLowIcon from '@mui/icons-material/BrightnessLow';
 import InvertColorsIcon from '@mui/icons-material/InvertColors';
@@ -81,7 +81,7 @@ export function ColorLightEditStatus(props: TypeEditStatusProps) {
 		{/* First show the light regular selections (temp & bright) */}
 		<TemperatureLightEditStatus {...props} />
 		<Grid
-			style={{ marginTop: `${props.smallFontRatio / 2}px` }}
+			style={{ marginTop: `${props.smallFontRatio * 1.1}px` }}
 			container
 			direction="row"
 			justifyContent="center"
@@ -89,7 +89,7 @@ export function ColorLightEditStatus(props: TypeEditStatusProps) {
 		>
 			{/* Commit changes only when the mouseup (or touch out in mobile), and *do not* commit while still clicking and selecting the color  */}
 			<div onMouseUp={() => commitColor()}>
-				<ColorPicker width={props.fontRatio * 6} height={props.fontRatio * 2} color={color} onChange={(c) => changeColor(c as Color)} hideHSV hideHEX hideRGB dark />
+				<ColorPicker width={300} height={props.fontRatio * 2} color={color} onChange={(c) => changeColor(c as Color)} hideHSV hideHEX hideRGB dark />
 			</div>
 		</Grid>
 	</Fragment>;
@@ -98,6 +98,7 @@ export function ColorLightEditStatus(props: TypeEditStatusProps) {
 
 export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
+	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const theme = useTheme();
 	const [tempSlide, setTempSlide] = useState<number>(0);
 
@@ -170,7 +171,7 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 							<InvertColorsOffIcon />
 						</IconButton>
 					</Tooltip>
-					<Slider disabled={disabled} marks={presentsMarks} aria-label={t('dashboard.minions.light.slide.temperature')} min={1} max={100} style={{ color: getModeColor(props.isOn, theme) }} value={tempSlide} onChangeCommitted={onSliderChangeCommitted} onChange={handleSliderChange} />
+					<Slider disabled={disabled} marks={desktopMode ? presentsMarks : undefined} aria-label={t('dashboard.minions.light.slide.temperature')} min={1} max={100} style={{ color: getModeColor(props.isOn, theme) }} value={tempSlide} onChangeCommitted={onSliderChangeCommitted} onChange={handleSliderChange} />
 					<Tooltip title={<span>{t('dashboard.minions.light.increase.temperature')}</span>}>
 						<IconButton
 							disabled={disabled}
@@ -188,6 +189,7 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 }
 
 export function LightEditStatus(props: TypeEditStatusProps) {
+	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const [brightSlide, setBrightSlide] = useState<number>(0);
@@ -258,7 +260,7 @@ export function LightEditStatus(props: TypeEditStatusProps) {
 							<BrightnessLowIcon />
 						</IconButton>
 					</Tooltip>
-					<Slider disabled={disabled} marks={presentsMarks} aria-label={t('dashboard.minions.light.slide.brightness')} min={1} max={100} style={{ color: getModeColor(props.isOn, theme) }} value={brightSlide} onChangeCommitted={onSliderChangeCommitted} onChange={handleSliderChange} />
+					<Slider disabled={disabled} marks={desktopMode ? presentsMarks : undefined} aria-label={t('dashboard.minions.light.slide.brightness')} min={1} max={100} style={{ color: getModeColor(props.isOn, theme) }} value={brightSlide} onChangeCommitted={onSliderChangeCommitted} onChange={handleSliderChange} />
 					<Tooltip title={<span>{t('dashboard.minions.light.increase.brightness')}</span>} >
 						<IconButton
 							disabled={disabled}

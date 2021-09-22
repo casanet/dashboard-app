@@ -20,6 +20,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { Theme } from "@mui/material";
 
 const DEFAULT_FONT_SIZE = 50;
 
@@ -30,6 +32,7 @@ interface MinionFullInfoProps {
 export function MinionFullInfo(props: MinionFullInfoProps) {
 	const { t } = useTranslation();
 	const history = useHistory();
+	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
 	const [deleting, setDeleting] = useState<boolean>(false);
 	const [saving, setSaving] = useState<boolean>();
@@ -62,7 +65,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 
 	return <div className="minion-full-info-container">
 		<Grid
-			className="minion-full-info-container"
+			className="minion-full-info-grid"
 			container
 			direction="column"
 			justifyContent="space-between"
@@ -71,7 +74,6 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 			{/* Header: (status toggle, name and close) */}
 			<div className="minion-full-info-part">
 				<Grid
-					className="minion-full-info-part"
 					container
 					direction="row"
 					justifyContent="space-between"
@@ -94,14 +96,24 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					</div>
 				</Grid>
 
-				{/* Minion status properties */}
-				<div className="minion-full-info-part">
-					<MinionEditStatus minionStatus={minion.minionStatus} minionType={minion.minionType} setMinionStatus={setMinionStatus} disabled={saving} fontRatio={DEFAULT_FONT_SIZE} smallFontRatio={DEFAULT_FONT_SIZE / 2} />
-					<div style={{ padding: '10px', minHeight: '20px', height: '20px' }}>
-						{saving && <LinearProgress color={'inherit'} />}
-					</div>	</div>
-			</div>
 
+			</div>
+			{/* Minion status properties */}
+			<div className="minion-full-info-part">
+				<MinionEditStatus
+					minionStatus={minion.minionStatus}
+					minionType={minion.minionType}
+					setMinionStatus={setMinionStatus}
+					disabled={saving}
+					fontRatio={desktopMode ? DEFAULT_FONT_SIZE : DEFAULT_FONT_SIZE * 0.7}
+					smallFontRatio={desktopMode ? DEFAULT_FONT_SIZE * 0.5 : DEFAULT_FONT_SIZE * 0.5 * 0.7} />
+				<div style={{ padding: '10px', minHeight: '20px', height: '20px' }}>
+					{saving && <LinearProgress color={'inherit'} />}
+				</div>
+			</div>
+			<div className="minion-full-info-part">
+
+			</div>
 			{/* Footer: delete minion */}
 			<div className="minion-full-info-part">
 				<div className="minion-advanced-option-container">
@@ -116,6 +128,21 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						</AccordionSummary>
 						<AccordionDetails>
 							<Typography>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+								malesuada lacus ex, sit amet blandit leo lobortis eget.
+
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+								malesuada lacus ex, sit amet blandit leo lobortis eget.
+
+
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+								malesuada lacus ex, sit amet blandit leo lobortis eget.
+
+
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+								malesuada lacus ex, sit amet blandit leo lobortis eget.
+
+
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
 								malesuada lacus ex, sit amet blandit leo lobortis eget.
 							</Typography>
