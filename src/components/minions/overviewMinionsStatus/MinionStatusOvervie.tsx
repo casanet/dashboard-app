@@ -1,10 +1,10 @@
 import { Grid, Typography, useTheme } from "@material-ui/core";
-import { ACModeOptions, FanStrengthOptions, Minion, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api";
+import { ACModeOptions, FanStrengthOptions, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../../infrastructure/generated/api";
 import { AcMode } from "./AcMode";
 import { AcSpeed } from "./AcSpeed";
 import { Fragment } from "react";
-import '../../theme/styles/components/minions/minionsStatusOverview.scss';
-import { getModeColor } from "../../logic/common/themeUtils";
+import '../../../theme/styles/components/minions/minionsStatusOverview.scss';
+import { getModeColor } from "../../../logic/common/themeUtils";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import InvertColorsIcon from '@mui/icons-material/InvertColors';
 import PaletteIcon from '@mui/icons-material/Palette';
@@ -13,9 +13,10 @@ import { SwitchMode } from "./SwitchMode";
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 
 interface StatusOverviewProps {
-	minion: Minion;
+	minionStatus: MinionStatus;
 	fontRatio: number;
 	smallFontRatio: number;
+	minionType: MinionTypes;
 }
 
 interface TypeStatusOverviewProps extends StatusOverviewProps {
@@ -35,7 +36,7 @@ const OVERVIEW_ITEM_SIZE_FACTOR = 1.4;
 
 function SwitchOverview(props: TypeStatusOverviewProps) {
 
-	const toggle = props.minion.minionStatus.switch || props.minion.minionStatus.toggle;
+	const toggle = props.minionStatus[props.minionType as unknown as keyof MinionStatus];
 
 	return <Fragment>
 		<Grid
@@ -52,7 +53,7 @@ function SwitchOverview(props: TypeStatusOverviewProps) {
 function CleanerOverview(props: TypeStatusOverviewProps) {
 	const theme = useTheme();
 
-	const cleaner = props.minion.minionStatus.cleaner;
+	const cleaner = props.minionStatus.cleaner;
 
 	return <Fragment>
 		<Grid
@@ -77,7 +78,7 @@ function CleanerOverview(props: TypeStatusOverviewProps) {
 
 function RollerOverview(props: TypeStatusOverviewProps) {
 
-	const roller = props.minion.minionStatus.roller;
+	const roller = props.minionStatus.roller;
 
 	roller?.direction as RollerDirection;
 	return <Fragment>
@@ -95,7 +96,7 @@ function RollerOverview(props: TypeStatusOverviewProps) {
 function ColorLightOverview(props: TypeStatusOverviewProps) {
 	const theme = useTheme();
 
-	const light = props.minion.minionStatus.colorLight;
+	const light = props.minionStatus.colorLight;
 	return <Fragment>
 		<Grid
 			className="minion-status-overview-grid"
@@ -127,7 +128,7 @@ function ColorLightOverview(props: TypeStatusOverviewProps) {
 function TemperatureLightOverview(props: TemperatureLightStatusOverviewProps) {
 	const theme = useTheme();
 
-	const light = props.minion.minionStatus.temperatureLight || props.minion.minionStatus.colorLight;
+	const light = props.minionStatus.temperatureLight || props.minionStatus.colorLight;
 	return <Fragment>
 		<Grid
 			className="minion-status-overview-grid"
@@ -171,7 +172,7 @@ function TemperatureLightOverview(props: TemperatureLightStatusOverviewProps) {
 function LightOverview(props: TypeStatusOverviewProps) {
 	const theme = useTheme();
 
-	const light = props.minion.minionStatus.light || props.minion.minionStatus.temperatureLight || props.minion.minionStatus.colorLight;
+	const light = props.minionStatus.light || props.minionStatus.temperatureLight || props.minionStatus.colorLight;
 	return <Fragment>
 		<Grid
 			className="minion-status-overview-grid"
@@ -202,7 +203,7 @@ function LightOverview(props: TypeStatusOverviewProps) {
 function AirConditioningOverview(props: TypeStatusOverviewProps) {
 	const theme = useTheme();
 
-	const airConditioning = props.minion.minionStatus.airConditioning;
+	const airConditioning = props.minionStatus.airConditioning;
 
 	return <Fragment>
 		<Grid
@@ -231,17 +232,17 @@ function AirConditioningOverview(props: TypeStatusOverviewProps) {
 }
 
 export function MinionStatusOverview(props: MinionStatusOverviewProps) {
-	const { minion, fontRatio, smallFontRatio } = props;
+	const { minionStatus, minionType } = props;
 
-	const isOn = minion.minionStatus[minion.minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;
+	const isOn = minionStatus[minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;
 
 	return <div className="minion-status-overview-container">
-		{props.showSwitches && (minion.minionType === MinionTypes.Switch || minion.minionType === MinionTypes.Toggle) && <SwitchOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
-		{minion.minionType === MinionTypes.Light && <LightOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
-		{minion.minionType === MinionTypes.TemperatureLight && <TemperatureLightOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
-		{minion.minionType === MinionTypes.ColorLight && <ColorLightOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
-		{minion.minionType === MinionTypes.AirConditioning && <AirConditioningOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
-		{minion.minionType === MinionTypes.Roller && <RollerOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
-		{minion.minionType === MinionTypes.Cleaner && <CleanerOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} isOn={isOn} />}
+		{props.showSwitches && (minionType === MinionTypes.Switch || minionType === MinionTypes.Toggle) && <SwitchOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.Light && <LightOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.TemperatureLight && <TemperatureLightOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.ColorLight && <ColorLightOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.AirConditioning && <AirConditioningOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.Roller && <RollerOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.Cleaner && <CleanerOverview {...props} isOn={isOn} />}
 	</div>
 }

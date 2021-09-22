@@ -4,7 +4,7 @@ import '../../theme/styles/components/minions/minionsOverview.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
-import { MinionStatusOverview } from "./MinionStatusOvervie";
+import { MinionStatusOverview } from "./overviewMinionsStatus/MinionStatusOvervie";
 import { mapMMinionTypeToDisplay, msToHMS } from "../../logic/common/minionsUtils";
 import { MinionIndicators } from "./MinionIndicators";
 import { useTranslation } from "react-i18next";
@@ -88,7 +88,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 				alignItems="center"
 			>
 				<div className="minion-status-overview-area" >
-					<MinionStatusOverview minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} showSwitches={true} />
+					<MinionStatusOverview minionStatus={minion.minionStatus} minionType={minion.minionType} fontRatio={fontRatio} smallFontRatio={smallFontRatio} showSwitches={false} />
 				</div>
 			</Grid>
 		</div>

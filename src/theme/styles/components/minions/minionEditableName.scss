@@ -1,0 +1,11 @@
+.minion-editable-name-grid {
+	margin-top: 15px;
+	width: 100%;
+	.minion-name {
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		width: 100%;
+		margin-left: 7px;
+	}
+}

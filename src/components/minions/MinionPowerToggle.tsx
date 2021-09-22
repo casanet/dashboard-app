@@ -54,7 +54,7 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 	}}
 
 	>
-		<Tooltip title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} enterDelay={100}>
+		<Tooltip title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} disableFocusListener >
 			<IconButton
 				style={{ padding: fontRatio / 5 }}
 				disabled={loading}

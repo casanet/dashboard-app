@@ -3,7 +3,7 @@ import { MinionTypes } from "../../infrastructure/generated/api";
 /** Map minions type to the display name i18n key */
 export const mapMMinionTypeToDisplay: { [key in MinionTypes]: string } = {
 	[MinionTypes.Toggle]: 'dashboard.minions.toggle',
-	[MinionTypes.Switch]: 'dashboard.minions.toggle',
+	[MinionTypes.Switch]: 'dashboard.minions.switch',
 	[MinionTypes.AirConditioning]: 'dashboard.minions.air.conditioning',
 	[MinionTypes.Light]: 'dashboard.minions.light',
 	[MinionTypes.TemperatureLight]: 'dashboard.minions.temperature.light',

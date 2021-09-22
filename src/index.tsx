@@ -8,6 +8,9 @@ import { initReactI18next } from "react-i18next";
 import { create } from 'jss';
 import rtl from 'jss-rtl';
 import { StylesProvider, jssPreset } from '@material-ui/core/styles';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import { getLang } from './services/localization.service';
 import translationEN from './localization/translations/en/global.json';
 import serverEN from './localization/translations/en/server.json';
@@ -19,6 +22,11 @@ const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const viewLanguage = getLang();
 
+const cacheRtl = createCache({
+	key: 'muirtl',
+	stylisPlugins: [rtlPlugin as any],
+});
+
 /** Direction wrapper used, to enable RTL theme for MAterial UI  */
 function DirectionWrapper(props: any) {
 	if (viewLanguage.direction !== 'rtl') {
@@ -26,7 +34,7 @@ function DirectionWrapper(props: any) {
 	}
 	return (
 		<StylesProvider jss={jss}>
-			{props.children}
+			<CacheProvider value={cacheRtl}>{props.children}</CacheProvider>;
 		</StylesProvider>
 	);
 }
@@ -63,7 +71,7 @@ const startApp = () => {
 	ReactDOM.render(
 		<React.StrictMode>
 			<DirectionWrapper>
-					<App />
+				<App />
 			</DirectionWrapper>
 		</React.StrictMode>,
 		document.getElementById('root')

@@ -35,9 +35,12 @@
     "lodash.clonedeep": "^4.5.0",
     "percent-normalizer": "^1.0.2",
     "react": "^17.0.2",
+    "react-color-palette": "^6.1.0",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.11.4",
     "react-router-dom": "^5.3.0",
+    "stylis": "^4.0.10",
+    "stylis-plugin-rtl": "^2.1.0",
     "ts-events": "^3.4.0",
     "unitsnet-js": "^1.0.25",
     "web-vitals": "^1.0.1"
