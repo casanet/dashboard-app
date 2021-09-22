@@ -34,7 +34,7 @@ function DirectionWrapper(props: any) {
 	}
 	return (
 		<StylesProvider jss={jss}>
-			<CacheProvider value={cacheRtl}>{props.children}</CacheProvider>;
+			<CacheProvider value={cacheRtl}>{props.children}</CacheProvider>
 		</StylesProvider>
 	);
 }

@@ -53,6 +53,29 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 		props.setMinionStatus(minionStatus);
 	};
 
+	const fanOptions = [
+		<ToggleButton value={FanStrengthOptions.Auto} aria-label={t('dashboard.minions.ac.fan.auto')} style={{ color: getModeColor(props.isOn, theme) }}>
+			<Tooltip title={<span>{t('dashboard.minions.ac.fan.auto')}</span>}>
+				<AutoIcon />
+			</Tooltip>
+		</ToggleButton>,
+		<ToggleButton value={FanStrengthOptions.Low} aria-label={t('dashboard.minions.ac.fan.low')} style={{ color: getModeColor(props.isOn, theme) }}>
+			<Tooltip title={<span>{t('dashboard.minions.ac.fan.low')}</span>}>
+				<SvgIcon component={FanLowIcon} viewBox="0 0 607.000000 607.000000" />
+			</Tooltip>
+		</ToggleButton>,
+		<ToggleButton value={FanStrengthOptions.Med} aria-label={t('dashboard.minions.ac.fan.med')} style={{ color: getModeColor(props.isOn, theme) }}>
+			<Tooltip title={<span>{t('dashboard.minions.ac.fan.med')}</span>}>
+				<SvgIcon component={FanMedIcon} viewBox="0 0 607.000000 607.000000" />
+			</Tooltip>
+		</ToggleButton>,
+		<ToggleButton value={FanStrengthOptions.High} aria-label={t('dashboard.minions.ac.fan.high')} style={{ color: getModeColor(props.isOn, theme) }}>
+			<Tooltip title={<span>{t('dashboard.minions.ac.fan.high')}</span>}>
+				<SvgIcon component={FanHighIcon} viewBox="0 0 607.000000 607.000000" />
+			</Tooltip>
+		</ToggleButton>
+	];
+
 	return <Fragment>
 		<Grid
 			container
@@ -129,34 +152,13 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 			<div style={{ marginTop: `-${props.fontRatio / 2}px`, }}>
 				<ToggleButtonGroup
 					disabled={disabled}
-
 					orientation="horizontal"
-					// dir={'rtl'}
 					size="small"
 					value={airConditioning?.fanStrength}
 					exclusive
 					onChange={(e, v) => { changeFan(v); }}
 				>
-					<ToggleButton value={FanStrengthOptions.Auto} aria-label={t('dashboard.minions.ac.fan.auto')} style={{ color: getModeColor(props.isOn, theme) }}>
-						<Tooltip title={<span>{t('dashboard.minions.ac.fan.auto')}</span>}>
-							<AutoIcon />
-						</Tooltip>
-					</ToggleButton>
-					<ToggleButton value={FanStrengthOptions.Low} aria-label={t('dashboard.minions.ac.fan.low')} style={{ color: getModeColor(props.isOn, theme) }}>
-						<Tooltip title={<span>{t('dashboard.minions.ac.fan.low')}</span>}>
-							<SvgIcon component={FanLowIcon} viewBox="0 0 607.000000 607.000000" />
-						</Tooltip>
-					</ToggleButton>
-					<ToggleButton value={FanStrengthOptions.Med} aria-label={t('dashboard.minions.ac.fan.med')} style={{ color: getModeColor(props.isOn, theme) }}>
-						<Tooltip title={<span>{t('dashboard.minions.ac.fan.med')}</span>}>
-							<SvgIcon component={FanMedIcon} viewBox="0 0 607.000000 607.000000" />
-						</Tooltip>
-					</ToggleButton>
-					<ToggleButton value={FanStrengthOptions.High} aria-label={t('dashboard.minions.ac.fan.high')} style={{ color: getModeColor(props.isOn, theme) }}>
-						<Tooltip title={<span>{t('dashboard.minions.ac.fan.high')}</span>}>
-							<SvgIcon component={FanHighIcon} viewBox="0 0 607.000000 607.000000" />
-						</Tooltip>
-					</ToggleButton>
+					{theme.direction === 'ltr' ? fanOptions : fanOptions.reverse()}
 				</ToggleButtonGroup>
 			</div>
 		</Grid>
