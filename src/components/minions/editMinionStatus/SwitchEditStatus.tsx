@@ -5,6 +5,7 @@ import { MinionStatus, SwitchOptions } from "../../../infrastructure/generated/a
 import clonedeep from 'lodash.clonedeep';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import { SwitchMode } from "../overviewMinionsStatus/SwitchMode";
+import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 
 
 export function SwitchEditStatus(props: TypeEditStatusProps) {
@@ -14,11 +15,9 @@ export function SwitchEditStatus(props: TypeEditStatusProps) {
 	const disabled = props.disabled;
 
 	async function changeStatus() {
-		const minionStatus = clonedeep<any>(props.minionStatus);
-
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus[props.minionType]) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus[props.minionType] = {};
+			minionStatus = defaultMinionStatus(props.minionType);
 		}
 		minionStatus[props.minionType].status = toggle?.status === SwitchOptions.On ? SwitchOptions.Off : SwitchOptions.On;
 		props.setMinionStatus(minionStatus);

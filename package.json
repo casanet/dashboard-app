@@ -27,6 +27,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/pickers": "^3.2.8",
     "@mui/icons-material": "^5.0.0",
+    "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.0",
     "date-fns": "^2.8.1",
     "i18next": "^20.6.0",

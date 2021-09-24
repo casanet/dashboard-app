@@ -25,6 +25,7 @@ interface TypeStatusOverviewProps extends StatusOverviewProps {
 
 interface MinionStatusOverviewProps extends StatusOverviewProps {
 	showSwitches: boolean;
+	disabled?: boolean;
 }
 
 interface TemperatureLightStatusOverviewProps extends TypeStatusOverviewProps {
@@ -34,7 +35,7 @@ interface TemperatureLightStatusOverviewProps extends TypeStatusOverviewProps {
 /** The factor for the font size to increase in the main item of the overview */
 const OVERVIEW_ITEM_SIZE_FACTOR = 1.4;
 
-function SwitchOverview(props: TypeStatusOverviewProps) {
+export function SwitchOverview(props: TypeStatusOverviewProps) {
 
 	const toggle = props.minionStatus[props.minionType as unknown as keyof MinionStatus];
 
@@ -234,7 +235,7 @@ function AirConditioningOverview(props: TypeStatusOverviewProps) {
 export function MinionStatusOverview(props: MinionStatusOverviewProps) {
 	const { minionStatus, minionType } = props;
 
-	const isOn = minionStatus[minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;
+	const isOn = !props.disabled && minionStatus[minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;
 
 	return <div className="minion-status-overview-container">
 		{props.showSwitches && (minionType === MinionTypes.Switch || minionType === MinionTypes.Toggle) && <SwitchOverview {...props} isOn={isOn} />}

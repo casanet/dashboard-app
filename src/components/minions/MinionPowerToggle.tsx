@@ -1,6 +1,6 @@
 import { IconButton, Tooltip, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import { Minion, MinionStatus, SwitchOptions } from "../../infrastructure/generated/api";
+import { Minion, SwitchOptions } from "../../infrastructure/generated/api";
 import PowerSettingsNewRoundedIcon from '@material-ui/icons/PowerSettingsNewRounded';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
@@ -10,6 +10,7 @@ import { handleServerRestError } from "../../services/notifications.service";
 import { minionsService } from "../../services/minions.service";
 import clonedeep from 'lodash.clonedeep';
 import { getModeColor } from "../../logic/common/themeUtils";
+import { defaultMinionStatus, isOnMode } from "../../logic/common/minionsUtils";
 
 interface MinionPowerToggleProps {
 	minion: Minion;
@@ -23,16 +24,14 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 
 	const { minion, fontRatio } = props;
 
-	// Detect minion mode, TEMP LOGIC
-	const isOn = minion.minionStatus[minion.minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;
+	const isOn = isOnMode(minion.minionType, minion.minionStatus);
 
 	async function toggleMinionStatus() {
 		setLoading(true);
 		try {
-			const minionStatus = clonedeep<any>(minion.minionStatus);
+			let minionStatus = clonedeep<any>(minion.minionStatus);
 			if (!minionStatus[minion.minionType]) {
-				// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-				minionStatus[minion.minionType] = {};
+				minionStatus = defaultMinionStatus(minion.minionType);
 			}
 			minionStatus[minion.minionType].status = isOn ? SwitchOptions.Off : SwitchOptions.On;
 			await ApiFacade.MinionsApi.setMinion(minionStatus, minion.minionId || '');
@@ -48,11 +47,11 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 	const powerIconColor = getModeColor(isOn, theme);
 
 	return <div className="minion-power-toggle-container" onClick={(e) => {
+		// Stop click event propagation up, to not open the minion full info while clicking on power indicator.
 		e.persist();
 		e.nativeEvent.stopImmediatePropagation();
 		e.stopPropagation();
 	}}
-
 	>
 		<Tooltip title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} disableFocusListener >
 			<IconButton

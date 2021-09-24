@@ -6,7 +6,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTranslation } from "react-i18next";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { ACModeOptions, AirConditioning, FanStrengthOptions, MinionStatus } from "../../../infrastructure/generated/api";
+import { ACModeOptions, AirConditioning, FanStrengthOptions, MinionTypes } from "../../../infrastructure/generated/api";
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import WavesIcon from '@material-ui/icons/Waves';
 import clonedeep from 'lodash.clonedeep';
@@ -15,39 +15,37 @@ import { ReactComponent as FanMedIcon } from '../../../theme/icons/fanMed.svg';
 import { ReactComponent as FanLowIcon } from '../../../theme/icons/fanLow.svg';
 import AutoIcon from '@mui/icons-material/HdrAuto';
 import { TypeEditStatusProps } from "./MinionEditStatus";
+import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 
 export function EditAirConditioning(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
 	const theme = useTheme();
 
-	const airConditioning = props.minionStatus.airConditioning || {} as AirConditioning;
+	const airConditioning = props.minionStatus.airConditioning || defaultMinionStatus(MinionTypes.AirConditioning).airConditioning as AirConditioning;
 	const disabled = props.disabled;
 
 	async function changeMode(nextMode?: ACModeOptions) {
-		const minionStatus = clonedeep<MinionStatus>(props.minionStatus);
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus.airConditioning) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus.airConditioning = {} as AirConditioning;
+			minionStatus = defaultMinionStatus(MinionTypes.AirConditioning);
 		}
 		minionStatus.airConditioning.mode = nextMode || minionStatus.airConditioning.mode;
 		props.setMinionStatus(minionStatus);
 	};
 
 	async function changeFan(nextFan?: FanStrengthOptions) {
-		const minionStatus = clonedeep<MinionStatus>(props.minionStatus);
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus.airConditioning) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus.airConditioning = {} as AirConditioning;
+			minionStatus = defaultMinionStatus(MinionTypes.AirConditioning);
 		}
 		minionStatus.airConditioning.fanStrength = nextFan || minionStatus.airConditioning.fanStrength;
 		props.setMinionStatus(minionStatus);
 	};
 
 	async function movTemperatureStep(tempStep: number) {
-		const minionStatus = clonedeep<MinionStatus>(props.minionStatus);
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus.airConditioning) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus.airConditioning = {} as AirConditioning;
+			minionStatus = defaultMinionStatus(MinionTypes.AirConditioning);
 		}
 		minionStatus.airConditioning.temperature += tempStep;
 		props.setMinionStatus(minionStatus);

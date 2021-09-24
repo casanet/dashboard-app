@@ -4,8 +4,8 @@ import '../../theme/styles/components/minions/minionsOverview.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
-import { MinionStatusOverview } from "./overviewMinionsStatus/MinionStatusOvervie";
-import { mapMMinionTypeToDisplay, msToHMS } from "../../logic/common/minionsUtils";
+import { MinionStatusOverview } from "./overviewMinionsStatus/MinionStatusOverview";
+import { mapMinionTypeToDisplay, msToHMS } from "../../logic/common/minionsUtils";
 import { MinionIndicators } from "./MinionIndicators";
 import { useTranslation } from "react-i18next";
 
@@ -62,7 +62,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 						alignItems="flex-start"
 					>
 						<Typography className="minion-name" style={{ fontSize }}>{minion.name}</Typography>
-						<Typography className="minion-name" style={{ fontSize: smallFontSize, color: subTitleColor }}>{t(mapMMinionTypeToDisplay[minion.minionType])}</Typography>
+						<Typography className="minion-name" style={{ fontSize: smallFontSize, color: subTitleColor }}>{t(mapMinionTypeToDisplay[minion.minionType])}</Typography>
 					</Grid>
 				</div>
 				<div className="quick-action-container">

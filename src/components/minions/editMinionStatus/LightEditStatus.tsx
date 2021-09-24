@@ -12,6 +12,7 @@ import InvertColorsIcon from '@mui/icons-material/InvertColors';
 import InvertColorsOffIcon from '@mui/icons-material/InvertColorsOff';
 import { ColorPicker, useColor, Color, toColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
+import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 
 const presentsMarks = [
 	{
@@ -66,10 +67,9 @@ export function ColorLightEditStatus(props: TypeEditStatusProps) {
 			return;
 		}
 		// Once the change committed, send color selection update
-		const minionStatus = clonedeep<any>(props.minionStatus);
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus[props.minionType]) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus[props.minionType] = {};
+			minionStatus = defaultMinionStatus(props.minionType);
 		}
 		minionStatus[props.minionType].red = color.rgb.r;
 		minionStatus[props.minionType].green = color.rgb.g;
@@ -120,11 +120,9 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 	};
 
 	async function changeTemperature(temperature: number) {
-		const minionStatus = clonedeep<any>(props.minionStatus);
-
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus[props.minionType]) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus[props.minionType] = {};
+			minionStatus = defaultMinionStatus(props.minionType);
 		}
 		minionStatus[props.minionType].temperature = temperature;
 		props.setMinionStatus(minionStatus);
@@ -160,7 +158,7 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 				</div>
 			</Grid>
 
-			<div style={{ width: '80%', marginTop: `-${props.smallFontRatio}px`, height: `${props.fontRatio * 1.2}px` }}>
+			<div style={{ width: '80%', minWidth: 260,  marginTop: `-${props.smallFontRatio}px`, height: `${props.fontRatio * 1.2}px` }}>
 				<Stack spacing={2} direction="row" alignItems="center">
 					<Tooltip title={<span>{t('dashboard.minions.light.decrease.temperature')}</span>}>
 						<IconButton
@@ -212,10 +210,9 @@ export function LightEditStatus(props: TypeEditStatusProps) {
 	};
 
 	async function changeBrightness(brightness: number) {
-		const minionStatus = clonedeep<any>(props.minionStatus);
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus[props.minionType]) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus[props.minionType] = {};
+			minionStatus = defaultMinionStatus(props.minionType);
 		}
 		minionStatus[props.minionType].brightness = brightness;
 		props.setMinionStatus(minionStatus);
@@ -249,7 +246,7 @@ export function LightEditStatus(props: TypeEditStatusProps) {
 				</div>
 			</Grid>
 
-			<div style={{ width: '80%', marginTop: `-${props.smallFontRatio}px`, height: `${props.fontRatio * 1.2}px` }}>
+			<div style={{ width: '80%', minWidth: 260, marginTop: `-${props.smallFontRatio}px`, height: `${props.fontRatio * 1.2}px` }}>
 				<Stack spacing={2} direction="row" alignItems="center">
 					<Tooltip title={<span>{t('dashboard.minions.light.decrease.brightness')}</span>}>
 						<IconButton

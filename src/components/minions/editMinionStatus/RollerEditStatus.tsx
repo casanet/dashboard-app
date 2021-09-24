@@ -10,6 +10,7 @@ import clonedeep from 'lodash.clonedeep';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 
 export function RollerEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
@@ -19,11 +20,9 @@ export function RollerEditStatus(props: TypeEditStatusProps) {
 	const disabled = props.disabled;
 
 	async function changeDirection(direction: RollerDirection) {
-		const minionStatus = clonedeep<any>(props.minionStatus);
-
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus[props.minionType]) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus[props.minionType] = {};
+			minionStatus = defaultMinionStatus(props.minionType);
 		}
 		minionStatus[props.minionType].direction = direction || minionStatus[props.minionType].direction;
 		props.setMinionStatus(minionStatus);

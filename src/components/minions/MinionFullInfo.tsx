@@ -22,6 +22,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Theme } from "@mui/material";
+import { MinionTimingsView } from "../timings/MinionTimingsView";
 
 const DEFAULT_FONT_SIZE = 50;
 
@@ -107,7 +108,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					disabled={saving}
 					fontRatio={desktopMode ? DEFAULT_FONT_SIZE : DEFAULT_FONT_SIZE * 0.7}
 					smallFontRatio={desktopMode ? DEFAULT_FONT_SIZE * 0.5 : DEFAULT_FONT_SIZE * 0.5 * 0.7} />
-				<div style={{ padding: '10px', minHeight: '20px', height: '20px' }}>
+				<div style={{ padding: `${DEFAULT_FONT_SIZE * 0.3}px` }}>
 					{saving && <LinearProgress color={'inherit'} />}
 				</div>
 			</div>
@@ -127,25 +128,10 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<Typography>{t('global.timings')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-
-
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-
-
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-
-
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-							</Typography>
+							{/* TODO: make it lazy loading */}
+							<div className="minion-timings-area">
+								<MinionTimingsView minion={minion} />
+							</div>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>

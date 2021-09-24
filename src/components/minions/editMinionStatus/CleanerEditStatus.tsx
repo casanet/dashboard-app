@@ -11,6 +11,7 @@ import { TypeEditStatusProps } from "./MinionEditStatus";
 import { ReactComponent as FanHighIcon } from '../../../theme/icons/fanHigh.svg';
 import { ReactComponent as FanMedIcon } from '../../../theme/icons/fanMed.svg';
 import { ReactComponent as FanLowIcon } from '../../../theme/icons/fanLow.svg';
+import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 
 export function CleanerEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
@@ -20,10 +21,9 @@ export function CleanerEditStatus(props: TypeEditStatusProps) {
 	const disabled = props.disabled;
 
 	async function changeFan(fanSpeed: FanStrengthOptions) {
-		const minionStatus = clonedeep<any>(props.minionStatus);
+		let minionStatus = clonedeep<any>(props.minionStatus);
 		if (!minionStatus[props.minionType]) {
-			// NEED TO BE FIXED IN BE?, ALWAYS SHOULD BE A OBJECT FULL
-			minionStatus[props.minionType] = {};
+			minionStatus = defaultMinionStatus(props.minionType);
 		}
 		minionStatus[props.minionType].fanSpeed = fanSpeed || minionStatus[props.minionType].fanSpeed;
 		props.setMinionStatus(minionStatus);
