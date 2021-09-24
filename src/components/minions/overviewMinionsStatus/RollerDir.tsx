@@ -1,7 +1,7 @@
 import { useTheme } from '@material-ui/core';
 import { Fragment } from 'react';
-import { RollerDirection } from '../../infrastructure/generated/api';
-import { getModeColor } from '../../logic/common/themeUtils';
+import { RollerDirection } from '../../../infrastructure/generated/api';
+import { getModeColor } from '../../../logic/common/themeUtils';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 interface RollerDirProps {

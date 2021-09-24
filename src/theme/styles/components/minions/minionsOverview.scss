@@ -2,6 +2,12 @@
 	height: 100%;
 	width: 100%;
 
+	// Disalbe text selection on click
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+
 	.minion-overview-header-container {
 		height: 43%;
 		width: 100%;
@@ -14,7 +20,6 @@
 				overflow: hidden;
 				width: 100%;
 				margin-left: 7px;
-				// margin-right: 50px;
 			}
 		}
 

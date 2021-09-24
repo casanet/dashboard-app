@@ -1,11 +1,11 @@
-import { FanStrengthOptions } from '../../infrastructure/generated/api';
+import { FanStrengthOptions } from '../../../infrastructure/generated/api';
 import AutoIcon from '@mui/icons-material/HdrAuto';
 import { Fragment } from 'react';
 import { SvgIcon, useTheme } from '@material-ui/core';
-import { getModeColor } from '../../logic/common/themeUtils';
-import { ReactComponent as FanHighIcon } from '../../theme/icons/fanHigh.svg';
-import { ReactComponent as FanMedIcon } from '../../theme/icons/fanMed.svg';
-import { ReactComponent as FanLowIcon } from '../../theme/icons/fanLow.svg';
+import { getModeColor } from '../../../logic/common/themeUtils';
+import { ReactComponent as FanHighIcon } from '../../../theme/icons/fanHigh.svg';
+import { ReactComponent as FanMedIcon } from '../../../theme/icons/fanMed.svg';
+import { ReactComponent as FanLowIcon } from '../../../theme/icons/fanLow.svg';
 
 interface AcSpeedProps {
 	speed: FanStrengthOptions;
