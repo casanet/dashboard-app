@@ -35,7 +35,7 @@ class EnvFacade {
 	}
 
 	public get isTokenAllowed(): boolean {
-		return this.platform !== 'Browser' || !!process.env.REACT_APP_LOCAL_DEV;
+		return !!process.env.REACT_APP_LOCAL_DEV;
 	}
 
 	public get platform(): Platform {
