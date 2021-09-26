@@ -6,7 +6,7 @@ import nodeFetch from 'node-fetch';
 const BUILD_MODE = process.env.BUILD_PATH || 'www';
 const dashboardDist = path.join(BUILD_MODE, 'light-app');
 
-const ENV_BRANCH = process.env.GITHUB_REF !== 'main' ? 'develop' : 'main';
+const ENV_BRANCH = (process.env.GITHUB_REF !== 'main' && !process.env.BUILD_PROD) ? 'develop' : 'main';
 
 async function downloadAndUnpackDashboard(dashboardArtifact, distDir) {
 	const latestArtifact = await nodeFetch(dashboardArtifact);
