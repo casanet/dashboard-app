@@ -1,4 +1,4 @@
-import { Button, Grid, Theme, useMediaQuery, useTheme } from "@material-ui/core";
+import { Button, Grid, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
 import { Minion, MinionStatus, MinionTypes, Timing } from "../../infrastructure/generated/api";
@@ -12,6 +12,7 @@ import { CreateTiming } from "./CreateTiming";
 import { EditTimingProps } from "./EditTimingProps";
 import { useTranslation } from "react-i18next";
 import { isOnMode } from "../../logic/common/minionsUtils";
+import { getModeColor } from "../../logic/common/themeUtils";
 
 interface MinionTimingsViewProps {
 	minion: Minion;
@@ -51,6 +52,14 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 	}, [props.minion?.minionId]);
 
 	return <div>
+		{!minionTimings?.length && <Grid
+			container
+			direction="column"
+			justifyContent="center"
+			alignItems="center"
+		>
+			<Typography style={{ fontSize: DEFAULT_FONT_RATION * 0.7, color: getModeColor(false, theme) }} >{t('dashboard.timings.no.timings.set')}</Typography>
+		</Grid>}
 		{minionTimings.map((timing) => {
 			return <div style={{ width: '100%' }}>
 				<div style={{ display: 'flex' }}>

@@ -65,8 +65,8 @@ const footerMenuHight = 60;
 const useStyles = makeStyles((theme: Theme) => ({
 	sideBarTab: {
 		minWidth: 'unset', // do not set min width, align to the extend/collapse bar size
-		height: '8vh',
-		minHeight: '8vh',
+		height: '10vh',
+		minHeight: '10vh',
 	},
 	sideBarTabIndicator: {
 		left: '0px' // Set selected item line indicator to be in left 

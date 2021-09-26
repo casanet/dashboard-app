@@ -12,6 +12,7 @@ import { GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
 import { MinionFullInfo } from "../../components/minions/MinionFullInfo";
 import { useParams } from "react-router-dom";
 import { handleServerRestError } from "../../services/notifications.service";
+import { Loader } from "../../components/Loader";
 
 // For mock only, generate "minions"
 // const minions: Minion[] = new Array(200).fill(0).map((o,i) => ({ minionId: i, name: `${i}`, isProperlyCommunicated: true, minionType: MinionTypes.Switch, minionStatus: { switch: { status: i % 2 == 0 ? SwitchOptions.On : SwitchOptions.Off } } } as unknown as Minion));
@@ -34,17 +35,19 @@ export default function Minions() {
 	const largeDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const [sizeRatio, setSizeRatio] = useState<number>(getLocalStorageItem<number>(LocalStorageKey.MinionsCardRatio, { itemType: 'number' }) || defaultRation);
 	const [minions, setMinion] = useState<Minion[]>([]);
+	const [loading, setLoading] = useState<boolean>();
 
 	useEffect(() => {
 		let minionsDetacher: () => void;
-
+		setLoading(true);
 		(async () => {
 			try {
-			// Subscribe to the minion data feed
-			minionsDetacher = await minionsService.attachDataSubs(setMinion);
+				// Subscribe to the minion data feed
+				minionsDetacher = await minionsService.attachDataSubs(setMinion);
 			} catch (error) {
 				await handleServerRestError(error);
 			}
+			setLoading(false);
 		})();
 
 		return () => {
@@ -70,9 +73,13 @@ export default function Minions() {
 	const selectedMinion = minions.find(m => id === m.minionId);
 	const showMinionFullInfo = !!id && !!selectedMinion;
 
+	if (loading) {
+		return <Loader />;
+	}
+
 	return <div className="minions-container">
 		{/* Show minions cards grid only if none has been selected *or* it's very wide screen */}
-		{(largeDesktopMode || !showMinionFullInfo) && <div className={`minions-grid-area ${showMinionFullInfo && '--minion-full-info-enabled'}`}>
+		{<div className={`minions-grid-area ${showMinionFullInfo && '--minion-full-info-enabled'} ${!largeDesktopMode && showMinionFullInfo && '--hide-minion-grid'}`}>
 			{/* The minions cards grid */}
 			<Grid className={`minions-grid-container ${!desktopMode && '--mobile'}`}
 				container
@@ -129,5 +136,5 @@ export default function Minions() {
 				{showMinionFullInfo && <MinionFullInfo minion={selectedMinion} />}
 			</Paper>
 		</div>}
-	</div>
+	</div>;
 }

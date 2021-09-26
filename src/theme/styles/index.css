@@ -30,3 +30,7 @@ input::-ms-reveal,
 input::-ms-clear {
 	display: none;
 }
+
+.link {
+	cursor: pointer;
+}
