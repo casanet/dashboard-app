@@ -34,6 +34,7 @@
 	"login.edit.server.url": "Change the Casanet server address",
 	"dashboard.pages.menu" : "Dashboard pages menu",
 	"dashboard.appbar.profile" : "User profile",
+	"dashboard.toolbar.search.in.page.content" : "Search in {{pageName}}...",
 	"dashboard.toolbar.extend.controls" : "Show toolbar controls",
 	"dashboard.toolbar.collapse.controls": "Hide toolbar controls",
 	"dashboard.toolbar.theme.toggle": "Toggle light/dark theme",
@@ -44,6 +45,8 @@
 	"dashboard.toolbar.remote.connection.auth.failed" : "Authorization to the remote server failed",
 	"dashboard.toolbar.connection.on" : "Connected to server",
 	"dashboard.toolbar.connection.off" : "Disconnected from server",
+	"dashboard.minions.no.minions.message" : "You don't have yet any minion :(",
+	"dashboard.minions.no.minions.match.message" : "No minion match the search term",
 	"dashboard.minions.toggle" : "Toggle",
 	"dashboard.minions.switch" : "Switch",
 	"dashboard.minions.air.conditioning" : "Air Conditioning",
@@ -123,5 +126,5 @@
 	"dashboard.v3.redirect.under.construction.message" : "We are working hard to complete this component as soon as possible.",
 	"dashboard.v3.redirect.under.construction.redirection.message" : "In the meanwhile please click <1>here</1> to be redirected to the legacy V3 dashboard.",
 
-	"json_last.comma?" : "is suck :("
+	"json_last_comma?" : "is suck :("
 }

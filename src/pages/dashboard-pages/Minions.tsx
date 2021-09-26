@@ -13,6 +13,10 @@ import { MinionFullInfo } from "../../components/minions/MinionFullInfo";
 import { useParams } from "react-router-dom";
 import { handleServerRestError } from "../../services/notifications.service";
 import { Loader } from "../../components/Loader";
+import { DashboardPageInjectProps } from "../Dashboard";
+import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
+import { NoContent } from "../../components/NoContent";
+import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 
 // For mock only, generate "minions"
 // const minions: Minion[] = new Array(200).fill(0).map((o,i) => ({ minionId: i, name: `${i}`, isProperlyCommunicated: true, minionType: MinionTypes.Switch, minionStatus: { switch: { status: i % 2 == 0 ? SwitchOptions.On : SwitchOptions.Off } } } as unknown as Minion));
@@ -28,14 +32,15 @@ const maxRation = 100;
 const minRation = 25;
 const defaultRation = 40;
 
-export default function Minions() {
+export default function Minions(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
 	const { id } = useParams<{ id: string }>();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const largeDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const [sizeRatio, setSizeRatio] = useState<number>(getLocalStorageItem<number>(LocalStorageKey.MinionsCardRatio, { itemType: 'number' }) || defaultRation);
-	const [minions, setMinion] = useState<Minion[]>([]);
-	const [loading, setLoading] = useState<boolean>();
+	const [minions, setMinions] = useState<Minion[]>([]);
+	const [filteredMinions, setFilteredMinion] = useState<Minion[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		let minionsDetacher: () => void;
@@ -43,7 +48,7 @@ export default function Minions() {
 		(async () => {
 			try {
 				// Subscribe to the minion data feed
-				minionsDetacher = await minionsService.attachDataSubs(setMinion);
+				minionsDetacher = await minionsService.attachDataSubs(setMinions);
 			} catch (error) {
 				await handleServerRestError(error);
 			}
@@ -55,6 +60,25 @@ export default function Minions() {
 			minionsDetacher && minionsDetacher();
 		};
 	}, []);
+
+	useEffect(() => {
+		// every time the minion collection has changed or the search term changed, re-calc the filtered minions
+		calcMinionsFilter(minions);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [minions, props.searchText])
+
+	function calcMinionsFilter(minions: Minion[]) {
+		const searchString = props.searchText?.trim().toLowerCase() || '';
+		const filteredMinions = !searchString ? minions : minions.filter(m => {
+			// If the name match, return true
+			if (m.name.toLowerCase().includes(searchString)) {
+				return true;
+			}
+			// Check if the minion type match to the search term
+			return t(mapMinionTypeToDisplay[m.minionType])?.toLowerCase()?.includes(searchString);
+		});
+		setFilteredMinion(filteredMinions);
+	}
 
 	function applyNewSizeRation(newRation: number) {
 		setSizeRatio(newRation);
@@ -77,6 +101,16 @@ export default function Minions() {
 		return <Loader />;
 	}
 
+	// If there are no any minion, show proper message
+	if (minions.length === 0) {
+		return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.message')} />
+	}
+
+	// If there are no any minion match the search, show proper message
+	if (filteredMinions.length === 0) {
+		return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.match.message')} />
+	}
+
 	return <div className="minions-container">
 		{/* Show minions cards grid only if none has been selected *or* it's very wide screen */}
 		{<div className={`minions-grid-area ${showMinionFullInfo && '--minion-full-info-enabled'} ${!largeDesktopMode && showMinionFullInfo && '--hide-minion-grid'}`}>
@@ -87,7 +121,7 @@ export default function Minions() {
 				justifyContent="flex-start"
 				alignItems="flex-start"
 			>
-				{minions.map((minion) =>
+				{filteredMinions.map((minion) =>
 					<div className={`minion-grid-box-container ${!desktopMode && '--mobile'}`} key={minion.minionId}>
 						<Paper className="" elevation={3}>
 							{/* Set the minion card content container size  */}
