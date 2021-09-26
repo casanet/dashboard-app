@@ -49,9 +49,12 @@ function LoginForm() {
 
 	const [mfa, setMfa] = useState<string>('');
 
-	async function applyLogin() {
+	async function applyLogin(authResponse: Response) {
 
 		try {
+			if (envFacade.isTokenAllowed) {
+				sessionManager.setToken(authResponse.headers.get(API_KEY_HEADER) || '');
+			}
 			const profile = await ApiFacade.UsersApi.getProfile();
 			sessionManager.onLogin(profile);
 			history.push(AppRoutes.dashboard.path);
@@ -63,8 +66,8 @@ function LoginForm() {
 	async function login() {
 		if (mfaMode) {
 			try {
-				await ApiFacade.AuthenticationApi.loginTfa({ email, mfa, localServerId });
-				applyLogin();
+				const authResponse = await ApiFacade.AuthenticationApi.loginTfa({ email, mfa, localServerId });
+				applyLogin(authResponse);
 			} catch (error) {
 				handleServerRestError(error);
 			}
@@ -91,11 +94,7 @@ function LoginForm() {
 				return;
 			}
 
-			if (envFacade.isTokenAllowed) {
-				sessionManager.setToken(authResponse.headers.get(API_KEY_HEADER) || '');
-			}
-
-			applyLogin();
+			applyLogin(authResponse);
 
 		} catch (error: any) {
 			// In any case of failure, clean the local server selection 

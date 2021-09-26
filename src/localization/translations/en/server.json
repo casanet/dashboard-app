@@ -35,7 +35,7 @@
 	"1500": "unknown error",
 	"1501": "internal error",
 	"2501": "MFA configuration not set correctly",
-	"3501": "Fail to send MFA mail message, inner error.",
+	"3501": "Fail to send MFA mail message, internal error.",
 	"4501": "There is no connection to local server.",
 	"5501": "Not implement yet.",
 	"6501": "There is no connection to remote server",
