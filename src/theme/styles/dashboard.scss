@@ -10,12 +10,14 @@
 		.dashboard-header-tool-box {
 			width: 100%;
 			.dashboard-header-tool-box-controls {
+				// Make sure to put it over the search input
+				z-index: 6;
 				justify-content: end;
 				.dashboard-toolbar-icons-container {
 					transition: width 0.5s;
-					width: 132px; 
+					width: 132px;
 					max-height: 44px;
-					// When collapsing the div, don't show the content although they are there 
+					// When collapsing the div, don't show the content although they are there
 					overflow: hidden;
 					&.--collapse {
 						width: 0;

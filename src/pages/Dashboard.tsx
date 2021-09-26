@@ -28,6 +28,7 @@ import { ProfileAvatar } from "../components/dashboard/ProfileAvatar";
 import { AppRoutes, DashboardRoutes } from "../infrastructure/consts";
 import { ToolBarControls } from "../components/dashboard/ToolBarControls";
 import { sessionManager } from "../infrastructure/session-manager";
+import InputBase from "@mui/material/InputBase";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -38,6 +39,11 @@ const Settings = React.lazy(() => import('./dashboard-pages/Settings'));
 const direction = getLang().direction;
 const LeftArrowIcon = direction === 'rtl' ? ArrowBackIosIcon : ArrowForwardIosIcon;
 const RightArrowIcon = direction === 'rtl' ? ArrowForwardIosIcon : ArrowBackIosIcon;
+
+/** Any dashboard page, wants to get the dashboard search input value, required to add this to his props */
+export interface DashboardPageInjectProps {
+	searchText?: string;
+}
 
 interface DashboardProps {
 	theme: PaletteType;
@@ -54,6 +60,11 @@ interface DashboardPage {
 	route: string;
 	/** The page component */
 	components: LazyExoticComponent<ComponentType<any>>;
+	/** 
+	 * Whenever the page supported filter some content by search string.
+	 * if so, a search input will be shown at the app-bar and value will inject to the page
+	 */
+	supportedSearch?: boolean;
 }
 
 // Const predefined dimensions of bars menus etc,
@@ -81,6 +92,7 @@ const dashboardPages: DashboardPage[] = [
 		path: DashboardRoutes.minions.path,
 		route: `${DashboardRoutes.minions.path}/:${DashboardRoutes.minions.param}?`,
 		components: Minions,
+		supportedSearch: true,
 	},
 	{
 		icon: <PeopleAltIcon />,
@@ -113,6 +125,7 @@ export default function Dashboard(props: DashboardProps) {
 	const location = useLocation();
 	const [collapseMenu, setCollapseMenu] = useState<boolean>(!!getLocalStorageItem<boolean>(LocalStorageKey.CollapseMenu, { itemType: 'boolean' }));
 	const [collapseToolbar, setCollapseToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, { itemType: 'boolean' }) ?? !desktopMode);
+	const [searchText, setSearchText] = useState<string>();
 
 	function toggleCollapseMenu() {
 		const newCollapseMenuMode = !collapseMenu;
@@ -127,6 +140,8 @@ export default function Dashboard(props: DashboardProps) {
 	}
 
 	const onTabSelected = (event: React.ChangeEvent<{}>, newValue: number) => {
+		// Once the page has changed, reset the search
+		setSearchText('');
 		history.push(dashboardPages[newValue].path);
 	};
 
@@ -150,11 +165,17 @@ export default function Dashboard(props: DashboardProps) {
 	const routerContainerWidth = !desktopMode ? '100vw' : `calc(100vw - ${collapseMenu ? sideBarCollapseWidth : sideBarExtendedWidth}px)`;
 	const routerContainerHight = `calc(100vh - ${desktopMode ? appBarHight : (appBarHight + footerMenuHight)}px)`;
 
+	// The properties of the current page in the view
+	const dashboardPage = dashboardPages.find(p => location.pathname.startsWith(p.path));
+
 	return <div className="dashboard-container" style={dashboardCssVars}>
 		<div className="dashboard-header">
 			<AppBar position="static" color="default">
-				<Toolbar className="dashboard-header-tool-box">
+				<Toolbar className="dashboard-header-tool-box"
+					style={{ backgroundColor: 'inherit' }} // inherit to pomp the color to the dashboard controls component
+				>
 					<Grid
+						style={{ backgroundColor: 'inherit' }} // inherit to pomp the color to the dashboard controls component
 						container
 						direction="row"
 						justifyContent="space-between"
@@ -168,12 +189,24 @@ export default function Dashboard(props: DashboardProps) {
 								<IconButton edge="start" color="inherit" aria-label="menu">
 									<MenuIcon />
 								</IconButton>
-								{desktopMode && <Typography variant="h6" >
+								{dashboardPage?.supportedSearch && <InputBase
+									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [direction === 'ltr' ? 'left' : 'right']: '45px' }}
+									sx={{ ml: 1, flex: 1 }}
+									placeholder={t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() })}
+									value={searchText}
+									onChange={(e) => {
+										setSearchText(e.target.value)
+									}}
+									inputProps={{ 'aria-label': t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() }) }}
+								/>}
+								{desktopMode && !dashboardPage?.supportedSearch && <Typography variant="h6" >
 									{t('general.casanet.dashboard')}
 								</Typography>}
 							</Grid>
 						</div>
-						<div className="dashboard-header-tool-box-controls">
+						<div className="dashboard-header-tool-box-controls"
+							style={{ backgroundColor: 'inherit' }} // inherit the color to make sure if the content is on the search placeholder, it will be covered
+						>
 							<Grid
 								container
 								direction="row"
@@ -256,7 +289,7 @@ export default function Dashboard(props: DashboardProps) {
 						<Switch>
 							{/* Generate route for each page */}
 							{dashboardPages.map(dashboardPage =>
-								<Route exact path={dashboardPage.route}><dashboardPage.components /></Route>)}
+								<Route exact path={dashboardPage.route}><dashboardPage.components searchText={searchText} /></Route>)}
 							{/* As fallback, redirect to the first page */}
 							<Route exact path={[AppRoutes.dashboard.path, `${AppRoutes.dashboard.path}/*`]}>
 								<Redirect to={dashboardPages[0].path} />
