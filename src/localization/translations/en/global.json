@@ -92,7 +92,7 @@
 	"dashboard.minions.toggle.send.on.command" : "Press to send ON command",
 	"dashboard.minions.toggle.send.off.command" : "Press to send OFF command",
 	"dashboard.timings.create.timing" : "Create timing",
-	"dashboard.timings.daily.sun.trigger" : "Timing by sun event (sunrise/sunset)",
+	"dashboard.timings.daily.sun.trigger" : "Timing by solar event (sunrise/sunset)",
 	"dashboard.timings.daily.time.trigger" : "Timing by weekly schedule",
 	"dashboard.timings.once" : "Timing by specific time",
 	"dashboard.timings.timeout" : "Timing by timeout countdown",
@@ -113,15 +113,15 @@
 	"dashboard.timings.days.short.thursday" : "Th",
 	"dashboard.timings.days.short.friday" : "Fr",
 	"dashboard.timings.days.short.saturday" : "Sa",
-	"dashboard.timings.sun.trigger.tip" : "{{minutes}} minutes {{relation}} the {{event}}",
+	"dashboard.timings.sun.trigger.tip" : "{{minutes}} minutes {{relation}} {{event}}",
 	"dashboard.timings.delete.timing" : "Delete Timing",
 	"dashboard.timings.update.timing" : "Update Timing",
 	"dashboard.timings.delete.timing.alert.title" : "Deleting Timing",
 	"dashboard.timings.delete.timing.alert.text" : "Are you sure you want to delete the timing? this action can't be undone",
 	"dashboard.timings.no.timings.set" : "No timings set",
 	"dashboard.v3.redirect.under.construction" : "UNDER CONSTRUCTION",
-	"dashboard.v3.redirect.under.construction.message" : "We are working hard to complete component as soon as possible.",
+	"dashboard.v3.redirect.under.construction.message" : "We are working hard to complete this component as soon as possible.",
 	"dashboard.v3.redirect.under.construction.redirection.message" : "In the meanwhile please click <1>here</1> to be redirected to the legacy V3 dashboard.",
 
-	"json_last_comma?" : "is suck :("
+	"json_last.comma?" : "is suck :("
 }
