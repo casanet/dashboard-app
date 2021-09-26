@@ -1,3 +1,4 @@
+import { minionsService } from '../services/minions.service';
 import { envFacade } from './env-facade';
 import { User } from './generated/api';
 import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from './local-storage';
@@ -23,6 +24,7 @@ class SessionManager {
 	public onLogout() {
 		removeLocalStorageItem(LocalStorageKey.Profile);
 		removeLocalStorageItem(LocalStorageKey.ApiToken);
+		minionsService.fetchFlag = false;
 	}
 
 	public get isLoggedOn(): boolean {

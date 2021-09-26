@@ -37,13 +37,10 @@ export function ProfileAvatar() {
 		setAnchorEl(null);
 	};
 
-	async function handleLogout() {
-		try {
-			await ApiFacade.AuthenticationApi.logout();
-		} catch (error) {
-			// TODO: make sue to somehow delete the session without connection to the server since it's HTTP ONLY cookie session.
-			// handleServerRestError(error);
-		}
+	function handleLogout() {
+		ApiFacade.AuthenticationApi.logout().catch(() => {
+			// TODO: LOG
+		});
 		sessionManager.onLogout();
 		history.push(AppRoutes.login.path);
 	};

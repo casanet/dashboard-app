@@ -11,57 +11,60 @@ interface LivelinessInfo {
 	remoteConnection: RemoteConnectionStatus;
 }
 
-let onlineFlag: boolean = true;
-let remoteConnectionStatusFlag: RemoteConnectionStatus = RemoteConnectionStatus.NotConfigured;
+export const livelinessFlag: LivelinessInfo = {
+	online: true,
+	remoteConnection: RemoteConnectionStatus.NotConfigured
+}
 
 export const livelinessFeed = new SyncEvent<LivelinessInfo>();
+
+async function livelinessCheck() {
+	try {
+		// Try send ack
+		const remoteConnectionStatus = await ApiFacade.RemoteApi.getConnectionStatus();
+
+		// If online mode changed, publish update
+		if (!livelinessFlag.online) {
+			livelinessFlag.online = true;
+			livelinessFeed.post({
+				online: true,
+				remoteConnection: livelinessFlag.remoteConnection,
+			});
+		}
+
+		// If remote connection has been updated, publish update
+		if (remoteConnectionStatus !== livelinessFlag.remoteConnection) {
+			livelinessFlag.remoteConnection = remoteConnectionStatus;
+			livelinessFeed.post({
+				online: livelinessFlag.online,
+				remoteConnection: remoteConnectionStatus,
+			});
+		}
+
+
+	} catch (error) {
+		// If online mode changed, publish update
+		if (livelinessFlag.online) {
+			livelinessFlag.online = false;
+			livelinessFeed.post({
+				online: false,
+				remoteConnection: livelinessFlag.remoteConnection,
+			});
+		}
+	}
+}
 
 async function livelinessAck() {
 
 	// Run forever
 	while (true) {
+		// Dont send ack while logged off
+		if (sessionManager.isLoggedOn) {
+			await livelinessCheck();
+		}
+
 		// Sleep the interval
 		await sleep(LIVELINESS_ACK_INTERVAL);
-
-		// Dont send ack while logged off
-		if (!sessionManager.isLoggedOn) {
-			continue;
-		}
-
-		try {
-			// Try send ack
-			const remoteConnectionStatus = await ApiFacade.RemoteApi.getConnectionStatus();
-			
-			// If online mode changed, publish update
-			if (!onlineFlag) {
-				onlineFlag = true;
-				livelinessFeed.post({
-					online: true,
-					remoteConnection: remoteConnectionStatusFlag,
-				});
-			}
-
-			// If remote connection has been updated, publish update
-			if (remoteConnectionStatus !== remoteConnectionStatusFlag) {
-				remoteConnectionStatusFlag = remoteConnectionStatus;
-				livelinessFeed.post({
-					online: onlineFlag,
-					remoteConnection: remoteConnectionStatus,
-				});
-			}
-
-
-		} catch (error) {
-			// If online mode changed, publish update
-			if (onlineFlag) {
-				onlineFlag = false;
-				livelinessFeed.post({
-					online: false,
-					remoteConnection: remoteConnectionStatusFlag,
-				});
-			}
-		}
-
 	}
 }
 

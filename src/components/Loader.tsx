@@ -1,9 +1,19 @@
-import { useTranslation } from "react-i18next"
+import { Box, CircularProgress, Grid } from "@material-ui/core";
 
-export function Loader() {
-	const { t } = useTranslation();
+interface LoaderProps {
+	fullScreen?: boolean;
+}
 
-	return <div>
-		{t('global.loading')}
-	</div>
+export function Loader(props: LoaderProps) {
+	return <Grid
+		style={{ width: props.fullScreen ? '100vw' : '100%', height: props.fullScreen ? '100vh' : '100%', textAlign: 'center' }}
+		container
+		direction="column"
+		justifyContent="center"
+		alignItems="center"
+	>
+		<Box sx={{ width: '100%' }}>
+			<CircularProgress size={150} />
+		</Box>
+	</Grid>;
 }

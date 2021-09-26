@@ -3,6 +3,9 @@ import './theme/styles/global.scss';
 import './theme/styles/app.scss';
 import { createTheme, PaletteType, ThemeProvider, useMediaQuery, useTheme } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import MuiCssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+
 import {
 	HashRouter,
 	Switch,
@@ -52,25 +55,28 @@ function App() {
 	} as React.CSSProperties;
 
 	return (
-		<div className="App" style={globalCssVars}>
+		<div style={globalCssVars}>
 			<ThemeProvider theme={theme}>
-				<CssBaseline />
-				<NotificationContainer />
-				<Suspense fallback={<Loader />}>
-					<HashRouter>
-						<Switch>
-							<Route exact path={AppRoutes.login.path}>
-								<Login setDarkMode={applyThemeMode} theme={darkMode} />
-							</Route>
-							<Route path={AppRoutes.dashboard.path}>
-								<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />
-							</Route>
-							<Route exact path={["/", "/*"]}>
-								<Redirect to={AppRoutes.dashboard.path} />
-							</Route>
-						</Switch>
-					</HashRouter>
-				</Suspense>
+				<MuiThemeProvider theme={theme}>
+					<CssBaseline />
+					<MuiCssBaseline />
+					<NotificationContainer />
+					<Suspense fallback={<Loader fullScreen={true} />}>
+						<HashRouter>
+							<Switch>
+								<Route exact path={AppRoutes.login.path}>
+									<Login setDarkMode={applyThemeMode} theme={darkMode} />
+								</Route>
+								<Route path={AppRoutes.dashboard.path}>
+									<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />
+								</Route>
+								<Route exact path={["/", "/*"]}>
+									<Redirect to={AppRoutes.dashboard.path} />
+								</Route>
+							</Switch>
+						</HashRouter>
+					</Suspense>
+				</MuiThemeProvider>
 			</ThemeProvider>
 		</div>
 	);

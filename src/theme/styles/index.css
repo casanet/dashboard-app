@@ -14,6 +14,11 @@ body {
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	/* Fix some addons integration taking pixels on RTL pages */
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
 }
 
 code {
@@ -24,4 +29,8 @@ code {
 input::-ms-reveal,
 input::-ms-clear {
 	display: none;
+}
+
+.link {
+	cursor: pointer;
 }

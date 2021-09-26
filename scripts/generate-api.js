@@ -9,7 +9,7 @@ import jszip from 'jszip';
 // #region Commons
 // Build API based on develop branch, unless it's build for main branch, then use main branch API.
 // const ENV_BRANCH = process.env.GITHUB_REF !== 'main' ? 'development' : 'master';
-const ENV_BRANCH = process.env.GITHUB_REF !== 'main' ? 'align-dashboard-v3' : 'master';
+const ENV_BRANCH = process.env.GITHUB_REF !== 'main' ? 'development' : 'master';
 const SELF_NAME = 'generate-api.js';
 const NODE_BUFFER = 'nodebuffer';
 
