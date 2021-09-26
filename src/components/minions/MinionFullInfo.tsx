@@ -23,6 +23,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Theme } from "@mui/material";
 import { MinionTimingsView } from "../timings/MinionTimingsView";
+import { V3Redirection } from "../V3Redirection";
 
 const DEFAULT_FONT_SIZE = 50;
 
@@ -143,10 +144,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<Typography>{t('global.advanced.settings')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-							</Typography>
+							<V3Redirection fontRatio={DEFAULT_FONT_SIZE * 0.3} v3Page={'/auth/minions'} />
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
@@ -158,10 +156,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<Typography>{t('dashboard.minions.minion.tech.info')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<Typography>
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-								malesuada lacus ex, sit amet blandit leo lobortis eget.
-							</Typography>
+							<V3Redirection fontRatio={DEFAULT_FONT_SIZE * 0.3} v3Page={'/auth/minions'} />
 						</AccordionDetails>
 					</Accordion>
 					{/* <Divider /> */}

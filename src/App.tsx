@@ -61,7 +61,7 @@ function App() {
 					<CssBaseline />
 					<MuiCssBaseline />
 					<NotificationContainer />
-					<Suspense fallback={<Loader />}>
+					<Suspense fallback={<Loader fullScreen={true} />}>
 						<HashRouter>
 							<Switch>
 								<Route exact path={AppRoutes.login.path}>

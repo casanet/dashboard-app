@@ -5,6 +5,7 @@ class EnvFacade {
 
 	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || process.env.REACT_APP_API_URL || '';
 	private _baseDashboardUri: string = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+	private _v3DashboardUri: string = process.env.REACT_APP_V3_URL || `/v3`;
 
 	public get apiServerUrl(): string {
 		return this._serverUrl;
@@ -27,6 +28,10 @@ class EnvFacade {
 
 	public get baseDashboardUri(): string {
 		return this._baseDashboardUri;
+	}
+
+	public get v3DashboardUri(): string {
+		return this._v3DashboardUri;
 	}
 
 	public get isTokenAllowed(): boolean {

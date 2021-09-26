@@ -10,6 +10,11 @@ $minionFullInfoDesktopWidth: 500px;
 	.minions-grid-area {
 		width: 100%;
 		min-width: calc(100% - #{$minionFullInfoDesktopWidth});
+
+		&.--hide-minion-grid {
+			display: none;
+		}
+
 		.minions-grid-container {
 			width: 100%;
 			height: 100%;

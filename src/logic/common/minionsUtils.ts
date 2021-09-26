@@ -35,9 +35,9 @@ export function msToHMS(timeMs?: number): HMS {
 		// To get seconds, remove the ms from the num and than get the first 60 - remove seconds fraction (the seconds in one minute only)
 		seconds: Math.floor(((timeMs / 100) / 10) % 60),
 		// To get minutes get the number of minutes in the ms - remove minutes fraction, and get the first 60 (the minutes in one hour)
-		minutes: Math.floor(timeMs * 0.00001667) % 60,
+		minutes: Math.floor(timeMs / 60000) % 60,
 		// Get the total number of hours in the ms - remove hours fraction
-		hours: Math.floor(timeMs * 2.8e-7),
+		hours: Math.floor(timeMs / 3600000),
 	};
 };
 

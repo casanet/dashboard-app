@@ -29,6 +29,7 @@ export function DailySunTriggerEdit(props: TimingEditProps) {
 	const [sunTrigger, setSunTrigger] = useState<SunTriggerOptions>(props.timingProperties?.dailySunTrigger?.sunTrigger || SunTriggerOptions.Sunrise);
 	const [days, setDays] = useState<DaysOptions[]>(props.timingProperties?.dailySunTrigger?.days || []);
 	const [durationMinutes, setDurationMinutes] = useState<number>(props.timingProperties?.dailySunTrigger?.durationMinutes || 0);
+	const [durationInputValue, setDurationInputValue] = useState<string>(`${durationMinutes}`);
 
 	function sendTimingProperties(durationMinutes: number, sunTrigger: SunTriggerOptions, days: DaysOptions[]) {
 		props.setTimingProperties({
@@ -87,12 +88,14 @@ export function DailySunTriggerEdit(props: TimingEditProps) {
 				id="outlined-number"
 				label={t('dashboard.timings.sun.trigger.minutes.duration.label')}
 				type="number"
-				value={durationMinutes}
+				value={durationInputValue}
 				InputLabelProps={{
 					shrink: true,
 				}}
 				onChange={(e) => {
-					const newDuration = parseInt(e.target.value, 10);
+					const rawValue = e.target.value;
+					setDurationInputValue(rawValue);
+					const newDuration = parseInt(rawValue, 10);
 					if (isNaN(newDuration)) {
 						return;
 					}

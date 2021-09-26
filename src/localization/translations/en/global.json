@@ -118,7 +118,10 @@
 	"dashboard.timings.update.timing" : "Update Timing",
 	"dashboard.timings.delete.timing.alert.title" : "Deleting Timing",
 	"dashboard.timings.delete.timing.alert.text" : "Are you sure you want to delete the timing? this action can't be undone",
-
+	"dashboard.timings.no.timings.set" : "No timings set",
+	"dashboard.v3.redirect.under.construction" : "UNDER CONSTRUCTION",
+	"dashboard.v3.redirect.under.construction.message" : "We are working hard to complete component as soon as possible.",
+	"dashboard.v3.redirect.under.construction.redirection.message" : "In the meanwhile please click <1>here</1> to be redirected to the legacy V3 dashboard.",
 
 	"json_last_comma?" : "is suck :("
 }

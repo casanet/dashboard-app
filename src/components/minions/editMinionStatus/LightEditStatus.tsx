@@ -42,6 +42,7 @@ const presentsMarks = [
 ];
 
 export function ColorLightEditStatus(props: TypeEditStatusProps) {
+	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const [color, setColor] = useColor("hex", "#000000");
 
 	const colorLight = props.minionStatus.colorLight;
@@ -89,7 +90,7 @@ export function ColorLightEditStatus(props: TypeEditStatusProps) {
 		>
 			{/* Commit changes only when the mouseup (or touch out in mobile), and *do not* commit while still clicking and selecting the color  */}
 			<div onMouseUp={() => commitColor()}>
-				<ColorPicker width={300} height={props.fontRatio * 2} color={color} onChange={(c) => changeColor(c as Color)} hideHSV hideHEX hideRGB dark />
+				<ColorPicker width={desktopMode ? 300 : 250} height={props.fontRatio * 2} color={color} onChange={(c) => changeColor(c as Color)} hideHSV hideHEX hideRGB dark />
 			</div>
 		</Grid>
 	</Fragment>;

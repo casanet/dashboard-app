@@ -118,7 +118,10 @@
 	"dashboard.timings.update.timing" : "עדכון תזמון",
 	"dashboard.timings.delete.timing.alert.title" : "מחיקת תזמון",
 	"dashboard.timings.delete.timing.alert.text" : "בטוח למחוק את התזמון? הפעולה אינה ברת שחזור",
-
+	"dashboard.timings.no.timings.set" : "לא הוגדרו תזמונים",
+	"dashboard.v3.redirect.under.construction" : "בבניה...",
+	"dashboard.v3.redirect.under.construction.message" : "אנו עובדים קשה בדי לממש את הרכיב כמה שיותר מהר.",
+	"dashboard.v3.redirect.under.construction.redirection.message" : "לבנתיים, בבקשה לחץ <1>כאן</1> להעברה לגרסה הקודמת של המערכת.",
 
 	"json_last_comma?" : "is suck :("
 }
