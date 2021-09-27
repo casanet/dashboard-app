@@ -35,7 +35,9 @@ class EnvFacade {
 	}
 
 	public get isTokenAllowed(): boolean {
-		return !!process.env.REACT_APP_LOCAL_DEV;
+		// For android app, since it's not same-origin the cookie not will be saved by web-kit for http requests
+		// Also, the risk for XSS thieves is very low, since it's not a browser, but app with web render 
+		return this.platform !== 'Browser' || !!process.env.REACT_APP_LOCAL_DEV;
 	}
 
 	public get platform(): Platform {
