@@ -7,11 +7,11 @@
 
 ![Screenshot](./assets/capture/desktop-capture.gif)
 <img src="./assets/capture/app1.jpg" alt="app1-dashboard"
-	title="lite-dashboard screenshot" width="290" height="600" />
+	title="lite-dashboard screenshot" width="280" height="600" />
 <img src="./assets/capture/app2.jpg" alt="app2-dashboard"
-	title="lite-dashboard screenshot" width="290" height="600" />
+	title="lite-dashboard screenshot" width="280" height="600" />
 <img src="./assets/capture/app3.jpg" alt="app3-dashboard"
-	title="lite-dashboard screenshot" width="290" height="600" />
+	title="lite-dashboard screenshot" width="280" height="600" />
 
 The dashboard design to fully support the following features:
 * Dark\light mode theme.
