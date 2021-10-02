@@ -1,4 +1,4 @@
-import { Grid, Paper, Slider, useMediaQuery, Theme, IconButton, Tooltip } from "@material-ui/core";
+import { Grid, Paper, Slider, useMediaQuery, Theme, IconButton } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ import { DashboardPageInjectProps } from "../Dashboard";
 import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
 import { NoContent } from "../../components/NoContent";
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
+import { ThemeTooltip } from "../../components/global/ThemeTooltip";
 
 // For mock only, generate "minions"
 // const minions: Minion[] = new Array(200).fill(0).map((o,i) => ({ minionId: i, name: `${i}`, isProperlyCommunicated: true, minionType: MinionTypes.Switch, minionStatus: { switch: { status: i % 2 == 0 ? SwitchOptions.On : SwitchOptions.Off } } } as unknown as Minion));
@@ -140,25 +141,25 @@ export default function Minions(props: DashboardPageInjectProps) {
 					alignItems="center"
 				>
 					<div>
-						<Tooltip className="resize-slider-icon-tip" title={<span>{t('dashboard.minions.decrease.card.ration')}</span>} enterDelay={100}>
+						<ThemeTooltip className="resize-slider-icon-tip" title={<span>{t('dashboard.minions.decrease.card.ration')}</span>} enterDelay={100}>
 							<IconButton
 								onClick={() => { sizeRatio > minRation && applyNewSizeRation(sizeRatio - GRID_CARDS_RATION_STEP); }}
 								color="inherit">
 								<Remove />
 							</IconButton>
-						</Tooltip>
+						</ThemeTooltip>
 					</div>
 					<div className={`resize-slider ${!desktopMode && '--mobile'}`}>
 						<Slider orientation={desktopMode ? 'horizontal' : 'vertical'} value={sizeRatio} onChange={handleRationScrollChange} min={minRation} max={maxRation} />
 					</div>
 					<div>
-						<Tooltip className="resize-slider-icon-tip" title={<span>{t('dashboard.minions.increase.card.ration')}</span>} enterDelay={100}>
+						<ThemeTooltip className="resize-slider-icon-tip" title={<span>{t('dashboard.minions.increase.card.ration')}</span>} enterDelay={100}>
 							<IconButton
 								onClick={() => { sizeRatio < maxRation && applyNewSizeRation(sizeRatio + GRID_CARDS_RATION_STEP); }}
 								color="inherit">
 								<AddIcon />
 							</IconButton>
-						</Tooltip>
+						</ThemeTooltip>
 					</div>
 				</Grid>
 			</div>

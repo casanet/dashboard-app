@@ -1,4 +1,4 @@
-import { Grid, IconButton, PaletteType, Tooltip } from "@material-ui/core";
+import { Grid, IconButton, PaletteType } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { livelinessFeed, livelinessFlag } from "../../services/settings.service";
@@ -8,6 +8,7 @@ import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
 import { RemoteConnectionStatus } from "../../infrastructure/generated/api";
 import { ThemeToggle } from "../ThemeToggle";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface ToolBarControlsProps {
 	theme: PaletteType;
@@ -53,20 +54,20 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 			alignItems="center"
 		>
 			<div>
-				<Tooltip title={<span>{t(remoteConnectionDisplayKey[remoteConnection])}</span>} enterDelay={100}>
+				<ThemeTooltip title={<span>{t(remoteConnectionDisplayKey[remoteConnection])}</span>} enterDelay={100}>
 					<IconButton
 						color="inherit">
 						{remoteConnection === RemoteConnectionStatus.ConnectionOK ? <CloudDoneIcon fontSize="small" /> : <CloudOffIcon fontSize="small" />}
 					</IconButton>
-				</Tooltip>
+				</ThemeTooltip>
 			</div>
 			<div>
-				<Tooltip title={<span>{t(`dashboard.toolbar.connection.${online ? 'on' : 'off'}`)}</span>} enterDelay={100}>
+				<ThemeTooltip title={<span>{t(`dashboard.toolbar.connection.${online ? 'on' : 'off'}`)}</span>} enterDelay={100}>
 					<IconButton
 						color="inherit">
 						{online ? <CheckCircleIcon fontSize="small" /> : <ErrorIcon fontSize="small" />}
 					</IconButton>
-				</Tooltip>
+				</ThemeTooltip>
 			</div>
 			<div>
 				<ThemeToggle theme={props.theme} setDarkMode={props.setDarkMode} />

@@ -1,4 +1,4 @@
-import { Grid, IconButton, Slider, Tooltip, Typography, useTheme } from "@material-ui/core";
+import { Grid, IconButton, Slider, Typography, useTheme } from "@material-ui/core";
 import { Fragment, useEffect, useState } from "react";
 import { getModeColor } from "../../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ import InvertColorsOffIcon from '@mui/icons-material/InvertColorsOff';
 import { ColorPicker, useColor, Color, toColor } from "react-color-palette";
 import "react-color-palette/lib/css/styles.css";
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 const presentsMarks = [
 	{
@@ -161,7 +162,7 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 
 			<div style={{ width: '80%', minWidth: 260,  marginTop: `-${props.smallFontRatio}px`, height: `${props.fontRatio * 1.2}px` }}>
 				<Stack spacing={2} direction="row" alignItems="center">
-					<Tooltip title={<span>{t('dashboard.minions.light.decrease.temperature')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.light.decrease.temperature')}</span>}>
 						<IconButton
 							disabled={disabled}
 							onClick={() => tempSlide > 1 && changeTemperature(tempSlide - 1)}
@@ -169,9 +170,9 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 							color="inherit">
 							<InvertColorsOffIcon />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 					<Slider disabled={disabled} marks={desktopMode ? presentsMarks : undefined} aria-label={t('dashboard.minions.light.slide.temperature')} min={1} max={100} style={{ color: getModeColor(props.isOn, theme) }} value={tempSlide} onChangeCommitted={onSliderChangeCommitted} onChange={handleSliderChange} />
-					<Tooltip title={<span>{t('dashboard.minions.light.increase.temperature')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.light.increase.temperature')}</span>}>
 						<IconButton
 							disabled={disabled}
 							onClick={() => tempSlide < 100 && changeTemperature(tempSlide + 1)}
@@ -179,7 +180,7 @@ export function TemperatureLightEditStatus(props: TypeEditStatusProps) {
 							color="inherit">
 							<InvertColorsIcon />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 				</Stack>
 			</div>
 		</Grid>
@@ -249,7 +250,7 @@ export function LightEditStatus(props: TypeEditStatusProps) {
 
 			<div style={{ width: '80%', minWidth: 260, marginTop: `-${props.smallFontRatio}px`, height: `${props.fontRatio * 1.2}px` }}>
 				<Stack spacing={2} direction="row" alignItems="center">
-					<Tooltip title={<span>{t('dashboard.minions.light.decrease.brightness')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.light.decrease.brightness')}</span>}>
 						<IconButton
 							disabled={disabled}
 							onClick={() => brightSlide > 1 && changeBrightness(brightSlide - 1)}
@@ -257,9 +258,9 @@ export function LightEditStatus(props: TypeEditStatusProps) {
 							color="inherit">
 							<BrightnessLowIcon />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 					<Slider disabled={disabled} marks={desktopMode ? presentsMarks : undefined} aria-label={t('dashboard.minions.light.slide.brightness')} min={1} max={100} style={{ color: getModeColor(props.isOn, theme) }} value={brightSlide} onChangeCommitted={onSliderChangeCommitted} onChange={handleSliderChange} />
-					<Tooltip title={<span>{t('dashboard.minions.light.increase.brightness')}</span>} >
+					<ThemeTooltip title={<span>{t('dashboard.minions.light.increase.brightness')}</span>} >
 						<IconButton
 							disabled={disabled}
 							onClick={() => brightSlide < 100 && changeBrightness(brightSlide + 1)}
@@ -267,7 +268,7 @@ export function LightEditStatus(props: TypeEditStatusProps) {
 							color="inherit">
 							<BrightnessHighIcon />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 				</Stack>
 			</div>
 		</Grid>
