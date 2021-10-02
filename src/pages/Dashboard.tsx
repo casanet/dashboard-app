@@ -24,7 +24,7 @@ import {
 import React from "react";
 import { Loader } from "../components/Loader";
 import { ProfileAvatar } from "../components/dashboard/ProfileAvatar";
-
+import SearchIcon from '@mui/icons-material/Search';
 import { AppRoutes, DashboardRoutes } from "../infrastructure/consts";
 import { ToolBarControls } from "../components/dashboard/ToolBarControls";
 import { sessionManager } from "../infrastructure/session-manager";
@@ -187,7 +187,7 @@ export default function Dashboard(props: DashboardProps) {
 								justifyContent="flex-start"
 								alignItems="center">
 								<IconButton edge="start" color="inherit" aria-label="menu">
-									<MenuIcon />
+									{dashboardPage?.supportedSearch ? <SearchIcon /> : <MenuIcon />}
 								</IconButton>
 								{dashboardPage?.supportedSearch && <InputBase
 									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [direction === 'ltr' ? 'left' : 'right']: '45px' }}

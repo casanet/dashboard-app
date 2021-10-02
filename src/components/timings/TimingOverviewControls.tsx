@@ -1,5 +1,4 @@
-import { Grid, IconButton, makeStyles, Theme, Tooltip, useTheme } from "@material-ui/core";
-import Switch from "@mui/material/Switch";
+import { Grid, IconButton, Tooltip, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next"
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
@@ -12,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Timing } from "../../infrastructure/generated/api";
 import { AlertDialog } from "../AlertDialog";
 import CloseIcon from '@material-ui/icons/Close';
+import { ThemeSwitch } from "../global/ThemeSwitch";
 
 interface TimingOverviewControlsProps {
 	timing: Timing;
@@ -20,15 +20,8 @@ interface TimingOverviewControlsProps {
 	editMode: boolean;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-	track: {
-		backgroundColor: `${theme.palette.grey[400]} !important`, // Used only for light mode, when the active is off, need to override the track color
-	},
-}));
-
 export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 	const { t } = useTranslation();
-	const classes = useStyles();
 	const theme = useTheme();
 	const [settingActive, setSettingActive] = useState<boolean>(false);
 	const [deleting, setDeleting] = useState<boolean>(false);
@@ -81,10 +74,7 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 		>
 			{/* The switch have fixed size, so just take the container with same dimensions */}
 			<div style={{ width: '58px', height: '38px' }}>
-				{!settingActive && <Switch disabled={settingActive || deleting} classes={{
-					// Override the track color in light and inactive mode only
-					track: theme.palette.type === 'light' && !props.timing.isActive ? classes.track : undefined
-				}} checked={props.timing.isActive} size="medium" onChange={() => changeTimingActive()} />}
+				{!settingActive && <ThemeSwitch disabled={settingActive || deleting} checked={props.timing.isActive} size="medium" onChange={() => changeTimingActive()} />}
 				{settingActive && <div style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio, marginTop: 10 }}>
 					<CircularProgress thickness={5} size={fontRatio} />
 				</div>

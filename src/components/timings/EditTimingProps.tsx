@@ -12,7 +12,7 @@ import clonedeep from 'lodash.clonedeep';
 import { SwitchEditStatus } from "../minions/editMinionStatus/SwitchEditStatus";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-interface CreateTimingProps {
+interface EditTimingPropsProps {
 	minion: Minion;
 	timing: Timing;
 	onDone: () => void;
@@ -21,7 +21,7 @@ interface CreateTimingProps {
 
 
 
-export function EditTimingProps(props: CreateTimingProps) {
+export function EditTimingProps(props: EditTimingPropsProps) {
 	const { t } = useTranslation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const [editing, setEditing] = useState<boolean>(false);

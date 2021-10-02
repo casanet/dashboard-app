@@ -27,3 +27,11 @@ export function isValidHttpUrl(string: string): boolean {
 
 	return url.protocol === "http:" || url.protocol === "https:";
 }
+
+/**
+ * Detect touch screens devices
+ * @returns True whenever the device is with touch screen
+ */
+export function isTouchScreenDevice() {
+	return 'ontouchstart' in window || navigator.maxTouchPoints;      
+};

@@ -10,12 +10,12 @@ import { handleServerRestError } from "../../services/notifications.service";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 
-interface MinionMinionEditableName {
+interface MinionMinionEditableNameProps {
 	minion: Minion;
 	fontRatio: number;
 }
 
-export function MinionEditableName(props: MinionMinionEditableName) {
+export function MinionEditableName(props: MinionMinionEditableNameProps) {
 	const { t } = useTranslation();
 	const [editNameMode, setEditNameMode] = useState<boolean>(false);
 	const [editingName, setEditingName] = useState<boolean>(false);

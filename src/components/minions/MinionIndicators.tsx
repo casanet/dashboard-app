@@ -1,11 +1,11 @@
-import { Grid, SvgIcon, Tooltip, useTheme } from "@material-ui/core";
+import { Grid, Tooltip, useTheme } from "@material-ui/core";
 import { CSSProperties, Fragment } from "react";
 import { CalibrationMode, Minion } from "../../infrastructure/generated/api";
 import { useTranslation } from "react-i18next";
 import LockIcon from '@mui/icons-material/Lock';
 import NetworkIssueIcon from '@mui/icons-material/SignalWifiStatusbarConnectedNoInternet4';
-import { ReactComponent as ShabbatIcon } from '../../theme/icons/shabbat.svg';
-import AdjustIcon from '@mui/icons-material/Adjust';
+import SyncIcon from '@mui/icons-material/Sync';
+import RotateRightIcon from '@mui/icons-material/RotateRight';
 
 interface MinionIndicatorsProps {
 	minion: Minion;
@@ -35,8 +35,8 @@ export function MinionIndicators(props: MinionIndicatorsProps) {
 				</Tooltip>
 			</Fragment>}
 			{syncOn && minion.calibration?.calibrationMode === CalibrationMode.AUTO && <Fragment>
-				<Tooltip title={<span>{t('dashboard.minions.calibration.tip', { minutes: minion.calibration?.calibrationCycleMinutes })}</span>} enterDelay={100}>
-					<AdjustIcon style={indicatorsStyle} />
+				<Tooltip title={<span>{t('dashboard.minions.sync.tip', { minutes: minion.calibration?.calibrationCycleMinutes })}</span>} enterDelay={100}>
+					<SyncIcon style={indicatorsStyle} />
 				</Tooltip>
 			</Fragment>}
 			{syncOn && (minion.calibration?.calibrationMode === CalibrationMode.LOCKON || minion.calibration?.calibrationMode === CalibrationMode.LOCKOFF) && <Fragment>
@@ -45,8 +45,8 @@ export function MinionIndicators(props: MinionIndicatorsProps) {
 				</Tooltip>
 			</Fragment>}
 			{syncOn && minion.calibration?.calibrationMode === CalibrationMode.SHABBAT && <Fragment>
-				<Tooltip title={<span>{t(`dashboard.minions.shabbat.mode.tip`, { minutes: minion.calibration?.calibrationCycleMinutes })}</span>} enterDelay={100}>
-					<SvgIcon component={ShabbatIcon} style={indicatorsStyle} viewBox="0 0 1600.000000 1600.000000" />
+				<Tooltip title={<span>{t(`dashboard.minions.rotating.mode.tip`, { minutes: minion.calibration?.calibrationCycleMinutes })}</span>} enterDelay={100}>
+					<RotateRightIcon style={indicatorsStyle} />
 				</Tooltip>
 			</Fragment>}
 		</Grid>
