@@ -1,4 +1,4 @@
-import { Grid, SvgIcon, Tooltip, useTheme } from "@material-ui/core";
+import { Grid, SvgIcon, useTheme } from "@material-ui/core";
 import { Fragment } from "react";
 import { getModeColor } from "../../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import { ReactComponent as FanHighIcon } from '../../../theme/icons/fanHigh.svg'
 import { ReactComponent as FanMedIcon } from '../../../theme/icons/fanMed.svg';
 import { ReactComponent as FanLowIcon } from '../../../theme/icons/fanLow.svg';
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 export function CleanerEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
@@ -31,24 +32,24 @@ export function CleanerEditStatus(props: TypeEditStatusProps) {
 
 	const fanOptions = [
 		<ToggleButton value={FanStrengthOptions.Auto} aria-label={t('dashboard.minions.cleaner.fan.auto')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.cleaner.fan.auto')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.cleaner.fan.auto')}</span>}>
 				<AutoIcon style={{ fontSize: props.fontRatio * 0.8 }} />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={FanStrengthOptions.Low} aria-label={t('dashboard.minions.cleaner.fan.low')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.cleaner.fan.low')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.cleaner.fan.low')}</span>}>
 				<SvgIcon style={{ fontSize: props.fontRatio * 0.8 }} component={FanLowIcon} viewBox="0 0 607.000000 607.000000" />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={FanStrengthOptions.Med} aria-label={t('dashboard.minions.cleaner.fan.med')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.cleaner.fan.med')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.cleaner.fan.med')}</span>}>
 				<SvgIcon style={{ fontSize: props.fontRatio * 0.8 }} component={FanMedIcon} viewBox="0 0 607.000000 607.000000" />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={FanStrengthOptions.High} aria-label={t('dashboard.minions.cleaner.fan.high')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.cleaner.fan.high')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.cleaner.fan.high')}</span>}>
 				<SvgIcon style={{ fontSize: props.fontRatio * 0.8 }} component={FanHighIcon} viewBox="0 0 607.000000 607.000000" />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>
 	];
 

@@ -100,7 +100,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 				justifyContent="center"
 				alignItems="center"
 			>
-				{minion.minionAutoTurnOffMS && <Typography style={{ fontSize: verySmallFontRatio, color: subTitleColor }}>
+				{!!minion.minionAutoTurnOffMS && <Typography style={{ fontSize: verySmallFontRatio, color: subTitleColor }}>
 					{t('dashboard.minions.auto.turn.off.info', autoOff)}
 				</Typography>}
 			</Grid>

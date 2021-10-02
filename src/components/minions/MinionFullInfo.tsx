@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Tooltip } from "@material-ui/core";
+import { Button, Grid, IconButton } from "@material-ui/core";
 import { Minion, MinionStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -23,7 +23,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Theme } from "@mui/material";
 import { MinionTimingsView } from "../timings/MinionTimingsView";
-import { V3Redirection } from "../V3Redirection";
+import { MinionTechInfo } from "./MinionTechInfo";
+import { MinionAdvancedSettings } from "./advancedSettings/MinionAdvancedSettings";
+import { MinionBottomControls } from "./MinionBottomControls";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 const DEFAULT_FONT_SIZE = 50;
 
@@ -88,17 +91,15 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						<MinionEditableName {...props} fontRatio={DEFAULT_FONT_SIZE} />
 					</div>
 					<div>
-						<Tooltip title={<span>{t('global.close')}</span>}>
+						<ThemeTooltip title={<span>{t('global.close')}</span>}>
 							<IconButton
 								onClick={() => { history.push(DashboardRoutes.minions.path); }}
 								color="inherit">
 								<CloseIcon style={{ fontSize: DEFAULT_FONT_SIZE * 0.70 }} />
 							</IconButton>
-						</Tooltip>
+						</ThemeTooltip>
 					</div>
 				</Grid>
-
-
 			</div>
 			{/* Minion status properties */}
 			<div className="minion-full-info-part">
@@ -114,17 +115,14 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 				</div>
 			</div>
 			<div className="minion-full-info-part">
-
+				{/* Only to take a place */}
 			</div>
-			{/* Footer: delete minion */}
 			<div className="minion-full-info-part">
+				<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
 				<div className="minion-advanced-option-container">
-					{/* <Divider /> */}
 					<Accordion>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel1a-content"
-							id="panel1a-header"
 						>
 							<Typography>{t('global.timings')}</Typography>
 						</AccordionSummary>
@@ -138,29 +136,23 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					<Accordion>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel2a-content"
-							id="panel2a-header"
 						>
 							<Typography>{t('global.advanced.settings')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<V3Redirection fontRatio={DEFAULT_FONT_SIZE * 0.3} v3Page={'/auth/minions'} />
+							<MinionAdvancedSettings key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon />}
-							aria-controls="panel3a-content"
-							id="panel3a-header"
 						>
 							<Typography>{t('dashboard.minions.minion.tech.info')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<V3Redirection fontRatio={DEFAULT_FONT_SIZE * 0.3} v3Page={'/auth/minions'} />
+							<MinionTechInfo fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
 						</AccordionDetails>
 					</Accordion>
-					{/* <Divider /> */}
-
 				</div>
 				<div className="minion-delete-container">
 					<AlertDialog
@@ -173,7 +165,6 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						onSubmit={() => { setOpenDeleteAlert(false); deleteMinion(); }}
 						submitColor={'error'}
 					/>
-
 					<Button disabled={deleting} variant="contained" style={{ width: '100%' }} onClick={() => setOpenDeleteAlert(true)}>
 						<Box sx={{ width: '100%' }}>
 							{t('dashboard.minions.delete.minion')}
@@ -183,5 +174,5 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 				</div>
 			</div>
 		</Grid>
-	</div>
+	</div>;
 }

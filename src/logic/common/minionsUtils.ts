@@ -12,7 +12,7 @@ export const mapMinionTypeToDisplay: { [key in MinionTypes]: string } = {
 	[MinionTypes.Roller]: 'dashboard.minions.roller',
 }
 
-interface HMS {
+export interface HMS {
 	hours: number;
 	minutes: number;
 	seconds: number;
@@ -39,6 +39,18 @@ export function msToHMS(timeMs?: number): HMS {
 		// Get the total number of hours in the ms - remove hours fraction
 		hours: Math.floor(timeMs / 3600000),
 	};
+};
+
+/**
+ * Get total ms in a @see HMS object
+ * @param hms The HMS object to calc from
+ * @returns The total MS
+ */
+export function HMStoMs(hms?: HMS): number {
+	if (!hms) {
+		return 0;
+	}
+	return (hms.hours * 3600000) + (hms.minutes * 60000) + (hms.seconds * 1000);
 };
 
 /**
@@ -111,8 +123,8 @@ export function defaultMinionStatus(minionType: MinionTypes): MinionStatus {
  * @param minionStatus The full minion status 
  * @returns True if the status is @see SwitchOptions.On
  */
-export function isOnMode(minionType: MinionTypes, minionStatus?: MinionStatus) : boolean {
-	if(!minionStatus) {
+export function isOnMode(minionType: MinionTypes, minionStatus?: MinionStatus): boolean {
+	if (!minionStatus) {
 		return false;
 	}
 	return minionStatus[minionType as unknown as keyof MinionStatus]?.status === SwitchOptions.On;

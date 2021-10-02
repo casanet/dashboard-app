@@ -1,4 +1,4 @@
-import { Grid, IconButton, SvgIcon, Tooltip, Typography, useTheme } from "@material-ui/core";
+import { Grid, IconButton, SvgIcon, Typography, useTheme } from "@material-ui/core";
 import { Fragment } from "react";
 import { getModeColor } from "../../../logic/common/themeUtils";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -16,6 +16,7 @@ import { ReactComponent as FanLowIcon } from '../../../theme/icons/fanLow.svg';
 import AutoIcon from '@mui/icons-material/HdrAuto';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 export function EditAirConditioning(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
@@ -53,24 +54,24 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 
 	const fanOptions = [
 		<ToggleButton value={FanStrengthOptions.Auto} aria-label={t('dashboard.minions.ac.fan.auto')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.ac.fan.auto')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.ac.fan.auto')}</span>}>
 				<AutoIcon />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={FanStrengthOptions.Low} aria-label={t('dashboard.minions.ac.fan.low')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.ac.fan.low')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.ac.fan.low')}</span>}>
 				<SvgIcon component={FanLowIcon} viewBox="0 0 607.000000 607.000000" />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={FanStrengthOptions.Med} aria-label={t('dashboard.minions.ac.fan.med')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.ac.fan.med')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.ac.fan.med')}</span>}>
 				<SvgIcon component={FanMedIcon} viewBox="0 0 607.000000 607.000000" />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={FanStrengthOptions.High} aria-label={t('dashboard.minions.ac.fan.high')} style={{ color: getModeColor(props.isOn, theme) }}>
-			<Tooltip title={<span>{t('dashboard.minions.ac.fan.high')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.minions.ac.fan.high')}</span>}>
 				<SvgIcon component={FanHighIcon} viewBox="0 0 607.000000 607.000000" />
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>
 	];
 
@@ -95,7 +96,7 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 						justifyContent="center"
 						alignItems="center"
 					>
-						<Tooltip title={<span>{t('dashboard.minions.ac.increase.temperature')}</span>}>
+						<ThemeTooltip title={<span>{t('dashboard.minions.ac.increase.temperature')}</span>}>
 							<IconButton
 								disabled={disabled || airConditioning?.temperature >= 30}
 								style={{ padding: 0 }}
@@ -103,8 +104,8 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 								color="inherit">
 								<ArrowDropUpIcon style={{ fontSize: props.fontRatio * 1.2, color: getModeColor(props.isOn, theme) }} />
 							</IconButton>
-						</Tooltip>
-						<Tooltip title={<span>{t('dashboard.minions.ac.decrease.temperature')}</span>}>
+						</ThemeTooltip>
+						<ThemeTooltip title={<span>{t('dashboard.minions.ac.decrease.temperature')}</span>}>
 							<IconButton
 								disabled={disabled || airConditioning?.temperature <= 16}
 								style={{ padding: 0 }} // Make the 'hill' around the button smaller 
@@ -112,7 +113,7 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 								color="inherit">
 								<ArrowDropDownIcon style={{ fontSize: props.fontRatio * 1.2, color: getModeColor(props.isOn, theme) }} />
 							</IconButton>
-						</Tooltip>
+						</ThemeTooltip>
 					</Grid>
 				</div>
 				<div style={{ marginTop: props.fontRatio * 0.2 }}>
@@ -134,14 +135,14 @@ export function EditAirConditioning(props: TypeEditStatusProps) {
 							onChange={(e, v) => { changeMode(v); }}
 						>
 							<ToggleButton value={ACModeOptions.Hot} aria-label={t('dashboard.minions.ac.mode.hot')} style={{ color: getModeColor(props.isOn, theme) }}>
-								<Tooltip title={<span>{t('dashboard.minions.ac.mode.hot')}</span>}>
+								<ThemeTooltip title={<span>{t('dashboard.minions.ac.mode.hot')}</span>}>
 									<WavesIcon style={{ transform: 'rotate(-90deg)' }} />
-								</Tooltip>
+								</ThemeTooltip>
 							</ToggleButton>
 							<ToggleButton value={ACModeOptions.Cold} aria-label={t('dashboard.minions.ac.mode.cold')} style={{ color: getModeColor(props.isOn, theme) }}>
-								<Tooltip title={<span>{t('dashboard.minions.ac.mode.cold')}</span>}>
+								<ThemeTooltip title={<span>{t('dashboard.minions.ac.mode.cold')}</span>}>
 									<AcUnitIcon />
-								</Tooltip>
+								</ThemeTooltip>
 							</ToggleButton>
 						</ToggleButtonGroup>
 					</Grid>

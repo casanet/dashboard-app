@@ -1,4 +1,4 @@
-import { Grid, Tooltip, useTheme } from "@material-ui/core";
+import { Grid, useTheme } from "@material-ui/core";
 import { Fragment } from "react";
 // import '../../theme/styles/components/minions/minionsStatusOverview.scss';
 import { getModeColor } from "../../../logic/common/themeUtils";
@@ -11,6 +11,7 @@ import { TypeEditStatusProps } from "./MinionEditStatus";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 export function RollerEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
@@ -44,14 +45,14 @@ export function RollerEditStatus(props: TypeEditStatusProps) {
 				onChange={(e, v) => { changeDirection(v); }}
 			>
 				<ToggleButton value={RollerDirection.Up} aria-label={t('dashboard.minions.roller.roll.up')} style={{ color: getModeColor(props.isOn, theme) }}>
-					<Tooltip title={<span>{t('dashboard.minions.roller.roll.up')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.roller.roll.up')}</span>}>
 						<ArrowCircleUpIcon style={{ fontSize: props.fontRatio }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 				<ToggleButton value={RollerDirection.Down} aria-label={t('dashboard.minions.roller.roll.down')} style={{ color: getModeColor(props.isOn, theme) }}>
-					<Tooltip title={<span>{t('dashboard.minions.roller.roll.down')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.roller.roll.down')}</span>}>
 						<ArrowCircleDownIcon style={{ fontSize: props.fontRatio }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 			</ToggleButtonGroup>
 		</Grid>

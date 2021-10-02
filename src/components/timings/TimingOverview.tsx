@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { DailySunTrigger, DailyTimeTrigger, DaysOptions, OnceTiming, SunTriggerOptions, TimeoutTiming, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Grid, Theme, Tooltip, useTheme } from "@material-ui/core";
+import { Grid, Theme, useTheme } from "@material-ui/core";
 import { getModeColor } from "../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
 import { Duration } from 'unitsnet-js';
@@ -14,6 +14,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import TimerOffIcon from '@mui/icons-material/TimerOff';
 import { msToHMS } from "../../logic/common/minionsUtils";
 import { TFunction } from "i18next";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface TimingOverviewProps {
 	timingType: TimingTypes;
@@ -26,39 +27,39 @@ interface TimingOverviewProps {
 export function daysOptions(t: TFunction, fontRatio: number, theme: Theme, disabled: boolean): JSX.Element[] {
 	return [
 		<ToggleButton value={DaysOptions.Sunday} aria-label={t('dashboard.timings.days.sunday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.sunday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.sunday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.sunday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={DaysOptions.Monday} aria-label={t('dashboard.timings.days.monday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.monday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.monday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.monday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={DaysOptions.Tuesday} aria-label={t('dashboard.timings.days.tuesday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.tuesday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.tuesday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.tuesday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={DaysOptions.Wednesday} aria-label={t('dashboard.timings.days.wednesday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.wednesday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.wednesday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.wednesday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={DaysOptions.Thursday} aria-label={t('dashboard.timings.days.thursday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.thursday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.thursday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.thursday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={DaysOptions.Friday} aria-label={t('dashboard.timings.days.friday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.friday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.friday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.friday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>,
 		<ToggleButton value={DaysOptions.Saturday} aria-label={t('dashboard.timings.days.saturday')} style={{ color: getModeColor(!disabled, theme) }}>
-			<Tooltip title={<span>{t('dashboard.timings.days.saturday')}</span>}>
+			<ThemeTooltip title={<span>{t('dashboard.timings.days.saturday')}</span>}>
 				<span style={{ fontSize: fontRatio }}>{t('dashboard.timings.days.short.saturday')}</span>
-			</Tooltip>
+			</ThemeTooltip>
 		</ToggleButton>
 	];
 }
@@ -80,7 +81,7 @@ export function DailySunTriggerOverview(props: TimingOverviewProps) {
 			alignItems="flex-start"
 		>
 			<div style={{ marginBottom: props.fontRatio * 0.2 }}>
-				<Tooltip title={<span>{t('dashboard.timings.sun.trigger.tip', {
+				<ThemeTooltip title={<span>{t('dashboard.timings.sun.trigger.tip', {
 					minutes: Math.abs(dailySunTrigger.durationMinutes),
 					relation: dailySunTrigger.durationMinutes <= 0 ? t('global.before') : t('global.after'),
 					event: dailySunTrigger.sunTrigger === SunTriggerOptions.Sunrise ? t('global.sunrise') : t('global.sunset')
@@ -94,7 +95,7 @@ export function DailySunTriggerOverview(props: TimingOverviewProps) {
 						<SubEventIcon style={{ fontSize: fontRatio, color: getModeColor(!disabled, theme) }} />
 						<span style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{dailySunTrigger.durationMinutes < 0 ? '-' : '+'}{Math.abs(dailySunTrigger.durationMinutes)} {t('global.minutes')}</span>
 					</Grid>
-				</Tooltip>
+				</ThemeTooltip>
 			</div>
 			<ToggleButtonGroup
 				disabled={true}

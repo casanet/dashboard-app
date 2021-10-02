@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton, TextField, Tooltip, Typography } from "@material-ui/core";
+import { CircularProgress, Grid, IconButton, TextField, Typography } from "@material-ui/core";
 import { Minion } from "../../infrastructure/generated/api";
 import { useTranslation } from "react-i18next";
 import CloseIcon from '@material-ui/icons/Close';
@@ -9,13 +9,14 @@ import { minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@material-ui/icons/Save';
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
-interface MinionMinionEditableName {
+interface MinionMinionEditableNameProps {
 	minion: Minion;
 	fontRatio: number;
 }
 
-export function MinionEditableName(props: MinionMinionEditableName) {
+export function MinionEditableName(props: MinionMinionEditableNameProps) {
 	const { t } = useTranslation();
 	const [editNameMode, setEditNameMode] = useState<boolean>(false);
 	const [editingName, setEditingName] = useState<boolean>(false);
@@ -66,31 +67,31 @@ export function MinionEditableName(props: MinionMinionEditableName) {
 				/>
 			</div>}
 			<div>
-				{!editNameMode && <Tooltip title={<span>{t('dashboard.minions.edit.name')}</span>} >
+				{!editNameMode && <ThemeTooltip title={<span>{t('dashboard.minions.edit.name')}</span>} >
 					<IconButton
 						style={{ padding: fontRatio * 0.1 }}
 						onClick={() => { setEditNameMode(true); setEditName(minion.name); }}
 						color="inherit">
 						<EditIcon style={{ fontSize: fontRatio * 0.3 }} />
 					</IconButton>
-				</Tooltip>}
+				</ThemeTooltip>}
 				{editingName && <CircularProgress size={fontRatio * 0.3} thickness={10} />}
-				{!editingName && editNameMode && <Tooltip title={<span>{t('dashboard.minions.save.name')}</span>} >
+				{!editingName && editNameMode && <ThemeTooltip title={<span>{t('dashboard.minions.save.name')}</span>} >
 					<IconButton
 						style={{ padding: fontRatio * 0.1, marginLeft: fontRatio * 0.3 }}
 						onClick={renameMinion}
 						color="inherit">
 						<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
 					</IconButton>
-				</Tooltip>}
-				{!editingName && editNameMode && <Tooltip title={<span>{t('global.cancel')}</span>} >
+				</ThemeTooltip>}
+				{!editingName && editNameMode && <ThemeTooltip title={<span>{t('global.cancel')}</span>} >
 					<IconButton
 						style={{ padding: fontRatio * 0.1 }}
 						onClick={() => { setEditNameMode(false); }}
 						color="inherit">
 						<CloseIcon style={{ fontSize: fontRatio * 0.3 }} />
 					</IconButton>
-				</Tooltip>}
+				</ThemeTooltip>}
 			</div>
 		</Grid>
 	</Fragment>

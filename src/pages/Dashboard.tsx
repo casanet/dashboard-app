@@ -1,7 +1,6 @@
-import { AppBar, Box, Grid, Tabs, Tab, IconButton, PaletteType, Toolbar, Tooltip, Typography, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
+import { AppBar, Box, Grid, Tabs, Tab, IconButton, PaletteType, Toolbar, Typography, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
 import '../theme/styles/dashboard.scss';
 import MenuIcon from '@material-ui/icons/Menu';
-
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import RouterIcon from '@material-ui/icons/Router';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -24,11 +23,12 @@ import {
 import React from "react";
 import { Loader } from "../components/Loader";
 import { ProfileAvatar } from "../components/dashboard/ProfileAvatar";
-
+import SearchIcon from '@mui/icons-material/Search';
 import { AppRoutes, DashboardRoutes } from "../infrastructure/consts";
 import { ToolBarControls } from "../components/dashboard/ToolBarControls";
 import { sessionManager } from "../infrastructure/session-manager";
 import InputBase from "@mui/material/InputBase";
+import { ThemeTooltip } from "../components/global/ThemeTooltip";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -187,7 +187,7 @@ export default function Dashboard(props: DashboardProps) {
 								justifyContent="flex-start"
 								alignItems="center">
 								<IconButton edge="start" color="inherit" aria-label="menu">
-									<MenuIcon />
+									{dashboardPage?.supportedSearch ? <SearchIcon /> : <MenuIcon />}
 								</IconButton>
 								{dashboardPage?.supportedSearch && <InputBase
 									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [direction === 'ltr' ? 'left' : 'right']: '45px' }}
@@ -214,13 +214,13 @@ export default function Dashboard(props: DashboardProps) {
 								alignItems="center"
 							>
 								<div>
-									<Tooltip title={<span>{t(`dashboard.toolbar.${collapseToolbar ? 'extend' : 'collapse'}.controls`)}</span>} enterDelay={100}>
+									<ThemeTooltip title={<span>{t(`dashboard.toolbar.${collapseToolbar ? 'extend' : 'collapse'}.controls`)}</span>} enterDelay={100}>
 										<IconButton
 											onClick={toggleCollapseToolbar}
 											color="inherit">
 											{!collapseToolbar ? <LeftArrowIcon fontSize="small" /> : <RightArrowIcon fontSize="small" />}
 										</IconButton>
-									</Tooltip>
+									</ThemeTooltip>
 								</div>
 								<div className={`dashboard-toolbar-icons-container ${collapseToolbar && '--collapse'}`}>
 									<ToolBarControls theme={props.theme} setDarkMode={props.setDarkMode} />

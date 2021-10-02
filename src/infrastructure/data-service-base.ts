@@ -16,6 +16,14 @@ export abstract class DataService<T> {
 	/** The child required to implement this function, to fetch the data from the API or any other resource */
 	abstract fetchData(): Promise<T>;
 
+	/** Get the date, if it's not fetched yet it will be fetch */
+	public async getData(): Promise<T> {
+		if (this.fetchFlag) {
+			return this.data;
+		}
+		return await this.forceFetchData();
+	}
+
 	/**
 	 * Force data hard refresh 
 	 * @returns THe new data

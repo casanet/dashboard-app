@@ -1,4 +1,4 @@
-import { IconButton, Tooltip, useTheme } from "@material-ui/core";
+import { IconButton, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { Minion, SwitchOptions } from "../../infrastructure/generated/api";
 import PowerSettingsNewRoundedIcon from '@material-ui/icons/PowerSettingsNewRounded';
@@ -11,6 +11,7 @@ import { minionsService } from "../../services/minions.service";
 import clonedeep from 'lodash.clonedeep';
 import { getModeColor } from "../../logic/common/themeUtils";
 import { defaultMinionStatus, isOnMode } from "../../logic/common/minionsUtils";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface MinionPowerToggleProps {
 	minion: Minion;
@@ -53,7 +54,7 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 		e.stopPropagation();
 	}}
 	>
-		<Tooltip title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} disableFocusListener >
+		<ThemeTooltip title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} disableFocusListener >
 			<IconButton
 				style={{ padding: fontRatio / 5 }}
 				disabled={loading}
@@ -69,6 +70,6 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 				{/* In case of all is OK, show the power icon */}
 				{(!loading) && <PowerSettingsNewRoundedIcon style={{ fontSize: fontRatio, color: powerIconColor }} />}
 			</IconButton>
-		</Tooltip>
+		</ThemeTooltip>
 	</div>
 }

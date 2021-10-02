@@ -1,5 +1,5 @@
 
-import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Tooltip, Select, MenuItem } from '@material-ui/core';
+import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Select, MenuItem } from '@material-ui/core';
 import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import { isValidHttpUrl } from '../infrastructure/utils';
 import { handleServerRestError } from '../services/notifications.service';
+import { ThemeTooltip } from '../components/global/ThemeTooltip';
 
 interface LocalServer {
 	displayName: string;
@@ -295,7 +296,7 @@ function LoginForm() {
 				}}
 				endAdornment={
 					<InputAdornment position="end">
-						<Tooltip title={<span>{t(`login.${serverUrlEditMode ? 'save' : 'edit'}.server.url`)}</span>} enterDelay={100}>
+						<ThemeTooltip title={<span>{t(`login.${serverUrlEditMode ? 'save' : 'edit'}.server.url`)}</span>} enterDelay={100}>
 							<IconButton
 								aria-label="toggle edit mode"
 								onClick={handleEditServerUrlToggle}
@@ -303,7 +304,7 @@ function LoginForm() {
 							>
 								{!serverUrlEditMode ? <EditIcon /> : <SaveIcon />}
 							</IconButton>
-						</Tooltip>
+						</ThemeTooltip>
 					</InputAdornment>
 				}
 			/>
