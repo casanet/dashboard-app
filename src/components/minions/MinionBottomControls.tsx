@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton, TextField, Tooltip, useTheme } from "@material-ui/core";
+import { CircularProgress, Grid, IconButton, TextField, useTheme } from "@material-ui/core";
 import { Minion } from "../../infrastructure/generated/api";
 import { useTranslation } from "react-i18next";
 import CloseIcon from '@material-ui/icons/Close';
@@ -12,6 +12,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { getModeColor } from "../../logic/common/themeUtils";
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface MinionBottomControlsProps {
 	minion: Minion;
@@ -99,28 +100,28 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 					</div>}
 					<div>
 						{editingRoomName && <CircularProgress size={fontRatio * 0.3} thickness={10} />}
-						{!editingRoomName && editRoomNameMode && <Tooltip title={<span>{t('global.save')}</span>} >
+						{!editingRoomName && editRoomNameMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 							<IconButton
 								style={{ padding: fontRatio * 0.1, marginLeft: fontRatio * 0.3 }}
 								onClick={renameRoom}
 								color="inherit">
 								<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
 							</IconButton>
-						</Tooltip>}
-						{!editingRoomName && editRoomNameMode && <Tooltip title={<span>{t('global.cancel')}</span>} >
+						</ThemeTooltip>}
+						{!editingRoomName && editRoomNameMode && <ThemeTooltip title={<span>{t('global.cancel')}</span>} >
 							<IconButton
 								style={{ padding: fontRatio * 0.1 }}
 								onClick={() => { setEditRoomNameMode(false);  }}
 								color="inherit">
 								<CloseIcon style={{ fontSize: fontRatio * 0.3 }} />
 							</IconButton>
-						</Tooltip>}
+						</ThemeTooltip>}
 					</div>
 				</Grid>}
 			</div>
 
 			<div>
-				<Tooltip title={<span>{t(`dashboard.minions.redo.status.tip`)}</span>} disableFocusListener >
+				<ThemeTooltip title={<span>{t(`dashboard.minions.redo.status.tip`)}</span>} disableFocusListener >
 					<IconButton
 						style={{ padding: fontRatio * 0.2 }}
 						disabled={redoingStatus}
@@ -132,8 +133,8 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 						{redoingStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
 						{!redoingStatus && <RepeatIcon style={{ fontSize: fontRatio * 0.7 }} />}
 					</IconButton>
-				</Tooltip>
-				<Tooltip title={<span>{t(`dashboard.minions.sync.status.tip`)}</span>} disableFocusListener >
+				</ThemeTooltip>
+				<ThemeTooltip title={<span>{t(`dashboard.minions.sync.status.tip`)}</span>} disableFocusListener >
 					<IconButton
 						style={{ padding: fontRatio * 0.2 }}
 						disabled={refreshStatus}
@@ -145,7 +146,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 						{refreshStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
 						{!refreshStatus && <RefreshIcon style={{ fontSize: fontRatio * 0.7 }} />}
 					</IconButton>
-				</Tooltip>
+				</ThemeTooltip>
 			</div>
 		</Grid>
 	</Fragment>

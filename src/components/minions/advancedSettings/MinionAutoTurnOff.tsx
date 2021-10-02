@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton, TextField, Theme, Tooltip, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
 import { Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
@@ -12,6 +12,7 @@ import { HMS, HMStoMs, msToHMS } from "../../../logic/common/minionsUtils";
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../../global/ThemeSwitch";
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 interface MinionAutoTurnOffProps {
 	fontRatio: number;
@@ -73,9 +74,9 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 						alignItems="center"
 					>
 						<Typography style={{ fontSize: fontRatio * 0.3 }} >{t('dashboard.minions.advanced.settings.auto.turn.off')}</Typography>
-						<Tooltip title={<span>{t('dashboard.minions.advanced.settings.auto.turn.off.tip')}</span>}>
+						<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.auto.turn.off.tip')}</span>}>
 							<InfoIcon style={{ fontSize: fontRatio * 0.3, marginTop: fontRatio * -0.2 }} />
-						</Tooltip>
+						</ThemeTooltip>
 					</Grid>
 				</div>
 				<div>
@@ -174,7 +175,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 							/>
 						</div>
 						<div>
-							{editMode && <Tooltip title={<span>{t('global.save')}</span>} >
+							{editMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 								<IconButton
 									disabled={saving}
 									style={{ padding: fontRatio * 0.1, [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.3 }}
@@ -182,8 +183,8 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 									color="inherit">
 									<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
 								</IconButton>
-							</Tooltip>}
-							{editMode && <Tooltip title={<span>{t('global.cancel')}</span>} >
+							</ThemeTooltip>}
+							{editMode && <ThemeTooltip title={<span>{t('global.cancel')}</span>} >
 								<IconButton
 									disabled={saving}
 									style={{ padding: fontRatio * 0.1 }}
@@ -191,7 +192,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 									color="inherit">
 									<CloseIcon style={{ fontSize: fontRatio * 0.3 }} />
 								</IconButton>
-							</Tooltip>}
+							</ThemeTooltip>}
 						</div>
 					</Grid>
 				</div>

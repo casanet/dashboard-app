@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, IconButton, TextField, Theme, Tooltip, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
 import { CalibrationMode, Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
@@ -16,6 +16,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import LockIcon from '@mui/icons-material/Lock';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 interface MinionSyncProps {
 	fontRatio: number;
@@ -92,9 +93,9 @@ export function MinionSync(props: MinionSyncProps) {
 								alignItems="center"
 							>
 								<Typography style={{ fontSize: fontRatio * 0.3 }} >{t('dashboard.minions.advanced.settings.sync.status')}</Typography>
-								<Tooltip title={<span>{t('dashboard.minions.advanced.settings.sync.status.tip')}</span>}>
+								<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.status.tip')}</span>}>
 									<InfoIcon style={{ fontSize: fontRatio * 0.3, marginTop: fontRatio * -0.2 }} />
-								</Tooltip>
+								</ThemeTooltip>
 							</Grid>
 						</div>
 						<div>
@@ -120,24 +121,24 @@ export function MinionSync(props: MinionSyncProps) {
 										exclusive
 									>
 										<ToggleButton value={CalibrationMode.AUTO} aria-label={t('dashboard.minions.advanced.settings.sync.auto.mode.tip')} style={{ color: getModeColor(!isOff, theme) }}>
-											<Tooltip title={<span>{t('dashboard.minions.advanced.settings.sync.auto.mode.tip')}</span>}>
+											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.auto.mode.tip')}</span>}>
 												<SyncIcon style={calibrationModeStyle} />
-											</Tooltip>
+											</ThemeTooltip>
 										</ToggleButton>
 										<ToggleButton value={CalibrationMode.LOCKON} aria-label={t('dashboard.minions.advanced.settings.sync.lock.on.tip')} style={{ color: getModeColor(!isOff, theme) }}>
-											<Tooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.on.tip')}</span>}>
+											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.on.tip')}</span>}>
 												<LockIcon style={calibrationModeStyle} />
-											</Tooltip>
+											</ThemeTooltip>
 										</ToggleButton>
 										<ToggleButton value={CalibrationMode.LOCKOFF} aria-label={t('dashboard.minions.advanced.settings.sync.lock.off.tip')} style={{ color: getModeColor(!isOff, theme) }}>
-											<Tooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.off.tip')}</span>}>
+											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.off.tip')}</span>}>
 												<LockOutlinedIcon style={calibrationModeStyle} />
-											</Tooltip>
+											</ThemeTooltip>
 										</ToggleButton>
 										<ToggleButton value={CalibrationMode.SHABBAT} aria-label={t('dashboard.minions.advanced.settings.sync.shabbat.tip')} style={{ color: getModeColor(!isOff, theme) }}>
-											<Tooltip title={<span>{t('dashboard.minions.advanced.settings.sync.rotation.tip')}</span>}>
+											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.rotation.tip')}</span>}>
 												<RotateRightIcon style={calibrationModeStyle} />
-											</Tooltip>
+											</ThemeTooltip>
 										</ToggleButton>
 									</ToggleButtonGroup>
 								</div>
@@ -182,7 +183,7 @@ export function MinionSync(props: MinionSyncProps) {
 					</Grid>
 				</div>
 				<div>
-					{editMode && <Tooltip title={<span>{t('global.save')}</span>} >
+					{editMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 						<IconButton
 							disabled={saving}
 							style={{ padding: fontRatio * 0.1, [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.3 }}
@@ -190,8 +191,8 @@ export function MinionSync(props: MinionSyncProps) {
 							color="inherit">
 							<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
 						</IconButton>
-					</Tooltip>}
-					{editMode && <Tooltip title={<span>{t('global.cancel')}</span>} >
+					</ThemeTooltip>}
+					{editMode && <ThemeTooltip title={<span>{t('global.cancel')}</span>} >
 						<IconButton
 							disabled={saving}
 							style={{ padding: fontRatio * 0.1 }}
@@ -199,7 +200,7 @@ export function MinionSync(props: MinionSyncProps) {
 							color="inherit">
 							<CloseIcon style={{ fontSize: fontRatio * 0.3 }} />
 						</IconButton>
-					</Tooltip>}
+					</ThemeTooltip>}
 				</div>
 			</Grid>
 		</div >

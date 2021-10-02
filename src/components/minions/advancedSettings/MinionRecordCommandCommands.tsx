@@ -1,4 +1,4 @@
-import { Grid, IconButton, Theme, Tooltip, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import { Grid, IconButton, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
 import { Minion, MinionStatus, MinionTypes } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
@@ -13,6 +13,7 @@ import SettingsRemoteIcon from '@mui/icons-material/SettingsRemote';
 import { SwitchEditStatus } from "../editMinionStatus/SwitchEditStatus";
 import { MinionEditStatus } from "../editMinionStatus/MinionEditStatus";
 import MoneyIcon from '@mui/icons-material/Money';
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 interface MinionRecordCommandCommandsProps {
 	fontRatio: number;
@@ -83,9 +84,9 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 					alignItems="center"
 				>
 					<Typography style={{ fontSize: fontRatio * 0.3 }} >{t('dashboard.minions.advanced.settings.record.commands.title')}</Typography>
-					<Tooltip title={<span>{t('dashboard.minions.advanced.settings.record.commands.tip')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.record.commands.tip')}</span>}>
 						<InfoIcon style={{ fontSize: fontRatio * 0.3, marginTop: fontRatio * -0.2 }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</Grid>
 			</div>
 			<div>
@@ -95,7 +96,7 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 					justifyContent="center"
 					alignItems="center"
 				>
-					<Tooltip title={<span>{t(`dashboard.minions.advanced.settings.record.command`)}</span>} disableFocusListener >
+					<ThemeTooltip title={<span>{t(`dashboard.minions.advanced.settings.record.command`)}</span>} disableFocusListener >
 						<IconButton
 							disabled={disableActions || generatingSuccess}
 							onClick={generateCommand}
@@ -106,8 +107,8 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 							{!generatingSuccess && generating && <MoreHorizIcon style={{ fontSize: fontRatio * 0.6, color: getModeColor(false, theme) }} />}
 							{(!generatingSuccess && !generating) && <MoneyIcon style={{ fontSize: fontRatio * 0.6 }} />}
 						</IconButton>
-					</Tooltip>
-					<Tooltip title={<span>{t(`dashboard.minions.advanced.settings.generate.command`)}</span>} disableFocusListener >
+					</ThemeTooltip>
+					<ThemeTooltip title={<span>{t(`dashboard.minions.advanced.settings.generate.command`)}</span>} disableFocusListener >
 						<IconButton
 							disabled={disableActions || recordingSuccess}
 							onClick={recordCommand}
@@ -118,7 +119,7 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 							{!recordingSuccess && recording && <MoreHorizIcon style={{ fontSize: fontRatio * 0.6, color: getModeColor(false, theme) }} />}
 							{!recordingSuccess && (!recording) && <SettingsRemoteIcon style={{ fontSize: fontRatio * 0.6 }} />}
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 				</Grid>
 			</div>
 		</Grid>

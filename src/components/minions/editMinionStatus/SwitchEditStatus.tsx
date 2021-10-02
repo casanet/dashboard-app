@@ -1,4 +1,4 @@
-import { Grid, IconButton, Tooltip } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { MinionStatus, SwitchOptions } from "../../../infrastructure/generated/api";
@@ -6,6 +6,7 @@ import clonedeep from 'lodash.clonedeep';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import { SwitchMode } from "../overviewMinionsStatus/SwitchMode";
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
+import { ThemeTooltip } from "../../global/ThemeTooltip";
 
 
 export function SwitchEditStatus(props: TypeEditStatusProps) {
@@ -30,14 +31,14 @@ export function SwitchEditStatus(props: TypeEditStatusProps) {
 			alignItems="center"
 		>
 			<div style={{ marginTop: `${props.smallFontRatio}px` }}>
-				<Tooltip title={<span>{t('dashboard.minions.switch.press.to.toggle')}</span>}>
+				<ThemeTooltip title={<span>{t('dashboard.minions.switch.press.to.toggle')}</span>}>
 					<IconButton
 						disabled={disabled}
 						onClick={() => { changeStatus(); }}
 						color="inherit">
 						<SwitchMode mode={toggle?.status || SwitchOptions.Off} fontRatio={props.fontRatio * 2.3} isOn={props.isOn} />
 					</IconButton>
-				</Tooltip>
+				</ThemeTooltip>
 			</div>
 		</Grid>
 	</Fragment>;

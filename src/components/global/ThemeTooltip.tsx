@@ -3,7 +3,7 @@ import { useState } from "react";
 import { isTouchScreenDevice } from "../../infrastructure/utils";
 
 /**
- * MUI Tooltip with adaption to the move away once focus leaved.
+ * MUI Tooltip with adaption to the move away once focuses left.
  * See https://stackoverflow.com/questions/60751964/react-material-uihow-to-disable-tooltip-after-click-it
  */
 export function ThemeTooltip(props: TooltipProps) {
@@ -17,7 +17,8 @@ export function ThemeTooltip(props: TooltipProps) {
 		onMouseEnter={() => setOpen(true)}
 		onMouseLeave={() => setOpen(false)}
 	>
-		{/* Set Tooltip to be fully controlled, and disable internal listeners */}
+		{/* Show the original MUI Tooltip with all props. */}
+		{/* Just override the open attribute to be fully managed, and disable internal listeners */}
 		<Tooltip {...props} open={open} disableHoverListener disableFocusListener />
 	</span>;
 }

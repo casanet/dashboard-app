@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Grid, Tooltip, useTheme } from "@material-ui/core";
+import { Grid, useTheme } from "@material-ui/core";
 import { getModeColor } from "../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
 import ModeNightIcon from '@mui/icons-material/ModeNight';
@@ -14,6 +14,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import frLocale from 'date-fns/locale/fr';
 import DateTimePicker from "@mui/lab/DateTimePicker";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface TimingEditProps {
 	timingType: TimingTypes;
@@ -69,14 +70,14 @@ export function DailySunTriggerEdit(props: TimingEditProps) {
 				exclusive
 			>
 				<ToggleButton value={SunTriggerOptions.Sunrise} aria-label={t('global.sunrise')} style={{ color: getModeColor(true, theme) }}>
-					<Tooltip title={<span>{t('global.sunrise')}</span>}>
+					<ThemeTooltip title={<span>{t('global.sunrise')}</span>}>
 						<WbTwilightIcon />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 				<ToggleButton value={SunTriggerOptions.Sunset} aria-label={t('global.sunset')} style={{ color: getModeColor(true, theme) }}>
-					<Tooltip title={<span>{t('global.sunset')}</span>}>
+					<ThemeTooltip title={<span>{t('global.sunset')}</span>}>
 						<ModeNightIcon />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 			</ToggleButtonGroup>
 			{/* Put some distance between */}

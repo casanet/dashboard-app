@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, Tooltip } from "@material-ui/core";
+import { Button, Grid, IconButton } from "@material-ui/core";
 import { Minion, MinionStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -26,6 +26,7 @@ import { MinionTimingsView } from "../timings/MinionTimingsView";
 import { MinionTechInfo } from "./MinionTechInfo";
 import { MinionAdvancedSettings } from "./advancedSettings/MinionAdvancedSettings";
 import { MinionBottomControls } from "./MinionBottomControls";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 const DEFAULT_FONT_SIZE = 50;
 
@@ -90,13 +91,13 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						<MinionEditableName {...props} fontRatio={DEFAULT_FONT_SIZE} />
 					</div>
 					<div>
-						<Tooltip title={<span>{t('global.close')}</span>}>
+						<ThemeTooltip title={<span>{t('global.close')}</span>}>
 							<IconButton
 								onClick={() => { history.push(DashboardRoutes.minions.path); }}
 								color="inherit">
 								<CloseIcon style={{ fontSize: DEFAULT_FONT_SIZE * 0.70 }} />
 							</IconButton>
-						</Tooltip>
+						</ThemeTooltip>
 					</div>
 				</Grid>
 			</div>

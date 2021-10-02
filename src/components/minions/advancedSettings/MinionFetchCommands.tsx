@@ -1,4 +1,4 @@
-import { FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Tooltip, Typography, useTheme } from "@material-ui/core";
+import { FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
 import { CommandsRepoDevice, Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
@@ -88,9 +88,9 @@ export function MinionFetchCommands(props: MinionFetchCommandsProps) {
 					alignItems="center"
 				>
 					<Typography style={{ fontSize: fontRatio * 0.3 }} >{t('dashboard.minions.advanced.settings.fetch.commands.set')}</Typography>
-					<Tooltip title={<span>{t('dashboard.minions.advanced.settings.fetch.commands.set.tip')}</span>}>
+					<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.fetch.commands.set.tip')}</span>}>
 						<InfoIcon style={{ fontSize: fontRatio * 0.3, marginTop: fontRatio * -0.2 }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</Grid>
 			</div>
 

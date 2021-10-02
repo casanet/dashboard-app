@@ -1,4 +1,4 @@
-import { Button, Grid, Theme, Tooltip, useMediaQuery, useTheme } from "@material-ui/core";
+import { Button, Grid, Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Minion, MinionStatus, MinionTypes, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
@@ -17,6 +17,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface CreateTimingProps {
 	minion: Minion;
@@ -88,24 +89,24 @@ export function CreateTiming(props: CreateTimingProps) {
 				}}
 			>
 				<ToggleButton value={TimingTypes.DailyTimeTrigger} aria-label={t(mapTimingsTypeToDisplay[TimingTypes.DailyTimeTrigger])} style={{ color: getModeColor(true, theme) }}>
-					<Tooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.DailyTimeTrigger])}</span>}>
+					<ThemeTooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.DailyTimeTrigger])}</span>}>
 						<DateRangeIcon style={{ fontSize: props.fontRatio * 1.4 }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 				<ToggleButton value={TimingTypes.DailySunTrigger} aria-label={t(mapTimingsTypeToDisplay[TimingTypes.DailySunTrigger])} style={{ color: getModeColor(true, theme) }}>
-					<Tooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.DailySunTrigger])}</span>}>
+					<ThemeTooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.DailySunTrigger])}</span>}>
 						<Brightness4Icon style={{ fontSize: props.fontRatio * 1.4 }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 				<ToggleButton value={TimingTypes.Once} aria-label={t(mapTimingsTypeToDisplay[TimingTypes.Once])} style={{ color: getModeColor(true, theme) }}>
-					<Tooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.Once])}</span>}>
+					<ThemeTooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.Once])}</span>}>
 						<AlarmIcon style={{ fontSize: props.fontRatio * 1.4 }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 				<ToggleButton value={TimingTypes.Timeout} aria-label={t(mapTimingsTypeToDisplay[TimingTypes.Timeout])} style={{ color: getModeColor(true, theme) }}>
-					<Tooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.Timeout])}</span>}>
+					<ThemeTooltip title={<span>{t(mapTimingsTypeToDisplay[TimingTypes.Timeout])}</span>}>
 						<TimerIcon style={{ fontSize: props.fontRatio * 1.4 }} />
-					</Tooltip>
+					</ThemeTooltip>
 				</ToggleButton>
 			</ToggleButtonGroup>
 		</Grid>

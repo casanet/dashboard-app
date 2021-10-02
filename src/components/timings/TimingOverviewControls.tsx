@@ -1,4 +1,4 @@
-import { Grid, IconButton, Tooltip, useTheme } from "@material-ui/core";
+import { Grid, IconButton, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next"
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
@@ -12,6 +12,7 @@ import { Timing } from "../../infrastructure/generated/api";
 import { AlertDialog } from "../AlertDialog";
 import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../global/ThemeSwitch";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface TimingOverviewControlsProps {
 	timing: Timing;
@@ -88,34 +89,34 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 				alignItems="center"
 			>
 				{!editMode && !deleting && <div>
-					<Tooltip title={<span>{t('global.edit')}</span>} >
+					<ThemeTooltip title={<span>{t('global.edit')}</span>} >
 						<IconButton
 							style={{ padding: fontRatio * 0.1 }}
 							onClick={() => { props.setEditMode(true); }}
 							color="inherit">
 							<EditIcon style={{ fontSize: fontRatio * 0.9 }} />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 				</div>}
 				{editMode && <div>
-					<Tooltip title={<span>{t('global.close')}</span>} >
+					<ThemeTooltip title={<span>{t('global.close')}</span>} >
 						<IconButton
 							style={{ padding: fontRatio * 0.1 }}
 							onClick={() => { props.setEditMode(false); }}
 							color="inherit">
 							<CloseIcon style={{ fontSize: fontRatio * 0.9 }} />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 				</div>}
 				{!deleting && <div>
-					<Tooltip title={<span>{t('dashboard.timings.delete.timing')}</span>} >
+					<ThemeTooltip title={<span>{t('dashboard.timings.delete.timing')}</span>} >
 						<IconButton
 							style={{ padding: fontRatio * 0.1 }}
 							onClick={() => { setOpenDeleteModel(true); }}
 							color="inherit">
 							<DeleteIcon style={{ fontSize: fontRatio * 0.9 }} />
 						</IconButton>
-					</Tooltip>
+					</ThemeTooltip>
 				</div>}
 				{deleting && <div>
 					<CircularProgress thickness={5} size={fontRatio * 0.7} />
