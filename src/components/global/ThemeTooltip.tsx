@@ -13,12 +13,12 @@ export function ThemeTooltip(props: TooltipProps) {
 	if (isTouchScreenDevice()) {
 		return <Tooltip {...props} />;
 	}
-	return <span
+	return <div style={{ display: 'flex' }}
 		onMouseEnter={() => setOpen(true)}
 		onMouseLeave={() => setOpen(false)}
 	>
 		{/* Show the original MUI Tooltip with all props. */}
 		{/* Just override the open attribute to be fully managed, and disable internal listeners */}
 		<Tooltip {...props} open={open} disableHoverListener disableFocusListener />
-	</span>;
+	</div>;
 }
