@@ -111,7 +111,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 						{!editingRoomName && editRoomNameMode && <ThemeTooltip title={<span>{t('global.cancel')}</span>} >
 							<IconButton
 								style={{ padding: fontRatio * 0.1 }}
-								onClick={() => { setEditRoomNameMode(false);  }}
+								onClick={() => { setEditRoomNameMode(false); }}
 								color="inherit">
 								<CloseIcon style={{ fontSize: fontRatio * 0.3 }} />
 							</IconButton>
@@ -121,32 +121,39 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 			</div>
 
 			<div>
-				<ThemeTooltip title={<span>{t(`dashboard.minions.redo.status.tip`)}</span>} disableFocusListener >
-					<IconButton
-						style={{ padding: fontRatio * 0.2 }}
-						disabled={redoingStatus}
-						aria-label={t(`dashboard.minions.redo.status.tip`)}
-						onClick={redoMinionStatus}
-						color="inherit"
-					>
-						{/* In case of loading, show loader icon */}
-						{redoingStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
-						{!redoingStatus && <RepeatIcon style={{ fontSize: fontRatio * 0.7 }} />}
-					</IconButton>
-				</ThemeTooltip>
-				<ThemeTooltip title={<span>{t(`dashboard.minions.sync.status.tip`)}</span>} disableFocusListener >
-					<IconButton
-						style={{ padding: fontRatio * 0.2 }}
-						disabled={refreshStatus}
-						aria-label={t(`dashboard.minions.sync.status.tip`)}
-						onClick={refreshMinionStatus}
-						color="inherit"
-					>
-						{/* In case of loading, show loader icon */}
-						{refreshStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
-						{!refreshStatus && <RefreshIcon style={{ fontSize: fontRatio * 0.7 }} />}
-					</IconButton>
-				</ThemeTooltip>
+				<Grid
+					container
+					direction="row"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<ThemeTooltip title={<span>{t(`dashboard.minions.redo.status.tip`)}</span>} disableFocusListener >
+						<IconButton
+							style={{ padding: fontRatio * 0.2 }}
+							disabled={redoingStatus}
+							aria-label={t(`dashboard.minions.redo.status.tip`)}
+							onClick={redoMinionStatus}
+							color="inherit"
+						>
+							{/* In case of loading, show loader icon */}
+							{redoingStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
+							{!redoingStatus && <RepeatIcon style={{ fontSize: fontRatio * 0.7 }} />}
+						</IconButton>
+					</ThemeTooltip>
+					<ThemeTooltip title={<span>{t(`dashboard.minions.sync.status.tip`)}</span>} disableFocusListener >
+						<IconButton
+							style={{ padding: fontRatio * 0.2 }}
+							disabled={refreshStatus}
+							aria-label={t(`dashboard.minions.sync.status.tip`)}
+							onClick={refreshMinionStatus}
+							color="inherit"
+						>
+							{/* In case of loading, show loader icon */}
+							{refreshStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
+							{!refreshStatus && <RefreshIcon style={{ fontSize: fontRatio * 0.7 }} />}
+						</IconButton>
+					</ThemeTooltip>
+				</Grid>
 			</div>
 		</Grid>
 	</Fragment>
