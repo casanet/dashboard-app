@@ -33,7 +33,7 @@
 	"1422": "wrong schema",
 	"2422": "wrong schema, with wrong message",
 	"1500": "unknown error",
-	"1501": "internal error",
+	"1501": "internal server error",
 	"2501": "MFA configuration not set correctly",
 	"3501": "Fail to send MFA mail message, internal error.",
 	"4501": "There is no connection to local server.",

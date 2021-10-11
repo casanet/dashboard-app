@@ -2,7 +2,7 @@ import { Button, Grid, IconButton } from "@material-ui/core";
 import { Minion, MinionStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { DashboardRoutes } from "../../infrastructure/consts";
+import { DashboardRoutes, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
 import CloseIcon from '@material-ui/icons/Close';
 import '../../theme/styles/components/minions/minionFullInfo.scss';
@@ -28,7 +28,7 @@ import { MinionAdvancedSettings } from "./advancedSettings/MinionAdvancedSetting
 import { MinionBottomControls } from "./MinionBottomControls";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 
-const DEFAULT_FONT_SIZE = 50;
+const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 
 interface MinionFullInfoProps {
 	minion: Minion;

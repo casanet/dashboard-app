@@ -13,6 +13,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../../global/ThemeSwitch";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { marginLeft } from "../../../logic/common/themeUtils";
 
 interface MinionAutoTurnOffProps {
 	fontRatio: number;
@@ -86,7 +87,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 						justifyContent="flex-start"
 						alignItems="center"
 					>
-						<div style={{ marginTop: props.fontRatio * 0.25, [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: desktopMode ? props.fontRatio * 0.5 : 0 }}>
+						<div style={{ marginTop: props.fontRatio * 0.25, [marginLeft(theme)]: desktopMode ? props.fontRatio * 0.5 : 0 }}>
 							<TextField
 								disabled={saving || isOff}
 								style={{ width: props.fontRatio }}
@@ -178,7 +179,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 							{editMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 								<IconButton
 									disabled={saving}
-									style={{ padding: fontRatio * 0.1, [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.3 }}
+									style={{ padding: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.3 }}
 									onClick={applyTurnOffChanges}
 									color="inherit">
 									<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
@@ -208,7 +209,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 				onChange={() => { setAutoTurnOff(Duration.FromMinutes(!isOff ? 0 : 1)) }} />}
 			{saving && <div
 				style={{
-					[theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.3,
+					[marginLeft(theme)]: fontRatio * 0.3,
 					marginTop: 8
 				}}
 			>

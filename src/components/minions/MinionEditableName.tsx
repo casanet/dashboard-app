@@ -50,7 +50,7 @@ export function MinionEditableName(props: MinionMinionEditableNameProps) {
 			justifyContent="center"
 			alignItems="center"
 		>
-			{!editNameMode && <div style={{ maxWidth: `calc(100% - ${fontRatio / 2}px)` }}>
+			{!editNameMode && <div style={{ maxWidth: `calc(100% - ${fontRatio * 0.5}px)` }}>
 				<Typography className="minion-name" style={{ fontSize: fontRatio * 0.7 }}>{minion.name}</Typography>
 			</div>}
 			{editNameMode && <div style={{ width: `calc(100% - ${fontRatio * 1.6}px)` }}>
@@ -78,7 +78,7 @@ export function MinionEditableName(props: MinionMinionEditableNameProps) {
 				{editingName && <CircularProgress size={fontRatio * 0.3} thickness={10} />}
 				{!editingName && editNameMode && <ThemeTooltip title={<span>{t('dashboard.minions.save.name')}</span>} >
 					<IconButton
-						style={{ padding: fontRatio * 0.1, marginLeft: fontRatio * 0.3 }}
+						style={{ padding: fontRatio * 0.1 }}
 						onClick={renameMinion}
 						color="inherit">
 						<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />

@@ -2,7 +2,7 @@ import { DeviceKind } from "../infrastructure/generated/api";
 import { ApiFacade } from "../infrastructure/generated/proxies/api-proxies";
 import { DataService } from "../infrastructure/data-service-base";
 
-class DevicesKindsService extends DataService<DeviceKind[]> {
+class MinionsKindsService extends DataService<DeviceKind[]> {
 
 	fetchData(): Promise<DeviceKind[]> {
 		// Get the fetch data function (without activating it yet)
@@ -10,4 +10,4 @@ class DevicesKindsService extends DataService<DeviceKind[]> {
 	}
 }
 
-export const devicesKindsService = new DevicesKindsService();
+export const minionsKindsService = new MinionsKindsService();
