@@ -1,7 +1,7 @@
 import { Divider, Grid } from "@material-ui/core";
 import { Minion } from "../../../infrastructure/generated/api";
 import { useEffect, useState } from "react";
-import { devicesKindsService } from "../../../services/minions.kinds.service";
+import { minionsKindsService } from "../../../services/minions.kinds.service";
 import { MinionAutoTurnOff } from "./MinionAutoTurnOff";
 import { MinionSync } from "./MinionSync";
 import { MinionFetchCommands } from "./MinionFetchCommands";
@@ -20,7 +20,7 @@ export function MinionAdvancedSettings(props: MinionAdvancedSettingsProps) {
 	useEffect(() => {
 		(async () => {
 			try {
-				const devicesKind = await devicesKindsService.getData();
+				const devicesKind = await minionsKindsService.getData();
 				const device = devicesKind.find(d => d.brand === minion.device.brand && d.model === minion.device.model);
 				setIsFetchCommandsAvailable(device?.isFetchCommandsAvailable);
 				setIsRecordingSupported(device?.isRecordingSupported)

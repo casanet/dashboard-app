@@ -9,8 +9,17 @@ export const LIVELINESS_ACK_INTERVAL = Duration.FromSeconds(15);
 
 export const DEFAULT_ERROR_TOAST_DURATION = Duration.FromSeconds(6);
 
+/** THe default time duration for success icon in a button */
+export const DEFAULT_SUCCEED_ICON_SHOWN = Duration.FromSeconds(2.5);
+
 /** Grid cards ration step */
 export const GRID_CARDS_RATION_STEP = 0.2;
+
+/** THe default font size */
+export const DEFAULT_FONT_RATION = 20;
+
+/** The default minions page side view font size */
+export const SIDE_CONTAINER_DEFAULT_FONT_SIZE = 50;
 
 /** The name of the authentication header  */
 export const API_KEY_HEADER = 'authentication';
@@ -42,7 +51,9 @@ export const DashboardRoutes = {
 	},
 }
 
+/** The path for shown creation minion view */
+export const CREATE_MINION_PATH = `${DashboardRoutes.minions.path}/create-new-minion`;
+
 /** Make routes readonly */
 Object.freeze(AppRoutes);
 Object.freeze(DashboardRoutes);
-
