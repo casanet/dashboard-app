@@ -54,12 +54,13 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 			alignItems="center"
 		>
 			<div>
-				<ThemeTooltip title={<span>{t(remoteConnectionDisplayKey[remoteConnection])}</span>} enterDelay={100}>
+				{/* Do not show cloud indicator in case of remote not configured at all */}
+				{remoteConnection !== RemoteConnectionStatus.NotConfigured && <ThemeTooltip title={<span>{t(remoteConnectionDisplayKey[remoteConnection])}</span>}>
 					<IconButton
 						color="inherit">
 						{remoteConnection === RemoteConnectionStatus.ConnectionOK ? <CloudDoneIcon fontSize="small" /> : <CloudOffIcon fontSize="small" />}
 					</IconButton>
-				</ThemeTooltip>
+				</ThemeTooltip>}
 			</div>
 			<div>
 				<ThemeTooltip title={<span>{t(`dashboard.toolbar.connection.${online ? 'on' : 'off'}`)}</span>} enterDelay={100}>

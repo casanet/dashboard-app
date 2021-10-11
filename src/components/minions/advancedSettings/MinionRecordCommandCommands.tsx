@@ -14,6 +14,7 @@ import { SwitchEditStatus } from "../editMinionStatus/SwitchEditStatus";
 import { MinionEditStatus } from "../editMinionStatus/MinionEditStatus";
 import MoneyIcon from '@mui/icons-material/Money';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { DEFAULT_SUCCEED_ICON_SHOWN } from "../../../infrastructure/consts";
 
 interface MinionRecordCommandCommandsProps {
 	fontRatio: number;
@@ -36,11 +37,11 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 		setRecording(true);
 		try {
 			await ApiFacade.RFApi.recordMinionCommand(recordMinionStatus, minion.minionId || '');
-			// Shown recording success indicator for 2.5 sec
+			// Shown recording success indicator for X sec
 			setRecordingSuccess(true);
 			setTimeout(() => {
 				setRecordingSuccess(false);
-			}, 2500);
+			}, DEFAULT_SUCCEED_ICON_SHOWN.Milliseconds);
 		} catch (error) {
 			await handleServerRestError(error);
 		}
@@ -51,11 +52,11 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 		setGenerating(true);
 		try {
 			await ApiFacade.RFApi.generateMinionCommand(recordMinionStatus, minion.minionId || '');
-			// Shown generating success indicator for 2.5 sec
+			// Shown generating success indicator for X sec
 			setGeneratingSuccess(true);
 			setTimeout(() => {
 				setGeneratingSuccess(false);
-			}, 2500);
+			}, DEFAULT_SUCCEED_ICON_SHOWN.Milliseconds);
 		} catch (error) {
 			await handleServerRestError(error);
 		}
@@ -96,7 +97,7 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 					justifyContent="center"
 					alignItems="center"
 				>
-					<ThemeTooltip title={<span>{t(`dashboard.minions.advanced.settings.record.command`)}</span>} disableFocusListener >
+					<ThemeTooltip title={<span>{t(`dashboard.minions.advanced.settings.generate.command`)}</span>} disableFocusListener >
 						<IconButton
 							disabled={disableActions || generatingSuccess}
 							onClick={generateCommand}
@@ -108,7 +109,7 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 							{(!generatingSuccess && !generating) && <MoneyIcon style={{ fontSize: fontRatio * 0.6 }} />}
 						</IconButton>
 					</ThemeTooltip>
-					<ThemeTooltip title={<span>{t(`dashboard.minions.advanced.settings.generate.command`)}</span>} disableFocusListener >
+					<ThemeTooltip title={<span>{t(`dashboard.minions.advanced.settings.record.command`)}</span>} disableFocusListener >
 						<IconButton
 							disabled={disableActions || recordingSuccess}
 							onClick={recordCommand}

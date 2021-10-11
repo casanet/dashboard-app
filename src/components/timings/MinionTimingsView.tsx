@@ -12,13 +12,16 @@ import { CreateTiming } from "./CreateTiming";
 import { EditTimingProps } from "./EditTimingProps";
 import { useTranslation } from "react-i18next";
 import { isOnMode } from "../../logic/common/minionsUtils";
-import { getModeColor } from "../../logic/common/themeUtils";
+import { getModeColor, marginLeft } from "../../logic/common/themeUtils";
+import Collapse from '@mui/material/Collapse';
+import { Duration } from "unitsnet-js";
+import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 
 interface MinionTimingsViewProps {
 	minion: Minion;
 }
 
-const DEFAULT_FONT_RATION = 20;
+const PROPERTIES_OPEN_ANIMATION_DURATION =  Duration.FromSeconds(0.8);
 
 export function MinionTimingsView(props: MinionTimingsViewProps) {
 	const { t } = useTranslation();
@@ -75,7 +78,7 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 						<div
 							style={{
 								marginTop: !desktopMode ? (DEFAULT_FONT_RATION * 0.3) : 0,
-								[theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: !desktopMode ? (DEFAULT_FONT_RATION * 0.2) : 0
+								[marginLeft(theme)]: !desktopMode ? (DEFAULT_FONT_RATION * 0.2) : 0
 							}}
 						>
 							<TimingOverview timingType={timing.timingType} timingProperties={timing.timingProperties} fontRatio={DEFAULT_FONT_RATION} disabled={!timing.isActive} />
@@ -123,14 +126,18 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 						/>
 					</Grid>
 				</div>
-				{showEditTimingId === timing.timingId && <div style={{ margin: DEFAULT_FONT_RATION }}>
-					<EditTimingProps minion={props.minion} timing={timing} onDone={() => setShowEditTimingId(undefined)} fontRatio={DEFAULT_FONT_RATION} />
-				</div>}
+				<Collapse in={showEditTimingId === timing.timingId} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
+					<div style={{ margin: DEFAULT_FONT_RATION }}>
+						<EditTimingProps minion={props.minion} timing={timing} onDone={() => setShowEditTimingId(undefined)} fontRatio={DEFAULT_FONT_RATION} />
+					</div>
+				</Collapse>
 				<Divider variant={'fullWidth'} flexItem />
 			</div>;
 		})}
 		<div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
-			{showAddTiming && <CreateTiming minion={props.minion} onDone={() => setShowAddTiming(false)} fontRatio={DEFAULT_FONT_RATION} />}
+			<Collapse in={showAddTiming} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
+				<CreateTiming minion={props.minion} onDone={() => setShowAddTiming(false)} fontRatio={DEFAULT_FONT_RATION} />
+			</Collapse>
 			{!showAddTiming && <Grid
 				container
 				direction="column"

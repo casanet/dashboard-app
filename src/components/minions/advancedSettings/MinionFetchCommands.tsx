@@ -1,4 +1,4 @@
-import { FormControl, Grid, IconButton, InputLabel, MenuItem, Select, Typography, useTheme } from "@material-ui/core";
+import { Grid, IconButton, TextField, Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
 import { CommandsRepoDevice, Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
@@ -11,6 +11,8 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import LoadingButton from "@mui/lab/LoadingButton";
 import DoneIcon from '@mui/icons-material/Done';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import Autocomplete from '@mui/material/Autocomplete';
+import { DEFAULT_SUCCEED_ICON_SHOWN } from "../../../infrastructure/consts";
 
 interface MinionFetchCommandsProps {
 	fontRatio: number;
@@ -57,11 +59,11 @@ export function MinionFetchCommands(props: MinionFetchCommandsProps) {
 		setApplying(true);
 		try {
 			await ApiFacade.RFApi.fetchDeviceCommandsToMinion(selectedCommandsSet, minion.minionId || '');
-			// Show success indicator for 2.5 sec.
+			// Show success indicator for X sec.
 			setSuccess(true);
 			setTimeout(() => {
 				setSuccess(false);
-			}, 2500);
+			}, DEFAULT_SUCCEED_ICON_SHOWN.Milliseconds);
 		} catch (error) {
 			await handleServerRestError(error);
 		}
@@ -118,24 +120,27 @@ export function MinionFetchCommands(props: MinionFetchCommandsProps) {
 			{!commandsSet && message && <div style={{ width: '100%', textAlign: 'center', color: theme.palette.text.hint }}>
 				{message}
 			</div>}
-			{commandsSet && <FormControl style={{ width: '65%' }} variant="outlined">
-				<InputLabel id="commands.select-select-label">{t('dashboard.minions.advanced.settings.select.commands.set')}</InputLabel>
-				<Select
-					labelId="commands.select-select-label"
-					value={selectedCommandsSet}
-					label={t('dashboard.minions.advanced.settings.select.commands.set')}
-					onChange={(e) => {
-						// Extract the model and brand that selected, and select it
-						const selection: string = e.target.value as string || ':';
-						const [brand, model] = selection.split(':');
-						setSelectedCommandsSet(commandsSet.find(c => c.brand === brand && c.model === model));
-					}}
-				>
-					{
-						commandsSet.map(c => <MenuItem value={`${c.brand}:${c.model}`}>{c.brand}, {c.model}</MenuItem>)
-					}
-				</Select>
-			</FormControl>}
+			{commandsSet && <Autocomplete
+				style={{ width: '65%' }}
+				options={commandsSet}
+				getOptionLabel={(option: CommandsRepoDevice) => `${option.brand}, ${option.model}`}
+				disabled={applying}
+				clearText={t('global.clear')}
+				closeText={t('global.close')}
+				noOptionsText={t('global.no.option')}
+				onChange={(e, o) => {
+					setSelectedCommandsSet(o as CommandsRepoDevice);
+				}}
+				renderInput={(params) => (
+					<TextField
+						{...params}
+						disabled={applying}
+						placeholder={t('dashboard.minions.advanced.settings.select.commands.set')}
+						variant="standard"
+					/>
+				)}
+			/>
+			}
 			{commandsSet && <LoadingButton
 				style={{ minWidth: '30%' }}
 				loading={applying}

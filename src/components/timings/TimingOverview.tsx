@@ -3,7 +3,7 @@ import { DailySunTrigger, DailyTimeTrigger, DaysOptions, OnceTiming, SunTriggerO
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Grid, Theme, useTheme } from "@material-ui/core";
-import { getModeColor } from "../../logic/common/themeUtils";
+import { getModeColor, marginLeft } from "../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
 import { Duration } from 'unitsnet-js';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
@@ -93,7 +93,7 @@ export function DailySunTriggerOverview(props: TimingOverviewProps) {
 						alignItems="flex-start"
 					>
 						<SubEventIcon style={{ fontSize: fontRatio, color: getModeColor(!disabled, theme) }} />
-						<span style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{dailySunTrigger.durationMinutes < 0 ? '-' : '+'}{Math.abs(dailySunTrigger.durationMinutes)} {t('global.minutes')}</span>
+						<span style={{ [marginLeft(theme)]: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{dailySunTrigger.durationMinutes < 0 ? '-' : '+'}{Math.abs(dailySunTrigger.durationMinutes)} {t('global.minutes')}</span>
 					</Grid>
 				</ThemeTooltip>
 			</div>
@@ -133,7 +133,7 @@ export function DailyTimeTriggerOverview(props: TimingOverviewProps) {
 					alignItems="flex-start"
 				>
 					<ScheduleIcon style={{ fontSize: fontRatio, color: getModeColor(!disabled, theme) }} />
-					<span style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{dailyTimeTrigger.hour}:{`${dailyTimeTrigger.minutes}`.padStart(2, '0')}</span>
+					<span style={{ [marginLeft(theme)]: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{dailyTimeTrigger.hour}:{`${dailyTimeTrigger.minutes}`.padStart(2, '0')}</span>
 				</Grid>
 			</div>
 			<ToggleButtonGroup
@@ -172,7 +172,7 @@ export function OnceTimingOverview(props: TimingOverviewProps) {
 					alignItems="flex-start"
 				>
 					<ScheduleIcon style={{ fontSize: fontRatio, color: getModeColor(!disabled, theme) }} />
-					<span style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{triggerTime.getHours()}:{`${triggerTime.getMinutes()}`.padStart(2, '0')}</span>
+					<span style={{ [marginLeft(theme)]: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{triggerTime.getHours()}:{`${triggerTime.getMinutes()}`.padStart(2, '0')}</span>
 				</Grid>
 			</div>
 			<div>
@@ -183,7 +183,7 @@ export function OnceTimingOverview(props: TimingOverviewProps) {
 					alignItems="flex-start"
 				>
 					<TodayIcon style={{ fontSize: fontRatio, color: getModeColor(!disabled, theme) }} />
-					<span style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{triggerTime.toLocaleDateString()}</span>
+					<span style={{ [marginLeft(theme)]: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{triggerTime.toLocaleDateString()}</span>
 				</Grid>
 			</div>
 		</Grid>
@@ -244,7 +244,7 @@ export function TimeoutTimingOverview(props: TimingOverviewProps) {
 					alignItems="flex-start"
 				>
 					<TimeoutIcon style={{ fontSize: fontRatio, color: getModeColor(!disabled, theme) }} />
-					<span style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{isPassed
+					<span style={{ [marginLeft(theme)]: props.fontRatio * 0.5, color: getModeColor(!disabled, theme) }} >{isPassed
 						? <span>--:--:--</span>
 						// Show the time left, but in the last second, dont show seconds left, since the server trigger is in sensitivity of minutes and not seconds
 						: <span>{`${displayDuration.hours}`.padStart(2, '0')}:{`${displayDuration.minutes}`.padStart(2, '0')}:{`${displayDuration.minutes ? displayDuration.seconds : 0}`.padStart(2, '0')}</span>

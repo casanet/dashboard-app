@@ -13,6 +13,7 @@ import { AlertDialog } from "../AlertDialog";
 import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../global/ThemeSwitch";
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import { marginLeft } from "../../logic/common/themeUtils";
 
 interface TimingOverviewControlsProps {
 	timing: Timing;
@@ -56,7 +57,7 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 		setDeleting(false);
 	}
 
-	return <div style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.25, minWidth: fontRatio * 2.5 }}>
+	return <div style={{ [marginLeft(theme)]: fontRatio * 0.25, minWidth: fontRatio * 2.5 }}>
 		<AlertDialog
 			open={openDeleteModel}
 			cancelText={t('global.cancel')}
@@ -76,7 +77,7 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 			{/* The switch have fixed size, so just take the container with same dimensions */}
 			<div style={{ width: '58px', height: '38px' }}>
 				{!settingActive && <ThemeSwitch disabled={settingActive || deleting} checked={props.timing.isActive} size="medium" onChange={() => changeTimingActive()} />}
-				{settingActive && <div style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio, marginTop: 10 }}>
+				{settingActive && <div style={{ [marginLeft(theme)]: fontRatio, marginTop: 10 }}>
 					<CircularProgress thickness={5} size={fontRatio} />
 				</div>
 				}

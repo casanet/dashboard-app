@@ -1,4 +1,4 @@
-import { AppBar, Box, Grid, Tabs, Tab, IconButton, PaletteType, Toolbar, Typography, Theme, makeStyles, useMediaQuery } from "@material-ui/core";
+import { AppBar, Box, Grid, Tabs, Tab, IconButton, PaletteType, Toolbar, Typography, Theme, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import '../theme/styles/dashboard.scss';
 import MenuIcon from '@material-ui/icons/Menu';
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
@@ -29,6 +29,11 @@ import { ToolBarControls } from "../components/dashboard/ToolBarControls";
 import { sessionManager } from "../infrastructure/session-manager";
 import InputBase from "@mui/material/InputBase";
 import { ThemeTooltip } from "../components/global/ThemeTooltip";
+import Collapse from '@mui/material/Collapse';
+import { PageToolbarExtender } from "../components/dashboard/PageToolbarExtender";
+import { PageToolbarContainer } from "../components/dashboard/PageToolbar";
+import { MinionsToolbar } from "../components/toolbars/MinionsToolbar";
+import { left, right } from "../logic/common/themeUtils";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -65,6 +70,10 @@ interface DashboardPage {
 	 * if so, a search input will be shown at the app-bar and value will inject to the page
 	 */
 	supportedSearch?: boolean;
+	/**
+	 * The page toolbar (optional)
+	 */
+	toolbar?: any;
 }
 
 // Const predefined dimensions of bars menus etc,
@@ -72,6 +81,7 @@ const sideBarExtendedWidth = 110;
 const sideBarCollapseWidth = 55;
 const appBarHight = 64;
 const footerMenuHight = 60;
+const pagesToolbarPullUp = 18;
 
 const useStyles = makeStyles((theme: Theme) => ({
 	sideBarTab: {
@@ -93,6 +103,7 @@ const dashboardPages: DashboardPage[] = [
 		route: `${DashboardRoutes.minions.path}/:${DashboardRoutes.minions.param}?`,
 		components: Minions,
 		supportedSearch: true,
+		toolbar: MinionsToolbar,
 	},
 	{
 		icon: <PeopleAltIcon />,
@@ -120,11 +131,13 @@ const dashboardPages: DashboardPage[] = [
 export default function Dashboard(props: DashboardProps) {
 	const { t } = useTranslation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+	const theme = useTheme();
 	const history = useHistory();
 	const classes = useStyles();
 	const location = useLocation();
 	const [collapseMenu, setCollapseMenu] = useState<boolean>(!!getLocalStorageItem<boolean>(LocalStorageKey.CollapseMenu, { itemType: 'boolean' }));
 	const [collapseToolbar, setCollapseToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, { itemType: 'boolean' }) ?? !desktopMode);
+	const [collapsePageToolbar, setCollapsePageToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapsePageToolbar, { itemType: 'boolean' }) ?? !desktopMode);
 	const [searchText, setSearchText] = useState<string>();
 
 	function toggleCollapseMenu() {
@@ -137,6 +150,12 @@ export default function Dashboard(props: DashboardProps) {
 		const newCollapseToolbar = !collapseToolbar;
 		setCollapseToolbar(newCollapseToolbar);
 		setLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, newCollapseToolbar, { itemType: 'boolean' });
+	}
+
+	function toggleCollapsePageToolbar() {
+		const newCollapsePageToolbar = !collapsePageToolbar;
+		setCollapsePageToolbar(newCollapsePageToolbar);
+		setLocalStorageItem<boolean>(LocalStorageKey.CollapsePageToolbar, newCollapsePageToolbar, { itemType: 'boolean' });
 	}
 
 	const onTabSelected = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -190,7 +209,7 @@ export default function Dashboard(props: DashboardProps) {
 									{dashboardPage?.supportedSearch ? <SearchIcon /> : <MenuIcon />}
 								</IconButton>
 								{dashboardPage?.supportedSearch && <InputBase
-									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [direction === 'ltr' ? 'left' : 'right']: '45px' }}
+									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [left(theme)]: '45px' }}
 									sx={{ ml: 1, flex: 1 }}
 									placeholder={t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() })}
 									value={searchText}
@@ -222,9 +241,11 @@ export default function Dashboard(props: DashboardProps) {
 										</IconButton>
 									</ThemeTooltip>
 								</div>
-								<div className={`dashboard-toolbar-icons-container ${collapseToolbar && '--collapse'}`}>
-									<ToolBarControls theme={props.theme} setDarkMode={props.setDarkMode} />
-								</div>
+								<Collapse in={!collapseToolbar} orientation={'horizontal'}>
+									<div className={`dashboard-toolbar-icons-container`}>
+										<ToolBarControls theme={props.theme} setDarkMode={props.setDarkMode} />
+									</div>
+								</Collapse>
 								<div>
 									<ProfileAvatar />
 								</div>
@@ -284,19 +305,41 @@ export default function Dashboard(props: DashboardProps) {
 				maxHeight: routerContainerHight,
 				height: routerContainerHight,
 			}} >
-				<Suspense fallback={<Loader />}>
-					<HashRouter>
-						<Switch>
-							{/* Generate route for each page */}
-							{dashboardPages.map(dashboardPage =>
-								<Route exact path={dashboardPage.route}><dashboardPage.components searchText={searchText} /></Route>)}
-							{/* As fallback, redirect to the first page */}
-							<Route exact path={[AppRoutes.dashboard.path, `${AppRoutes.dashboard.path}/*`]}>
-								<Redirect to={dashboardPages[0].path} />
-							</Route>
-						</Switch>
-					</HashRouter>
-				</Suspense>
+				<div style={{ width: '100%', height: '100%', maxHeight: '100%' }}>
+					{/* The show pages toolbar button component */}
+					{dashboardPage?.toolbar && collapsePageToolbar && <div style={{
+						position: 'fixed',
+						[left(theme)]: desktopMode ? '78vw' : undefined,
+						[right(theme)]: !desktopMode ? 0 : undefined, top: appBarHight - 4
+					}}>
+						<PageToolbarExtender collapsePageToolbar={collapsePageToolbar} toggleToolBar={toggleCollapsePageToolbar} />
+					</div>}
+					{/* The pages toolbar component, pull it up to make it by start under the app-bar */}
+					{dashboardPage?.toolbar && <div style={{ marginTop: -pagesToolbarPullUp }}>
+						<Collapse in={!collapsePageToolbar}>
+							<PageToolbarContainer toggleToolBar={toggleCollapsePageToolbar}>
+								<dashboardPage.toolbar />
+							</PageToolbarContainer>
+						</Collapse>
+					</div>}
+					{/* On collapse page toolbar, cancel the toolbar marginTop effect */}
+					{collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
+					<div style={{ width: '100%', height: `calc(100% - ${!collapsePageToolbar ? appBarHight : 0}px)` }}>
+						<Suspense fallback={<Loader />}>
+							<HashRouter>
+								<Switch>
+									{/* Generate route for each page */}
+									{dashboardPages.map(dashboardPage =>
+										<Route exact path={dashboardPage.route}><dashboardPage.components searchText={searchText} /></Route>)}
+									{/* As fallback, redirect to the first page */}
+									<Route exact path={[AppRoutes.dashboard.path, `${AppRoutes.dashboard.path}/*`]}>
+										<Redirect to={dashboardPages[0].path} />
+									</Route>
+								</Switch>
+							</HashRouter>
+						</Suspense>
+					</div>
+				</div>
 			</div>
 		</div>
 		{/* Show footer menu in mobile mode only */}

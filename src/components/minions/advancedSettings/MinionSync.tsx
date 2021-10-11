@@ -11,7 +11,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../../global/ThemeSwitch";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { getModeColor } from "../../../logic/common/themeUtils";
+import { getModeColor, marginLeft } from "../../../logic/common/themeUtils";
 import SyncIcon from '@mui/icons-material/Sync';
 import LockIcon from '@mui/icons-material/Lock';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
@@ -104,7 +104,7 @@ export function MinionSync(props: MinionSyncProps) {
 								direction="column"
 								justifyContent="center"
 								alignItems="flex-start"
-								style={{ [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * (desktopMode ? 0.6 : 0), marginTop: fontRatio * 0.2 }}
+								style={{ [marginLeft(theme)]: fontRatio * (desktopMode ? 0.6 : 0), marginTop: fontRatio * 0.2 }}
 							>
 								<div>
 									<ToggleButtonGroup
@@ -186,7 +186,7 @@ export function MinionSync(props: MinionSyncProps) {
 					{editMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 						<IconButton
 							disabled={saving}
-							style={{ padding: fontRatio * 0.1, [theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.3 }}
+							style={{ padding: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.3 }}
 							onClick={applyMinionSyncChanges}
 							color="inherit">
 							<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
@@ -213,7 +213,7 @@ export function MinionSync(props: MinionSyncProps) {
 				onChange={() => { setMinionCalibration(Duration.FromMinutes(!isOff ? 0 : 10)) }} />}
 			{saving && <div
 				style={{
-					[theme.direction === 'ltr' ? 'marginLeft' : 'marginRight']: fontRatio * 0.3,
+					[marginLeft(theme)]: fontRatio * 0.3,
 					marginTop: 8
 				}}
 			>

@@ -8,9 +8,9 @@ import { LocalStorageKey, setLocalStorageItem, getLocalStorageItem } from "../..
 import { Minion } from "../../infrastructure/generated/api";
 import { MinionOverview } from "../../components/minions/MinionOverview";
 import { minionsService } from "../../services/minions.service";
-import { GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
+import { CREATE_MINION_PATH, GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
 import { MinionFullInfo } from "../../components/minions/MinionFullInfo";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { handleServerRestError } from "../../services/notifications.service";
 import { Loader } from "../../components/Loader";
 import { DashboardPageInjectProps } from "../Dashboard";
@@ -18,6 +18,7 @@ import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
 import { NoContent } from "../../components/NoContent";
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import { ThemeTooltip } from "../../components/global/ThemeTooltip";
+import { CreateMinion } from "../../components/minions/CreateMinion";
 
 // For mock only, generate "minions"
 // const minions: Minion[] = new Array(200).fill(0).map((o,i) => ({ minionId: i, name: `${i}`, isProperlyCommunicated: true, minionType: MinionTypes.Switch, minionStatus: { switch: { status: i % 2 == 0 ? SwitchOptions.On : SwitchOptions.Off } } } as unknown as Minion));
@@ -36,6 +37,7 @@ const defaultRation = 40;
 export default function Minions(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
 	const { id } = useParams<{ id: string }>();
+	const location = useLocation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const largeDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const [sizeRatio, setSizeRatio] = useState<number>(getLocalStorageItem<number>(LocalStorageKey.MinionsCardRatio, { itemType: 'number' }) || defaultRation);
@@ -96,7 +98,15 @@ export default function Minions(props: DashboardPageInjectProps) {
 	const calculatedHeight = defaultHeight * calcRationPercents;
 
 	const selectedMinion = minions.find(m => id === m.minionId);
+	
+	// Show minion info if there is an id and the id match some minion
 	const showMinionFullInfo = !!id && !!selectedMinion;
+
+	// Show minion creation view, if the path match minion creation  
+	const showCreateMinion = location?.pathname === CREATE_MINION_PATH;
+
+	// Show side view in case of minion selected or minion creation
+	const minionSideContainer = showMinionFullInfo || showCreateMinion;
 
 	if (loading) {
 		return <Loader />;
@@ -114,7 +124,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 
 	return <div className="minions-container">
 		{/* Show minions cards grid only if none has been selected *or* it's very wide screen */}
-		{<div className={`minions-grid-area ${showMinionFullInfo && '--minion-full-info-enabled'} ${!largeDesktopMode && showMinionFullInfo && '--hide-minion-grid'}`}>
+		{<div className={`minions-grid-area ${minionSideContainer && '--minion-full-info-enabled'} ${!largeDesktopMode && minionSideContainer && '--hide-minion-grid'}`}>
 			{/* The minions cards grid */}
 			<Grid className={`minions-grid-container ${!desktopMode && '--mobile'}`}
 				container
@@ -133,7 +143,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 					</div>)}
 			</Grid>
 			{/* The grid card size ratio scroll */}
-			<div className={`resize-slider-container ${showMinionFullInfo && '--minion-full-info-enabled'} ${!desktopMode && '--mobile'}`}>
+			<div className={`resize-slider-container ${minionSideContainer && '--minion-full-info-enabled'} ${!desktopMode && '--mobile'}`}>
 				<Grid
 					container
 					direction={desktopMode ? 'row' : 'column-reverse'}
@@ -166,9 +176,10 @@ export default function Minions(props: DashboardPageInjectProps) {
 		</div>}
 
 		{/* If minion has been selected, show the full minion properties view card */}
-		{<div className={`minion-full-info-area-container ${showMinionFullInfo && '--minion-full-info-enabled'} ${!largeDesktopMode && '--small-screen'}`}>
+		{<div className={`minion-full-info-area-container ${minionSideContainer && '--minion-full-info-enabled'} ${!largeDesktopMode && '--small-screen'}`}>
 			<Paper elevation={3} className="minion-full-info-card">
 				{showMinionFullInfo && <MinionFullInfo minion={selectedMinion} />}
+				{showCreateMinion && <CreateMinion />}
 			</Paper>
 		</div>}
 	</div>;
