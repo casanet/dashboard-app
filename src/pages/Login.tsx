@@ -15,7 +15,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
-import { isValidHttpUrl } from '../infrastructure/utils';
+import { isValidUrl } from '../infrastructure/utils';
 import { handleServerRestError } from '../services/notifications.service';
 import { ThemeTooltip } from '../components/global/ThemeTooltip';
 
@@ -154,7 +154,7 @@ function LoginForm() {
 		}
 
 		// If URL is invalid, abort
-		if (!isValidHttpUrl(serverUrl)) {
+		if (!isValidUrl(serverUrl)) {
 			setServerUrlError(true);
 			return;
 		}

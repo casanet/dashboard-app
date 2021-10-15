@@ -4,6 +4,9 @@ export const PROJECT_URL = 'https://github.com/casanet';
 export const SERVER_REPO_URL = 'https://github.com/casanet/casanet-server';
 export const DASHBOARD_REPO_URL = 'https://github.com/casanet/dashboard-app';
 
+/** The remote server authentication key length */
+export const REMOTE_SERVER_AUTH_KEY_LENGTH = 64;
+
 /** The interval for checking the liveliness curr state */
 export const LIVELINESS_ACK_INTERVAL = Duration.FromSeconds(15);
 
@@ -23,6 +26,9 @@ export const SIDE_CONTAINER_DEFAULT_FONT_SIZE = 50;
 
 /** The name of the authentication header  */
 export const API_KEY_HEADER = 'authentication';
+
+/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
+export const LIGHTWEIGHT_DASHBOARD_PATH = '/light-app/index.html';
 
 /** The app router routes */
 export const AppRoutes = {

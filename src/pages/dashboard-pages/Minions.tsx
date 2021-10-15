@@ -20,11 +20,6 @@ import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import { ThemeTooltip } from "../../components/global/ThemeTooltip";
 import { CreateMinion } from "../../components/minions/CreateMinion";
 
-// For mock only, generate "minions"
-// const minions: Minion[] = new Array(200).fill(0).map((o,i) => ({ minionId: i, name: `${i}`, isProperlyCommunicated: true, minionType: MinionTypes.Switch, minionStatus: { switch: { status: i % 2 == 0 ? SwitchOptions.On : SwitchOptions.Off } } } as unknown as Minion));
-
-// TODO:TEMP fix ratio
-
 // The default minion card size
 const defaultWidth = 410;
 const defaultHeight = 240;
@@ -177,7 +172,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 
 		{/* If minion has been selected, show the full minion properties view card */}
 		{<div className={`minion-full-info-area-container ${minionSideContainer && '--minion-full-info-enabled'} ${!largeDesktopMode && '--small-screen'}`}>
-			<Paper elevation={3} className="minion-full-info-card">
+			<Paper elevation={3} className="minion-full-info-card" >
 				{showMinionFullInfo && <MinionFullInfo minion={selectedMinion} />}
 				{showCreateMinion && <CreateMinion />}
 			</Paper>

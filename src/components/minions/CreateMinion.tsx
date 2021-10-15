@@ -2,7 +2,7 @@ import { Button, Grid, TextField, useTheme } from "@material-ui/core";
 import { DeviceKind, LocalNetworkDevice } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
-import { DashboardRoutes, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
+import { DashboardRoutes, SERVER_REPO_URL, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import '../../theme/styles/components/minions/minionFullInfo.scss';
 import { useEffect, useState } from "react";
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
@@ -377,7 +377,7 @@ export function CreateMinion() {
 							<Link
 								style={{ marginLeft: 3, marginRight: 3 }}
 								target="_blank"
-								href="https://github.com/casanet/casanet-server/tree/development/backend/src/modules#how-to-connect-my-device-to-the-local-network-and-how-to-add-it-to-be-managed-by-the-casa-net-server">
+								href={`${SERVER_REPO_URL}/tree/development/backend/src/modules#how-to-connect-my-device-to-the-local-network-and-how-to-add-it-to-be-managed-by-the-casa-net-server`}>
 								casanet modules documentation
 							</Link>
 						</Trans>
