@@ -3,9 +3,17 @@ import { Platform } from "./symbols/global";
 
 class EnvFacade {
 
+	/** The local server API URL */
 	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || process.env.REACT_APP_API_URL || '';
+
+	/** The current dashboard URI */
 	private _baseDashboardUri: string = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+
+	/** The V3 dashboard path, see https://github.com/casanet/frontend-v3 */
 	private _v3DashboardUri: string = process.env.REACT_APP_V3_URL || `/v3`;
+
+	/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
+	private _lightweightUrl: string = process.env.REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
 
 	public get apiServerUrl(): string {
 		return this._serverUrl;
@@ -32,6 +40,10 @@ class EnvFacade {
 
 	public get v3DashboardUri(): string {
 		return this._v3DashboardUri;
+	}
+
+	public get lightweightUrl(): string {
+		return this._lightweightUrl;
 	}
 
 	public get isTokenAllowed(): boolean {

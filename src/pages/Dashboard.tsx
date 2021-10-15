@@ -333,7 +333,7 @@ export default function Dashboard(props: DashboardProps) {
 					</div>}
 					{/* On collapse page toolbar, cancel the toolbar marginTop effect */}
 					{dashboardPage?.toolbar && collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
-					<div style={{ width: '100%', height: `calc(100% - ${!collapsePageToolbar ? appBarHight : 0}px)` }}>
+					<div style={{ width: '100%', height: `calc(100% - ${(dashboardPage?.toolbar && !collapsePageToolbar) ? appBarHight : 0}px)` }}>
 						<Suspense fallback={<Loader />}>
 							<HashRouter>
 								<Switch>
