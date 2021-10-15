@@ -265,9 +265,14 @@ export function ServerVersion() {
 							</Badge>
 						}
 						{!updating && !newVersion && < SecurityUpdateGoodIcon style={{ fontSize: DEFAULT_FONT_RATION * 3.5 }} />}
-						{updating && <StayCurrentPortraitIcon style={{ fontSize: DEFAULT_FONT_RATION * 3.5 }} />}
-						{/* Show the progress indicator "over" the middle of the empty phone */}
-						{updating && <div style={{ position: 'fixed' }}> <CircularProgress size={15} color="inherit" thickness={5} /></div>}
+						{updating && <div>
+							<StayCurrentPortraitIcon style={{ fontSize: DEFAULT_FONT_RATION * 3.5 }} />
+							{/* Show the progress indicator "over" the middle of the empty phone, so create relative div, and below absolute div for the loading */}
+							{/* https://stackoverflow.com/questions/2941189/how-to-overlay-one-div-over-another-div */}
+							<div style={{ maxHeight: 0, position: 'relative' }}>
+								<div style={{ top: -55, left: 27,  position: 'absolute' }}> <CircularProgress size={15} color="inherit" thickness={5} /></div>
+							</div>
+						</div>}
 					</IconButton>
 				</Grid>
 			</div>
