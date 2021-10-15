@@ -20,9 +20,9 @@ export function ThemeTooltip(props: ThemeTooltipProps) {
 
 	// In touch devices, just use the original behavior.
 	if (isTouchScreenDevice()) {
-		return <Tooltip {...props} />;
+		return <div style={{ display: 'flex' }}><Tooltip {...props} /></div>;
 	}
-	return <div style={{ display: 'flex' }}
+	return <div  
 		onMouseEnter={() => setOpen(true)}
 		onMouseLeave={() => setOpen(false)}
 		onClick={() => setOpen(false)}

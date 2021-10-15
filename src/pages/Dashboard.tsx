@@ -1,6 +1,5 @@
 import { AppBar, Box, Grid, Tabs, Tab, IconButton, PaletteType, Toolbar, Typography, Theme, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import '../theme/styles/dashboard.scss';
-import MenuIcon from '@material-ui/icons/Menu';
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import RouterIcon from '@material-ui/icons/Router';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -33,7 +32,8 @@ import Collapse from '@mui/material/Collapse';
 import { PageToolbarExtender } from "../components/dashboard/PageToolbarExtender";
 import { PageToolbarContainer } from "../components/dashboard/PageToolbar";
 import { MinionsToolbar } from "../components/toolbars/MinionsToolbar";
-import { left, right } from "../logic/common/themeUtils";
+import { left, marginLeft } from "../logic/common/themeUtils";
+import casanetLogo from '../static/logo-app.png';
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -80,7 +80,7 @@ interface DashboardPage {
 const sideBarExtendedWidth = 110;
 const sideBarCollapseWidth = 55;
 const appBarHight = 64;
-const footerMenuHight = 60;
+const footerMenuHight = 90;
 const pagesToolbarPullUp = 18;
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -181,7 +181,8 @@ export default function Dashboard(props: DashboardProps) {
 	} as React.CSSProperties;
 
 	// Calculate the box size for the pages content
-	const routerContainerWidth = !desktopMode ? '100vw' : `calc(100vw - ${collapseMenu ? sideBarCollapseWidth : sideBarExtendedWidth}px)`;
+	const sideMenuWidth = !desktopMode ? 0 : collapseMenu ? sideBarCollapseWidth : sideBarExtendedWidth;
+	const routerContainerWidth = !desktopMode ? '100vw' : `calc(100vw - ${sideMenuWidth}px)`;
 	const routerContainerHight = `calc(100vh - ${desktopMode ? appBarHight : (appBarHight + footerMenuHight)}px)`;
 
 	// The properties of the current page in the view
@@ -205,9 +206,13 @@ export default function Dashboard(props: DashboardProps) {
 								direction="row"
 								justifyContent="flex-start"
 								alignItems="center">
-								<IconButton edge="start" color="inherit" aria-label="menu">
-									{dashboardPage?.supportedSearch ? <SearchIcon /> : <MenuIcon />}
-								</IconButton>
+								{!dashboardPage?.supportedSearch
+									? <img width={'40px'} height={'40px'} alt="casanet-logo" src={casanetLogo} />
+									: <IconButton edge="start" color="inherit" aria-label="menu">
+										<SearchIcon />
+									</IconButton>
+								}
+
 								{dashboardPage?.supportedSearch && <InputBase
 									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [left(theme)]: '45px' }}
 									sx={{ ml: 1, flex: 1 }}
@@ -218,7 +223,7 @@ export default function Dashboard(props: DashboardProps) {
 									}}
 									inputProps={{ 'aria-label': t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() }) }}
 								/>}
-								{desktopMode && !dashboardPage?.supportedSearch && <Typography variant="h6" >
+								{desktopMode && !dashboardPage?.supportedSearch && <Typography variant="h6" style={{ [marginLeft(theme)]: 20 }}>
 									{t('general.casanet.dashboard')}
 								</Typography>}
 							</Grid>
@@ -307,11 +312,15 @@ export default function Dashboard(props: DashboardProps) {
 			}} >
 				<div style={{ width: '100%', height: '100%', maxHeight: '100%' }}>
 					{/* The show pages toolbar button component */}
-					{dashboardPage?.toolbar && collapsePageToolbar && <div style={{
-						position: 'fixed',
-						[left(theme)]: desktopMode ? '78vw' : undefined,
-						[right(theme)]: !desktopMode ? 0 : undefined, top: appBarHight - 4
-					}}>
+					{dashboardPage?.toolbar && <div
+							style={{ 
+								position: 'absolute',
+								// The formula is : center of the screen + shift left of half of the side-menu and minus half of the component self width
+								[left(theme)]: `calc(50vw - ${((- (sideMenuWidth * 0.5)) + 60)}px)`,
+								top: appBarHight - 10,
+								zIndex: 3,
+							}}
+					>
 						<PageToolbarExtender collapsePageToolbar={collapsePageToolbar} toggleToolBar={toggleCollapsePageToolbar} />
 					</div>}
 					{/* The pages toolbar component, pull it up to make it by start under the app-bar */}
@@ -323,8 +332,8 @@ export default function Dashboard(props: DashboardProps) {
 						</Collapse>
 					</div>}
 					{/* On collapse page toolbar, cancel the toolbar marginTop effect */}
-					{collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
-					<div style={{ width: '100%', height: `calc(100% - ${!collapsePageToolbar ? appBarHight : 0}px)` }}>
+					{dashboardPage?.toolbar && collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
+					<div style={{ width: '100%', height: `calc(100% - ${(dashboardPage?.toolbar && !collapsePageToolbar) ? appBarHight : 0}px)` }}>
 						<Suspense fallback={<Loader />}>
 							<HashRouter>
 								<Switch>

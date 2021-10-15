@@ -1,6 +1,6 @@
 import { minionsService } from '../services/minions.service';
 import { envFacade } from './env-facade';
-import { User } from './generated/api';
+import { AuthScopes, User } from './generated/api';
 import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from './local-storage';
 
 class SessionManager {
@@ -30,6 +30,14 @@ class SessionManager {
 	public get isLoggedOn(): boolean {
 		return !!getLocalStorageItem(LocalStorageKey.Profile, { itemType: 'object' }) &&
 			(!envFacade.isTokenAllowed || !!getLocalStorageItem(LocalStorageKey.ApiToken, { itemType: 'string' }));
+	}
+
+	/** 
+	 * Detect whenever current session is an admin one.
+	 * (P.S. this is not a real check with the BE, only and *only* for UI purpose)
+	 */
+	public get isAdmin(): boolean { 
+		return (getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' }))?.scope === AuthScopes.AdminAuth;
 	}
 }
 

@@ -21,10 +21,13 @@ jobs:
         API_URL_DEV: '${{ secrets.API_URL_DEV }}'
         V3_URL_PROD: '${{ secrets.V3_URL }}'
         V3_URL_DEV: '${{ secrets.V3_URL_DEV }}'
+        LIGHTWEIGHT_URL_PROD: '${{ secrets.LIGHTWEIGHT_URL }}'
+        LIGHTWEIGHT_URL_DEV: '${{ secrets.LIGHTWEIGHT_URL_DEV }}'
       run: |
         export ON_BRANCH=${GITHUB_REF##*/}
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_API_URL=$API_URL_PROD ; else export REACT_APP_API_URL=$API_URL_DEV; fi
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_V3_URL=$V3_URL_PROD ; else export REACT_APP_V3_URL=$V3_URL_DEV; fi
+        if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_PROD ; else export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_DEV; fi
         npm i -g yarn
         yarn install --frozen-lockfile
         yarn run postbuild
@@ -60,6 +63,7 @@ jobs:
       env:
         REACT_APP_API_URL: ''
         REACT_APP_V3_URL: ''
+        REACT_APP_LIGHTWEIGHT_URL: ''
         BUILD_PATH: internal
       run: |
         yarn run build

@@ -6,7 +6,7 @@ import FindReplaceIcon from '@mui/icons-material/FindReplace';
 import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { PageToolbarButton, ToolbarDivider } from "../dashboard/PageToolbar";
 import { minionsService } from "../../services/minions.service";
-import { handleServerRestError } from "../../services/notifications.service";
+import { handleServerRestError, postApiError } from "../../services/notifications.service";
 import { useState } from "react";
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { sleep } from "../../infrastructure/utils";
@@ -67,12 +67,13 @@ export function MinionsToolbar() {
 
 			if (updateStatus === ProgressStatus.Fail) {
 				// eslint-disable-next-line no-throw-literal
-				throw { responseCode: 1501 } as ErrorResponse;
+				postApiError({ responseCode: 1501 } as ErrorResponse);
+			} else {
+				// Once it's done force fetch minions again
+				await minionsService.forceFetchData();
+				succeed = true;
 			}
-			// Once it's done force fetch minions again
-			await minionsService.forceFetchData();
 
-			succeed = true;
 		} catch (error) {
 			handleServerRestError(error);
 		}

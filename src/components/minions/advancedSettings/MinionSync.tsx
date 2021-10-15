@@ -182,11 +182,11 @@ export function MinionSync(props: MinionSyncProps) {
 						</div>
 					</Grid>
 				</div>
-				<div>
+				<div style={{ [marginLeft(theme)]: fontRatio * 0.3 }}>
 					{editMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 						<IconButton
 							disabled={saving}
-							style={{ padding: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.3 }}
+							style={{ padding: fontRatio * 0.1 }}
 							onClick={applyMinionSyncChanges}
 							color="inherit">
 							<SaveIcon style={{ fontSize: fontRatio * 0.3 }} />
