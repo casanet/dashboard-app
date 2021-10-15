@@ -5,7 +5,7 @@ import { ViewLanguage } from "../../infrastructure/symbols/global";
 import { supportedLanguages } from "../../localization/languages";
 import Autocomplete from '@mui/material/Autocomplete';
 import { SettingItem } from "../../pages/dashboard-pages/Settings";
-import { DEFAULT_FONT_RATION, LIGHTWEIGHT_DASHBOARD_PATH } from "../../infrastructure/consts";
+import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { envFacade } from "../../infrastructure/env-facade";
 
 export function InterfaceSettings() {
@@ -50,7 +50,7 @@ export function InterfaceSettings() {
 				<Link
 					variant="h6"
 					target="_blank"
-					href={LIGHTWEIGHT_DASHBOARD_PATH}>
+					href={envFacade.lightweightUrl}>
 					{t('dashboard.settings.interface.lightweight.dashboard')}
 				</Link>
 				<Typography variant="body1" style={{ color: theme.palette.text.hint, fontSize: DEFAULT_FONT_RATION * 0.7  }}>

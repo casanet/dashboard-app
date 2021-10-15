@@ -27,9 +27,6 @@ export const SIDE_CONTAINER_DEFAULT_FONT_SIZE = 50;
 /** The name of the authentication header  */
 export const API_KEY_HEADER = 'authentication';
 
-/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
-export const LIGHTWEIGHT_DASHBOARD_PATH = '/light-app/index.html';
-
 /** The app router routes */
 export const AppRoutes = {
 	login: {
