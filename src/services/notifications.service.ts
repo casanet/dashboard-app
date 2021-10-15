@@ -52,3 +52,14 @@ export async function handleServerRestError(error: Response | any, showNotificat
 
 	return messageKey;
 }
+
+/**
+ * Post error toast based on @see ErrorResponse error
+ * @param errorResponse The @see ErrorResponse error
+ */
+export function postApiError(errorResponse: ErrorResponse) {
+	notificationsFeed.post({
+		messageKey : `server:${errorResponse.responseCode}`,
+		duration: DEFAULT_ERROR_TOAST_DURATION,
+	});
+}

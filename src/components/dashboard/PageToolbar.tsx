@@ -1,13 +1,10 @@
-import { Grid, Paper, IconButton, useTheme, useMediaQuery, Theme } from "@material-ui/core";
+import { Grid, Paper, useTheme, useMediaQuery, Theme } from "@material-ui/core";
 import { Fragment, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import LoadingButton from '@mui/lab/LoadingButton';
 import Divider from '@mui/material/Divider';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DoneIcon from '@mui/icons-material/Done';
 import { DEFAULT_FONT_RATION, DEFAULT_SUCCEED_ICON_SHOWN } from "../../infrastructure/consts";
-import { marginLeft } from "../../logic/common/themeUtils";
 
 export function ToolbarDivider() {
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
@@ -80,8 +77,6 @@ interface PageToolbarContainerProps {
 }
 
 export function PageToolbarContainer(props: PageToolbarContainerProps) {
-	const { t } = useTranslation();
-	const theme = useTheme();
 
 	return <Grid
 		style={{ width: '100%', marginBottom: DEFAULT_FONT_RATION * 0.7 }}
@@ -100,16 +95,6 @@ export function PageToolbarContainer(props: PageToolbarContainerProps) {
 			>
 				<div>
 					{props.children}
-				</div>
-				{/* Show collapse pages toolbar button close the last button */}
-				<div style={{ [marginLeft(theme)]: -(DEFAULT_FONT_RATION * 0.5) }}>
-					<ThemeTooltip title={<span>{t('dashboard.toolbar.pages.collapse.toolbar')}</span>}>
-						<IconButton
-							onClick={props.toggleToolBar}
-							color="inherit">
-							<KeyboardArrowUpIcon />
-						</IconButton>
-					</ThemeTooltip>
 				</div>
 			</Grid >
 		</Paper>
