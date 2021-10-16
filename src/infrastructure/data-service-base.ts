@@ -4,6 +4,11 @@ import clonedeep from 'lodash.clonedeep';
 /** Implementation of base class for common data fetch and publish as event logic */
 export abstract class DataService<T> {
 
+	/**
+ 	 * Collection of all services instances, used to allow forcing reset refetch and so on for all app data
+ 	 */
+	private static dataServicesInstances: DataService<any>[] = [];
+
 	/** The data */
 	protected data: T;
 
@@ -12,6 +17,11 @@ export abstract class DataService<T> {
 
 	/** The lag to detect whenever the data already fetched from the API */
 	public fetchFlag = false;
+
+	constructor() {
+		// Once services created, add it to the services collection
+		DataService.dataServicesInstances.push(this);
+	}
 
 	/** The child required to implement this function, to fetch the data from the API or any other resource */
 	abstract fetchData(): Promise<T>;
@@ -78,5 +88,22 @@ export abstract class DataService<T> {
 		// Update and publish the new data
 		this.data = clonedData;
 		this.dataFeed.post(clonedData);
+	}
+
+	/**
+	 * Reset data and state
+	 */
+	public reset() {
+		this.data = undefined as unknown as T;
+		this.fetchFlag = false;
+	}
+
+	/**
+	 * Reset all data services
+	 */
+	public static resetAppData() {
+		for (const dataServiceInstance of DataService.dataServicesInstances) {
+			dataServiceInstance.reset();
+		}
 	}
 }

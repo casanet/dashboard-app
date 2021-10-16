@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CircularProgress, Grid, IconButton, TextField } from '@material-ui/core';
+import { CircularProgress, Grid, IconButton, TextField, Typography } from '@material-ui/core';
 import { devicesService } from '../../services/devices.service';
 import { LocalNetworkDevice } from '../../infrastructure/generated/api';
 import { useEffect, useState } from 'react';
@@ -31,14 +31,14 @@ function sortDevicesFormula(a: LocalNetworkDevice, b: LocalNetworkDevice): numbe
 	}
 
 	if (a.ip) {
-		return 1;
-	}
-
-	if (b.ip) {
 		return -1;
 	}
 
-	return (a.name || '') < (b.name || '') ? 1 : -1;
+	if (b.ip) {
+		return 1;
+	}
+
+	return (a.name || '') < (b.name || '') ? -1 : 1;
 }
 
 const NAME_CONTROLS_WIDTH = 45;
@@ -60,9 +60,7 @@ export default function Network(props: DashboardPageInjectProps) {
 		(async () => {
 			try {
 				// Subscribe to the minion data feed
-				devicesDetacher = await devicesService.attachDataSubs((devices) => {
-					setDevices(devices.sort(sortDevicesFormula));
-				});
+				devicesDetacher = await devicesService.attachDataSubs(setDevices);
 			} catch (error) {
 				await handleServerRestError(error);
 			}
@@ -99,7 +97,8 @@ export default function Network(props: DashboardPageInjectProps) {
 			}
 			return false;
 		});
-		setFilteredDevices(filteredDevices);
+
+		setFilteredDevices(filteredDevices.sort(sortDevicesFormula));
 	}
 
 	function selectNameToEdit(device: LocalNetworkDevice) {
@@ -156,8 +155,14 @@ export default function Network(props: DashboardPageInjectProps) {
 									justifyContent="space-between"
 									alignItems="center"
 								>
-									{editNameMode !== device.mac && <div>
-										{device.name}
+									{editNameMode !== device.mac && <div style={{ maxWidth: NAME_MIN_WIDTH }}>
+										<Typography style={{
+											maxWidth: NAME_MAX_WIDTH - NAME_CONTROLS_WIDTH - 16 - 16,
+											textOverflow: 'clip',
+											overflowWrap: 'break-word'
+										}}>
+											{device.name}
+										</Typography>
 									</div>}
 									{editNameMode === device.mac && <TextField
 										style={{ width: `calc(100% - ${NAME_CONTROLS_WIDTH}px)` }}
