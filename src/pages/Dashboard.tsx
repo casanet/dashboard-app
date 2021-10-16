@@ -34,6 +34,7 @@ import { PageToolbarContainer } from "../components/dashboard/PageToolbar";
 import { MinionsToolbar } from "../components/toolbars/MinionsToolbar";
 import { left, marginLeft } from "../logic/common/themeUtils";
 import casanetLogo from '../static/logo-app.png';
+import { NetworkToolbar } from "../components/toolbars/NetworkToolbar";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -118,6 +119,8 @@ const dashboardPages: DashboardPage[] = [
 		path: DashboardRoutes.network.path,
 		route: DashboardRoutes.network.path,
 		components: Network,
+		supportedSearch: true,
+		toolbar: NetworkToolbar,
 	},
 	{
 		icon: <SettingsIcon />,

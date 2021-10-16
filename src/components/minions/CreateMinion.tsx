@@ -18,6 +18,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import '../../theme/styles/components/minions/minionFullInfo.scss';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Link from '@mui/material/Link';
+import { compareIpByDevicePart } from "../../infrastructure/utils";
 
 const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 
@@ -38,7 +39,7 @@ function sortDevicesFormula(a: LocalNetworkDevice, b: LocalNetworkDevice): numbe
 	}
 
 	if (a.ip && b.ip) {
-		return a.ip < b.ip ? 1 : -1;
+		return compareIpByDevicePart(a.ip, b.ip);
 	}
 
 	if (a.ip) {
