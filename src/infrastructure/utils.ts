@@ -83,3 +83,25 @@ export function downloadBinaryFile(buffer: Buffer | ArrayBuffer, fileName: strin
 		window.URL.revokeObjectURL(url);
 	}, 1000);
 }
+
+/**
+ * Get the 'device' number part (the last one) in the local network IP structure
+ * @param ip The IP address
+ * @returns The number
+ */
+function getIpLastPartNum(ip: string): number {
+	const lastPart = ip.split('.')[3];
+	return parseInt(lastPart);
+}
+
+/**
+ * Compare IPs by the last (devices address number) IP part
+ * @param ipA The first IP
+ * @param ipB THe second to compare with
+ * @returns 1 of the first is higher, else -1.
+ */
+export function compareIpByDevicePart(ipA: string, ipB: string) {
+	const ipALastPart = getIpLastPartNum(ipA);
+	const ipBLastPart = getIpLastPartNum(ipB);
+	return ipALastPart > ipBLastPart ? 1 : -1;
+}

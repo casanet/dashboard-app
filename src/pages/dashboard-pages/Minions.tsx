@@ -63,7 +63,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 		// every time the minion collection has changed or the search term changed, re-calc the filtered minions
 		calcMinionsFilter(minions);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [minions, props.searchText])
+	}, [minions, props.searchText]);
 
 	function calcMinionsFilter(minions: Minion[]) {
 		const searchString = props.searchText?.trim().toLowerCase() || '';
