@@ -21,6 +21,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { DEFAULT_FONT_RATION } from '../../infrastructure/consts';
 import { ApiFacade } from '../../infrastructure/generated/proxies/api-proxies';
 import { DashboardPageInjectProps } from '../Dashboard';
+import { NoContent } from '../../components/NoContent';
+import RouterIcon from '@material-ui/icons/Router';
 
 /**
  * The sort formula for sorting devices by ip -> name
@@ -126,6 +128,16 @@ export default function Network(props: DashboardPageInjectProps) {
 
 	if (loading) {
 		return <Loader />;
+	}
+
+	// If there are no any device, show proper message
+	if (devices.length === 0) {
+		return <NoContent Icon={RouterIcon} message={t('dashboard.network.no.devices.message')} />
+	}
+
+	// If there are no any device match the search, show proper message
+	if (filteredDevices.length === 0) {
+		return <NoContent Icon={RouterIcon} message={t('dashboard.network.no.devices.match.message')} />
 	}
 
 	const nameCellWidth = desktopMode ? NAME_DESKTOP_WIDTH : NAME_MOBILE_WIDTH;
