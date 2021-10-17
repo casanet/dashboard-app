@@ -83,7 +83,8 @@ export default function Network(props: DashboardPageInjectProps) {
 
 	function calcDevicesFilter(devices: LocalNetworkDevice[]) {
 		const searchString = props.searchText?.trim().toLowerCase() || '';
-		const filteredDevices = !searchString ? devices : devices.filter(d => {
+		// In case of empty search term, "clone" collection anyway to avoid sort cache issue
+		const filteredDevices = !searchString ? [...devices] : devices.filter(d => {
 			// If the name match, return true
 			if (d.name?.toLowerCase().includes(searchString)) {
 				return true;
