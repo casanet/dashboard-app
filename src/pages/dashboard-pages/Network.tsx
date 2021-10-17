@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { CircularProgress, Grid, IconButton, TextField, Typography } from '@material-ui/core';
+import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery } from '@material-ui/core';
 import { devicesService } from '../../services/devices.service';
 import { LocalNetworkDevice } from '../../infrastructure/generated/api';
 import { useEffect, useState } from 'react';
@@ -42,11 +42,13 @@ function sortDevicesFormula(a: LocalNetworkDevice, b: LocalNetworkDevice): numbe
 }
 
 const NAME_CONTROLS_WIDTH = 45;
-const NAME_MIN_WIDTH = 150;
-const NAME_MAX_WIDTH = 280;
+const NAME_MOBILE_WIDTH = DEFAULT_FONT_RATION * 8;
+const NAME_DESKTOP_WIDTH = DEFAULT_FONT_RATION * 15;
 
 export default function Network(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
+	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+
 	const [loading, setLoading] = useState<boolean>(true);
 	const [saving, setSaving] = useState<boolean>(false);
 	const [devices, setDevices] = useState<LocalNetworkDevice[]>([]);
@@ -125,6 +127,8 @@ export default function Network(props: DashboardPageInjectProps) {
 		return <Loader />;
 	}
 
+	const nameCellWidth = desktopMode ? NAME_DESKTOP_WIDTH : NAME_MOBILE_WIDTH;
+
 	return <Grid
 		style={{ width: '100%', height: '100%' }}
 		container
@@ -147,17 +151,17 @@ export default function Network(props: DashboardPageInjectProps) {
 						<TableRow
 							key={device.mac}
 						>
-							<TableCell align="center" width={NAME_MAX_WIDTH} >
+							<TableCell align="center" width={nameCellWidth} >
 								<Grid
-									style={{ minWidth: NAME_MIN_WIDTH }}
+									style={{ minWidth: nameCellWidth }}
 									container
 									direction="row"
 									justifyContent="space-between"
 									alignItems="center"
 								>
-									{editNameMode !== device.mac && <div style={{ maxWidth: NAME_MIN_WIDTH }}>
+									{editNameMode !== device.mac && <div style={{ maxWidth: nameCellWidth }}>
 										<Typography style={{
-											maxWidth: NAME_MAX_WIDTH - NAME_CONTROLS_WIDTH - 16 - 16,
+											width: nameCellWidth - NAME_CONTROLS_WIDTH,
 											textOverflow: 'clip',
 											overflowWrap: 'break-word'
 										}}>
