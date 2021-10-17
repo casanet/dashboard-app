@@ -89,6 +89,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 				{/* Do not show cloud indicator in case of remote not configured at all */}
 				{remoteConnection !== RemoteConnectionStatus.NotConfigured && <ThemeTooltip title={<span>{t(remoteConnectionDisplayKey[remoteConnection])}</span>}>
 					<IconButton
+						onClick={() => history.push(DashboardRoutes.settings.path)}
 						color="inherit">
 						{remoteConnection === RemoteConnectionStatus.ConnectionOK ? <CloudDoneIcon fontSize="small" /> : <CloudOffIcon fontSize="small" />}
 					</IconButton>
