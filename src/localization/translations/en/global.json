@@ -192,6 +192,8 @@
 	"dashboard.network.device.mac" : "MAC address",
 	"dashboard.network.device.ip" : "IP address",
 	"dashboard.network.device.vendor" : "Vendor",
+	"dashboard.network.no.devices.message" : "No device detected yet, try scanning the network again",
+	"dashboard.network.no.devices.match.message" : "No device match the search term",
 	"dashboard.settings.general" : "General",
 	"dashboard.settings.general.backup" : "Backup",
 	"dashboard.settings.general.backup.server.data" : "Download server data",
