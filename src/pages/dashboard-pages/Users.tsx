@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { CircularProgress, Grid, IconButton, Theme, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import { RemoteConnectionStatus, User } from '../../infrastructure/generated/api';
+import { AuthScopes, RemoteConnectionStatus, User } from '../../infrastructure/generated/api';
 import { ComponentType, useEffect, useState } from 'react';
 import { handleServerRestError } from '../../services/notifications.service';
 import { Loader } from '../../components/Loader';
@@ -33,6 +33,7 @@ import { PageLayout } from '../../components/layouts/PageLayout';
 import { CreateUser } from '../../components/users/CreateUser';
 import { AlertDialog } from '../../components/AlertDialog';
 import LaunchIcon from '@mui/icons-material/Launch';
+import { SensitiveContent } from '../../components/NoPermissions';
 
 /**
  * The sort formula for sorting users by email
@@ -170,7 +171,7 @@ function UsersMobileLayout(props: UsersLayoutProps) {
 	</Grid >
 }
 
-export default function Users(props: DashboardPageInjectProps) {
+function Users(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
 	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const history = useHistory();
@@ -379,4 +380,10 @@ export default function Users(props: DashboardPageInjectProps) {
 			</Grid>
 		</PageLayout>
 	</div>;
+}
+
+export default function UsersPage(props: DashboardPageInjectProps) {
+	return <SensitiveContent requiredScopes={[AuthScopes.AdminAuth]}>
+		<Users {...props} />
+	</SensitiveContent>
 }
