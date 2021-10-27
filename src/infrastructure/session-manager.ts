@@ -39,6 +39,14 @@ class SessionManager {
 	public get isAdmin(): boolean { 
 		return (getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' }))?.scope === AuthScopes.AdminAuth;
 	}
+
+	/**
+	 * Current user session scope
+	 * (P.S. this is not a real check with the BE, only and *only* for UI purpose)
+	 */
+	public get scope(): AuthScopes { 
+		return (getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' }))?.scope || AuthScopes.UserAuth;
+	}
 }
 
 export const sessionManager = new SessionManager();

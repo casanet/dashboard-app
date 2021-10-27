@@ -36,7 +36,6 @@ import { left, marginLeft } from "../logic/common/themeUtils";
 import casanetLogo from '../static/logo-app.png';
 import { NetworkToolbar } from "../components/toolbars/NetworkToolbar";
 import { UsersToolbar } from "../components/toolbars/UsersToolbar";
-import { NoPermissions } from "../components/NoPermissions";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -202,7 +201,7 @@ export default function Dashboard(props: DashboardProps) {
 	const dashboardPage = dashboardPages.find(p => location.pathname.startsWith(p.path));
 
 	// Is user have the permission to see current page
-	const accessPageForbidden = dashboardPage?.adminOnly && !sessionManager.isAdmin;
+	const accessPageForbidden = !!dashboardPage?.adminOnly && !sessionManager.isAdmin;
 
 	// Calc if show the toolbar, if it exists for current page, and the user allowed to see this page
 	const showPageToolbar = dashboardPage?.toolbar && !accessPageForbidden;
@@ -311,7 +310,7 @@ export default function Dashboard(props: DashboardProps) {
 							dashboardPages.map(dashboardPage =>
 								<Tab
 									// Hide tab for non authorized
-									style={{ display: accessPageForbidden ? 'none' : undefined }}
+									style={{ display: dashboardPage.adminOnly && !sessionManager.isAdmin ? 'none' : undefined }}
 									id={`dashboard-tab-${dashboardPage.path}`}
 									aria-controls={`dashboard-tabpanel-${dashboardPage.path}`}
 									className={classes.sideBarTab}
@@ -361,7 +360,7 @@ export default function Dashboard(props: DashboardProps) {
 									{/* Generate route for each page */}
 									{dashboardPages.map(dashboardPage =>
 										<Route exact path={dashboardPage.route}>
-											{accessPageForbidden ? <NoPermissions /> : <dashboardPage.components searchText={searchText} />}
+											<dashboardPage.components searchText={searchText} />
 										</Route>)}
 									{/* The profile page is not lined to any page tab */}
 									<Route exact path={`${DashboardRoutes.profile.path}/:${DashboardRoutes.profile.param}?`}><Profile /></Route>
@@ -392,7 +391,7 @@ export default function Dashboard(props: DashboardProps) {
 						dashboardPages.map(dashboardPage =>
 							<Tab
 								// Hide tab for non authorized
-								style={{ display: accessPageForbidden ? 'none' : undefined }}
+								style={{ display: dashboardPage.adminOnly && !sessionManager.isAdmin ? 'none' : undefined }}
 								id={`dashboard-tab-${dashboardPage.path}`}
 								aria-controls={`dashboard-tabpanel-${dashboardPage.path}`}
 								className={classes.sideBarTab}

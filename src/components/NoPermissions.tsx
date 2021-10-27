@@ -2,6 +2,8 @@ import { Grid, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/c
 import { getModeColor } from "../logic/common/themeUtils";
 import BlockIcon from '@mui/icons-material/Block';
 import { useTranslation } from "react-i18next";
+import { AuthScopes } from "../infrastructure/generated/api";
+import { sessionManager } from "../infrastructure/session-manager";
 
 interface NoPermissionsProps {
 	fontRatio?: number;
@@ -30,3 +32,22 @@ export function NoPermissions(props: NoPermissionsProps) {
 		<Typography style={{ fontSize: fontRatio * 0.9, marginTop: fontRatio * 0.5, color: getModeColor(false, theme) }} >{t('You dont have permission to see this content')}</Typography>
 	</Grid>
 }
+
+interface SensitiveContentProps {
+	requiredScopes: AuthScopes[];
+	children: JSX.Element;
+}
+
+/**
+ * A simple component to wrap sensitives components and make sure the components renders only with the correct session scope.
+ * Otherwise, only a 'NoPermissions' component will be shown 
+ * @param props 
+ * @returns 
+ */
+export function SensitiveContent(props: SensitiveContentProps) {
+	if (!props.requiredScopes.includes(sessionManager.scope)) {
+		return <NoPermissions />;
+	}
+	return props.children;
+}
+
