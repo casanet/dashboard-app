@@ -19,8 +19,8 @@ async function parseErrorResponse(errorRes: Response) {
 		// Return the error
 		return `server:${payload.responseCode}`;
 	} catch (error) {
-		// As last fallback, show the browser error
-		return `server:${errorRes.statusText}`;
+		// As last fallback, show the HTTP error or unknown internal error
+		return `server:${errorRes?.statusText || '-2'}`;
 	}
 }
 

@@ -2,7 +2,7 @@ import { Grid, IconButton } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { SettingItem } from "../../pages/dashboard-pages/Settings";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
-import { TitleButtonContent } from "../global/TitleButtonContent";
+import { TitleButtonContent } from "../layouts/TitleButtonContent";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { sessionManager } from "../../infrastructure/session-manager";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';

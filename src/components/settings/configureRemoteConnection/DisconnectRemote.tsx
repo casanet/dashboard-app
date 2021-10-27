@@ -1,47 +1,31 @@
 import { CircularProgress, IconButton } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_FONT_RATION } from "../../../infrastructure/consts";
 import { RemoteConnectionStatus } from "../../../infrastructure/generated/api";
 import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../../services/notifications.service";
-import { livelinessCheck, livelinessFeed, livelinessFlag, remoteURLService } from "../../../services/settings.service";
+import { remoteURLService } from "../../../services/settings.service";
 import { AlertDialog } from "../../AlertDialog";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
-import { TitleButtonContent } from "../../global/TitleButtonContent";
+import { TitleButtonContent } from "../../layouts/TitleButtonContent";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useLiveliness } from "../../../hooks/useLiveliness";
+import { livelinessCheck } from "../../../services/liveliness.service";
 
 export function DisconnectRemote() {
 	const { t } = useTranslation();
-	const [remoteConnection, setRemoteConnection] = useState<RemoteConnectionStatus>(livelinessFlag.remoteConnection);
+
+	const { remoteConnection } = useLiveliness();
 
 	const [disconnecting, setDisconnecting] = useState<boolean>();
 	const [openDisconnectAlert, setOpenDisconnectAlert] = useState<boolean>(false);
-
-	useEffect(() => {
-		let livelinessDetacher: () => void;
-
-		(async () => {
-			// Subscribe to the liveliness feed
-			livelinessDetacher = livelinessFeed.attach((livelinessData) => {
-				setRemoteConnection(livelinessData.remoteConnection);
-			});
-
-		})();
-
-		return () => {
-			// unsubscribe the feed on component unmount
-			livelinessDetacher && livelinessDetacher();
-		};
-	}, []);
-
 
 	async function disconnectRemoteServer() {
 		setDisconnecting(true);
 		try {
 			await ApiFacade.RemoteApi.removeRemoteSettings();
-			// Once disconnected succeed, make it as not configured and empty remote URL, and force refresh the remote status 
-			setRemoteConnection(RemoteConnectionStatus.NotConfigured);
+			// Once disconnected succeed, reset remote URL and force refresh to the remote status 
 			remoteURLService.postNewData('');
 			await livelinessCheck();
 		} catch (error) {
@@ -76,5 +60,5 @@ export function DisconnectRemote() {
 				</IconButton>
 			</ThemeTooltip>}
 		/>
-		</div>;
+	</div>;
 }

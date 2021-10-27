@@ -4,7 +4,7 @@ import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import isEmail from "isemail";
+import isEmail from 'isemail';
 import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
 import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
@@ -18,6 +18,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import { isValidUrl } from '../infrastructure/utils';
 import { handleServerRestError } from '../services/notifications.service';
 import { ThemeTooltip } from '../components/global/ThemeTooltip';
+import { profileService } from '../services/users.service';
 
 interface LocalServer {
 	displayName: string;
@@ -56,7 +57,7 @@ function LoginForm() {
 			if (envFacade.isTokenAllowed) {
 				sessionManager.setToken(authResponse.headers.get(API_KEY_HEADER) || '');
 			}
-			const profile = await ApiFacade.UsersApi.getProfile();
+			const profile = await profileService.forceFetchData();
 			sessionManager.onLogin(profile);
 			history.push(AppRoutes.dashboard.path);
 		} catch (error) {

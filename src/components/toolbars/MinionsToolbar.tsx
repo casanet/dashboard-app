@@ -19,6 +19,8 @@ export function MinionsToolbar() {
 	const { t } = useTranslation();
 	const history = useHistory();
 
+	// TODO use effect as in version to detect nscaning progress
+
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 	const [rereading, setRereading] = useState<boolean>(false);
 	const [rescanning, setRescanning] = useState<boolean>(false);

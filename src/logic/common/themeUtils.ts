@@ -28,3 +28,8 @@ export function left(theme: Theme): side {
 export function right(theme: Theme): side {
 	return theme.direction === "ltr" ? 'right' : 'left';
 }
+
+/** The new MUI input text color */
+export function inputColor(theme: Theme) {
+	return theme.palette.grey[900];
+}

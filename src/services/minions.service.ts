@@ -38,28 +38,28 @@ class MinionsService extends DataService<Minion[]> {
 	}
 
 	public updateMinion(minion: Minion) {
-		const minionIndex = this.data.findIndex(m => m.minionId === minion.minionId);
+		const minionIndex = this._data.findIndex(m => m.minionId === minion.minionId);
 		if (minionIndex !== -1) {
-			this.data[minionIndex] = minion;
+			this._data[minionIndex] = minion;
 		}
 		// Publish the update
-		this.postNewData(this.data);
+		this.postNewData(this._data);
 	}
 
 	public createMinion(minion: Minion) {
-		this.data.push(minion);
+		this._data.push(minion);
 		// Publish the update
-		this.postNewData(this.data);
+		this.postNewData(this._data);
 	}
 
 	public deleteMinion(minion: Minion) {
-		const minionIndex = this.data.findIndex(m => m.minionId === minion.minionId);
+		const minionIndex = this._data.findIndex(m => m.minionId === minion.minionId);
 
 		if (minionIndex !== -1) {
-			this.data.splice(minionIndex, 1);
+			this._data.splice(minionIndex, 1);
 		}
 		// Publish the update
-		this.postNewData(this.data);
+		this.postNewData(this._data);
 	}
 
 	fetchData(): Promise<Minion[]> {

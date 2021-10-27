@@ -3,7 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Remove from '@material-ui/icons/Remove';
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import '../../theme/styles/minions.scss'
+import '../../theme/styles/minions.scss';
 import { LocalStorageKey, setLocalStorageItem, getLocalStorageItem } from "../../infrastructure/local-storage";
 import { Minion } from "../../infrastructure/generated/api";
 import { MinionOverview } from "../../components/minions/MinionOverview";
@@ -11,7 +11,6 @@ import { minionsService } from "../../services/minions.service";
 import { CREATE_MINION_PATH, GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
 import { MinionFullInfo } from "../../components/minions/MinionFullInfo";
 import { useLocation, useParams } from "react-router-dom";
-import { handleServerRestError } from "../../services/notifications.service";
 import { Loader } from "../../components/Loader";
 import { DashboardPageInjectProps } from "../Dashboard";
 import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
@@ -19,6 +18,8 @@ import { NoContent } from "../../components/NoContent";
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import { ThemeTooltip } from "../../components/global/ThemeTooltip";
 import { CreateMinion } from "../../components/minions/CreateMinion";
+import { useData } from "../../hooks/useData";
+import { PageLayout } from "../../components/layouts/PageLayout";
 
 // The default minion card size
 const defaultWidth = 410;
@@ -34,30 +35,10 @@ export default function Minions(props: DashboardPageInjectProps) {
 	const { id } = useParams<{ id: string }>();
 	const location = useLocation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-	const largeDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+	const [minions, loading] = useData(minionsService, []);
+
 	const [sizeRatio, setSizeRatio] = useState<number>(getLocalStorageItem<number>(LocalStorageKey.MinionsCardRatio, { itemType: 'number' }) || defaultRation);
-	const [minions, setMinions] = useState<Minion[]>([]);
 	const [filteredMinions, setFilteredMinion] = useState<Minion[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-
-	useEffect(() => {
-		let minionsDetacher: () => void;
-		setLoading(true);
-		(async () => {
-			try {
-				// Subscribe to the minion data feed
-				minionsDetacher = await minionsService.attachDataSubs(setMinions);
-			} catch (error) {
-				await handleServerRestError(error);
-			}
-			setLoading(false);
-		})();
-
-		return () => {
-			// unsubscribe the feed on component unmount
-			minionsDetacher && minionsDetacher();
-		};
-	}, []);
 
 	useEffect(() => {
 		// every time the minion collection has changed or the search term changed, re-calc the filtered minions
@@ -67,7 +48,8 @@ export default function Minions(props: DashboardPageInjectProps) {
 
 	function calcMinionsFilter(minions: Minion[]) {
 		const searchString = props.searchText?.trim().toLowerCase() || '';
-		const filteredMinions = !searchString ? minions : minions.filter(m => {
+		// In case of empty search term, "clone" collection anyway to avoid sort cache issue
+		const filteredMinions = !searchString ? [...minions] : minions.filter(m => {
 			// If the name match, return true
 			if (m.name.toLowerCase().includes(searchString)) {
 				return true;
@@ -93,7 +75,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 	const calculatedHeight = defaultHeight * calcRationPercents;
 
 	const selectedMinion = minions.find(m => id === m.minionId);
-	
+
 	// Show minion info if there is an id and the id match some minion
 	const showMinionFullInfo = !!id && !!selectedMinion;
 
@@ -117,11 +99,21 @@ export default function Minions(props: DashboardPageInjectProps) {
 		return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.match.message')} />
 	}
 
-	return <div className="minions-container">
-		{/* Show minions cards grid only if none has been selected *or* it's very wide screen */}
-		{<div className={`minions-grid-area ${minionSideContainer && '--minion-full-info-enabled'} ${!largeDesktopMode && minionSideContainer && '--hide-minion-grid'}`}>
-			{/* The minions cards grid */}
-			<Grid className={`minions-grid-container ${!desktopMode && '--mobile'}`}
+	// As default, the side info is empty
+	let SideInfo = <div></div>;
+	if (showMinionFullInfo) {
+		SideInfo = <MinionFullInfo minion={selectedMinion} />;
+	}
+	if (showCreateMinion) {
+		SideInfo =  <CreateMinion />;
+	}
+
+	return <PageLayout
+		showSideInfo={minionSideContainer}
+		sideInfo={SideInfo}
+	>
+		<div className={'minions-container'} >
+			<Grid
 				container
 				direction="row"
 				justifyContent="flex-start"
@@ -168,14 +160,6 @@ export default function Minions(props: DashboardPageInjectProps) {
 					</div>
 				</Grid>
 			</div>
-		</div>}
-
-		{/* If minion has been selected, show the full minion properties view card */}
-		{<div className={`minion-full-info-area-container ${minionSideContainer && '--minion-full-info-enabled'} ${!largeDesktopMode && '--small-screen'}`}>
-			<Paper elevation={3} className="minion-full-info-card" >
-				{showMinionFullInfo && <MinionFullInfo minion={selectedMinion} />}
-				{showCreateMinion && <CreateMinion />}
-			</Paper>
-		</div>}
-	</div>;
+		</div>
+	</PageLayout>;
 }

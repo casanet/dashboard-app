@@ -68,9 +68,9 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 		setSaving(false);
 	}
 
-	return <div className="minion-full-info-container">
+	return <div className="page-full-info-area">
 		<Grid
-			className="minion-full-info-grid"
+			className="page-full-info-container"
 			container
 			direction="column"
 			justifyContent="space-between"
