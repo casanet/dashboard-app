@@ -25,28 +25,28 @@ class TimingsService extends DataService<Timing[]> {
 	}
 
 	public updateTiming(timing: Timing) {
-		const timingIndex = this.data.findIndex(m => m.timingId === timing.timingId);
+		const timingIndex = this._data.findIndex(m => m.timingId === timing.timingId);
 		if (timingIndex !== -1) {
-			this.data[timingIndex] = timing;
+			this._data[timingIndex] = timing;
 		}
 		// Publish the update
-		this.postNewData(this.data);
+		this.postNewData(this._data);
 	}
 
 	public createTiming(timing: Timing) {
-		this.data.push(timing);
+		this._data.push(timing);
 		// Publish the update
-		this.postNewData(this.data);
+		this.postNewData(this._data);
 	}
 
 	public deleteTiming(timing: Timing) {
-		const timingIndex = this.data.findIndex(m => m.timingId === timing.timingId);
+		const timingIndex = this._data.findIndex(m => m.timingId === timing.timingId);
 
 		if (timingIndex !== -1) {
-			this.data.splice(timingIndex, 1);
+			this._data.splice(timingIndex, 1);
 		}
 		// Publish the update
-		this.postNewData(this.data);
+		this.postNewData(this._data);
 	}
 
 	fetchData(): Promise<Timing[]> {

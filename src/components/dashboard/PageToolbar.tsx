@@ -5,6 +5,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Divider from '@mui/material/Divider';
 import DoneIcon from '@mui/icons-material/Done';
 import { DEFAULT_FONT_RATION, DEFAULT_SUCCEED_ICON_SHOWN } from "../../infrastructure/consts";
+import { inputColor } from "../../logic/common/themeUtils";
 
 export function ToolbarDivider() {
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
@@ -53,7 +54,7 @@ export function PageToolbarButton(props: PageToolbarButtonProps) {
 
 	return <ThemeTooltip hideTip={!tip} title={<span>{tip}</span>}>
 		<LoadingButton
-			style={{ margin: 5, color: theme.palette.grey[900] }}
+			style={{ margin: 5, color: inputColor(theme) }}
 			loading={loading}
 			loadingPosition={wideDesktopMode ? 'start' : 'center'}
 			disabled={disabled}

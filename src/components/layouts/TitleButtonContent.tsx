@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@material-ui/core";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import InfoIcon from '@mui/icons-material/Info';
-import { ThemeTooltip } from "./ThemeTooltip";
+import { ThemeTooltip } from "../global/ThemeTooltip";
 
 interface TitleButtonContentProps {
 	/** The content */

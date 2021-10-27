@@ -13,7 +13,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { copyToClipboard } from "../../../infrastructure/utils";
 import { Duration } from "unitsnet-js";
-import { TitleButtonContent } from "../../global/TitleButtonContent";
+import { TitleButtonContent } from "../../layouts/TitleButtonContent";
 
 export function ShowLocalMac() {
 	const { t } = useTranslation();

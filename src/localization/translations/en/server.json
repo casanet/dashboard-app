@@ -1,5 +1,6 @@
 {
-	"-1": "unknown error",
+	"-1": "unknown server error",
+	"-2": "unknown internal error",
 	"0": "offline",
 	"1401": "unauthorized",
 	"1403": "access forbidden",

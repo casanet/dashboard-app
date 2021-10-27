@@ -1,19 +1,20 @@
 import { Button, Grid, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_FONT_RATION, REMOTE_SERVER_AUTH_KEY_LENGTH } from "../../../infrastructure/consts";
-import { livelinessCheck, remoteURLService } from "../../../services/settings.service";
+import { remoteURLService } from "../../../services/settings.service";
 import { useEffect, useState } from "react";
 import Collapse from '@mui/material/Collapse';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { TitleButtonContent } from "../../global/TitleButtonContent";
+import { TitleButtonContent } from "../../layouts/TitleButtonContent";
 import { isValidUrl } from "../../../infrastructure/utils";
 import { handleServerRestError } from "../../../services/notifications.service";
+import { livelinessCheck } from "../../../services/liveliness.service";
 
 export function EditRemoteConnection() {
 	const { t } = useTranslation();
@@ -138,6 +139,8 @@ export function EditRemoteConnection() {
 							variant="standard"
 							type={showRemoteKey ? 'text' : 'password'}
 							value={remoteKey}
+							// Disable browser password suggestions
+							autoComplete={'new-password'}
 							placeholder={t('dashboard.settings.connectivity.edit.remote.key.placeholder')}
 							helperText={t('dashboard.settings.connectivity.edit.remote.key.helper', { length: REMOTE_SERVER_AUTH_KEY_LENGTH })}
 							onChange={(e) => {

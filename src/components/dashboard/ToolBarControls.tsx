@@ -1,12 +1,12 @@
 import { Grid, IconButton, makeStyles, PaletteType } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { livelinessFeed, livelinessFlag, versionLatestService } from "../../services/settings.service";
+import { versionLatestService } from "../../services/settings.service";
 import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
-import { RemoteConnectionStatus } from "../../infrastructure/generated/api";
+import { RemoteConnectionStatus, User } from "../../infrastructure/generated/api";
 import { ThemeToggle } from "../ThemeToggle";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { remoteConnectionDisplayKey } from "../../logic/common/settingsUtils";
@@ -15,6 +15,11 @@ import { marginRight } from "../../logic/common/themeUtils";
 import SystemUpdateIcon from '@mui/icons-material/SystemUpdate';
 import { useHistory } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
+import { getLocalStorageItem, LocalStorageKey } from "../../infrastructure/local-storage";
+import { profileService } from "../../services/users.service";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useData } from "../../hooks/useData";
+import { useLiveliness } from "../../hooks/useLiveliness";
 
 const useStyles = makeStyles((theme) => ({
 	badge: {
@@ -34,26 +39,24 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 	const classes = useStyles();
 	const history = useHistory();
 
-	const [online, setOnline] = useState<boolean>(livelinessFlag.online);
-	const [remoteConnection, setRemoteConnection] = useState<RemoteConnectionStatus>(livelinessFlag.remoteConnection);
-	const [newVersion, setNewVersion] = useState<string>();
+	const { online, remoteConnection } = useLiveliness();
+	const [newVersion] = useData(versionLatestService, undefined, { skipErrorToastOnFailure: true });
 
+	const [passwordChangeRequired, setPasswordChangeRequired] = useState<boolean>();
 	useEffect(() => {
-		let livelinessDetacher: () => void;
-		let versionLatestDetacher: () => void;
-
+		let setPasswordRequiredDetacher: () => void;
 		(async () => {
 
 			try {
-				// Subscribe to the liveliness feed
-				livelinessDetacher = livelinessFeed.attach((livelinessData) => {
-					setOnline(livelinessData.online);
-					setRemoteConnection(livelinessData.remoteConnection);
-				});
-
-				versionLatestDetacher = await versionLatestService.attachDataSubs((latestVersion) => {
-					setNewVersion(latestVersion);
-				});
+				const cachedProfile = getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' });
+				// To skip unnecessary requests, Only if the password mark as "required change" in the local storage
+				// Go to check if this flag still ON, and if so, show warning about it 
+				if (cachedProfile?.passwordChangeRequired) {
+					setPasswordChangeRequired(true);
+					setPasswordRequiredDetacher = await profileService.attachDataSubs((profile) => {
+						setPasswordChangeRequired(profile.passwordChangeRequired);
+					});
+				}
 			} catch (error) {
 				// Do nothing
 			}
@@ -62,8 +65,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 
 		return () => {
 			// unsubscribe the feed on component unmount
-			livelinessDetacher && livelinessDetacher();
-			versionLatestDetacher && versionLatestDetacher();
+			setPasswordRequiredDetacher && setPasswordRequiredDetacher();
 		};
 	}, []);
 
@@ -74,6 +76,17 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 			justifyContent="flex-end"
 			alignItems="center"
 		>
+			{passwordChangeRequired && <div>
+				<ThemeTooltip title={<span>{t(`dashboard.toolbar.change.password.alert`)}</span>}>
+					<IconButton
+						onClick={() => history.push(DashboardRoutes.profile.path)}
+						color="inherit">
+						<Badge color="error" overlap={'circular'} variant="dot" classes={{ badge: classes.badge }}>
+							<AccountCircleIcon fontSize="small" />
+						</Badge>
+					</IconButton>
+				</ThemeTooltip>
+			</div>}
 			{newVersion && <div>
 				<ThemeTooltip title={<span>{t(`dashboard.toolbar.new.version.available`, { newVersion })}</span>}>
 					<IconButton
