@@ -8,8 +8,8 @@ import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies
 import { handleServerRestError, notificationsFeed, postApiError } from "../../../services/notifications.service";
 import { sleep } from "../../../infrastructure/utils";
 import { useEffect, useState } from "react";
-import { livelinessCheck, versionDataService, versionLatestService } from "../../../services/settings.service";
-import { ErrorResponse, ProgressStatus, VersionInfo } from "../../../infrastructure/generated/api";
+import { versionDataService, versionLatestService } from "../../../services/settings.service";
+import { ErrorResponse, ProgressStatus } from "../../../infrastructure/generated/api";
 import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood';
 import SecurityUpdateIcon from '@mui/icons-material/SecurityUpdate';
 import { Duration } from "unitsnet-js";
@@ -19,6 +19,8 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import StayCurrentPortraitIcon from '@mui/icons-material/StayCurrentPortrait';
 import CircularProgress from "@mui/material/CircularProgress";
 import { AlertDialog } from "../../AlertDialog";
+import { useData } from "../../../hooks/useData";
+import { livelinessCheck } from "../../../services/liveliness.service";
 
 const useStyles = makeStyles((theme) => ({
 	iconBadge: {
@@ -60,29 +62,16 @@ function VersionSourceLink(props: VersionSourceLinkProps) {
 export function ServerVersion() {
 	const { t } = useTranslation();
 	const classes = useStyles();
-	const [versionData, setVersionData] = useState<VersionInfo>();
-	const [newVersion, setNewVersion] = useState<string>();
+
+	const [versionData] = useData(versionDataService, undefined, { skipErrorToastOnFailure: true });
+	const [newVersion] = useData(versionLatestService, undefined, { skipErrorToastOnFailure: true });
+
 	const [updating, setUpdating] = useState<boolean>();
 	const [showUpgradingAlert, setShowUpgradingAlert] = useState<boolean>(false);
 
 	useEffect(() => {
-		// TODO, dont use pubsub only get
-		let versionDataDetacher: () => void;
-		let versionLatestDetacher: () => void;
-
 		(async () => {
 			try {
-
-				// Subscribe to the version info
-				versionDataDetacher = await versionDataService.attachDataSubs((versionData) => {
-					setVersionData(versionData);
-				});
-
-				// Subscribe to the latest version info
-				versionLatestDetacher = await versionLatestService.attachDataSubs((latestVersion) => {
-					setNewVersion(latestVersion);
-				});
-
 				// Each component mount, check in currently there is an update in progress
 				const updateStatus = await ApiFacade.VersionApi.getUpdateStatus();
 				// If there is an update in progress, show the correct "loading" icon and wait for it to finish 
@@ -94,12 +83,6 @@ export function ServerVersion() {
 				// Do nothing
 			}
 		})();
-
-		return () => {
-			// unsubscribe the feed on component unmount
-			versionDataDetacher && versionDataDetacher();
-			versionLatestDetacher && versionLatestDetacher();
-		};
 	}, []);
 
 	function openShowUpgradingView() {
@@ -270,7 +253,7 @@ export function ServerVersion() {
 							{/* Show the progress indicator "over" the middle of the empty phone, so create relative div, and below absolute div for the loading */}
 							{/* https://stackoverflow.com/questions/2941189/how-to-overlay-one-div-over-another-div */}
 							<div style={{ maxHeight: 0, position: 'relative' }}>
-								<div style={{ top: -55, left: 27,  position: 'absolute' }}> <CircularProgress size={15} color="inherit" thickness={5} /></div>
+								<div style={{ top: -55, left: 27, position: 'absolute' }}> <CircularProgress size={15} color="inherit" thickness={5} /></div>
 							</div>
 						</div>}
 					</IconButton>

@@ -11,22 +11,19 @@ import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
 import { useHistory } from "react-router-dom";
-import { AppRoutes } from "../../infrastructure/consts";
+import { AppRoutes, DashboardRoutes } from "../../infrastructure/consts";
+import { extractProfileAvatarText } from "../../logic/common/profileUtils";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
 	const history = useHistory();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [profile, setProfile] = useState<User>();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [avatarLetters, setAvatarLetters] = useState<string>('');
 
 	useEffect(() => {
+		// Read user session info from local storage, it may be not up to date, but it's good enough for the avatar icon.
 		const profile = getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' });
-		setProfile(profile);
-		// Get the first letter of user's display name parts and combine the first two parts (for example haim kasnter to HK :)  
-		const avatarLetters = (profile?.displayName?.trim().split(' ') || ['-', '-']).map(p => p[0]?.toUpperCase()).slice(0, 2).join('');
-		setAvatarLetters(avatarLetters);
+		setAvatarLetters(extractProfileAvatarText(profile));
 	}, [])
 
 	function handleOpenMenu(event: React.MouseEvent<HTMLElement>) {
@@ -45,6 +42,9 @@ export function ProfileAvatar() {
 		history.push(AppRoutes.login.path);
 	};
 
+	function goToProfile() {
+		history.push(DashboardRoutes.profile.path);
+	};
 
 	return <div className="profile-avatar-container">
 		<IconButton
@@ -75,13 +75,15 @@ export function ProfileAvatar() {
 			open={Boolean(anchorEl)}
 			onClose={handleClose}
 		>
-			<MenuItem >
-				<ListItemIcon className="profile-menu-item-icon">
-					<PermIdentityOutlined fontSize="small" />
-				</ListItemIcon>
-				<Typography variant="inherit">
-					{t('global.profile')}
-				</Typography>
+			<MenuItem>
+				<div onClick={goToProfile}>
+					<ListItemIcon className="profile-menu-item-icon">
+						<PermIdentityOutlined fontSize="small" />
+					</ListItemIcon>
+					<Typography variant="inherit">
+						{t('global.profile')}
+					</Typography>
+				</div>
 			</MenuItem>
 			<MenuItem >
 				<ListItemIcon className="profile-menu-item-icon">

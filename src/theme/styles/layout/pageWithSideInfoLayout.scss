@@ -1,0 +1,92 @@
+@use "../global";
+
+$fullInfoDesktopWidth: 500px;
+
+.page-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+
+	.main-page-area {
+		width: 100%;
+		min-width: calc(100% - #{$fullInfoDesktopWidth});
+
+		&.--hide-main-page-area {
+			// While hiding page don't remove it from DOM ,only hide it, so the stat info etc will stay as is.
+			display: none;
+		}
+
+		.main-page-container {
+			// minions-grid-container {
+			width: 100%;
+			height: 100%;
+			overflow-y: auto;
+			overflow-x: hidden;
+
+			// In mobile mode (AKA touch screens), let scroll, but hide the scrollbar element
+			&.--mobile {
+				-ms-overflow-style: none; /* for Internet Explorer, Edge */
+				scrollbar-width: none; /* for Firefox */
+				overflow-y: scroll;
+			}
+			&.--mobile::-webkit-scrollbar {
+				display: none; /* for Chrome, Safari, and Opera */
+			}
+		}
+	}
+
+	.page-side-info-area-container {
+		// minion-full-info-area-container
+		transition: width 1s;
+		width: 0px;
+		overflow: hidden;
+		height: 100%;
+		// One it's open/close make some distance
+		margin-left: 1em;
+
+		&.--small-screen {
+			// Disable animation on small screen, the animation is only in case the view is beside the page
+			transition: unset;
+			// No side by side view in small screens, so not need for any margin
+			margin-right: 0;
+			margin-left: 0;
+		}
+
+		&.--page-side-info-enabled {
+			width: 100%;
+			max-height: 100%;
+			// Once it's enabled, set some space around the side bar
+			margin-right: 1em;
+			margin-left: 1em;
+
+			&.--small-screen {
+				// In small screens, show only the full info card
+				width: 100%;
+			}
+		}
+
+		.page-side-full-info-card {
+			height: 100%;
+			width: 100%;
+
+			.page-full-info-area {
+				height: 100%;
+				width: 100%;
+				max-height: 100%;
+				max-width: 100%;
+				overflow-x: auto;
+			
+				.page-full-info-container {
+					width: 100%;
+					min-height: 100%;
+				}
+			}
+		}
+	}
+}
+
+// In RTL view, stick all to the left
+[dir="rtl"] .page-side-info-area-container {
+	margin-left: 0;
+	margin-right: 1em;
+}

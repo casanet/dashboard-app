@@ -218,9 +218,9 @@ export function CreateMinion() {
 	// Hold selected minion kind to create (if selected)
 	const selectedMinionKind = brand && model ? minionsKindsTree[brand][model] : undefined;
 
-	return <div className="minion-full-info-container">
+	return <div className="page-full-info-area">
 		<Grid
-			className={'minion-full-info-grid'}
+			className={'page-full-info-container'}
 			style={{ padding: DEFAULT_FONT_SIZE * 0.4 }}
 			container
 			direction="column"

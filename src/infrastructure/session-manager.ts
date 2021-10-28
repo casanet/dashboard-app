@@ -1,4 +1,4 @@
-import { minionsService } from '../services/minions.service';
+import { DataService } from './data-service-base';
 import { envFacade } from './env-facade';
 import { AuthScopes, User } from './generated/api';
 import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from './local-storage';
@@ -24,7 +24,7 @@ class SessionManager {
 	public onLogout() {
 		removeLocalStorageItem(LocalStorageKey.Profile);
 		removeLocalStorageItem(LocalStorageKey.ApiToken);
-		minionsService.fetchFlag = false;
+		DataService.resetAppData();
 	}
 
 	public get isLoggedOn(): boolean {
@@ -38,6 +38,14 @@ class SessionManager {
 	 */
 	public get isAdmin(): boolean { 
 		return (getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' }))?.scope === AuthScopes.AdminAuth;
+	}
+
+	/**
+	 * Current user session scope
+	 * (P.S. this is not a real check with the BE, only and *only* for UI purpose)
+	 */
+	public get scope(): AuthScopes { 
+		return (getLocalStorageItem<User>(LocalStorageKey.Profile, { itemType: 'object' }))?.scope || AuthScopes.UserAuth;
 	}
 }
 

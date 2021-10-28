@@ -35,11 +35,13 @@ import { MinionsToolbar } from "../components/toolbars/MinionsToolbar";
 import { left, marginLeft } from "../logic/common/themeUtils";
 import casanetLogo from '../static/logo-app.png';
 import { NetworkToolbar } from "../components/toolbars/NetworkToolbar";
+import { UsersToolbar } from "../components/toolbars/UsersToolbar";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
 const Users = React.lazy(() => import('./dashboard-pages/Users'));
 const Settings = React.lazy(() => import('./dashboard-pages/Settings'));
+const Profile = React.lazy(() => import('./dashboard-pages/Profile'));
 
 // Detect the direction, and use the correct arrow direction for extend/collapse side menu
 const direction = getLang().direction;
@@ -75,6 +77,10 @@ interface DashboardPage {
 	 * The page toolbar (optional)
 	 */
 	toolbar?: any;
+	/**
+	 * Whenever it's page for admins only
+	 */
+	adminOnly?: boolean;
 }
 
 // Const predefined dimensions of bars menus etc,
@@ -107,13 +113,6 @@ const dashboardPages: DashboardPage[] = [
 		toolbar: MinionsToolbar,
 	},
 	{
-		icon: <PeopleAltIcon />,
-		nameKey: 'global.users',
-		path: DashboardRoutes.users.path,
-		route: DashboardRoutes.users.path,
-		components: Users,
-	},
-	{
 		icon: <RouterIcon />,
 		nameKey: 'global.network',
 		path: DashboardRoutes.network.path,
@@ -121,6 +120,16 @@ const dashboardPages: DashboardPage[] = [
 		components: Network,
 		supportedSearch: true,
 		toolbar: NetworkToolbar,
+	},
+	{
+		icon: <PeopleAltIcon />,
+		nameKey: 'global.users',
+		path: DashboardRoutes.users.path,
+		route: `${DashboardRoutes.users.path}/:${DashboardRoutes.users.param}?`,
+		components: Users,
+		supportedSearch: true,
+		toolbar: UsersToolbar,
+		adminOnly: true
 	},
 	{
 		icon: <SettingsIcon />,
@@ -190,6 +199,12 @@ export default function Dashboard(props: DashboardProps) {
 
 	// The properties of the current page in the view
 	const dashboardPage = dashboardPages.find(p => location.pathname.startsWith(p.path));
+
+	// Is user have the permission to see current page
+	const accessPageForbidden = !!dashboardPage?.adminOnly && !sessionManager.isAdmin;
+
+	// Calc if show the toolbar, if it exists for current page, and the user allowed to see this page
+	const showPageToolbar = dashboardPage?.toolbar && !accessPageForbidden;
 
 	return <div className="dashboard-container" style={dashboardCssVars}>
 		<div className="dashboard-header">
@@ -294,6 +309,8 @@ export default function Dashboard(props: DashboardProps) {
 						{
 							dashboardPages.map(dashboardPage =>
 								<Tab
+									// Hide tab for non authorized
+									style={{ display: dashboardPage.adminOnly && !sessionManager.isAdmin ? 'none' : undefined }}
 									id={`dashboard-tab-${dashboardPage.path}`}
 									aria-controls={`dashboard-tabpanel-${dashboardPage.path}`}
 									className={classes.sideBarTab}
@@ -315,19 +332,19 @@ export default function Dashboard(props: DashboardProps) {
 			}} >
 				<div style={{ width: '100%', height: '100%', maxHeight: '100%' }}>
 					{/* The show pages toolbar button component */}
-					{dashboardPage?.toolbar && <div
-							style={{ 
-								position: 'absolute',
-								// The formula is : center of the screen + shift left of half of the side-menu and minus half of the component self width
-								[left(theme)]: `calc(50vw - ${((- (sideMenuWidth * 0.5)) + 60)}px)`,
-								top: appBarHight - 10,
-								zIndex: 3,
-							}}
+					{showPageToolbar && <div
+						style={{
+							position: 'absolute',
+							// The formula is : center of the screen + shift left of half of the side-menu and minus half of the component self width
+							[left(theme)]: `calc(50vw - ${((- (sideMenuWidth * 0.5)) + 60)}px)`,
+							top: appBarHight - 10,
+							zIndex: 3,
+						}}
 					>
 						<PageToolbarExtender collapsePageToolbar={collapsePageToolbar} toggleToolBar={toggleCollapsePageToolbar} />
 					</div>}
 					{/* The pages toolbar component, pull it up to make it by start under the app-bar */}
-					{dashboardPage?.toolbar && <div style={{ marginTop: -pagesToolbarPullUp }}>
+					{showPageToolbar && <div style={{ marginTop: -pagesToolbarPullUp }}>
 						<Collapse in={!collapsePageToolbar}>
 							<PageToolbarContainer toggleToolBar={toggleCollapsePageToolbar}>
 								<dashboardPage.toolbar />
@@ -335,14 +352,18 @@ export default function Dashboard(props: DashboardProps) {
 						</Collapse>
 					</div>}
 					{/* On collapse page toolbar, cancel the toolbar marginTop effect */}
-					{dashboardPage?.toolbar && collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
-					<div style={{ width: '100%', height: `calc(100% - ${(dashboardPage?.toolbar && !collapsePageToolbar) ? appBarHight : 0}px)` }}>
+					{showPageToolbar && collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
+					<div style={{ width: '100%', height: `calc(100% - ${(showPageToolbar && !collapsePageToolbar) ? appBarHight : 0}px)` }}>
 						<Suspense fallback={<Loader />}>
 							<HashRouter>
 								<Switch>
 									{/* Generate route for each page */}
 									{dashboardPages.map(dashboardPage =>
-										<Route exact path={dashboardPage.route}><dashboardPage.components searchText={searchText} /></Route>)}
+										<Route exact path={dashboardPage.route}>
+											<dashboardPage.components searchText={searchText} />
+										</Route>)}
+									{/* The profile page is not lined to any page tab */}
+									<Route exact path={`${DashboardRoutes.profile.path}/:${DashboardRoutes.profile.param}?`}><Profile /></Route>
 									{/* As fallback, redirect to the first page */}
 									<Route exact path={[AppRoutes.dashboard.path, `${AppRoutes.dashboard.path}/*`]}>
 										<Redirect to={dashboardPages[0].path} />
@@ -369,6 +390,8 @@ export default function Dashboard(props: DashboardProps) {
 					{
 						dashboardPages.map(dashboardPage =>
 							<Tab
+								// Hide tab for non authorized
+								style={{ display: dashboardPage.adminOnly && !sessionManager.isAdmin ? 'none' : undefined }}
 								id={`dashboard-tab-${dashboardPage.path}`}
 								aria-controls={`dashboard-tabpanel-${dashboardPage.path}`}
 								className={classes.sideBarTab}

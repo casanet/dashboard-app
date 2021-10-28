@@ -4,6 +4,9 @@ export const PROJECT_URL = 'https://github.com/casanet';
 export const SERVER_REPO_URL = 'https://github.com/casanet/casanet-server';
 export const DASHBOARD_REPO_URL = 'https://github.com/casanet/dashboard-app';
 
+/** THe password min length */
+export const PASSWORD_MIN_LENGTH = 8;
+
 /** The remote server authentication key length */
 export const REMOTE_SERVER_AUTH_KEY_LENGTH = 64;
 
@@ -45,6 +48,7 @@ export const DashboardRoutes = {
 	},
 	users: {
 		path: `${AppRoutes.dashboard.path}/users`,
+		param: 'id',
 	},
 	network: {
 		path: `${AppRoutes.dashboard.path}/network`,
@@ -52,10 +56,17 @@ export const DashboardRoutes = {
 	settings: {
 		path: `${AppRoutes.dashboard.path}/settings`,
 	},
+	profile: {
+		path: `${AppRoutes.dashboard.path}/profile`,
+		param: 'id',
+	},
 }
 
 /** The path for shown creation minion view */
 export const CREATE_MINION_PATH = `${DashboardRoutes.minions.path}/create-new-minion`;
+
+/** The path for shown creation user view */
+export const CREATE_USER_PATH = `${DashboardRoutes.users.path}/create-new-user`;
 
 /** Make routes readonly */
 Object.freeze(AppRoutes);

@@ -1,8 +1,7 @@
 import { CircularProgress, Grid, IconButton, Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_FONT_RATION } from "../../../infrastructure/consts";
-import { livelinessFeed, livelinessFlag } from "../../../services/settings.service";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RemoteConnectionStatus } from "../../../infrastructure/generated/api";
 import Collapse from '@mui/material/Collapse';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
@@ -14,42 +13,26 @@ import { handleServerRestError } from "../../../services/notifications.service";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { AlertDialog } from "../../AlertDialog";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { TitleButtonContent } from "../../global/TitleButtonContent";
+import { TitleButtonContent } from "../../layouts/TitleButtonContent";
+import { remoteRegisteredUsersService } from "../../../services/users.service";
+import { useLiveliness } from "../../../hooks/useLiveliness";
 
 
 export function ShowRegisteredUsers() {
 	const { t } = useTranslation();
 	const theme = useTheme();
-	const [remoteConnection, setRemoteConnection] = useState<RemoteConnectionStatus>(livelinessFlag.remoteConnection);
+	const { remoteConnection } = useLiveliness();
 
 	const [fetchingRegisteredUsers, setFetchingRegisteredUsers] = useState<boolean>();
 	const [registeredUsers, setRegisteredUsers] = useState<string[]>();
-
 	const [unregisteredUserCandidate, setUnregisteredUserCandidate] = useState<string>('');
 	const [unregistering, setUnregistering] = useState<string>('');
 	const [openUnregisteredUserAlert, setOpenUnregisteredUserAlert] = useState<boolean>(false);
 
-	useEffect(() => {
-		let livelinessDetacher: () => void;
-
-		(async () => {
-			// Subscribe to the liveliness feed
-			livelinessDetacher = livelinessFeed.attach((livelinessData) => {
-				setRemoteConnection(livelinessData.remoteConnection);
-			});
-
-		})();
-
-		return () => {
-			// unsubscribe the feed on component unmount
-			livelinessDetacher && livelinessDetacher();
-		};
-	}, []);
-
 	async function fetchRegisteredUsers() {
 		setFetchingRegisteredUsers(true);
 		try {
-			const registeredUsers = await ApiFacade.UsersApi.getRegisteredUsers();
+			const registeredUsers = await remoteRegisteredUsersService.forceFetchData();
 			setRegisteredUsers(registeredUsers);
 		} catch (error) {
 			await handleServerRestError(error);
