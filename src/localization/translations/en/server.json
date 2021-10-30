@@ -32,7 +32,7 @@
 	"6409": "the minion not support command recording",
 	"7409": "ifttt trigger fail",
 	"1422": "wrong schema",
-	"2422": "wrong schema, with wrong message",
+	"2422": "Schema issue",
 	"1500": "unknown error",
 	"1501": "internal server error",
 	"2501": "MFA configuration not set correctly",

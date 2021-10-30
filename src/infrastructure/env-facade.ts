@@ -16,15 +16,14 @@ class EnvFacade {
 	private _lightweightUrl: string = process.env.REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
 
 	public get apiServerUrl(): string {
-		return this._serverUrl;
+		// Use 'this._serverUrl' only edit URL is allowed 
+		if (this.allowSetApiServiceURL) {
+			return this._serverUrl;
+		}
+		return process.env.REACT_APP_API_URL || '';
 	}
 
 	public set apiServerUrl(serverUrl: string) {
-		// TODO: in next prod, disable it for web
-		// if (!this.isMobileApp) {
-		// 	// TEMP: LOG
-		// 	return;
-		// }
 		// Keep the server URL in mobile apps for farther use
 		setLocalStorageItem<string>(LocalStorageKey.ServerURL, serverUrl, { itemType: 'string' });
 		this._serverUrl = serverUrl;
@@ -46,10 +45,26 @@ class EnvFacade {
 		return this._lightweightUrl;
 	}
 
+	/** Is app running under MOCK MODE */
+	public get mockMode(): boolean {
+		return !!process.env.REACT_APP_MOCK_MODE;
+	}
+
+	/** Is app running under DEV MODE */
+	public get devMode(): boolean {
+		return !!process.env.REACT_APP_LOCAL_DEV;
+	}
+
+	public get allowSetApiServiceURL(): boolean {
+		// In prod mode, only in mobile user can modify the server API URL no matter what..
+		// THIS IS FOR SECURITY!!!!, NO XSS CODE WILL BE ALLOW TO CHANGE THE API URL!!!!
+		return this.isMobileApp || this.devMode;
+	}
+
 	public get isTokenAllowed(): boolean {
 		// For android app, since it's not same-origin the cookie not will be saved by web-kit for http requests
 		// Also, the risk for XSS thieves is very low, since it's not a browser, but app with web render 
-		return this.platform !== 'Browser' || !!process.env.REACT_APP_LOCAL_DEV;
+		return this.isMobileApp || this.devMode || this.mockMode;
 	}
 
 	public get platform(): Platform {

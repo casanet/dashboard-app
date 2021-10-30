@@ -49,7 +49,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 		setDeleting(true);
 		try {
 			await ApiFacade.MinionsApi.deleteMinion(minion.minionId || '');
-			minionsService.updateMinion(minion);
+			minionsService.deleteMinion(minion);
 		} catch (error) {
 			handleServerRestError(error);
 		}

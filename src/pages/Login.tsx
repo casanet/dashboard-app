@@ -1,5 +1,5 @@
 
-import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Select, MenuItem } from '@material-ui/core';
+import { Button, Grid, Paper, TextField, Typography, LinearProgress, Link, PaletteType, FormControl, InputLabel, InputAdornment, IconButton, OutlinedInput, Input, Select, MenuItem, useTheme } from '@material-ui/core';
 import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
@@ -8,7 +8,7 @@ import isEmail from 'isemail';
 import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
 import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
-import { API_KEY_HEADER, AppRoutes, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
+import { API_KEY_HEADER, AppRoutes, DEFAULT_FONT_RATION, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useHistory } from 'react-router-dom';
 import { ThemeToggle } from '../components/ThemeToggle';
 import Visibility from '@material-ui/icons/Visibility';
@@ -33,6 +33,7 @@ interface LoginProps {
 function LoginForm() {
 	const { t } = useTranslation();
 	const history = useHistory();
+	const theme = useTheme();
 	const [loading, setLoading] = useState<boolean>();
 	const [mfaMode, setMfaMode] = useState<boolean>();
 	const [localServerSelectionMode, setLocalServerSelectionMode] = useState<boolean>();
@@ -284,7 +285,7 @@ function LoginForm() {
 					{t('login.sign.in').toUpperCase()}
 				</Button>}
 		</div>
-		<FormControl className={'edit-server-url-container'}>
+		{envFacade.allowSetApiServiceURL && <FormControl className={'edit-server-url-container'}>
 			<InputLabel htmlFor="server-url-input">{t('global.server.url')}</InputLabel>
 			<Input
 				error={serverUrlError}
@@ -297,7 +298,7 @@ function LoginForm() {
 				}}
 				endAdornment={
 					<InputAdornment position="end">
-						<ThemeTooltip title={<span>{t(`login.${serverUrlEditMode ? 'save' : 'edit'}.server.url`)}</span>} enterDelay={100}>
+						<ThemeTooltip title={<span>{t(`login.${serverUrlEditMode ? 'save' : 'edit'}.server.url`)}</span>}>
 							<IconButton
 								aria-label="toggle edit mode"
 								onClick={handleEditServerUrlToggle}
@@ -309,13 +310,21 @@ function LoginForm() {
 					</InputAdornment>
 				}
 			/>
-		</FormControl>
-		<div className="login-form-footer">
+		</FormControl>}
+		<div className="login-form-footer" style={{ textAlign: 'center' }}>
 			<Typography variant="body2" onClick={() => window.open('https://www.freepik.com/vectors/background', '_blank')}>
 				{/* <Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
 					Background from  www.freepik.com
 				</Trans> */}
 			</Typography>
+			{envFacade.mockMode && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
+				<Typography variant="body2" >
+					- {t('general.demo.mode')} -
+				</Typography>
+				<Typography variant="body2" >
+					{t('general.demo.mode.tip')}
+				</Typography>
+			</div>}
 			<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
 				{t('general.copyright.message', { year: new Date().getFullYear() })}
 			</Typography>
