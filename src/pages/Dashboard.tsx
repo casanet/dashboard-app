@@ -178,6 +178,7 @@ export default function Dashboard(props: DashboardProps) {
 
 	// Redirect to login, in user not logged on
 	if (!sessionManager.isLoggedOn) {
+		console.warn('USER NOT LOGGED ON, REDIRECTING TO', AppRoutes.login.path);
 		history.push(AppRoutes.login.path);
 	}
 
