@@ -81,3 +81,73 @@ jobs:
       with:
         name: internal 
         path: internal
+  
+  bomb_version:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    # if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Update Version Patch
+      id: update_version
+      run: |
+          npm run patchversion
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo $PACKAGE_VERSION
+          echo ::set-output name=version::$PACKAGE_VERSION
+    - name: Commit and push changes
+      uses: devops-infra/action-commit-push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        commit_message: Update to version ${{ steps.update_version.outputs.version }} [ci skip]
+  
+  release:
+    needs: bomb_version 
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    # if: github.ref == 'refs/heads/main'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+      with:
+        name: android
+        path: android
+    - name: Get the version
+      id: get_version
+      run: |
+        echo ::set-output name=version::$(node -p "require('./package.json').version")
+        echo ::set-output name=title::$( git log -1 --pretty=%B | sed -n '1p')
+        body=$(git log -1 --pretty=%B | sed 1d)
+        body="${body//'%'/'%25'}"
+        body="${body//$'\n'/'%0A'}"
+        body="${body//$'\r'/'%0D'}"
+        echo ::set-output name=body::$body
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get_version.outputs.version }}
+        release_name: ${{  steps.get_version.outputs.title }}
+        body: ${{  steps.get_version.outputs.body }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset - Android APP
+      id: upload-release-asset-android-app
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./android/app-release.apk
+        asset_name: casanet.apk
+        asset_content_type: application/octet-stream
+
