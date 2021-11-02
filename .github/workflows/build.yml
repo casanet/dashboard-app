@@ -57,6 +57,8 @@ jobs:
         CASANET_KEY_PASSWORD: '${{ secrets.CASANET_KEY_PASSWORD }}'
         BUILD_PATH: www
       run: |
+        yarn run build
+        yarn run postbuild
         npm i -g cordova
         node scripts/decode-key-store.js
         cordova platform add android
