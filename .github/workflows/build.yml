@@ -49,11 +49,15 @@ jobs:
 
     - name: Bundle Android APP
       env:
+        REACT_APP_API_URL: '${{ secrets.API_URL_DEMO }}'
+        REACT_APP_V3_URL: '${{ secrets.V3_URL_APP }}'
+        REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL_APP }}'
         BUILD_PATH: www
       run: |
         npm i -g cordova
+        node scripts/decode-key-store.js
         cordova platform add android
-        npm run android
+        cordova build android --release -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD
     - uses: actions/upload-artifact@v2
       with:
         name: android 
