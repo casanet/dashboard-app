@@ -95,6 +95,8 @@ jobs:
     - name: Update Version Patch
       id: update_version
       run: |
+          npm i -g yarn
+          yarn install --frozen-lockfile
           npm run patchversion
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo $PACKAGE_VERSION
