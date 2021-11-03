@@ -93,7 +93,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Update Version Patch
-      id: update_version
+      id: target_version
       run: |
           npm i -g yarn
           yarn install --frozen-lockfile
@@ -105,7 +105,7 @@ jobs:
       uses: devops-infra/action-commit-push@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        commit_message: Update to version ${{ steps.update_version.outputs.version }} [ci skip]
+        commit_message: Target next version to ${{ steps.target_version.outputs.version }} [ci skip]
   
   release:
     needs: bomb_version 
@@ -152,4 +152,3 @@ jobs:
         asset_path: ./android/release/app-release.apk
         asset_name: casanet.apk
         asset_content_type: application/octet-stream
-
