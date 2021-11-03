@@ -5,6 +5,8 @@
 
 ### A new react based modern hybrid dashboard for web &amp; mobile.
 
+## ✨✨✨ [Live Demo Dashboard](https://demo.dashboard.casanet.casa/) ✨✨✨
+
 ![Screenshot](./assets/capture/desktop-capture.gif)
 <img src="./assets/capture/app1.jpg" alt="app1-dashboard"
 	title="lite-dashboard screenshot" width="270" height="580" />
@@ -18,9 +20,9 @@ The dashboard design to fully support the following features:
 * Desktop, tablet, mobile and mobile app all fully supported.
 * Multi-language with fully RTL support (using [i18n](https://react.i18next.com/)).
 
-🚧🚧🚧  🛠 UNDER CONSTRUCTION 🛠 🚧🚧🚧
+#### 💾 backward computability 💾
 
-The new dashboard not fully implemented, you can still use the [v3 dashboard](https://github.com/casanet/frontend-v3) (should be server in `CASANET-URL/v3` URL). 
+You can still use the [v3 dashboard](https://github.com/casanet/frontend-v3) (should be server in `CASANET-URL/v3` URL). 
 
 ## DEVELOPMENT
 
@@ -38,6 +40,6 @@ To build the mobile app using [cordova](https://cordova.apache.org/) first make 
 
 * `npm i -g cordova` - To install the cordova on the machine.
 * `cordova platform add android` - Add the resources of cordova for Android. 
-* `yarn run cordova:android` - To build the app APK.
+* `yarn run cordova:android` - To build & run the android app.
 
 In order to debug app in realtime, connect the device to the PC, and open debug-mode, then go to `chrome://inspect/#devices` page.
