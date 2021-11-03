@@ -1,7 +1,7 @@
 import { Grid, IconButton, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { SettingItem } from "../../../pages/dashboard-pages/Settings";
-import { DEFAULT_FONT_RATION, SERVER_REPO_URL } from "../../../infrastructure/consts";
+import { DASHBOARD_REPO_URL, DEFAULT_FONT_RATION, SERVER_REPO_URL } from "../../../infrastructure/consts";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { sessionManager } from "../../../infrastructure/session-manager";
 import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
@@ -21,6 +21,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { AlertDialog } from "../../AlertDialog";
 import { useData } from "../../../hooks/useData";
 import { livelinessCheck } from "../../../services/liveliness.service";
+import { envFacade } from "../../../infrastructure/env-facade";
 
 const useStyles = makeStyles((theme) => ({
 	iconBadge: {
@@ -148,7 +149,7 @@ export function ServerVersion() {
 		setUpdating(false);
 	}
 
-	return <SettingItem title={t('dashboard.settings.general.update.server.version')} >
+	return <SettingItem title={t('dashboard.settings.general.update.version')} >
 		<Grid
 			style={{ width: '100%' }}
 			container
@@ -175,7 +176,7 @@ export function ServerVersion() {
 					alignItems="center"
 				>
 					<div>
-						{t('dashboard.settings.general.update.version')}
+						{t('dashboard.settings.general.update.server.version')}
 					</div>
 					{versionData?.version && <div style={{ display: 'flex' }}>
 						<Typography>{versionData?.version}</Typography>
@@ -183,19 +184,19 @@ export function ServerVersion() {
 					</div>}
 				</Grid>
 				<Grid
-					style={{ width: '100%' }}
+					style={{ maxWidth: '100%' }}
 					container
 					direction="row"
 					justifyContent="space-between"
 					alignItems="center"
 				>
 					<div>
-						{t('dashboard.settings.general.update.commit')}
+						{t('Front version')}
 					</div>
-					{versionData?.commitHash && <div style={{ display: 'flex' }}>
-						<Typography>{versionData?.commitHash}</Typography>
-						<VersionSourceLink link={`${SERVER_REPO_URL}/tree/${versionData?.commitHash}`} tip={t('dashboard.settings.general.update.commit.link.tip')} />
-					</div>}
+					<div style={{ display: 'flex' }}>
+						<Typography>{envFacade.bundleVersion}</Typography>
+						<VersionSourceLink link={`${DASHBOARD_REPO_URL}/releases/tag/${envFacade.bundleVersion}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: versionData?.version })} />
+					</div>
 				</Grid>
 				{!newVersion && <Grid
 					style={{ width: '100%' }}

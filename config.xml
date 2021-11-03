@@ -1,35 +1,35 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <widget id="casa.casanet.dashboard" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 	<name>casanet</name>
 	<description>
-        Cadasnet IoT control dashboard
+        Cadasnet IoT Control Dashboard
     </description>
 	<author email="haim.kastner@gmail.com" href="https://github.com/haimkastner">
-        Haim Kastner
+				Haim Kastner
     </author>
-	<content src="index.html" />
-	<access origin="*" />
-	<allow-intent href="*" />
-	<allow-intent href="http://*/*" />
-	<allow-intent href="https://*/*" />
-	<allow-intent href="tel:*" />
-	<allow-intent href="sms:*" />
-	<allow-intent href="mailto:*" />
-	<allow-intent href="geo:*" />
+	<content src="index.html"/>
+	<access origin="*"/>
+	<allow-intent href="*"/>
+	<allow-intent href="http://*/*"/>
+	<allow-intent href="https://*/*"/>
+	<allow-intent href="tel:*"/>
+	<allow-intent href="sms:*"/>
+	<allow-intent href="mailto:*"/>
+	<allow-intent href="geo:*"/>
 	<platform name="android">
 		<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
-			<application android:usesCleartextTraffic="true" />
+			<application android:usesCleartextTraffic="true"/>
 		</edit-config>
-		<allow-intent href="market:*" />
-		<icon density="ldpi" src="assets/icons/android/mipmap-hdpi/ic_launcher.png" />
-		<icon density="hdpi" src="assets/icons/android/mipmap-hdpi/ic_launcher.png" />
-		<icon density="mdpi" src="assets/icons/android/mipmap-mdpi/ic_launcher.png" />
-		<icon density="xhdpi" src="assets/icons/android/mipmap-xhdpi/ic_launcher.png" />
-		<icon density="xxhdpi" src="assets/icons/android/mipmap-xxhdpi/ic_launcher.png" />
-		<icon density="xxxhdpi" src="assets/icons/android/mipmap-xxxhdpi/ic_launcher.png" />
+		<allow-intent href="market:*"/>
+		<icon density="ldpi" src="assets/icons/android/mipmap-hdpi/ic_launcher.png"/>
+		<icon density="hdpi" src="assets/icons/android/mipmap-hdpi/ic_launcher.png"/>
+		<icon density="mdpi" src="assets/icons/android/mipmap-mdpi/ic_launcher.png"/>
+		<icon density="xhdpi" src="assets/icons/android/mipmap-xhdpi/ic_launcher.png"/>
+		<icon density="xxhdpi" src="assets/icons/android/mipmap-xxhdpi/ic_launcher.png"/>
+		<icon density="xxxhdpi" src="assets/icons/android/mipmap-xxxhdpi/ic_launcher.png"/>
 	</platform>
 	<platform name="ios">
-		<allow-intent href="itms:*" />
-		<allow-intent href="itms-apps:*" />
+		<allow-intent href="itms:*"/>
+		<allow-intent href="itms-apps:*"/>
 	</platform>
 </widget>

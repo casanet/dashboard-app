@@ -3,6 +3,8 @@
 /platforms
 /plugins
 /www/*
+/build/*
+*.jks
 
 # Generated API
 generated

@@ -28,16 +28,41 @@ const defaultHeight = 240;
 // The max/min ration (in %) to change from the default size
 const maxRation = 100;
 const minRation = 25;
-const defaultRation = 40;
+
+const mobileDefaultRation = 75;
+const desktopDefaultRation = 60;
+const wideDesktopDefaultRation = 70;
+const veryWideDesktopDefaultRation = 90;
+
+function getMinionsCardRationRation(desktopMode: boolean, wideDesktopMode: boolean, veryWideDesktopMode: boolean): number {
+
+	const savedRation = getLocalStorageItem<number>(LocalStorageKey.MinionsCardRatio, { itemType: 'number' });
+	// If size saved, return it
+	if (savedRation) {
+		return savedRation;
+	}
+	if (veryWideDesktopMode) {
+		return veryWideDesktopDefaultRation;
+	}
+	if (wideDesktopMode) {
+		return wideDesktopDefaultRation;
+	}
+	if (desktopMode) {
+		return desktopDefaultRation;
+	}
+	return mobileDefaultRation;
+}
 
 export default function Minions(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
 	const { id } = useParams<{ id: string }>();
 	const location = useLocation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+	const veryWideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
 	const [minions, loading] = useData(minionsService, []);
 
-	const [sizeRatio, setSizeRatio] = useState<number>(getLocalStorageItem<number>(LocalStorageKey.MinionsCardRatio, { itemType: 'number' }) || defaultRation);
+	const [sizeRatio, setSizeRatio] = useState<number>(getMinionsCardRationRation(desktopMode, wideDesktopMode, veryWideDesktopMode));
 	const [filteredMinions, setFilteredMinion] = useState<Minion[]>([]);
 
 	useEffect(() => {
@@ -105,7 +130,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 		SideInfo = <MinionFullInfo minion={selectedMinion} />;
 	}
 	if (showCreateMinion) {
-		SideInfo =  <CreateMinion />;
+		SideInfo = <CreateMinion />;
 	}
 
 	return <PageLayout
