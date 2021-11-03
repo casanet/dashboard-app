@@ -1,5 +1,6 @@
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "./local-storage";
 import { Platform } from "./symbols/global";
+import packageJson from "../../package.json";
 
 class EnvFacade {
 
@@ -73,6 +74,10 @@ class EnvFacade {
 
 	public get isMobileApp(): boolean {
 		return this.platform !== 'Browser';
+	}
+
+	public get bundleVersion(): string {
+		return packageJson.version;
 	}
 }
 
