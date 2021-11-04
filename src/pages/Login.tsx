@@ -46,7 +46,7 @@ function LoginForm() {
 	const [localServerId, setLocalServerId] = useState<string>('');
 	const [localServers, setLocalServers] = useState<LocalServer[]>([]);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
-	const [serverUrl, setServerUrl] = useState<string>(envFacade.apiServerUrl);
+	const [serverUrl, setServerUrl] = useState<string>(envFacade.apiServerBaseUrl);
 	const [serverUrlEditMode, setServerUrlEditMode] = useState<boolean>(false);
 	const [serverUrlError, setServerUrlError] = useState<boolean>(false);
 
@@ -164,7 +164,7 @@ function LoginForm() {
 		// Set and save the new URL
 		setServerUrlEditMode(false);
 		setServerUrl(serverUrl);
-		envFacade.apiServerUrl = serverUrl;
+		envFacade.apiServerBaseUrl = serverUrl;
 	}
 
 	return <div className="login-form-container">

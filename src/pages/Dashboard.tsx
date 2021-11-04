@@ -180,6 +180,8 @@ export default function Dashboard(props: DashboardProps) {
 	if (!sessionManager.isLoggedOn) {
 		console.warn('USER NOT LOGGED ON, REDIRECTING TO', AppRoutes.login.path);
 		history.push(AppRoutes.login.path);
+		// In the meanwhile, dont load the dashboard, but show a loader
+		return <div style={{ height: '100vh' }}><Loader /></div>;
 	}
 
 	// Find the current route shown component index  
