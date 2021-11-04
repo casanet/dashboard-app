@@ -36,7 +36,7 @@ To set development environment, first set the environment variables, see [.env.e
 * `yarn run start` - to start the development assets server.
 * `yarn run build` - To build the final bundle.
 
-To build the mobile app using [cordova](https://cordova.apache.org/) first make sure you have installed [Android SDK](https://developer.android.com/studio) and [java 1.8 JDK](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) on your machine, then:
+To build the mobile app using [cordova](https://cordova.apache.org/) first make sure you have installed [Android SDK](https://developer.android.com/studio) and [java 11 JDK](https://www.oracle.com/java/technologies/downloads/#java11) on your machine, then:
 
 * `npm i -g cordova` - To install the cordova on the machine.
 * `cordova platform add android` - Add the resources of cordova for Android. 
