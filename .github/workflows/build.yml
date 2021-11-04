@@ -14,6 +14,55 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+
+    - name: Bomb Version # Auto Update patch in main branch
+      id: bomb_version
+      if: github.ref == 'refs/heads/main'
+      run: |
+          npm i -g yarn
+          yarn install --frozen-lockfile
+          npm run patchversion
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo $PACKAGE_VERSION
+          echo ::set-output name=version::$PACKAGE_VERSION
+    - name: Commit and push changes # Commit version update
+      if: github.ref == 'refs/heads/main'
+      uses: devops-infra/action-commit-push@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        commit_message: Bomb version to ${{ steps.bomb_version.outputs.version }} [ci skip]
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+    - name: Bundle Android APP
+      env:
+        REACT_APP_API_URL: '${{ secrets.API_URL_DEMO }}'
+        REACT_APP_V3_URL: '${{ secrets.V3_URL_APP }}'
+        REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL_APP }}'
+        CASANET_KEY_STORE: '${{ secrets.CASANET_KEY_STORE }}'
+        CASANET_KEY_ALIAS: '${{ secrets.CASANET_KEY_ALIAS }}'
+        CASANET_KEY_PASSWORD: '${{ secrets.CASANET_KEY_PASSWORD }}'
+        BUILD_PATH: www
+      run: |
+        yarn run build
+        yarn run postbuild
+        npm i -g cordova
+        node scripts/decode-key-store.js
+        cordova platform add android
+        cordova build android --release -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=bundle
+        cordova build android --release -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=apk
+        mkdir android
+        cp platforms/android/app/build/outputs/bundle/release/app-release.aab android/app-release.aab
+        cp platforms/android/app/build/outputs/apk/release/app-release.apk android/app-release.apk
+    - uses: actions/upload-artifact@v2
+      with:
+        name: android
+        path: android
+
     - name: Bundle www # The assets build for the public CDN
       env:
         BUILD_PATH: www
@@ -35,35 +84,7 @@ jobs:
       with:
         name: www
         path: www
-
-    - name: Set up JDK 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 11
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v2
     
-    - name: Bundle Android APP
-      env:
-        REACT_APP_API_URL: '${{ secrets.API_URL_DEMO }}'
-        REACT_APP_V3_URL: '${{ secrets.V3_URL_APP }}'
-        REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL_APP }}'
-        CASANET_KEY_STORE: '${{ secrets.CASANET_KEY_STORE }}'
-        CASANET_KEY_ALIAS: '${{ secrets.CASANET_KEY_ALIAS }}'
-        CASANET_KEY_PASSWORD: '${{ secrets.CASANET_KEY_PASSWORD }}'
-        BUILD_PATH: www
-      run: |
-        yarn run build
-        yarn run postbuild
-        npm i -g cordova
-        node scripts/decode-key-store.js
-        cordova platform add android
-        cordova build android --release -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD
-    - uses: actions/upload-artifact@v2
-      with:
-        name: android 
-        path: platforms/android/app/build/outputs/bundle/release
-
     - name: Bundle internal # The assets build for the local server, the api server is just ''
       env:
         REACT_APP_API_URL: ''
@@ -78,33 +99,8 @@ jobs:
         name: internal 
         path: internal
   
-  bomb_version:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    if: github.ref == 'refs/heads/main'
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Update Version Patch
-      id: target_version
-      run: |
-          npm i -g yarn
-          yarn install --frozen-lockfile
-          npm run patchversion
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          echo $PACKAGE_VERSION
-          echo ::set-output name=version::$PACKAGE_VERSION
-    - name: Commit and push changes
-      uses: devops-infra/action-commit-push@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        commit_message: Target next version to ${{ steps.target_version.outputs.version }} [ci skip]
-  
   release:
-    needs: bomb_version 
+    needs: build 
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -117,8 +113,8 @@ jobs:
       with:
         name: android
         path: android
-    - name: Get the version
-      id: get_version
+    - name: Version Info
+      id: version_info
       run: |
         echo ::set-output name=version::$(node -p "require('./package.json').version")
         echo ::set-output name=title::$(git log -1 --pretty=%B | sed -n '1p')
@@ -133,12 +129,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.get_version.outputs.version }}
-        release_name: ${{  steps.get_version.outputs.title }}
-        body: ${{  steps.get_version.outputs.body }}
+        tag_name: ${{ steps.bomb_version.outputs.version }}
+        release_name: ${{  steps.version_info.outputs.title }}
+        body: ${{  steps.version_info.outputs.body }}
         draft: false
         prerelease: false
-    - name: Upload Release Asset - Android APP
+    - name: Upload Release Asset - Android AAB Bundle
       id: upload-release-asset-android-app
       uses: actions/upload-release-asset@v1
       env:
@@ -147,4 +143,14 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
         asset_path: ./android/app-release.aab
         asset_name: casanet.aab
+        asset_content_type: application/octet-stream
+    - name: Upload Release Asset - Android APK Application
+      id: upload-release-asset-android-app
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./android/app-release.apk
+        asset_name: casanet.apk
         asset_content_type: application/octet-stream
