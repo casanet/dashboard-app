@@ -16,7 +16,7 @@ class EnvFacade {
 	/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
 	private _lightweightUrl: string = process.env.REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
 
-	public get apiServerUrl(): string {
+	public get apiServerBaseUrl(): string {
 		// Use 'this._serverUrl' only edit URL is allowed 
 		if (this.allowSetApiServiceURL) {
 			return this._serverUrl;
@@ -24,14 +24,17 @@ class EnvFacade {
 		return process.env.REACT_APP_API_URL || '';
 	}
 
-	public set apiServerUrl(serverUrl: string) {
+	public set apiServerBaseUrl(serverUrl: string) {
 		// Keep the server URL in mobile apps for farther use
 		setLocalStorageItem<string>(LocalStorageKey.ServerURL, serverUrl, { itemType: 'string' });
 		this._serverUrl = serverUrl;
 	}
 
+	/**
+	 * The API V1 URL
+	 */
 	public get apiUrl(): string {
-		return `${this._serverUrl}/API`;
+		return `${this.apiServerBaseUrl}/API`;
 	}
 
 	public get baseDashboardUri(): string {

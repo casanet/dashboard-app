@@ -11,6 +11,7 @@ import { ShowLocalMac } from "./configureRemoteConnection/ShowLocalMac";
 import { ShowRegisteredUsers } from "./configureRemoteConnection/ShowRegisteredUsers";
 import { useData } from "../../hooks/useData";
 import { useLiveliness } from "../../hooks/useLiveliness";
+import { envFacade } from "../../infrastructure/env-facade";
 
 export function ConnectivitySettings() {
 	const { t } = useTranslation();
@@ -23,6 +24,13 @@ export function ConnectivitySettings() {
 		justifyContent="space-between"
 		alignItems="stretch"
 	>
+		<Collapse in={!!envFacade.apiServerBaseUrl}>
+			<SettingItem title={t('dashboard.settings.connectivity.casanet.server.url')} >
+				<Typography>
+					{envFacade.apiServerBaseUrl}
+				</Typography>
+			</SettingItem>
+		</Collapse>
 		<SettingItem title={t('dashboard.settings.connectivity.remote.server.status')} >
 			<Typography>
 				{t(remoteConnectionDisplayKey[remoteConnection])}
