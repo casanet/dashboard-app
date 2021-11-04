@@ -62,7 +62,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: android 
-        path: platforms/android/app/build/outputs/apk
+        path: platforms/android/app/build/outputs/bundle/release
 
     - name: Bundle internal # The assets build for the local server, the api server is just ''
       env:
@@ -145,6 +145,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./android/release/app-release.apk
-        asset_name: casanet.apk
+        asset_path: ./android/app-release.aab
+        asset_name: casanet.aab
         asset_content_type: application/octet-stream
