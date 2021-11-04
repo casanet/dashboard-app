@@ -14,13 +14,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-
+  
+    - name: Prepare dependencies
+      run: |
+        npm i -g yarn
+        yarn install --frozen-lockfile --ignore-scripts
+  
     - name: Bomb Version # Auto Update patch in main branch
       id: bomb_version
       if: github.ref == 'refs/heads/main'
       run: |
-          npm i -g yarn
-          yarn install --frozen-lockfile
           npm run patchversion
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo $PACKAGE_VERSION
@@ -77,8 +80,7 @@ jobs:
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_API_URL=$API_URL_PROD ; else export REACT_APP_API_URL=$API_URL_DEV; fi
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_V3_URL=$V3_URL_PROD ; else export REACT_APP_V3_URL=$V3_URL_DEV; fi
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_PROD ; else export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_DEV; fi
-        npm i -g yarn
-        yarn install --frozen-lockfile
+        yarn run build
         yarn run postbuild
     - uses: actions/upload-artifact@v2
       with:
