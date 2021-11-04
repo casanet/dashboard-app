@@ -135,7 +135,7 @@ jobs:
         draft: false
         prerelease: false
     - name: Upload Release Asset - Android AAB Bundle
-      id: upload-release-asset-android-app
+      id: upload-release-asset-android-bundle
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -145,7 +145,7 @@ jobs:
         asset_name: casanet.aab
         asset_content_type: application/octet-stream
     - name: Upload Release Asset - Android APK Application
-      id: upload-release-asset-android-app
+      id: upload-release-asset-android-apk
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
