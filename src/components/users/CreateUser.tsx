@@ -336,7 +336,7 @@ export function CreateUser() {
 							<Link
 								style={{ marginLeft: 3, marginRight: 3 }}
 								target="_blank"
-								href={`${SERVER_REPO_URL}/tree/development/backend#two-factor-authentication-mfa`}>
+								href={`${SERVER_REPO_URL}/tree/development/backend#two-factor-authentication-2fa`}>
 								casanet 2FA documentation
 							</Link>
 						</Trans>

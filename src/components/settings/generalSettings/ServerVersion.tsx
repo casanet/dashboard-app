@@ -191,7 +191,7 @@ export function ServerVersion() {
 					alignItems="center"
 				>
 					<div>
-						{t('Front version')}
+						{t('dashboard.settings.general.update.front.version')}
 					</div>
 					<div style={{ display: 'flex' }}>
 						<Typography>{envFacade.bundleVersion}</Typography>
