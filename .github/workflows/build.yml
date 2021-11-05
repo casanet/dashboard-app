@@ -117,14 +117,16 @@ jobs:
         path: android
     - name: Version Info
       id: version_info
+      # "Build" the release title and text body from the latest pushed commit, then pull the version bombed version for the release version  
       run: |
-        echo ::set-output name=version::$(node -p "require('./package.json').version")
         echo ::set-output name=title::$(git log -1 --pretty=%B | sed -n '1p')
         body=$(git log -1 --pretty=%B | sed 1d)
         body="${body//'%'/'%25'}"
         body="${body//$'\n'/'%0A'}"
         body="${body//$'\r'/'%0D'}"
         echo ::set-output name=body::$body
+        git pull 
+        echo ::set-output name=version::$(node -p "require('./package.json').version")
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
