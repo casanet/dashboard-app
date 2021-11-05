@@ -378,7 +378,7 @@ export function CreateMinion() {
 							<Link
 								style={{ marginLeft: 3, marginRight: 3 }}
 								target="_blank"
-								href={`${SERVER_REPO_URL}/tree/development/backend/src/modules#how-to-connect-my-device-to-the-local-network-and-how-to-add-it-to-be-managed-by-the-casa-net-server`}>
+								href={`${SERVER_REPO_URL}/tree/development/backend/src/modules#how-to-connect-my-device-to-the-local-network-and-how-to-add-it-to-be-managed-by-the-casanet-server`}>
 								casanet modules documentation
 							</Link>
 						</Trans>
