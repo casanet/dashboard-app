@@ -45,6 +45,8 @@
 	"login.select.local.server": "Local server to connect",
 	"login.save.server.url": "Save the Casanet server address",
 	"login.edit.server.url": "Change the Casanet server address",
+	"dashboard.offline.server.message": "Connecting to your server...",
+	"dashboard.offline.local.server.message": "Connecting to your local server...",
 	"dashboard.pages.menu": "Dashboard pages menu",
 	"dashboard.appbar.profile": "User profile",
 	"dashboard.toolbar.search.in.page.content": "Search in {{pageName}}...",

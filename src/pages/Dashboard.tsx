@@ -8,7 +8,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { SideBarBottom } from '../components/dashboard/SideBarBottom';
 import { useTranslation } from "react-i18next";
-import { ComponentType, LazyExoticComponent, Suspense, useState } from "react";
+import { ComponentType, LazyExoticComponent, Suspense, useEffect, useState } from "react";
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 import { getLang } from "../services/localization.service";
 import {
@@ -36,12 +36,16 @@ import { left, marginLeft } from "../logic/common/themeUtils";
 import casanetLogo from '../static/logo-app.png';
 import { NetworkToolbar } from "../components/toolbars/NetworkToolbar";
 import { UsersToolbar } from "../components/toolbars/UsersToolbar";
+import { useLiveliness } from "../hooks/useLiveliness";
+import { livelinessCheck, livelinessFlag } from "../services/liveliness.service";
+import { RemoteConnectionStatus } from "../infrastructure/generated/api";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
 const Users = React.lazy(() => import('./dashboard-pages/Users'));
 const Settings = React.lazy(() => import('./dashboard-pages/Settings'));
 const Profile = React.lazy(() => import('./dashboard-pages/Profile'));
+const Offline = React.lazy(() => import('../components/Offline'));
 
 // Detect the direction, and use the correct arrow direction for extend/collapse side menu
 const direction = getLang().direction;
@@ -146,11 +150,29 @@ export default function Dashboard(props: DashboardProps) {
 	const theme = useTheme();
 	const history = useHistory();
 	const classes = useStyles();
+	const liveliness = useLiveliness();
 	const location = useLocation();
+	const [waitForCommunication, setWaitForCommunication] = useState<boolean>(false);
 	const [collapseMenu, setCollapseMenu] = useState<boolean>(!!getLocalStorageItem<boolean>(LocalStorageKey.CollapseMenu, { itemType: 'boolean' }));
 	const [collapseToolbar, setCollapseToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, { itemType: 'boolean' }) ?? !desktopMode);
 	const [collapsePageToolbar, setCollapsePageToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapsePageToolbar, { itemType: 'boolean' }) ?? !desktopMode);
 	const [searchText, setSearchText] = useState<string>();
+
+	useEffect(() => {
+		(async () => {
+			// Dashboard init, check liveliness, and if there is an issue in it, show offline view
+			await livelinessCheck();
+			setWaitForCommunication(!livelinessFlag.online || livelinessFlag.remoteConnection === RemoteConnectionStatus.LocalServerDisconnected);
+		})();
+	}, []);
+
+	useEffect(() => {
+		// Once liveliness mode has changed, make sure to update offline mode state 
+		if (waitForCommunication && livelinessFlag.online && livelinessFlag.remoteConnection !== RemoteConnectionStatus.LocalServerDisconnected) {
+			setWaitForCommunication(false);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [liveliness]);
 
 	function toggleCollapseMenu() {
 		const newCollapseMenuMode = !collapseMenu;
@@ -358,7 +380,10 @@ export default function Dashboard(props: DashboardProps) {
 					{showPageToolbar && collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
 					<div style={{ width: '100%', height: `calc(100% - ${(showPageToolbar && !collapsePageToolbar) ? appBarHight : 0}px)` }}>
 						<Suspense fallback={<Loader />}>
-							<HashRouter>
+						{/* Show offline page in case of OFFLINE mode */}
+							{waitForCommunication && <Offline />}
+							{/* Show pages only in ONLINE mode */}
+							{!waitForCommunication && <HashRouter>
 								<Switch>
 									{/* Generate route for each page */}
 									{dashboardPages.map(dashboardPage =>
@@ -372,7 +397,7 @@ export default function Dashboard(props: DashboardProps) {
 										<Redirect to={dashboardPages[0].path} />
 									</Route>
 								</Switch>
-							</HashRouter>
+							</HashRouter>}
 						</Suspense>
 					</div>
 				</div>

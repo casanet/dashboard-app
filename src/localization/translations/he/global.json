@@ -45,6 +45,8 @@
 	"login.mfa.code": "אימות דו-שלבי",
 	"login.save.server.url": "שמור את כתובת שרת ה-Casanet",
 	"login.edit.server.url": "שנה את כתובת שרת ה-Casanet",
+	"dashboard.offline.server.message": "מתחבר לשרת שלך...",
+	"dashboard.offline.local.server.message": "מתחבר לשרת המקומי שלך...",
 	"dashboard.pages.menu": "תפריט ממשק הניהול",
 	"dashboard.appbar.profile": "פרופיל משתמש",
 	"dashboard.toolbar.search.in.page.content": "חפש ב{{pageName}}...",
