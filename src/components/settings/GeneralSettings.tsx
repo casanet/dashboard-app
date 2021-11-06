@@ -10,6 +10,7 @@ import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import { downloadBinaryFile } from "../../infrastructure/utils";
 import { ServerVersion } from "./generalSettings/ServerVersion";
+import { envFacade } from "../../infrastructure/env-facade";
 
 export function GeneralSettings() {
 	const { t } = useTranslation();
@@ -42,7 +43,8 @@ export function GeneralSettings() {
 		justifyContent="space-between"
 		alignItems="stretch"
 	>
-		<SettingItem title={t('dashboard.settings.general.backup')} >
+		{/* Download files currently allowed only in the web version */}
+		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.general.backup')} >
 			<TitleButtonContent
 				title={t('dashboard.settings.general.backup.server.data')}
 				tip={t('dashboard.settings.general.backup.server.data.tip')}
@@ -58,8 +60,9 @@ export function GeneralSettings() {
 					</ThemeTooltip>
 				}
 			/>
-		</SettingItem>
-		<SettingItem title={t('dashboard.settings.general.logs')} >
+		</SettingItem>}
+		{/* Download files currently allowed only in the web version */}
+		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.general.logs')} >
 			<TitleButtonContent
 				title={t('dashboard.settings.general.logs.download.server.logs')}
 				tip={t('dashboard.settings.general.logs.download.server.logs.tip')}
@@ -75,7 +78,7 @@ export function GeneralSettings() {
 					</ThemeTooltip>
 				}
 			/>
-		</SettingItem>
+		</SettingItem>}
 		<ServerVersion />
 	</Grid>;
 }
