@@ -18,11 +18,14 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import AlarmIcon from '@mui/icons-material/Alarm';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import clonedeep from 'lodash.clonedeep';
 
 interface CreateTimingProps {
 	minion: Minion;
 	onDone: () => void;
 	fontRatio: number;
+	/** Whenever need to show the create timing component */
+	showAddTiming: boolean;
 }
 
 export function CreateTiming(props: CreateTimingProps) {
@@ -35,8 +38,17 @@ export function CreateTiming(props: CreateTimingProps) {
 	const [minionStatus, setMinionStatus] = useState<MinionStatus>(defaultMinionStatus(props.minion.minionType));
 
 	useEffect(() => {
-		setMinionStatus(defaultMinionStatus(props.minion.minionType));
-	}, [props.minion.minionType]);
+		// In order to show current minion status as a default timing set status mode, every time 
+		// The minion selected or "create timing" reopened close minion status as the default status to start from,  
+		setMinionStatus(clonedeep(props.minion.minionStatus));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.minion.minionId, props.showAddTiming]);
+
+	useEffect(() => {
+		// Every time user reopened "create timing" recalculate default timing props, 
+		// to make sure the inital default time is present. see https://github.com/casanet/dashboard-app/issues/49
+		setTimingProperties(defaultTimingProperties(timingType));
+	}, [timingType, props.showAddTiming]);
 
 	const { fontRatio } = props;
 	async function createTiming() {
