@@ -195,7 +195,7 @@ export function ServerVersion() {
 					</div>
 					<div style={{ display: 'flex' }}>
 						<Typography>{envFacade.bundleVersion}</Typography>
-						<VersionSourceLink link={`${DASHBOARD_REPO_URL}/releases/tag/${envFacade.bundleVersion}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: versionData?.version })} />
+						<VersionSourceLink link={`${DASHBOARD_REPO_URL}/releases/tag/${envFacade.bundleVersion}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: envFacade.bundleVersion })} />
 					</div>
 				</Grid>
 				{!newVersion && <Grid
