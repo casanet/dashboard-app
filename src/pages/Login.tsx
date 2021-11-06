@@ -312,11 +312,6 @@ function LoginForm() {
 			/>
 		</FormControl>}
 		<div className="login-form-footer" style={{ textAlign: 'center' }}>
-			<Typography variant="body2" onClick={() => window.open('https://www.freepik.com/vectors/background', '_blank')}>
-				{/* <Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
-					Background from  www.freepik.com
-				</Trans> */}
-			</Typography>
 			{envFacade.mockMode && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
 				<Typography variant="body2" >
 					- {t('general.demo.mode')} -
@@ -327,6 +322,11 @@ function LoginForm() {
 			</div>}
 			<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
 				{t('general.copyright.message', { year: new Date().getFullYear() })}
+			</Typography>
+			<Typography style={{ fontSize: DEFAULT_FONT_RATION * 0.5, marginTop: DEFAULT_FONT_RATION * 0.4 }} onClick={() => window.open('https://www.freepik.com/free-photos-vectors/technology-pattern', '_blank')}>
+				<Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
+					Background from  www.freepik.com
+				</Trans>
 			</Typography>
 		</div>
 	</div >
@@ -352,14 +352,6 @@ export default function Login(props: LoginProps) {
 					</div>
 				</Paper>
 			</Grid>
-			{/* <div className="casanet-credit">
-				<Paper className="casanet-credit-paper" elevation={3} onClick={() => window.open(DASHBOARD_REPO_URL, '_blank')}>
-					<div className="casanet-credit-container">
-						<GitHub />
-						<Typography className="casanet-credit-text" variant="body2" >{t('global.powered.by.casanet')}</Typography>
-					</div>
-				</Paper>
-			</div> */}
 		</div>
 	</div>
 }

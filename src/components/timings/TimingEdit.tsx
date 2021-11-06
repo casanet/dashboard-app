@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -195,7 +195,12 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 }
 
 export function OnceTimingEdit(props: TimingEditProps) {
-	const [time, setTime] = useState<Date>(props.timingProperties?.once?.date ? new Date(props.timingProperties?.once?.date) : new Date());
+	const [time, setTime] = useState<Date>(new Date());
+
+	useEffect(() => {
+		// Once the data has changed, set the time state
+		setTime(props.timingProperties?.once?.date ? new Date(props.timingProperties?.once?.date) : new Date());
+	}, [props.timingProperties?.once?.date]);
 
 	function sendTimingProperties(date: Date) {
 		props.setTimingProperties({
@@ -232,8 +237,13 @@ export function OnceTimingEdit(props: TimingEditProps) {
 
 export function TimeoutTimingEdit(props: TimingEditProps) {
 	const { t } = useTranslation();
-	const [value, setValue] = useState<Date>(props.timingProperties?.timeout?.startDate ? new Date(props.timingProperties?.timeout?.startDate) : new Date());
+	const [value, setValue] = useState<Date>(new Date());
 	const [durationInMinutes, setDurationInMinutes] = useState<number>(props.timingProperties?.timeout?.durationInMinutes || 1);
+
+	useEffect(() => {
+		// Once the start data has changed, set the value state
+		setValue(props.timingProperties?.timeout?.startDate ? new Date(props.timingProperties?.timeout?.startDate) : new Date());
+	}, [props.timingProperties?.timeout?.startDate]);
 
 	function sendTimingProperties(startDate: Date, durationInMinutes: number) {
 		props.setTimingProperties({

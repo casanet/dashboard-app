@@ -18,13 +18,13 @@ jobs:
     - name: Prepare dependencies
       run: |
         npm i -g yarn
-        yarn install --frozen-lockfile --ignore-scripts
-  
+        yarn install --frozen-lockfile
+
     - name: Bomb Version # Auto Update patch in main branch
       id: bomb_version
       if: github.ref == 'refs/heads/main'
       run: |
-          npm run patchversion
+          npm run patch_version
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo $PACKAGE_VERSION
           echo ::set-output name=version::$PACKAGE_VERSION
@@ -34,6 +34,11 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         commit_message: Bomb version to ${{ steps.bomb_version.outputs.version }} [ci skip]
+
+    - name: Configure DEV MODE # Set assets to build for DEV mode
+      if: github.ref != 'refs/heads/main'
+      run: |
+          npm run dev_mode
 
     - name: Set up JDK 11
       uses: actions/setup-java@v1
