@@ -24,6 +24,10 @@ export const livelinessFlag: LivelinessInfo = {
 export const livelinessFeed = new SyncEvent<LivelinessInfo>();
 
 export async function livelinessCheck() {
+	// Dont send livelinessCheck request, while logoff.
+	if (!sessionManager.isLoggedOn) {
+		return;
+	}
 	try {
 		// Try send ack
 		const remoteConnectionStatus = await ApiFacade.RemoteApi.getConnectionStatus();
