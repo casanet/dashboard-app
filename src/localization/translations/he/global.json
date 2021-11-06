@@ -35,7 +35,7 @@
 	"general.casanet.dashboard": "Casanet Dashboard",
 	"general.demo.mode": "מצב הדגמה",
 	"general.demo.mode.tip": "אנא הכנס כל אימייל/סיסמה בכדי לפתוח סשן",
-	"general.copyright.message": "Copyright © casanet {{year}}.",
+	"general.copyright.message": "Copyright © casanet {{year}}",
 	"login.welcome.message": "ברוכים הבאים לממשק ניהול ה IoT של  <1>Casanet</1>",
 	"login.background.credit.message": "Background from {{url}}",
 	"login.sign.in": "התחבר",
