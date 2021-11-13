@@ -10,7 +10,7 @@ import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
 import { API_KEY_HEADER, AppRoutes, DEFAULT_FONT_RATION, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useHistory } from 'react-router-dom';
-import { ThemeToggle } from '../components/ThemeToggle';
+import { ThemeToggle } from '../components/global/ThemeToggle';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import EditIcon from '@material-ui/icons/Edit';

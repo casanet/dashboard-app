@@ -73,6 +73,14 @@ export function ProfileOverridePass(props: ProfileItemProps) {
 					justifyContent="center"
 					alignItems="stretch"
 				>
+					{/* THIS IS AN UGLY WORK-AROUND!!!!!!!!!
+					Google chrome assume that if there is a 'password' input there is also 'username' input, 
+					so they decided that the scope select input will be the best option 😳
+					The following hidden inputs use as a bait to capture the Google suggestion, same as any lightning rod :) */}
+					<div style={{ maxHeight: 0, overflowY: 'hidden'}}>
+						<input type="text" />
+						<input type="password" />
+					</div>
 					<div style={{ height: DEFAULT_FONT_RATION * 2.5, marginTop: DEFAULT_FONT_RATION * 0.7 }}>
 						<TextField
 							style={{ width: `100%` }}

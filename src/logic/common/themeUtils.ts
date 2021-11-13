@@ -19,12 +19,12 @@ export function marginRight(theme: Theme): marginSide {
 
 type side = 'left' | 'right';
 
-/** marginLeft real key consider LTR vs RTL */
+/** Left real key consider LTR vs RTL */
 export function left(theme: Theme): side {
 	return theme.direction === "ltr" ? 'left' : 'right';
 }
 
-/** marginRight real key consider LTR vs RTL */
+/** Right real key consider LTR vs RTL */
 export function right(theme: Theme): side {
 	return theme.direction === "ltr" ? 'right' : 'left';
 }

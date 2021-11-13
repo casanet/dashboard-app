@@ -7,3 +7,14 @@ $sideBarExtendedWidth: var(--side-bar-extended-width);
 $sideBarCollapseWidth: var(--side-bar-collapse-width);
 $appBarHight: var(--app-bar-hight);
 $footerMenuHight: var(--footer-menu-hight);
+
+
+// In mobile mode (AKA touch screens), let scroll, but hide the scrollbar element
+.hide-scroll {
+	-ms-overflow-style: none; /* for Internet Explorer, Edge */
+	scrollbar-width: none; /* for Firefox */
+	overflow-y: scroll;
+}
+.hide-scroll::-webkit-scrollbar {
+	display: none; /* for Chrome, Safari, and Opera */
+}

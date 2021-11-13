@@ -39,6 +39,7 @@ import { UsersToolbar } from "../components/toolbars/UsersToolbar";
 import { useLiveliness } from "../hooks/useLiveliness";
 import { livelinessCheck, livelinessFlag } from "../services/liveliness.service";
 import { RemoteConnectionStatus } from "../infrastructure/generated/api";
+import { envFacade } from "../infrastructure/env-facade";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -154,8 +155,8 @@ export default function Dashboard(props: DashboardProps) {
 	const location = useLocation();
 	const [waitForCommunication, setWaitForCommunication] = useState<boolean>(false);
 	const [collapseMenu, setCollapseMenu] = useState<boolean>(!!getLocalStorageItem<boolean>(LocalStorageKey.CollapseMenu, { itemType: 'boolean' }));
-	const [collapseToolbar, setCollapseToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, { itemType: 'boolean' }) ?? !desktopMode);
-	const [collapsePageToolbar, setCollapsePageToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapsePageToolbar, { itemType: 'boolean' }) ?? !desktopMode);
+	const [collapseToolbar, setCollapseToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, { itemType: 'boolean' }) ?? envFacade.isMobileApp);
+	const [collapsePageToolbar, setCollapsePageToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapsePageToolbar, { itemType: 'boolean' }) ?? true);
 	const [searchText, setSearchText] = useState<string>();
 
 	useEffect(() => {
