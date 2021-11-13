@@ -7,7 +7,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
 import { RemoteConnectionStatus, User } from "../../infrastructure/generated/api";
-import { ThemeToggle } from "../ThemeToggle";
+import { ThemeToggle } from "../global/ThemeToggle";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { remoteConnectionDisplayKey } from "../../logic/common/settingsUtils";
 import Badge from '@mui/material/Badge';

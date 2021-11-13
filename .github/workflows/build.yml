@@ -57,7 +57,6 @@ jobs:
         BUILD_PATH: www
       run: |
         yarn run build
-        yarn run postbuild
         npm i -g cordova
         node scripts/decode-key-store.js
         cordova platform add android
@@ -86,7 +85,6 @@ jobs:
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_V3_URL=$V3_URL_PROD ; else export REACT_APP_V3_URL=$V3_URL_DEV; fi
         if [[ $ON_BRANCH == 'main' ]]; then export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_PROD ; else export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_DEV; fi
         yarn run build
-        yarn run postbuild
     - uses: actions/upload-artifact@v2
       with:
         name: www
@@ -100,7 +98,6 @@ jobs:
         BUILD_PATH: internal
       run: |
         yarn run build
-        yarn run postbuild
     - uses: actions/upload-artifact@v2
       with:
         name: internal 
