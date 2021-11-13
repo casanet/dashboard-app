@@ -199,10 +199,9 @@ export default function Dashboard(props: DashboardProps) {
 		history.push(dashboardPages[newValue].path);
 	};
 
-	// Redirect to login, in user not logged on
+	// In case of user not logged on
 	if (!sessionManager.isLoggedOn) {
-		console.warn('USER NOT LOGGED ON, REDIRECTING TO', AppRoutes.login.path);
-		history.push(AppRoutes.login.path);
+		console.warn('USER NOT LOGGED ON, SHOEING LOADER TILL REDIRECTION TO LOGIC PAGE EFFECT');
 		// In the meanwhile, dont load the dashboard, but show a loader
 		return <div style={{ height: '100vh' }}><Loader /></div>;
 	}
