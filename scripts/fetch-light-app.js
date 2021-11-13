@@ -6,7 +6,9 @@ import nodeFetch from 'node-fetch';
 const BUILD_MODE = process.env.BUILD_PATH || 'www';
 const dashboardDist = path.join(BUILD_MODE, 'light-app');
 
-const ENV_BRANCH = (process.env.GITHUB_REF !== 'main' && !process.env.BUILD_PROD) ? 'develop' : 'main';
+const ENV_BRANCH = (process.env.BRANCH !== 'main' && !process.env.BUILD_PROD) ? 'develop' : 'main';
+
+console.log(`[generate-api] Fetching light-app for branch "${process.env.BRANCH}" from server "${ENV_BRANCH}" branch...`);
 
 async function downloadAndUnpackDashboard(dashboardArtifact, distDir) {
 	const latestArtifact = await nodeFetch(dashboardArtifact);
