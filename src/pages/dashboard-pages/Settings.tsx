@@ -55,6 +55,7 @@ const CREDIT_HEIGHT = 20;
 
 export default function Settings() {
 	const { t } = useTranslation();
+	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
 	return <Grid
 		style={{ width: '100%', height: '100%' }}
@@ -63,7 +64,9 @@ export default function Settings() {
 		justifyContent="space-between"
 		alignItems="stretch"
 	>
-		<div style={{
+		<div
+			className={desktopMode ? '' : 'hide-scroll'}
+			style={{
 			width: '100%', maxWidth: '100%',
 			height: `calc(100% - ${CREDIT_HEIGHT}px)`, maxHeight: `calc(100% - ${CREDIT_HEIGHT}px)`,
 			overflowX: 'hidden', overflowY: 'auto'
