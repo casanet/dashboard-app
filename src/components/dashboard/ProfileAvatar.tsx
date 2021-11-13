@@ -13,12 +13,19 @@ import { sessionManager } from "../../infrastructure/session-manager";
 import { useHistory } from "react-router-dom";
 import { AppRoutes, DashboardRoutes } from "../../infrastructure/consts";
 import { extractProfileAvatarText } from "../../logic/common/profileUtils";
+import Modal from '@mui/material/Modal';
+import { Help } from "../general/Help";
+import Box from '@mui/material/Box';
+import { About } from "../general/About";
+import { modalBoxStyle } from "../../logic/common/modalUtils";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
 	const history = useHistory();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [avatarLetters, setAvatarLetters] = useState<string>('');
+	const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
+	const [showAboutModal, setShowAboutModal] = useState<boolean>(false);
 
 	useEffect(() => {
 		// Read user session info from local storage, it may be not up to date, but it's good enough for the avatar icon.
@@ -40,13 +47,31 @@ export function ProfileAvatar() {
 		});
 		sessionManager.onLogout();
 		history.push(AppRoutes.login.path);
+		handleClose();
 	};
 
 	function goToProfile() {
 		history.push(DashboardRoutes.profile.path);
+		handleClose();
 	};
 
 	return <div className="profile-avatar-container">
+		<Modal
+			open={showHelpModal}
+			onClose={() => setShowHelpModal(false)}
+		>
+			<Box sx={modalBoxStyle}>
+				<Help />
+			</Box>
+		</Modal>
+		<Modal
+			open={showAboutModal}
+			onClose={() => setShowAboutModal(false)}
+		>
+			<Box sx={modalBoxStyle}>
+				<About />
+			</Box>
+		</Modal>
 		<IconButton
 			className="profile-avatar"
 			aria-label={t('dashboard.appbar.profile')}
@@ -85,7 +110,7 @@ export function ProfileAvatar() {
 					</Typography>
 				</div>
 			</MenuItem>
-			<MenuItem >
+			<MenuItem onClick={() => { setShowHelpModal(true); handleClose(); }}>
 				<ListItemIcon className="profile-menu-item-icon">
 					<HelpOutlineOutlined fontSize="small" />
 				</ListItemIcon>
@@ -93,7 +118,7 @@ export function ProfileAvatar() {
 					{t('global.help')}
 				</Typography>
 			</MenuItem>
-			<MenuItem >
+			<MenuItem onClick={() => { setShowAboutModal(true); handleClose(); }}>
 				<ListItemIcon className="profile-menu-item-icon">
 					<InfoOutlined fontSize="small" />
 				</ListItemIcon>
