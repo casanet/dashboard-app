@@ -202,6 +202,7 @@ export default function Dashboard(props: DashboardProps) {
 	// In case of user not logged on
 	if (!sessionManager.isLoggedOn) {
 		console.warn('USER NOT LOGGED ON, SHOEING LOADER TILL REDIRECTION TO LOGIC PAGE EFFECT');
+		sessionManager.onLogout();
 		// In the meanwhile, dont load the dashboard, but show a loader
 		return <div style={{ height: '100vh' }}><Loader /></div>;
 	}
