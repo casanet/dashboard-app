@@ -1,3 +1,4 @@
+import { AppRoutes } from './consts';
 import { DataService } from './data-service-base';
 import { envFacade } from './env-facade';
 import { AuthScopes, User } from './generated/api';
@@ -25,6 +26,7 @@ class SessionManager {
 		removeLocalStorageItem(LocalStorageKey.Profile);
 		removeLocalStorageItem(LocalStorageKey.ApiToken);
 		DataService.resetAppData();
+		window.location.href = `${envFacade.baseDashboardUri}/#${AppRoutes.login.path}`;
 	}
 
 	public get isLoggedOn(): boolean {
