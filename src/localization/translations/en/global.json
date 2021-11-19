@@ -290,6 +290,7 @@
 	"dashboard.settings.general.update.succeed": "The server updated successfully!",
 	"dashboard.settings.interface": "Interface",
 	"dashboard.settings.interface.language": "Interface language",
+	"dashboard.settings.interface.mobile.applications": "Mobile Applications",
 	"dashboard.settings.interface.lightweight.dashboard": "Lightweight dashboard",
 	"dashboard.settings.interface.lightweight.dashboard.info": "The lightweight dashboard for old phones or very slow networks (only ~20KB of resources).",
 	"dashboard.settings.interface.v3.dashboard": "V3 dashboard",

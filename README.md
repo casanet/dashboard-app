@@ -5,7 +5,13 @@
 
 ### A new react based modern hybrid dashboard for web &amp; mobile.
 
-## ✨✨✨ [Live Demo Dashboard](https://demo.dashboard.casanet.casa/) ✨✨✨
+<a href='https://play.google.com/store/apps/details?id=casa.casanet.dashboard' target="_blank">
+<img 
+	width='280px' height='110px'
+	alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/>
+</a>
+
+## ✨✨✨ [Live Web Demo Dashboard](https://demo.dashboard.casanet.casa/) ✨✨✨
 
 ![Screenshot](./assets/capture/desktop-capture.gif)
 <img src="./assets/capture/app1.jpg" alt="app1-dashboard"

@@ -56,7 +56,7 @@ export const languagesDisplayInfoMap = {
 	gu: { code: "gu", name: "Gujarati", nativeName: "ગુજરાતી" },
 	ht: { code: "ht", name: "Haitian; Haitian Creole", nativeName: "Kreyòl ayisyen" },
 	ha: { code: "ha", name: "Hausa", nativeName: "Hausa, هَوُسَ" },
-	he: { code: "he", name: "Hebrew (modern)", nativeName: "עברית" },
+	he: { code: "he", name: "Hebrew (modern)", nativeName: "עברית", languageNameCode: "iw" },
 	hz: { code: "hz", name: "Herero", nativeName: "Otjiherero" },
 	hi: { code: "hi", name: "Hindi", nativeName: "हिन्दी, हिंदी" },
 	ho: { code: "ho", name: "Hiri Motu", nativeName: "Hiri Motu" },

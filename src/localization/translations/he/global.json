@@ -290,6 +290,7 @@
 	"dashboard.settings.general.update.succeed": "השרת עודכן בהצלחה!",
 	"dashboard.settings.interface": "ממשק",
 	"dashboard.settings.interface.language": "שפת ממשק",
+	"dashboard.settings.interface.mobile.applications": "אפליקציות לנייד",
 	"dashboard.settings.interface.lightweight.dashboard": "דשבורד קליל",
 	"dashboard.settings.interface.lightweight.dashboard.info": "הדשבורד מיועד לטלפונים ישנים או לרשתות איטיות במיוחד (כל המשאבים שוקלים רק ~20 KB)",
 	"dashboard.settings.interface.v3.dashboard": "דשבורד גרסה 3",
