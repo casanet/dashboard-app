@@ -71,6 +71,15 @@ class EnvFacade {
 		return this.isMobileApp || this.devMode || this.mockMode;
 	}
 
+	/** 
+	 * Whenever the current Server URL is the Demo URL.
+	 * used only on Application that shipped out to the apps store with default API_URL of a mock server
+	 */
+	public get isDemoApiUrl(): boolean {
+		// If it's a mobile app, and the server URL doesn't changed yet by the user.
+		return this.isMobileApp && process.env.REACT_APP_API_URL === this.apiServerBaseUrl;
+	}
+
 	public get platform(): Platform {
 		return globalThis.device.platform as Platform;
 	}
