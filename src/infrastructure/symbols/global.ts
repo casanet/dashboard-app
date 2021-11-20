@@ -14,6 +14,8 @@ export interface LanguageDisplayInfo {
 	nativeName: string;
 	/** The lang code (en, he, fe, etc.) */
 	code: LangCode;
+	/** Specific language code, for example "iw" for Hebrew */
+	languageNameCode?: string;
 }
 
 export interface ViewLanguage {

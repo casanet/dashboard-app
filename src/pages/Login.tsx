@@ -320,6 +320,15 @@ function LoginForm() {
 					{t('general.demo.mode.tip')}
 				</Typography>
 			</div>}
+			{envFacade.isDemoApiUrl && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
+					<Typography variant="body2" style={{ fontSize: DEFAULT_FONT_RATION * 0.5 }} >
+						{t('general.mobile.demo.url.tip.title')}
+						<br/>
+						{t('general.mobile.demo.url.tip.info')}
+						<br/>
+						{t('general.mobile.demo.url.tip.use')}
+					</Typography>
+			</div>}
 			<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
 				{t('general.copyright.message', { year: new Date().getFullYear() })}
 			</Typography>
