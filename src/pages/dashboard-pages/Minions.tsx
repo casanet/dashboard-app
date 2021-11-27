@@ -111,7 +111,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 	const minionSideContainer = showMinionFullInfo || showCreateMinion;
 
 	if (loading) {
-		return <Loader />;
+		return <Loader fancy={{ text: t('dashboard.loading.data', { data: t('global.minions').toLowerCase() }) }} />;
 	}
 
 	// If there are no any minion, show proper message

@@ -57,7 +57,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 	const minionTimeline = minionsTimeline.filter(node => node.minionId === minion.minionId && node.trigger);
 
 	if (loading) {
-		return <Loader size={DEFAULT_FONT_RATION * 2} />;
+		return <Loader fontRatio={DEFAULT_FONT_RATION * 2} />;
 	}
 
 	if (minionTimeline.length === 0) {
