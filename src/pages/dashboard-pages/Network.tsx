@@ -253,7 +253,7 @@ export default function Network(props: DashboardPageInjectProps) {
 	}
 
 	if (loading) {
-		return <Loader />;
+		return <Loader fancy={{ text: t('dashboard.loading.data', { data: t('global.network').toLowerCase() }) }}/>;
 	}
 
 	// If there are no any device, show proper message

@@ -4,6 +4,7 @@ import { DataService } from "../infrastructure/data-service-base";
 import { envFacade } from "../infrastructure/env-facade";
 import { sessionManager } from "../infrastructure/session-manager";
 import { API_KEY_HEADER } from "../infrastructure/consts";
+import { timelineService } from "./timeline.service";
 
 // Inherited from DataService
 class MinionsService extends DataService<Minion[]> {
@@ -24,6 +25,8 @@ class MinionsService extends DataService<Minion[]> {
 		switch (minionFeed.event) {
 			case FeedEvent.Update: {
 				this.updateMinion(minionFeed.minion);
+				// Fetch new timeline *after* update arrived from BE 
+				timelineService.forceFetchData();
 				break;
 			}
 			case FeedEvent.Created: {
@@ -44,6 +47,11 @@ class MinionsService extends DataService<Minion[]> {
 		}
 		// Publish the update
 		this.postNewData(this._data);
+
+		// On mock (only) mode, fetch timeline on every change
+		if(envFacade.mockMode || envFacade.isDemoApiUrl){
+			timelineService.forceFetchData();
+		}
 	}
 
 	public createMinion(minion: Minion) {

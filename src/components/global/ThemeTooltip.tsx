@@ -5,6 +5,7 @@ import { isTouchScreenDevice } from "../../infrastructure/utils";
 interface ThemeTooltipProps extends TooltipProps {
 	/** Hide tip */
 	hideTip?: boolean;
+	removeAutoFlex?: boolean;
 }
 
 /**
@@ -23,7 +24,7 @@ export function ThemeTooltip(props: ThemeTooltipProps) {
 		return <div style={{ display: 'flex' }}><Tooltip {...props} /></div>;
 	}
 	return <div
-		style={{ display: 'flex' }}
+		style={{ display: props.removeAutoFlex ? '' : 'flex' }}
 		onMouseEnter={() => setOpen(true)}
 		onMouseLeave={() => setOpen(false)}
 		onClick={() => setOpen(false)}

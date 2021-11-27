@@ -40,6 +40,7 @@ import { useLiveliness } from "../hooks/useLiveliness";
 import { livelinessCheck, livelinessFlag } from "../services/liveliness.service";
 import { RemoteConnectionStatus } from "../infrastructure/generated/api";
 import { envFacade } from "../infrastructure/env-facade";
+import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
@@ -380,8 +381,11 @@ export default function Dashboard(props: DashboardProps) {
 					{/* On collapse page toolbar, cancel the toolbar marginTop effect */}
 					{showPageToolbar && collapsePageToolbar && <div style={{ marginBottom: pagesToolbarPullUp }} />}
 					<div style={{ width: '100%', height: `calc(100% - ${(showPageToolbar && !collapsePageToolbar) ? appBarHight : 0}px)` }}>
-						<Suspense fallback={<Loader />}>
-						{/* Show offline page in case of OFFLINE mode */}
+						<Suspense fallback={<Loader fancy={{
+							text: t('global.rendering.component'),
+							icon: DashboardCustomizeIcon
+						}} />}>
+							{/* Show offline page in case of OFFLINE mode */}
 							{waitForCommunication && <Offline />}
 							{/* Show pages only in ONLINE mode */}
 							{!waitForCommunication && <HashRouter>
