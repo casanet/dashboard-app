@@ -77,6 +77,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 				const isOn = isOnMode(minion.minionType, node.status);
 				return <TimelineItem>
 					<TimelineOppositeContent
+						style={{ maxWidth: '45%', wordBreak: 'break-word' }}
 						sx={{ m: 'auto 0' }}
 						align={right(theme)}
 						variant="body2"
@@ -99,7 +100,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 						</TimelineDot>
 						<TimelineConnector />
 					</TimelineSeparator>
-					<TimelineContent sx={{ py: '12px', px: 2 }} style={{ minWidth: '55%', wordBreak: 'break-word' }}>
+					<TimelineContent sx={{ py: '12px', px: 2 }} style={{ minWidth: '50%', wordBreak: 'break-word' }}>
 						<ThemeTooltip hideTip={[MinionTypes.Toggle, MinionTypes.Switch].includes(minion.minionType)} title={<span><MinionStatusOverview
 							minionStatus={node.status}
 							disabled={false}
