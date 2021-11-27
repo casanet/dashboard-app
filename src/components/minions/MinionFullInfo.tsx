@@ -29,6 +29,8 @@ import { MinionBottomControls } from "./MinionBottomControls";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import React from "react";
 import { Loader } from "../Loader";
+import { MinionIndicators } from "./MinionIndicators";
+import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
 
 const MinionTimeline = React.lazy(() => import('./timeline/MinionTimeline'));
 
@@ -42,6 +44,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 	const { t } = useTranslation();
 	const history = useHistory();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+	const videDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
 	const [deleting, setDeleting] = useState<boolean>(false);
 	const [saving, setSaving] = useState<boolean>();
@@ -90,6 +93,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 				>
 					<div>
 						<MinionPowerToggle minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
+						<MinionIndicators minion={minion} fontRatio={DEFAULT_FONT_SIZE} smallFontRatio={DEFAULT_FONT_SIZE * 0.5} />
 					</div>
 					<div style={{ width: `calc(100% - ${(DEFAULT_FONT_SIZE + 15) * 2}px)` }}>
 						<MinionEditableName {...props} fontRatio={DEFAULT_FONT_SIZE} />
@@ -122,7 +126,17 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 				{/* Only to take a place */}
 			</div>
 			<div className="minion-full-info-part">
-				<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
+				<Grid
+					container
+					direction="row"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
+					<div style={{ marginTop: videDesktopMode ? -DEFAULT_FONT_SIZE : 0}}>
+						<MinionTimeoutOverview minion={minion} fontRatio={DEFAULT_FONT_SIZE * 0.25} />
+					</div>
+				</Grid>
 				<div className="minion-advanced-option-container">
 					<Accordion>
 						<AccordionSummary
@@ -145,7 +159,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						</AccordionSummary>
 						<AccordionDetails>
 							{/* Load it async by lazy */}
-							<Suspense fallback={<Loader size={DEFAULT_FONT_RATION * 2} />}>
+							<Suspense fallback={<Loader fontRatio={DEFAULT_FONT_RATION * 2} />}>
 								<MinionTimeline key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
 							</Suspense>
 						</AccordionDetails>
