@@ -2,13 +2,13 @@ import { Button, Grid, IconButton } from "@material-ui/core";
 import { Minion, MinionStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { DashboardRoutes, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
+import { DashboardRoutes, DEFAULT_FONT_RATION, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
 import CloseIcon from '@material-ui/icons/Close';
 import '../../theme/styles/components/minions/minionFullInfo.scss';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
@@ -27,6 +27,10 @@ import { MinionTechInfo } from "./MinionTechInfo";
 import { MinionAdvancedSettings } from "./advancedSettings/MinionAdvancedSettings";
 import { MinionBottomControls } from "./MinionBottomControls";
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import React from "react";
+import { Loader } from "../Loader";
+
+const MinionTimeline = React.lazy(() => import('./timeline/MinionTimeline'));
 
 const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 
@@ -68,7 +72,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 		setSaving(false);
 	}
 
-	return <div className="page-full-info-area">
+	return <div className={`page-full-info-area ${!desktopMode && 'hide-scroll'}`}>
 		<Grid
 			className="page-full-info-container"
 			container
@@ -131,6 +135,19 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<div className="minion-timings-area">
 								<MinionTimingsView minion={minion} />
 							</div>
+						</AccordionDetails>
+					</Accordion>
+					<Accordion TransitionProps={{ mountOnEnter: true, unmountOnExit: true }}>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+						>
+							<Typography>{t('dashboard.minions.timeline')}</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							{/* Load it async by lazy */}
+							<Suspense fallback={<Loader size={DEFAULT_FONT_RATION * 2} />}>
+								<MinionTimeline key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
+							</Suspense>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>

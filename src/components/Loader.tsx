@@ -2,6 +2,7 @@ import { Box, CircularProgress, Grid } from "@material-ui/core";
 
 interface LoaderProps {
 	fullScreen?: boolean;
+	size?: number; 
 }
 
 export function Loader(props: LoaderProps) {
@@ -13,7 +14,7 @@ export function Loader(props: LoaderProps) {
 		alignItems="center"
 	>
 		<Box sx={{ width: '100%' }}>
-			<CircularProgress size={150} />
+			<CircularProgress size={props.size || 150} />
 		</Box>
 	</Grid>;
 }
