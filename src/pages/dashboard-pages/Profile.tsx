@@ -99,7 +99,7 @@ export default function Profile() {
 	}
 
 	if (loading) {
-		return <Loader />;
+		return <Loader fancy={{ text: t('dashboard.loading.data', { data: t('global.profile').toLowerCase() }) }}/>;
 	}
 
 	// If there are no any profile, show proper message

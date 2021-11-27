@@ -243,7 +243,7 @@ function Users(props: DashboardPageInjectProps) {
 	}
 
 	if (loading) {
-		return <Loader />;
+		return <Loader fancy={{ text: t('dashboard.loading.data', { data: t('global.users').toLowerCase() }) }}/>;
 	}
 
 	// If there are no any user, show proper message

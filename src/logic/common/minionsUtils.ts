@@ -1,4 +1,4 @@
-import { ACModeOptions, CleanerMode, FanStrengthOptions, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api";
+import { ACModeOptions, CleanerMode, FanStrengthOptions, MinionChangeTrigger, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api";
 
 /** Map minions type to the display name i18n key */
 export const mapMinionTypeToDisplay: { [key in MinionTypes]: string } = {
@@ -10,6 +10,17 @@ export const mapMinionTypeToDisplay: { [key in MinionTypes]: string } = {
 	[MinionTypes.ColorLight]: 'dashboard.minions.color.light',
 	[MinionTypes.Cleaner]: 'dashboard.minions.cleaner',
 	[MinionTypes.Roller]: 'dashboard.minions.roller',
+}
+
+export const mapMinionChangeTriggerDisplay: { [key in MinionChangeTrigger]: string } = {
+	[MinionChangeTrigger.User]: 'dashboard.minions.change.trigger.by.user',
+	[MinionChangeTrigger.Timing]: 'dashboard.minions.change.trigger.by.timing',
+	[MinionChangeTrigger.Timeout]: 'dashboard.minions.change.trigger.by.timeout',
+	[MinionChangeTrigger.Sync]: 'dashboard.minions.change.trigger.by.sync',
+	[MinionChangeTrigger.Rotation]: 'dashboard.minions.change.trigger.by.rotation',
+	[MinionChangeTrigger.Lock]: 'dashboard.minions.change.trigger.by.lock',
+	[MinionChangeTrigger.External]: 'dashboard.minions.change.trigger.by.external',
+	[MinionChangeTrigger.Device]: 'dashboard.minions.change.trigger.by.device',
 }
 
 export interface HMS {

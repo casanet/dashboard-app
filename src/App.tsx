@@ -5,7 +5,6 @@ import { createTheme, PaletteType, ThemeProvider, useMediaQuery, useTheme } from
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MuiCssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-
 import {
 	HashRouter,
 	Switch,
@@ -17,11 +16,15 @@ import { Loader } from './components/Loader';
 import { NotificationContainer } from './components/NotificationContainer';
 import { getLang } from './services/localization.service';
 import { AppRoutes } from './infrastructure/consts';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import { useTranslation } from 'react-i18next';
+import { envFacade } from './infrastructure/env-facade';
 
 const Login = React.lazy(() => import('./pages/Login'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 
 function App() {
+	const { t } = useTranslation();
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 	const themePalette = useTheme();
 	const [darkMode, setDarkMode] = useState<PaletteType>(getLocalStorageItem<PaletteType>(LocalStorageKey.Theme, { itemType: 'string' }) || (prefersDarkMode ? 'dark' : 'light'));
@@ -61,7 +64,10 @@ function App() {
 					<CssBaseline />
 					<MuiCssBaseline />
 					<NotificationContainer />
-					<Suspense fallback={<Loader fullScreen={true} />}>
+					<Suspense fallback={<Loader fullScreen={true} fancy={{
+						text: t('global.rendering.app', { app: t(envFacade.isMobileApp ? 'global.application' : 'global.dashboard').toLowerCase() }),
+						icon: DashboardIcon
+					}} />}>
 						<HashRouter>
 							<Switch>
 								<Route exact path={AppRoutes.login.path}>

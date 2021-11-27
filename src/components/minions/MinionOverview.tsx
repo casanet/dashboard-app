@@ -5,9 +5,10 @@ import { useHistory, useParams } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
 import { MinionStatusOverview } from "./overviewMinionsStatus/MinionStatusOverview";
-import { mapMinionTypeToDisplay, msToHMS } from "../../logic/common/minionsUtils";
+import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
 import { MinionIndicators } from "./MinionIndicators";
 import { useTranslation } from "react-i18next";
+import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
 
 interface MinionOverviewProps {
 	minion: Minion;
@@ -40,8 +41,6 @@ export function MinionOverview(props: MinionOverviewProps) {
 	const smallFontSize: string = `${smallFontRatio}px`;
 
 	const subTitleColor = theme.palette.grey.A200;
-	// Hold the auto turn off, if set, as sec,min.ho.
-	const autoOff = msToHMS(minion.minionAutoTurnOffMS);
 
 	return <div className="minion-overview-container" onClick={onMinionSelection}>
 		<div className="minion-overview-header-container" >
@@ -100,9 +99,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 				justifyContent="center"
 				alignItems="center"
 			>
-				{!!minion.minionAutoTurnOffMS && <Typography style={{ fontSize: verySmallFontRatio, color: subTitleColor }}>
-					{t('dashboard.minions.auto.turn.off.info', autoOff)}
-				</Typography>}
+				<MinionTimeoutOverview minion={minion} fontRatio={verySmallFontRatio} />
 			</Grid>
 		</div>
 	</div>
