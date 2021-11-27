@@ -49,7 +49,7 @@ class MinionsService extends DataService<Minion[]> {
 		this.postNewData(this._data);
 
 		// On mock (only) mode, fetch timeline on every change
-		if(envFacade.mockMode){
+		if(envFacade.mockMode || envFacade.isDemoApiUrl){
 			timelineService.forceFetchData();
 		}
 	}
