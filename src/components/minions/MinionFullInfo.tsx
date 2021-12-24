@@ -44,7 +44,6 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 	const { t } = useTranslation();
 	const history = useHistory();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
-	const videDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 
 	const [deleting, setDeleting] = useState<boolean>(false);
 	const [saving, setSaving] = useState<boolean>();
@@ -133,7 +132,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					alignItems="center"
 				>
 					<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
-					<div style={{ marginTop: videDesktopMode ? -DEFAULT_FONT_SIZE : 0}}>
+					<div style={{ marginTop: desktopMode ? -DEFAULT_FONT_SIZE : 0}}>
 						<MinionTimeoutOverview minion={minion} fontRatio={DEFAULT_FONT_SIZE * 0.25} />
 					</div>
 				</Grid>
