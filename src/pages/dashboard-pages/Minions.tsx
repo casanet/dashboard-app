@@ -110,27 +110,30 @@ export default function Minions(props: DashboardPageInjectProps) {
 	// Show side view in case of minion selected or minion creation
 	const minionSideContainer = showMinionFullInfo || showCreateMinion;
 
+	// As default, the side info is empty
+	let SideInfo = <div></div>;
+
 	if (loading) {
 		return <Loader fancy={{ text: t('dashboard.loading.data', { data: t('global.minions').toLowerCase() }) }} />;
 	}
 
-	// If there are no any minion, show proper message
-	if (minions.length === 0) {
-		return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.message')} />
-	}
-
-	// If there are no any minion match the search, show proper message
-	if (filteredMinions.length === 0) {
-		return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.match.message')} />
-	}
-
-	// As default, the side info is empty
-	let SideInfo = <div></div>;
-	if (showMinionFullInfo) {
-		SideInfo = <MinionFullInfo minion={selectedMinion} />;
-	}
+	// If case of minion creation, do not check if there are minions for now :)
 	if (showCreateMinion) {
 		SideInfo = <CreateMinion />;
+	} else {
+		// If there are no any minion, show proper message
+		if (minions.length === 0) {
+			return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.message')} />
+		}
+
+		// If there are no any minion match the search, show proper message
+		if (filteredMinions.length === 0) {
+			return <NoContent Icon={WbIncandescentIcon} message={t('dashboard.minions.no.minions.match.message')} />
+		}
+
+		if (showMinionFullInfo) {
+			SideInfo = <MinionFullInfo minion={selectedMinion} />;
+		}
 	}
 
 	return <PageLayout
