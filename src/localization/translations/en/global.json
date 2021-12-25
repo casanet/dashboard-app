@@ -317,6 +317,8 @@
 	"dashboard.settings.interface.lightweight.dashboard.info": "The lightweight dashboard for old phones or very slow networks (only ~20KB of resources).",
 	"dashboard.settings.interface.v3.dashboard": "V3 dashboard",
 	"dashboard.settings.interface.v3.dashboard.info": "The old V3 dashboard, The old V3 dashboard, maintaining for security and fatal bug fixes only.",
+	"dashboard.settings.interface.explorer.api": "Explorer Casanet API Spec",
+	"dashboard.settings.interface.explorer.api.info": "Explorer the Casanet openapi V3 API using the Swagger UI",
 	"dashboard.settings.connectivity": "Connectivity",
 	"dashboard.settings.connectivity.remote.server.status": "Remote Server Status",
 	"dashboard.settings.connectivity.casanet.server.url": "Casanet Server URL",
