@@ -317,6 +317,8 @@
 	"dashboard.settings.interface.lightweight.dashboard.info": "הדשבורד מיועד לטלפונים ישנים או לרשתות איטיות במיוחד (כל המשאבים שוקלים רק ~20 KB)",
 	"dashboard.settings.interface.v3.dashboard": "דשבורד גרסה 3",
 	"dashboard.settings.interface.v3.dashboard.info": "דשבורד הישן גרסה 3 זמין, כרגע נתמך רק  עם תיקוני באגים קריטיים ותיקוני אבטחה.",
+	"dashboard.settings.interface.explorer.api": "סייר ב-API של Casanet",
+	"dashboard.settings.interface.explorer.api.info": "סייר ב-API של Casanet openapi V3 באמצעות ממשק המשתמש של Swagger UI",
 	"dashboard.settings.connectivity": "חיבוריות",
 	"dashboard.settings.connectivity.remote.server.status": "מצב שרת מרוחק",
 	"dashboard.settings.connectivity.casanet.server.url": "כתובת שרת ה-Casanet",
