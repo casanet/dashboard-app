@@ -1,7 +1,7 @@
 {
 	"name": "casa.casanet.dashboard",
 	"displayName": "casanet",
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"license": "Apache-2.0",
 	"main": "index.js",
 	"private": false,
