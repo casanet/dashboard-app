@@ -1,4 +1,4 @@
-import { Grid, Link, TextField, Typography, useTheme } from "@material-ui/core";
+import { Grid, Link, SvgIcon, TextField, Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { getLang, setLang } from "../../services/localization.service";
 import { ViewLanguage } from "../../infrastructure/symbols/global";
@@ -8,6 +8,7 @@ import { SettingItem } from "../../pages/dashboard-pages/Settings";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { envFacade } from "../../infrastructure/env-facade";
 import { marginLeft } from "../../logic/common/themeUtils";
+import { ReactComponent as SwaggerLogo } from '../../static/swagger.svg';
 
 const lang = getLang();
 
@@ -45,7 +46,7 @@ export function InterfaceSettings() {
 		</SettingItem>
 		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.interface.mobile.applications')} >
 			<Grid
-				style={{ marginBottom: -(DEFAULT_FONT_RATION * 1.75), marginTop: -(DEFAULT_FONT_RATION * 0.5), [marginLeft(theme)]: -(DEFAULT_FONT_RATION* 0.9) }}
+				style={{ marginBottom: -(DEFAULT_FONT_RATION * 1.75), marginTop: -(DEFAULT_FONT_RATION * 0.5), [marginLeft(theme)]: -(DEFAULT_FONT_RATION * 0.9) }}
 				container
 				direction="row"
 				justifyContent="flex-start"
@@ -95,6 +96,26 @@ export function InterfaceSettings() {
 				<Typography variant="body1" style={{ color: theme.palette.text.hint, fontSize: DEFAULT_FONT_RATION * 0.7 }}>
 					{t('dashboard.settings.interface.v3.dashboard.info')}
 				</Typography>
+			</Grid>
+		</SettingItem>
+		<SettingItem title={t('dashboard.settings.interface.explorer.api')} >
+			<Grid
+				style={{ width: '100%' }}
+				container
+				direction="row"
+				justifyContent="flex-start"
+				alignItems="center"
+				className="link"
+				onClick={() => { window.open(`${envFacade.apiServerBaseUrl}/docs`, '_blank') }}
+			>
+				<div style={{ width: DEFAULT_FONT_RATION * 3.5 }}>
+					<SvgIcon component={SwaggerLogo} style={{ fontSize: DEFAULT_FONT_RATION * 3 }} viewBox="0 0 256 256" />
+				</div>
+				<div style={{ maxWidth: `calc(100% - ${DEFAULT_FONT_RATION * 4}px)`  }}>
+					<Typography variant="body1" style={{ color: theme.palette.text.hint, fontSize: DEFAULT_FONT_RATION * 0.7 }}>
+						{t('dashboard.settings.interface.explorer.api.info')}
+					</Typography>
+				</div>
 			</Grid>
 		</SettingItem>
 	</Grid>;
