@@ -410,7 +410,7 @@ export default function Dashboard(props: DashboardProps) {
 		</div>
 		{/* Show footer menu in mobile mode only */}
 		{!desktopMode && <div className="dashboard-footer-menu">
-			<AppBar position="static" color="default">
+			<AppBar position="static" color="default" style={{ height: footerMenuHight, maxHeight: footerMenuHight }}>
 				<Tabs
 					value={tabIndex}
 					onChange={onTabSelected}
@@ -424,7 +424,11 @@ export default function Dashboard(props: DashboardProps) {
 						dashboardPages.map(dashboardPage =>
 							<Tab
 								// Hide tab for non authorized
-								style={{ display: dashboardPage.adminOnly && !sessionManager.isAdmin ? 'none' : undefined }}
+								style={{
+									// Set the hight to be slight up to better visibility of the bottom-line
+									height: footerMenuHight - 1, maxHeight: footerMenuHight - 1,
+									display: dashboardPage.adminOnly && !sessionManager.isAdmin ? 'none' : undefined
+								}}
 								id={`dashboard-tab-${dashboardPage.path}`}
 								aria-controls={`dashboard-tabpanel-${dashboardPage.path}`}
 								className={classes.sideBarTab}
