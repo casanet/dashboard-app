@@ -351,7 +351,7 @@ export default function Dashboard(props: DashboardProps) {
 					</div>}
 				</AppBar>
 			</div>}
-			<div className="dashboard-router" style={{
+			<div className={`dashboard-router ${!desktopMode && '--mobile'}`} style={{
 				maxWidth: routerContainerWidth,
 				width: routerContainerWidth,
 				maxHeight: routerContainerHight,
