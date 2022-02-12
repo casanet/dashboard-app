@@ -30,7 +30,7 @@
 }
 
 .resize-slider-container {
-	position: fixed;
+	position: absolute;
 	bottom: 0em;
 	right: 1em;
 	&.--mobile {
