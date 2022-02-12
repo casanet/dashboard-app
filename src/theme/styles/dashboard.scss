@@ -45,13 +45,16 @@
 					justify-content: center;
 					text-align: center;
 					width: global.$sideBarExtendedWidth;
-					position: fixed;
+					position: absolute;
 					bottom: 0;
 				}
 			}
 		}
 		.dashboard-router {
 			padding: 1em;
+			&.--mobile {
+				padding-bottom: 2px;
+			}
 		}
 	}
 	.dashboard-footer-menu {
