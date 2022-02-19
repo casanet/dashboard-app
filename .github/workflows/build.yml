@@ -135,7 +135,10 @@ jobs:
         npm run build
         echo "Run mock server"
         node -v
-        npm run run_mock & 
+        cd temp-mock/mock-server
+        node index.js &
+        cd ../..
+        node node_modules/http-server/bin/http-server ./temp-e2e &
         echo "Run tests"
         npm run test
 
