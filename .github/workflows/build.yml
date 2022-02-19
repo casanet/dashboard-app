@@ -2,6 +2,9 @@ name: casanet dashboard app CI CD
 
 on: [push]
 
+env:
+  SKIP_PREFLIGHT_CHECK: "true"    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -121,11 +124,13 @@ jobs:
         export REACT_APP_API_URL="http://localhost:80"
         export FRONT_SERVE_PORT="3001"
         export BUILD_PATH="temp-e2e"
-        export SKIP_PREFLIGHT_CHECK=true
-        npm i -g yarn
+        echo "Installing dependencies"
         yarn
+        echo "Preparing mock assets"
         npm run prepare_mock
+        echo "Run mock server"
         npm run run_mock > /dev/null 2>&1 & 
+        echo "Run tests"
         npm run test
 
   release:
