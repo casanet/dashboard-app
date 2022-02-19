@@ -4,6 +4,8 @@
 /plugins
 /www/*
 /build/*
+/temp-mock/*
+/temp-e2e/*
 *.jks
 
 # Generated API

@@ -105,6 +105,29 @@ jobs:
         name: internal 
         path: internal
   
+  test:
+    runs-on: ubuntu-20.04
+    container: lironavon/docker-puppeteer-container:14.16.0
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+    - Run-Test
+      run: |
+        export PORT="80"
+        export REACT_APP_API_URL="http://localhost:80"
+        export FRONT_SERVE_PORT="3001"
+        export BUILD_PATH="temp-e2e"
+        export SKIP_PREFLIGHT_CHECK=true
+        npm i -g yarn
+        yarn
+        npm run prepare_mock
+        npm run run_mock > /dev/null 2>&1 & 
+        npm run test
+
   release:
     needs: build 
     runs-on: ubuntu-latest
