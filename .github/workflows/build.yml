@@ -138,7 +138,7 @@ jobs:
         cd temp-mock/mock-server
         node index.js &
         cd ../..
-        node node_modules/http-server/bin/http-server ./temp-e2e &
+        node node_modules/http-server/bin/http-server ./temp-e2e -p $FRONT_SERVE_PORT &
         echo "Run tests"
         npm run test
 
