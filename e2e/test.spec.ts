@@ -3,14 +3,18 @@ import puppeteer from 'puppeteer';
 let browser: puppeteer.Browser;
 let page: puppeteer.Page;
 
-const FRONT_PORT =  process.env.FRONT_SERVE_PORT || 3001;
+const FRONT_PORT = process.env.FRONT_SERVE_PORT || 3001;
 
 export const FRONT_URL = `http://localhost:${FRONT_PORT}`;
 
 console.log(`Running front on ${FRONT_URL}`);
 
 beforeAll(async () => {
-	browser = await puppeteer.launch({ headless: true, devtools: false });
+	browser = await puppeteer.launch({
+		headless: true,
+		devtools: false,
+		args: ['--no-sandbox', '--disable-setuid-sandbox'],
+	});
 	page = await browser.newPage();
 	page.on('console', (msg) => console.log(`[${msg.type()}] ${msg.text()}`));
 	await page.setViewport({ width: 1366, height: 768 });
