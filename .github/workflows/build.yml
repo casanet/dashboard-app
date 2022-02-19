@@ -134,7 +134,7 @@ jobs:
         npm run prepare_mock
         npm run build
         echo "Run mock server"
-        npm run run_mock > /dev/null 2>&1 & 
+        npm run run_mock & 
         echo "Run tests"
         npm run test
 
