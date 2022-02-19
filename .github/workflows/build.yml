@@ -123,8 +123,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Run-Test
       run: |
-        export PORT="8080"
-        export REACT_APP_API_URL="http://localhost:8080"
+        export PORT="9090"
+        export REACT_APP_API_URL="http://localhost:9090"
         export FRONT_SERVE_PORT="3001"
         export BUILD_PATH="temp-e2e"
         echo "Installing dependencies"
