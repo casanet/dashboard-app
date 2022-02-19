@@ -127,6 +127,7 @@ jobs:
         echo "Installing dependencies"
         yarn
         echo "Installing node"
+        apt install nodejs npm
         ln -s /usr/bin/nodejs /usr/bin/node
         echo "Preparing mock assets"
         npm run prepare_mock
