@@ -31,7 +31,8 @@ async function prepareMockServer() {
 }
 
 async function runMockServer() {
-
+	
+	console.log('Starting mock server...')
 	const server = spawn('node', ['index.js'], {
 		cwd: 'temp-mock/mock-server',
 		env: {
@@ -51,6 +52,7 @@ async function runMockServer() {
 		console.log('child process exited with code ' + code.toString());
 	});
 
+	console.log('Starting http-server...')
 	const fileServer = spawn('node', ['node_modules/http-server/bin/http-server', './temp-e2e'], {
 		cwd: '.',
 		env: {
