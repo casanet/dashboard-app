@@ -109,8 +109,7 @@ jobs:
         path: internal
   
   test:
-    runs-on: ubuntu-20.04
-    container: lironavon/docker-puppeteer-container:14.16.0
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
@@ -118,6 +117,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - uses: actions/download-artifact@master
+    - name: Install node
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: Run-Test
       run: |
         export PORT="80"
@@ -125,10 +128,8 @@ jobs:
         export FRONT_SERVE_PORT="3001"
         export BUILD_PATH="temp-e2e"
         echo "Installing dependencies"
+        npm i -g yarn
         yarn
-        echo "Installing node"
-        apt install nodejs npm
-        ln -s /usr/bin/nodejs /usr/bin/node
         echo "Preparing mock assets"
         npm run prepare_mock
         echo "Run mock server"
