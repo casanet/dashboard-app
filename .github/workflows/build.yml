@@ -127,6 +127,8 @@ jobs:
         export REACT_APP_API_URL="http://localhost:9090"
         export FRONT_SERVE_PORT="3001"
         export BUILD_PATH="temp-e2e"
+        export REACT_APP_MOCK_MODE="true"
+        export REACT_APP_LOCAL_DEV="true"
         echo "Installing dependencies"
         npm i -g yarn
         yarn
