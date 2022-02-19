@@ -18,16 +18,16 @@ async function prepareMockServer() {
 	try { await execPromise(`cd ${path.join('temp-mock')} && git clone https://github.com/casanet/mock-server.git`); } catch (error) { }
 	try { await execPromise(`cd ${path.join('temp-mock')} && cd mock-server && git pull && npm i`); } catch (error) { }
 
-	try {
-		await execPromise(`npm run build`, {
-			env: {
-				BUILD_PATH,
-				REACT_APP_API_URL,
-			}
-		});
-	} catch (error) {
-		console.log(error);
-	}
+	// try {
+	// 	await execPromise(`npm run build`, {
+	// 		env: {
+	// 			BUILD_PATH,
+	// 			REACT_APP_API_URL,
+	// 		}
+	// 	});
+	// } catch (error) {
+	// 	console.log(error);
+	// }
 }
 
 async function runMockServer() {

@@ -167,7 +167,7 @@ function LoginForm() {
 		envFacade.apiServerBaseUrl = serverUrl;
 	}
 
-	return <div className="login-form-container">
+	return <div id="login-form-container" className="login-form-container">
 		<div className="login-form-header">
 			<Grid
 				container
@@ -281,7 +281,7 @@ function LoginForm() {
 		<div className="login-form-submit">
 			{loading
 				? <LinearProgress />
-				: <Button onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
+				: <Button id="login-submit" onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
 					{t('login.sign.in').toUpperCase()}
 				</Button>}
 		</div>

@@ -132,6 +132,7 @@ jobs:
         yarn
         echo "Preparing mock assets"
         npm run prepare_mock
+        npm run build
         echo "Run mock server"
         npm run run_mock > /dev/null 2>&1 & 
         echo "Run tests"
