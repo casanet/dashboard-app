@@ -115,7 +115,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - uses: actions/download-artifact@master
-    - Run-Test
+    - name: Run-Test
       run: |
         export PORT="80"
         export REACT_APP_API_URL="http://localhost:80"
