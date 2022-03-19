@@ -3,7 +3,7 @@ import path from 'path';
 import jsZip from 'jszip';
 import nodeFetch from 'node-fetch';
 
-const BUILD_MODE = process.env.BUILD_PATH || 'www';
+const BUILD_MODE = process.env.BUILD_PATH === 'internal' ? 'internal' : 'www';
 const dashboardDist = path.join(BUILD_MODE, 'light-app');
 
 const ENV_BRANCH = (process.env.BRANCH !== 'main' && !process.env.BUILD_PROD) ? 'develop' : 'main';

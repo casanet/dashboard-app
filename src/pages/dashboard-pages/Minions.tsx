@@ -147,11 +147,11 @@ export default function Minions(props: DashboardPageInjectProps) {
 				justifyContent="flex-start"
 				alignItems="flex-start"
 			>
-				{filteredMinions.map((minion) =>
+				{filteredMinions.map((minion, i) =>
 					<div className={`minion-grid-box-container ${!desktopMode && '--mobile'}`} key={minion.minionId}>
 						<Paper className="" elevation={3}>
 							{/* Set the minion card content container size  */}
-							<div className="minion-grid-box" style={{ width: `${calculatedWidth}px`, height: `${calculatedHeight}px` }}>
+							<div id={`minion-grid-box-${i}`} className="minion-grid-box" style={{ width: `${calculatedWidth}px`, height: `${calculatedHeight}px` }}>
 								<MinionOverview minion={minion} ratio={sizeRatio} />
 							</div>
 						</Paper>

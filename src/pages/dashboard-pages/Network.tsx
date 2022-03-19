@@ -273,6 +273,7 @@ export default function Network(props: DashboardPageInjectProps) {
 		const nameCellWidth = wideDesktopMode ? NAME_DESKTOP_WIDTH : NAME_MOBILE_WIDTH;
 
 		return <Grid
+			id="network-page-container"
 			style={{ minWidth: nameCellWidth, width: '100%' }}
 			container
 			direction="row"
