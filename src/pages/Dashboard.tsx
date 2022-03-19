@@ -93,8 +93,8 @@ interface DashboardPage {
 const sideBarExtendedWidth = 110;
 const sideBarCollapseWidth = 55;
 const appBarHight = 64;
-const footerMenuHight = 90;
-const pagesToolbarPullUp = 18;
+const footerMenuHight = 70;
+const pagesToolbarPullUp = 16;
 
 const useStyles = makeStyles((theme: Theme) => ({
 	sideBarTab: {
