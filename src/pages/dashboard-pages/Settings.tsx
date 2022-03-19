@@ -51,7 +51,7 @@ function SettingGroup(props: SettingGroupProps) {
 	</Paper>;
 }
 
-const CREDIT_HEIGHT = 20;
+const CREDIT_HEIGHT = 35;
 
 export default function Settings() {
 	const { t } = useTranslation();
@@ -88,9 +88,9 @@ export default function Settings() {
 				</SettingGroup>
 			</Grid>
 		</div>
-		<div style={{ textAlign: 'center', maxHeight: CREDIT_HEIGHT }}>
+		<div style={{ textAlign: 'center' }}>
 			<Grid
-				style={{ marginTop: CREDIT_HEIGHT * 0.5 }}
+				style={{ marginBottom: 3 }}
 				container
 				direction="row"
 				justifyContent="center"
@@ -98,7 +98,7 @@ export default function Settings() {
 			>
 				<Typography>
 					<Link
-						style={{ marginLeft: 3, marginRight: 3 }}
+						style={{ margin: 3 }}
 						target="_blank"
 						href={PROJECT_URL}>
 						Casanet Project
