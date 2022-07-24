@@ -283,10 +283,21 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
             const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             {{! TEMPLATE EDIT: Use envFacade }}
             return (fetch: FetchAPI = portableFetch, basePath: string = envFacade.apiUrl) => {
+                {{! TEMPLATE EDIT: Add logs }}
+                console.log(`[APIFacade][{{nickname}}] Invoking call  ...`);
                 return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
+                        {{! TEMPLATE EDIT: Add logs }}
+                        console.log(`[APIFacade][{{nickname}}] Invoking call done`);
                         return response{{#returnType}}.json(){{/returnType}};
                     } else {
+                        {{! TEMPLATE EDIT: Handle unauthorized requests }}
+                        if (response?.status === 401) {
+					        console.log(`[APIFacade][{{nickname}}] User unauthorized, deleting profile & reloading to login page`);
+					        sessionManager.onLogout();
+				        }
+                        {{! TEMPLATE EDIT: Add logs }}
+				        console.log(`[APIFacade][{{nickname}}] Exception intercepted- ${response?.statusText || response}`);
                         throw response;
                     }
                 });
