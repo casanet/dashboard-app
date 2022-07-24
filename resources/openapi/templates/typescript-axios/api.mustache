@@ -8,6 +8,8 @@
 import * as url from "url";
 {{! TEMPLATE EDIT: Use  envFacade  }}
 import { envFacade } from "../../../env-facade";
+{{! TEMPLATE EDIT: Inject token from session manager }}
+import { sessionManager } from '../../../session-manager';
 import { Configuration } from "./configuration";
 
 {{! TEMPLATE EDIT: use built-in fetch as API caller  }}
@@ -58,7 +60,7 @@ export class BaseAPI {
         if (configuration) {
             this.configuration = configuration;
             this.basePath = configuration.basePath || this.basePath;
-        }
+        } 
     }
 };
 
@@ -123,11 +125,9 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
             // authentication {{name}} required
             {{#isApiKey}}
             {{#isKeyInHeader}}
-            if (configuration && configuration.apiKey) {
-                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
-					? configuration.apiKey("{{keyParamName}}")
-					: configuration.apiKey;
-                localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            {{! TEMPLATE EDIT: Inject token from session manager }}
+            if (sessionManager.getToken()) {
+                localVarHeaderParameter["{{keyParamName}}"] = sessionManager.getToken();
             }
             {{/isKeyInHeader}}
             {{#isKeyInQuery}}
