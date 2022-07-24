@@ -1,10 +1,8 @@
 import { Button, Grid, IconButton, InputAdornment, TextField, useTheme } from "@material-ui/core";
-import { AuthScopes } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { DashboardRoutes, PASSWORD_MIN_LENGTH, SERVER_REPO_URL, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import { useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import Typography from '@mui/material/Typography';
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -20,6 +18,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { mapAuthScopeToDisplay } from "../../logic/common/usersUtils";
 import { ThemeSwitch } from "../global/ThemeSwitch";
+import { ApiFacade, AuthScopes } from "../../infrastructure/generated/api/swagger/api";
 
 const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 

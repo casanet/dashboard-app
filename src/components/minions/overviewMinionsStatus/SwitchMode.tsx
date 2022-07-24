@@ -1,9 +1,9 @@
-import { SwitchOptions } from '../../../infrastructure/generated/api';
 import { Fragment } from 'react';
 import { SvgIcon, useTheme } from '@material-ui/core';
 import { getModeColor } from '../../../logic/common/themeUtils';
 import { ReactComponent as OnIcon } from '../../../theme/icons/on.svg';
 import { ReactComponent as OffIcon } from '../../../theme/icons/off.svg';
+import { SwitchOptions } from '../../../infrastructure/generated/api/swagger/api';
 
 interface SwitchModeProps {
 	mode: SwitchOptions;

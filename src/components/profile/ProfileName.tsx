@@ -1,5 +1,4 @@
 import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
-import { User } from "../../infrastructure/generated/api";
 import Avatar from '@mui/material/Avatar';
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { marginLeft } from "../../logic/common/themeUtils";
@@ -10,9 +9,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import { useTranslation } from "react-i18next";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { ProfileItemProps } from "../../pages/dashboard-pages/Profile";
 import { handleServerRestError } from "../../services/notifications.service";
+import { ApiFacade, User } from "../../infrastructure/generated/api/swagger/api";
 
 export function ProfileName(props: ProfileItemProps) {
 	const { t } = useTranslation();
@@ -36,7 +35,7 @@ export function ProfileName(props: ProfileItemProps) {
 
 		try {
 			const newProfile = { ...props.profile, displayName: editName } as User;
-			await ApiFacade.UsersApi.setUser(newProfile, props.profile.email);
+			await ApiFacade.UsersApi.setUser(props.profile.email, newProfile);
 			props.setProfile(newProfile);
 			setEditNameMode(false);
 		} catch (error) {

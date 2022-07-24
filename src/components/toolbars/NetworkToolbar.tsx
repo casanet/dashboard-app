@@ -5,8 +5,8 @@ import TrackChangesIcon from '@mui/icons-material/TrackChanges';
 import { PageToolbarButton, ToolbarDivider } from "../dashboard/PageToolbar";
 import { handleServerRestError } from "../../services/notifications.service";
 import { useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { devicesService } from "../../services/devices.service";
+import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 
 export function NetworkToolbar() {
 	const { t } = useTranslation();

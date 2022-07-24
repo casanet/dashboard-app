@@ -1,9 +1,7 @@
 import { Grid, IconButton, TextField, Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
-import { CommandsRepoDevice, Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from "react";
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { getModeColor } from "../../../logic/common/themeUtils";
 import PlayForWorkIcon from '@mui/icons-material/PlayForWork';
@@ -13,6 +11,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import Autocomplete from '@mui/material/Autocomplete';
 import { DEFAULT_SUCCEED_ICON_SHOWN } from "../../../infrastructure/consts";
+import { ApiFacade, CommandsRepoDevice, Minion } from "../../../infrastructure/generated/api/swagger/api";
 
 interface MinionFetchCommandsProps {
 	fontRatio: number;
@@ -58,7 +57,7 @@ export function MinionFetchCommands(props: MinionFetchCommandsProps) {
 		}
 		setApplying(true);
 		try {
-			await ApiFacade.RFApi.fetchDeviceCommandsToMinion(selectedCommandsSet, minion.minionId || '');
+			await ApiFacade.RFApi.fetchDeviceCommandsToMinion(minion.minionId || '', selectedCommandsSet);
 			// Show success indicator for X sec.
 			setSuccess(true);
 			setTimeout(() => {

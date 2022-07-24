@@ -1,4 +1,4 @@
-import { User } from "../../infrastructure/generated/api";
+import { User } from "../../infrastructure/generated/api/swagger/api";
 
 /**
  * Get the first letter of user's display name parts and combine the first two parts (for example haim kasnter to HK :)

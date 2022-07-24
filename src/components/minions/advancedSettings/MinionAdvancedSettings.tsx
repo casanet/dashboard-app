@@ -1,11 +1,11 @@
 import { Divider, Grid } from "@material-ui/core";
-import { Minion } from "../../../infrastructure/generated/api";
 import { useEffect, useState } from "react";
 import { minionsKindsService } from "../../../services/minions.kinds.service";
 import { MinionAutoTurnOff } from "./MinionAutoTurnOff";
 import { MinionSync } from "./MinionSync";
 import { MinionFetchCommands } from "./MinionFetchCommands";
 import { MinionRecordCommandCommands } from "./MinionRecordCommandCommands";
+import { Minion } from "../../../infrastructure/generated/api/swagger/api";
 
 interface MinionAdvancedSettingsProps {
 	fontRatio: number;

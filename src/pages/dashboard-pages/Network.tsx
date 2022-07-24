@@ -8,7 +8,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { devicesService } from '../../services/devices.service';
-import { LocalNetworkDevice } from '../../infrastructure/generated/api';
 import { ComponentType, useEffect, useState } from 'react';
 import { handleServerRestError } from '../../services/notifications.service';
 import { Loader } from '../../components/Loader';
@@ -19,13 +18,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
 import { DEFAULT_FONT_RATION } from '../../infrastructure/consts';
-import { ApiFacade } from '../../infrastructure/generated/proxies/api-proxies';
 import { DashboardPageInjectProps } from '../Dashboard';
 import { NoContent } from '../../components/NoContent';
 import RouterIcon from '@material-ui/icons/Router';
 import { marginLeft } from '../../logic/common/themeUtils';
 import { useData } from '../../hooks/useData';
 import { PageLayout } from '../../components/layouts/PageLayout';
+import { ApiFacade, LocalNetworkDevice } from '../../infrastructure/generated/api/swagger/api';
 
 /**
  * The sort formula for sorting devices by ip -> name
@@ -240,7 +239,7 @@ export default function Network(props: DashboardPageInjectProps) {
 			const setDevice = { ...device, name };
 			// Update current view device name
 			device.name = setDevice.name;
-			await ApiFacade.DevicesApi.setDeviceName(setDevice, device.mac);
+			await ApiFacade.DevicesApi.setDeviceName(device.mac, setDevice);
 			devicesService.postNewData(devices);
 		} catch (error) {
 			// Once change failure, revert the name change

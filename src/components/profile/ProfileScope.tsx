@@ -1,4 +1,3 @@
-import { AuthScopes, User } from "../../infrastructure/generated/api";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import Autocomplete from '@mui/material/Autocomplete';
 import { useEffect, useState } from "react";
@@ -8,8 +7,8 @@ import TextField from '@mui/material/TextField';
 import { sessionManager } from "../../infrastructure/session-manager";
 import LinearProgress from '@mui/material/LinearProgress';
 import { handleServerRestError } from "../../services/notifications.service";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { ProfileItemProps } from "../../pages/dashboard-pages/Profile";
+import { ApiFacade, AuthScopes, User } from "../../infrastructure/generated/api/swagger/api";
 
 export function ProfileScope(props: ProfileItemProps) {
 	const { t } = useTranslation();
@@ -27,7 +26,7 @@ export function ProfileScope(props: ProfileItemProps) {
 		setScope(scope);
 		try {
 			const newProfile = { ...props.profile, scope } as User;
-			await ApiFacade.UsersApi.setUser(newProfile, props.profile.email);
+			await ApiFacade.UsersApi.setUser(props.profile.email, newProfile);
 			props.setProfile(newProfile);
 		} catch (error) {
 			// In case of error, revert back

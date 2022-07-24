@@ -1,7 +1,5 @@
 import { Button, Grid, Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { Minion, MinionStatus, MinionTypes, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import { timingsService } from "../../services/timings.service";
 import { useTranslation } from "react-i18next";
@@ -19,6 +17,7 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import clonedeep from 'lodash.clonedeep';
+import { ApiFacade, Minion, MinionStatus, MinionTypes, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
 
 interface CreateTimingProps {
 	minion: Minion;

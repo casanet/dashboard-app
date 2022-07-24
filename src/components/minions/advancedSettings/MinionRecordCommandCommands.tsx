@@ -1,9 +1,7 @@
 import { Grid, IconButton, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
-import { Minion, MinionStatus, MinionTypes } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from "react";
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { defaultMinionStatus, isOnMode } from "../../../logic/common/minionsUtils";
 import { getModeColor } from "../../../logic/common/themeUtils";
@@ -15,6 +13,7 @@ import { MinionEditStatus } from "../editMinionStatus/MinionEditStatus";
 import MoneyIcon from '@mui/icons-material/Money';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { DEFAULT_SUCCEED_ICON_SHOWN } from "../../../infrastructure/consts";
+import { ApiFacade, Minion, MinionStatus, MinionTypes } from "../../../infrastructure/generated/api/swagger/api";
 
 interface MinionRecordCommandCommandsProps {
 	fontRatio: number;
@@ -36,7 +35,7 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 	async function recordCommand() {
 		setRecording(true);
 		try {
-			await ApiFacade.RFApi.recordMinionCommand(recordMinionStatus, minion.minionId || '');
+			await ApiFacade.RFApi.recordMinionCommand(minion.minionId || '', recordMinionStatus);
 			// Shown recording success indicator for X sec
 			setRecordingSuccess(true);
 			setTimeout(() => {
@@ -51,7 +50,7 @@ export function MinionRecordCommandCommands(props: MinionRecordCommandCommandsPr
 	async function generateCommand() {
 		setGenerating(true);
 		try {
-			await ApiFacade.RFApi.generateMinionCommand(recordMinionStatus, minion.minionId || '');
+			await ApiFacade.RFApi.generateMinionCommand(minion.minionId || '', recordMinionStatus);
 			// Shown generating success indicator for X sec
 			setGeneratingSuccess(true);
 			setTimeout(() => {

@@ -1,13 +1,11 @@
 import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { User } from "../../infrastructure/generated/api";
 import { getLocalStorageItem, LocalStorageKey } from "../../infrastructure/local-storage";
 import '../../theme/styles/components/profileAvatar.scss';
 import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HelpOutlineOutlined from '@material-ui/icons/HelpOutlineOutlined';
 import PermIdentityOutlined from '@material-ui/icons/PermIdentityOutlined';
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
 import { useHistory } from "react-router-dom";
@@ -18,6 +16,7 @@ import { Help } from "../general/Help";
 import Box from '@mui/material/Box';
 import { About } from "../general/About";
 import { modalBoxStyle } from "../../logic/common/modalUtils";
+import { ApiFacade, User } from "../../infrastructure/generated/api/swagger/api";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();

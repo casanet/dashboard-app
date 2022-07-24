@@ -1,10 +1,9 @@
 
 import { SyncEvent } from 'ts-events';
 import { LIVELINESS_ACK_INTERVAL } from '../infrastructure/consts';
-import { RemoteConnectionStatus } from '../infrastructure/generated/api';
-import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
 import { sessionManager } from '../infrastructure/session-manager';
 import { sleep } from '../infrastructure/utils';
+import { ApiFacade, RemoteConnectionStatus } from "../infrastructure/generated/api/swagger/api";
 
 export interface LivelinessInfo {
 	/** Whenever the communication with server is OK */

@@ -1,10 +1,9 @@
-import { FeedEvent, Minion, MinionFeed } from "../infrastructure/generated/api";
-import { ApiFacade } from "../infrastructure/generated/proxies/api-proxies";
 import { DataService } from "../infrastructure/data-service-base";
 import { envFacade } from "../infrastructure/env-facade";
 import { sessionManager } from "../infrastructure/session-manager";
 import { API_KEY_HEADER } from "../infrastructure/consts";
 import { timelineService } from "./timeline.service";
+import { ApiFacade, FeedEvent, Minion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
 
 // Inherited from DataService
 class MinionsService extends DataService<Minion[]> {

@@ -1,6 +1,6 @@
 import { Typography, useTheme } from "@material-ui/core";
-import { Minion } from "../../infrastructure/generated/api";
 import { useTranslation } from "react-i18next";
+import { Minion } from "../../infrastructure/generated/api/swagger/api";
 import { msToHMS } from "../../logic/common/minionsUtils";
 
 interface MinionTimeoutOverviewProps {

@@ -1,10 +1,9 @@
-import { User } from "../../infrastructure/generated/api";
 import { useEffect, useState } from "react";
 import LinearProgress from '@mui/material/LinearProgress';
 import { handleServerRestError } from "../../services/notifications.service";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { ProfileItemProps } from "../../pages/dashboard-pages/Profile";
 import { ThemeSwitch } from "../global/ThemeSwitch";
+import { ApiFacade, User } from "../../infrastructure/generated/api/swagger/api";
 
 export function ProfileTFA(props: ProfileItemProps) {
 	const [forceMfa, setForceMfa] = useState<boolean>(!props.profile.ignoreTfa);
@@ -24,7 +23,7 @@ export function ProfileTFA(props: ProfileItemProps) {
 		setForceMfa(newForceMfa);
 		try {
 			const newProfile = { ...props.profile, ignoreTfa: !newForceMfa } as User;
-			await ApiFacade.UsersApi.setUser(newProfile, props.profile.email);
+			await ApiFacade.UsersApi.setUser(props.profile.email, newProfile);
 			props.setProfile(newProfile);
 		} catch (error) {
 			// In case or error, revert back

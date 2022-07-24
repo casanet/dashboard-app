@@ -1,19 +1,18 @@
 import { Grid, IconButton, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next"
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import { timingsService } from "../../services/timings.service";
 import clonedeep from 'lodash.clonedeep';
 import CircularProgress from "@mui/material/CircularProgress";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Timing } from "../../infrastructure/generated/api";
 import { AlertDialog } from "../AlertDialog";
 import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../global/ThemeSwitch";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { marginLeft } from "../../logic/common/themeUtils";
+import { ApiFacade, Timing } from "../../infrastructure/generated/api/swagger/api";
 
 interface TimingOverviewControlsProps {
 	timing: Timing;
@@ -36,7 +35,7 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 		try {
 			const editedTiming = clonedeep<Timing>(timing);
 			editedTiming.isActive = !!!timing.isActive;
-			await ApiFacade.TimingsApi.setTiming(editedTiming, editedTiming.timingId);
+			await ApiFacade.TimingsApi.setTiming(editedTiming.timingId, editedTiming);
 			// Do not fetch again, just update service
 			timingsService.updateTiming(editedTiming);
 		} catch (error) {

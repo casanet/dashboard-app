@@ -9,9 +9,9 @@ import Collapse from '@mui/material/Collapse';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { handleServerRestError } from "../../services/notifications.service";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { ProfileItemProps } from "../../pages/dashboard-pages/Profile";
 import { useState } from "react";
+import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 
 export function ProfileOverridePass(props: ProfileItemProps) {
 	const { t } = useTranslation();
@@ -28,7 +28,7 @@ export function ProfileOverridePass(props: ProfileItemProps) {
 	async function savePassword() {
 		setSaving(true);
 		try {
-			await ApiFacade.UsersApi.setUser({ ...props.profile, password }, props.profile.email);
+			await ApiFacade.UsersApi.setUser(props.profile.email, { ...props.profile, password });
 			// Once password successfully changed, mark ChangeRequired as off
 			props.setProfile({ ...props.profile, passwordChangeRequired: false });
 		} catch (error) {

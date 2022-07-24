@@ -1,10 +1,8 @@
 import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
-import { CalibrationMode, Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
 import { CSSProperties, useEffect, useState } from "react";
 import { Duration } from 'unitsnet-js';
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../../services/minions.service";
 import { handleServerRestError } from "../../../services/notifications.service";
 import SaveIcon from '@material-ui/icons/Save';
@@ -17,6 +15,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { ApiFacade, CalibrationMode, Minion } from "../../../infrastructure/generated/api/swagger/api";
 
 interface MinionSyncProps {
 	fontRatio: number;
@@ -30,7 +29,7 @@ export function MinionSync(props: MinionSyncProps) {
 	const theme = useTheme();
 	const [saving, setSaving] = useState<boolean>(false);
 	const [syncMinutes, setSyncMinutes] = useState<number>(minion.calibration?.calibrationCycleMinutes || 0);
-	const [calibration, setCalibration] = useState<CalibrationMode>(minion.calibration?.calibrationMode || CalibrationMode.AUTO);
+	const [calibration, setCalibration] = useState<CalibrationMode>(minion.calibration?.calibrationMode || CalibrationMode.Auto);
 
 	useEffect(() => {
 		// Once the calibrationCycleMinutes updated from out side, re calc the sync minutes
@@ -40,7 +39,7 @@ export function MinionSync(props: MinionSyncProps) {
 	async function setMinionCalibration(duration: Duration) {
 		setSaving(true);
 		try {
-			await ApiFacade.MinionsApi.setMinionCalibrate({ calibrationMode: calibration, calibrationCycleMinutes: duration.Minutes }, minion.minionId || '');
+			await ApiFacade.MinionsApi.setMinionCalibrate(minion.minionId || '', { calibrationMode: calibration, calibrationCycleMinutes: duration.Minutes });
 			minion.calibration = {
 				calibrationCycleMinutes :  duration.Minutes,
 				calibrationMode : calibration
@@ -60,7 +59,7 @@ export function MinionSync(props: MinionSyncProps) {
 	const isOff = !minion.calibration?.calibrationCycleMinutes;
 
 	// Detect if calibration prop has been changed by use, if so, show it as edit mode
-	const editMode = (minion.calibration?.calibrationCycleMinutes || 0) !== syncMinutes || (minion.calibration?.calibrationMode || CalibrationMode.AUTO) !== calibration;
+	const editMode = (minion.calibration?.calibrationCycleMinutes || 0) !== syncMinutes || (minion.calibration?.calibrationMode || CalibrationMode.Auto) !== calibration;
 
 	// Calibration option size
 	const calibrationModeStyle: CSSProperties = { fontSize: fontRatio * 0.4 };
@@ -120,22 +119,22 @@ export function MinionSync(props: MinionSyncProps) {
 										}}
 										exclusive
 									>
-										<ToggleButton value={CalibrationMode.AUTO} aria-label={t('dashboard.minions.advanced.settings.sync.auto.mode.tip')} style={{ color: getModeColor(!isOff, theme) }}>
+										<ToggleButton value={CalibrationMode.Auto} aria-label={t('dashboard.minions.advanced.settings.sync.auto.mode.tip')} style={{ color: getModeColor(!isOff, theme) }}>
 											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.auto.mode.tip')}</span>}>
 												<SyncIcon style={calibrationModeStyle} />
 											</ThemeTooltip>
 										</ToggleButton>
-										<ToggleButton value={CalibrationMode.LOCKON} aria-label={t('dashboard.minions.advanced.settings.sync.lock.on.tip')} style={{ color: getModeColor(!isOff, theme) }}>
+										<ToggleButton value={CalibrationMode.LockOn} aria-label={t('dashboard.minions.advanced.settings.sync.lock.on.tip')} style={{ color: getModeColor(!isOff, theme) }}>
 											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.on.tip')}</span>}>
 												<LockIcon style={calibrationModeStyle} />
 											</ThemeTooltip>
 										</ToggleButton>
-										<ToggleButton value={CalibrationMode.LOCKOFF} aria-label={t('dashboard.minions.advanced.settings.sync.lock.off.tip')} style={{ color: getModeColor(!isOff, theme) }}>
+										<ToggleButton value={CalibrationMode.LockOff} aria-label={t('dashboard.minions.advanced.settings.sync.lock.off.tip')} style={{ color: getModeColor(!isOff, theme) }}>
 											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.off.tip')}</span>}>
 												<LockOutlinedIcon style={calibrationModeStyle} />
 											</ThemeTooltip>
 										</ToggleButton>
-										<ToggleButton value={CalibrationMode.SHABBAT} aria-label={t('dashboard.minions.advanced.settings.sync.shabbat.tip')} style={{ color: getModeColor(!isOff, theme) }}>
+										<ToggleButton value={CalibrationMode.Shabbat} aria-label={t('dashboard.minions.advanced.settings.sync.shabbat.tip')} style={{ color: getModeColor(!isOff, theme) }}>
 											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.rotation.tip')}</span>}>
 												<RotateRightIcon style={calibrationModeStyle} />
 											</ThemeTooltip>
@@ -196,7 +195,7 @@ export function MinionSync(props: MinionSyncProps) {
 						<IconButton
 							disabled={saving}
 							style={{ padding: fontRatio * 0.1 }}
-							onClick={() => { setSyncMinutes(minion.calibration?.calibrationCycleMinutes || 0); setCalibration(minion.calibration?.calibrationMode || CalibrationMode.AUTO) }}
+							onClick={() => { setSyncMinutes(minion.calibration?.calibrationCycleMinutes || 0); setCalibration(minion.calibration?.calibrationMode || CalibrationMode.Auto) }}
 							color="inherit">
 							<CloseIcon style={{ fontSize: fontRatio * 0.3 }} />
 						</IconButton>

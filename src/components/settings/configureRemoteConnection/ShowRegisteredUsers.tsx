@@ -2,20 +2,19 @@ import { CircularProgress, Grid, IconButton, Typography, useTheme } from "@mater
 import { useTranslation } from "react-i18next";
 import { DEFAULT_FONT_RATION } from "../../../infrastructure/consts";
 import { useState } from "react";
-import { RemoteConnectionStatus } from "../../../infrastructure/generated/api";
 import Collapse from '@mui/material/Collapse';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { getModeColor } from "../../../logic/common/themeUtils";
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
-import { handleServerRestError } from "../../../services/notifications.service";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { AlertDialog } from "../../AlertDialog";
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { TitleButtonContent } from "../../layouts/TitleButtonContent";
 import { remoteRegisteredUsersService } from "../../../services/users.service";
 import { useLiveliness } from "../../../hooks/useLiveliness";
+import { ApiFacade, RemoteConnectionStatus } from "../../../infrastructure/generated/api/swagger/api";
+import { handleServerRestError } from "../../../services/notifications.service";
 
 
 export function ShowRegisteredUsers() {
@@ -75,7 +74,7 @@ export function ShowRegisteredUsers() {
 			tip={t('dashboard.settings.connectivity.show.registered.users.tip')}
 			button={<ThemeTooltip title={<span>{t(`dashboard.settings.connectivity.show.registered.${!!registeredUsers ? 'hide' : 'show'}.users`)}</span>}>
 				<IconButton
-					disabled={remoteConnection !== RemoteConnectionStatus.ConnectionOK || fetchingRegisteredUsers}
+					disabled={remoteConnection !== RemoteConnectionStatus.ConnectionOk || fetchingRegisteredUsers}
 					onClick={toggleRegisteredUsersVisibility}
 					color="inherit"
 				>

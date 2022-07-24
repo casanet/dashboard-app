@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import '../../theme/styles/minions.scss';
 import { LocalStorageKey, setLocalStorageItem, getLocalStorageItem } from "../../infrastructure/local-storage";
-import { Minion } from "../../infrastructure/generated/api";
 import { MinionOverview } from "../../components/minions/MinionOverview";
 import { minionsService } from "../../services/minions.service";
 import { CREATE_MINION_PATH, GRID_CARDS_RATION_STEP } from "../../infrastructure/consts";
@@ -20,6 +19,7 @@ import { ThemeTooltip } from "../../components/global/ThemeTooltip";
 import { CreateMinion } from "../../components/minions/CreateMinion";
 import { useData } from "../../hooks/useData";
 import { PageLayout } from "../../components/layouts/PageLayout";
+import { Minion } from "../../infrastructure/generated/api/swagger/api";
 
 // The default minion card size
 const defaultWidth = 410;

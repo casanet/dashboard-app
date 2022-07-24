@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import LoadingButton from '@mui/lab/LoadingButton';
 import BlockIcon from '@mui/icons-material/Block';
 import { ProfileItemProps } from "../../pages/dashboard-pages/Profile";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import { AlertDialog } from "../AlertDialog";
 import { inputColor } from "../../logic/common/themeUtils";
+import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 
 export function ProfileRevokeSession(props: ProfileItemProps) {
 	const { t } = useTranslation();

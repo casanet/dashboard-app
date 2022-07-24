@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Grid, useTheme } from "@material-ui/core";
@@ -15,6 +14,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import frLocale from 'date-fns/locale/fr';
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
 
 interface TimingEditProps {
 	timingType: TimingTypes;

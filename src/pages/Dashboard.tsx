@@ -38,9 +38,9 @@ import { NetworkToolbar } from "../components/toolbars/NetworkToolbar";
 import { UsersToolbar } from "../components/toolbars/UsersToolbar";
 import { useLiveliness } from "../hooks/useLiveliness";
 import { livelinessCheck, livelinessFlag } from "../services/liveliness.service";
-import { RemoteConnectionStatus } from "../infrastructure/generated/api";
 import { envFacade } from "../infrastructure/env-facade";
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
+import { RemoteConnectionStatus } from "../infrastructure/generated/api/swagger/api";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));

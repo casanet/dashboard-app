@@ -6,11 +6,11 @@ import { TitleButtonContent } from "../layouts/TitleButtonContent";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { sessionManager } from "../../infrastructure/session-manager";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import { downloadBinaryFile } from "../../infrastructure/utils";
 import { ServerVersion } from "./generalSettings/ServerVersion";
 import { envFacade } from "../../infrastructure/env-facade";
+import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 
 export function GeneralSettings() {
 	const { t } = useTranslation();

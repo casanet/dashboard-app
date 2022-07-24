@@ -2,8 +2,8 @@ import { Grid, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/c
 import { getModeColor } from "../logic/common/themeUtils";
 import BlockIcon from '@mui/icons-material/Block';
 import { useTranslation } from "react-i18next";
-import { AuthScopes } from "../infrastructure/generated/api";
 import { sessionManager } from "../infrastructure/session-manager";
+import { AuthScopes } from "../infrastructure/generated/api/swagger/api";
 
 interface NoPermissionsProps {
 	fontRatio?: number;

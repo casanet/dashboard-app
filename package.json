@@ -7,7 +7,8 @@
 	"private": false,
 	"homepage": "./",
 	"scripts": {
-		"prebuild": "node scripts/generate-api.js",
+		"generate-api": "openapi-generator-cli generate",
+		"prebuild": "node scripts/fetch-spec.js && npm run generate-api",
 		"prestart": "npm run prebuild",
 		"build": "react-scripts build",
 		"postbuild": "node scripts/fetch-light-app.js",
@@ -80,6 +81,7 @@
 		]
 	},
 	"devDependencies": {
+		"@openapitools/openapi-generator-cli": "^2.5.1",
 		"@testing-library/jest-dom": "^5.11.4",
 		"@testing-library/react": "^11.1.0",
 		"@testing-library/user-event": "^12.1.10",

@@ -6,7 +6,6 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useTranslation } from "react-i18next";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { ACModeOptions, AirConditioning, FanStrengthOptions, MinionTypes } from "../../../infrastructure/generated/api";
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import WavesIcon from '@material-ui/icons/Waves';
 import clonedeep from 'lodash.clonedeep';
@@ -17,6 +16,7 @@ import AutoIcon from '@mui/icons-material/HdrAuto';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { ACModeOptions, AirConditioning, FanStrengthOptions, MinionTypes } from "../../../infrastructure/generated/api/swagger/api";
 
 export function EditAirConditioning(props: TypeEditStatusProps) {
 	const { t } = useTranslation();
