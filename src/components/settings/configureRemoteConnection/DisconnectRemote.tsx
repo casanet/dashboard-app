@@ -2,8 +2,6 @@ import { CircularProgress, IconButton } from "@material-ui/core";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_FONT_RATION } from "../../../infrastructure/consts";
-import { RemoteConnectionStatus } from "../../../infrastructure/generated/api";
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { remoteURLService } from "../../../services/settings.service";
 import { AlertDialog } from "../../AlertDialog";
@@ -12,6 +10,7 @@ import { TitleButtonContent } from "../../layouts/TitleButtonContent";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useLiveliness } from "../../../hooks/useLiveliness";
 import { livelinessCheck } from "../../../services/liveliness.service";
+import { ApiFacade, RemoteConnectionStatus } from "../../../infrastructure/generated/api/swagger/api";
 
 export function DisconnectRemote() {
 	const { t } = useTranslation();

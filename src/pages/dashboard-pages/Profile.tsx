@@ -1,5 +1,4 @@
 import { Button, Grid, Theme, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import { RemoteConnectionStatus, User } from '../../infrastructure/generated/api';
 import { useEffect, useMemo, useState } from 'react';
 import { handleServerRestError } from '../../services/notifications.service';
 import { Loader } from '../../components/Loader';
@@ -27,6 +26,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { useData } from '../../hooks/useData';
 import { useLiveliness } from '../../hooks/useLiveliness';
 import { ThemeTooltip } from '../../components/global/ThemeTooltip';
+import { RemoteConnectionStatus, User } from '../../infrastructure/generated/api/swagger/api';
 
 export interface ProfileItemProps {
 	profile: User;
@@ -111,7 +111,7 @@ export default function Profile() {
 	const propsWidth = desktopMode ? (DEFAULT_FONT_RATION * 15) : '100%';
 	const propsFontSize = DEFAULT_FONT_RATION * 1.2;
 
-	const remoteConnectionOK = remoteConnection === RemoteConnectionStatus.ConnectionOK;
+	const remoteConnectionOK = remoteConnection === RemoteConnectionStatus.ConnectionOk;
 
 	return <div style={{ width: '100%', height: '100%' }}>
 		<div style={{

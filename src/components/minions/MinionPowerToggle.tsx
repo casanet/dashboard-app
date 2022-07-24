@@ -1,10 +1,8 @@
 import { IconButton, useTheme } from "@material-ui/core";
 import { useState } from "react";
-import { Minion, SwitchOptions } from "../../infrastructure/generated/api";
 import PowerSettingsNewRoundedIcon from '@material-ui/icons/PowerSettingsNewRounded';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { useTranslation } from "react-i18next";
 import { handleServerRestError } from "../../services/notifications.service";
 import { minionsService } from "../../services/minions.service";
@@ -12,6 +10,7 @@ import clonedeep from 'lodash.clonedeep';
 import { getModeColor } from "../../logic/common/themeUtils";
 import { defaultMinionStatus, isOnMode } from "../../logic/common/minionsUtils";
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import { ApiFacade, Minion, SwitchOptions } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionPowerToggleProps {
 	minion: Minion;
@@ -35,7 +34,7 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 				minionStatus = defaultMinionStatus(minion.minionType);
 			}
 			minionStatus[minion.minionType].status = isOn ? SwitchOptions.Off : SwitchOptions.On;
-			await ApiFacade.MinionsApi.setMinion(minionStatus, minion.minionId || '');
+			await ApiFacade.MinionsApi.setMinion(minion.minionId || '', minionStatus);
 			minion.minionStatus = minionStatus;
 			minionsService.updateMinion(minion);
 		} catch (error) {

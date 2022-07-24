@@ -7,7 +7,6 @@ import Collapse from '@mui/material/Collapse';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from '@mui/icons-material/Close';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -15,6 +14,7 @@ import { TitleButtonContent } from "../../layouts/TitleButtonContent";
 import { isValidUrl } from "../../../infrastructure/utils";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { livelinessCheck } from "../../../services/liveliness.service";
+import { ApiFacade } from "../../../infrastructure/generated/api/swagger/api";
 
 export function EditRemoteConnection() {
 	const { t } = useTranslation();

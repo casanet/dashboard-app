@@ -2,7 +2,7 @@ import { useTheme } from '@material-ui/core';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import WavesIcon from '@material-ui/icons/Waves';
 import { Fragment } from 'react';
-import { ACModeOptions } from '../../../infrastructure/generated/api';
+import { ACModeOptions } from '../../../infrastructure/generated/api/swagger/api';
 import { getModeColor } from '../../../logic/common/themeUtils';
 
 interface AcModeProps {

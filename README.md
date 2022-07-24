@@ -37,6 +37,8 @@ The dashboard implemented using [react v17](https://reactjs.org/blog/2020/10/20/
 
 To set development environment, first set the environment variables, see [.env.example](./.env.example), then use the following commands:
 
+> JAVA 
+
 * `yarn` - to install all dependencies
 * `yarn run prebuild` - to fetch the [casanet server spec](https://github.com/casanet/casanet-server/blob/development/backend/src/swagger.json) and generate the API's calls using [Swagger online generate](https://generator3.swagger.io/index.html) API.
 * `yarn run start` - to start the development assets server.

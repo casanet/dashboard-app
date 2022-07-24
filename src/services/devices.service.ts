@@ -1,6 +1,5 @@
-import { LocalNetworkDevice } from "../infrastructure/generated/api";
-import { ApiFacade } from "../infrastructure/generated/proxies/api-proxies";
 import { DataService } from "../infrastructure/data-service-base";
+import { ApiFacade, LocalNetworkDevice } from "../infrastructure/generated/api/swagger/api";
 
 class DevicesService extends DataService<LocalNetworkDevice[]> {
 

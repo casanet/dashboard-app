@@ -1,5 +1,4 @@
 import { Grid, Typography, useTheme } from "@material-ui/core";
-import { Minion } from "../../infrastructure/generated/api";
 import '../../theme/styles/components/minions/minionsOverview.scss';
 import { useHistory, useParams } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
@@ -9,6 +8,7 @@ import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
 import { MinionIndicators } from "./MinionIndicators";
 import { useTranslation } from "react-i18next";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
+import { Minion } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionOverviewProps {
 	minion: Minion;

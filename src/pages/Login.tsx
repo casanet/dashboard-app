@@ -5,7 +5,6 @@ import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import isEmail from 'isemail';
-import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
 import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
 import { API_KEY_HEADER, AppRoutes, DEFAULT_FONT_RATION, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
@@ -19,6 +18,7 @@ import { isValidUrl } from '../infrastructure/utils';
 import { handleServerRestError } from '../services/notifications.service';
 import { ThemeTooltip } from '../components/global/ThemeTooltip';
 import { profileService } from '../services/users.service';
+import { ApiFacade } from '../infrastructure/generated/api/swagger/api';
 
 interface LocalServer {
 	displayName: string;

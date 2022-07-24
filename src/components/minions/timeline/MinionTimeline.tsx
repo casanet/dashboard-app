@@ -1,5 +1,4 @@
 import { Grid, useTheme } from "@material-ui/core";
-import { Minion, MinionChangeTrigger, MinionTypes, SwitchOptions } from "../../../infrastructure/generated/api";
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
@@ -23,6 +22,7 @@ import { Loader } from "../../Loader";
 import { SwitchMode } from "../overviewMinionsStatus/SwitchMode";
 import { getLang } from "../../../services/localization.service";
 import { right } from "../../../logic/common/themeUtils";
+import { Minion, MinionChangeTrigger, MinionTypes, SwitchOptions } from "../../../infrastructure/generated/api/swagger/api";
 
 // TODO: Once this logic will be used in other component too, move to to app index
 // get lang and load TimeAgo module with the correct lang
@@ -88,7 +88,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 					<TimelineSeparator>
 						<TimelineConnector />
 						<TimelineDot>
-							<ThemeTooltip hideTip={[MinionTypes.Toggle, MinionTypes.Switch].includes(minion.minionType)} title={<span><MinionStatusOverview
+							<ThemeTooltip hideTip={[MinionTypes.Toggle, MinionTypes.Switch].includes(minion.minionType as any)} title={<span><MinionStatusOverview
 								minionStatus={node.status}
 								disabled={false}
 								minionType={minion.minionType}
@@ -101,7 +101,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 						<TimelineConnector />
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }} style={{ minWidth: '50%', wordBreak: 'break-word' }}>
-						<ThemeTooltip hideTip={[MinionTypes.Toggle, MinionTypes.Switch].includes(minion.minionType)} title={<span><MinionStatusOverview
+						<ThemeTooltip hideTip={[MinionTypes.Toggle, MinionTypes.Switch].includes(minion.minionType as any)} title={<span><MinionStatusOverview
 							minionStatus={node.status}
 							disabled={false}
 							minionType={minion.minionType}

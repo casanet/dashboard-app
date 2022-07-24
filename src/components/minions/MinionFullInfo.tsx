@@ -1,5 +1,4 @@
 import { Button, Grid, IconButton } from "@material-ui/core";
-import { Minion, MinionStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { DashboardRoutes, DEFAULT_FONT_RATION, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
@@ -9,7 +8,6 @@ import '../../theme/styles/components/minions/minionFullInfo.scss';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Suspense, useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import { MinionEditableName } from "./MinionEditableName";
@@ -31,6 +29,7 @@ import React from "react";
 import { Loader } from "../Loader";
 import { MinionIndicators } from "./MinionIndicators";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
+import { ApiFacade, Minion, MinionStatus } from "../../infrastructure/generated/api/swagger/api";
 
 const MinionTimeline = React.lazy(() => import('./timeline/MinionTimeline'));
 
@@ -65,7 +64,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 	async function setMinionStatus(minionStatusToSet: MinionStatus) {
 		setSaving(true);
 		try {
-			await ApiFacade.MinionsApi.setMinion(minionStatusToSet, minion.minionId || '');
+			await ApiFacade.MinionsApi.setMinion(minion.minionId || '', minionStatusToSet);
 			minion.minionStatus = minionStatusToSet;
 			minionsService.updateMinion(minion);
 		} catch (error) {

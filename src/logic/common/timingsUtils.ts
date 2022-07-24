@@ -1,5 +1,5 @@
 import { Duration } from "unitsnet-js";
-import { SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
+import { SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
 
 export const mapTimingsTypeToDisplay: { [key in TimingTypes]: string } = {
 	[TimingTypes.DailySunTrigger]: 'dashboard.timings.daily.sun.trigger',

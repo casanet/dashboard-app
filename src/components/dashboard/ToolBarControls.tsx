@@ -6,7 +6,6 @@ import ErrorIcon from '@material-ui/icons/Error';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
 import CloudOffIcon from '@material-ui/icons/CloudOff';
-import { RemoteConnectionStatus, User } from "../../infrastructure/generated/api";
 import { ThemeToggle } from "../global/ThemeToggle";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { remoteConnectionDisplayKey } from "../../logic/common/settingsUtils";
@@ -20,6 +19,7 @@ import { profileService } from "../../services/users.service";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useData } from "../../hooks/useData";
 import { useLiveliness } from "../../hooks/useLiveliness";
+import { RemoteConnectionStatus, User } from "../../infrastructure/generated/api/swagger/api";
 
 const useStyles = makeStyles((theme) => ({
 	badge: {
@@ -104,7 +104,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 					<IconButton
 						onClick={() => history.push(DashboardRoutes.settings.path)}
 						color="inherit">
-						{remoteConnection === RemoteConnectionStatus.ConnectionOK ? <CloudDoneIcon fontSize="small" /> : <CloudOffIcon fontSize="small" />}
+						{remoteConnection === RemoteConnectionStatus.ConnectionOk ? <CloudDoneIcon fontSize="small" /> : <CloudOffIcon fontSize="small" />}
 					</IconButton>
 				</ThemeTooltip>}
 			</div>

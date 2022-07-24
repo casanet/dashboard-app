@@ -1,7 +1,5 @@
 import { Button, Grid, Theme, useMediaQuery } from "@material-ui/core";
 import { useState } from "react";
-import { Minion, MinionStatus, MinionTypes, Timing, TimingProperties } from "../../infrastructure/generated/api";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import { timingsService } from "../../services/timings.service";
 import { useTranslation } from "react-i18next";
@@ -11,6 +9,7 @@ import { MinionEditStatus } from "../minions/editMinionStatus/MinionEditStatus";
 import clonedeep from 'lodash.clonedeep';
 import { SwitchEditStatus } from "../minions/editMinionStatus/SwitchEditStatus";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { ApiFacade, Minion, MinionStatus, MinionTypes, Timing, TimingProperties } from "../../infrastructure/generated/api/swagger/api";
 
 interface EditTimingPropsProps {
 	minion: Minion;
@@ -35,14 +34,14 @@ export function EditTimingProps(props: EditTimingPropsProps) {
 		}
 		setEditing(true);
 		try {
-			const editedTiming = clonedeep(props.timing);
+			const editedTiming = clonedeep(props.timing) as Timing;
 			editedTiming.timingProperties = timingProperties;
 			if (editedTiming.triggerDirectAction) {
 				editedTiming.triggerDirectAction.minionStatus = minionStatus;
 			} else {
 				editedTiming.triggerDirectAction = { minionStatus, minionId: props.minion.minionId || '', }
 			}
-			await ApiFacade.TimingsApi.setTiming(editedTiming, editedTiming.timingId);
+			await ApiFacade.TimingsApi.setTiming(editedTiming.timingId, editedTiming);
 			timingsService.updateTiming(editedTiming);
 			props.onDone();
 		} catch (error) {

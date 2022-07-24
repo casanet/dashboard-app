@@ -1,5 +1,4 @@
 import { Button, Grid, IconButton, InputAdornment, useTheme } from "@material-ui/core";
-import { RemoteConnectionStatus, User } from "../../infrastructure/generated/api";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { inputColor } from "../../logic/common/themeUtils";
 import { useState } from "react";
@@ -9,13 +8,13 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import Collapse from '@mui/material/Collapse';
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError } from "../../services/notifications.service";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { remoteRegisteredUsersService } from "../../services/users.service";
 import { AlertDialog } from "../AlertDialog";
 import { useLiveliness } from "../../hooks/useLiveliness";
+import { ApiFacade, RemoteConnectionStatus, User } from "../../infrastructure/generated/api/swagger/api";
 
 interface ProfileRemoteAccessProps {
 	profile: User;
@@ -58,7 +57,7 @@ export function ProfileRemoteAccess(props: ProfileRemoteAccessProps) {
 	async function registerUser() {
 		setLoading(true);
 		try {
-			await ApiFacade.UsersApi.requestUserForwardingAuth({ code: authCode }, props.profile.email);
+			await ApiFacade.UsersApi.requestUserForwardingAuth(props.profile.email, { code: authCode });
 			// Once it's succeed, refresh registered users list
 			await remoteRegisteredUsersService.forceFetchData();
 			// Reset view
@@ -87,7 +86,7 @@ export function ProfileRemoteAccess(props: ProfileRemoteAccessProps) {
 	};
 
 	const { profile, remoteRegisteredUsers } = props;
-	const connectionOK = remoteConnection === RemoteConnectionStatus.ConnectionOK;
+	const connectionOK = remoteConnection === RemoteConnectionStatus.ConnectionOk;
 
 	return <div style={{ width: '100%' }}>
 		<AlertDialog

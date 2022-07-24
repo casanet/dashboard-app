@@ -1,10 +1,8 @@
 import { CircularProgress, Grid, IconButton, TextField, useTheme } from "@material-ui/core";
-import { Minion } from "../../infrastructure/generated/api";
 import { useTranslation } from "react-i18next";
 import CloseIcon from '@material-ui/icons/Close';
 import '../../theme/styles/components/minions/minionEditableName.scss';
 import { Fragment, useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import SaveIcon from '@material-ui/icons/Save';
@@ -13,6 +11,7 @@ import { getModeColor } from "../../logic/common/themeUtils";
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import { ApiFacade, Minion } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionBottomControlsProps {
 	minion: Minion;
@@ -36,7 +35,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 	async function renameRoom() {
 		setEditingRoomName(true);
 		try {
-			await ApiFacade.MinionsApi.renameRoom({ room: editRoomName || '' }, minion.minionId || '');
+			await ApiFacade.MinionsApi.renameRoom(minion.minionId || '', { room: editRoomName || '' });
 			minion.room = editRoomName || '';
 			minionsService.updateMinion(minion);
 		} catch (error) {
@@ -48,7 +47,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 	async function redoMinionStatus() {
 		setRedoingStatus(true);
 		try {
-			await ApiFacade.MinionsApi.setMinion(minion.minionStatus, minion.minionId || '');
+			await ApiFacade.MinionsApi.setMinion(minion.minionId || '', minion.minionStatus);
 		} catch (error) {
 			handleServerRestError(error);
 		}

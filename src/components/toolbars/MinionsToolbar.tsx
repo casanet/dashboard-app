@@ -8,12 +8,11 @@ import { PageToolbarButton, ToolbarDivider } from "../dashboard/PageToolbar";
 import { minionsService } from "../../services/minions.service";
 import { handleServerRestError, postApiError } from "../../services/notifications.service";
 import { useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { sleep } from "../../infrastructure/utils";
 import { Duration } from "unitsnet-js";
-import { ErrorResponse, ProgressStatus } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { CREATE_MINION_PATH } from "../../infrastructure/consts";
+import { ApiFacade, ErrorResponse, ProgressStatus } from "../../infrastructure/generated/api/swagger/api";
 
 export function MinionsToolbar() {
 	const { t } = useTranslation();

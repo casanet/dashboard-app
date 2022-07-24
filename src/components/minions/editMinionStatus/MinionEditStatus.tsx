@@ -1,5 +1,3 @@
-import { MinionStatus } from "../../../infrastructure/generated/api";
-import { MinionTypes } from "../../../infrastructure/generated/api";
 import { EditAirConditioning } from "./AcEditStatus";
 import '../../../theme/styles/components/minions/minionEditStatus.scss';
 import { SwitchEditStatus } from "./SwitchEditStatus";
@@ -8,6 +6,7 @@ import { ColorLightEditStatus, LightEditStatus, TemperatureLightEditStatus } fro
 import { RollerEditStatus } from "./RollerEditStatus";
 import { CleanerEditStatus } from "./CleanerEditStatus";
 import { isOnMode } from "../../../logic/common/minionsUtils";
+import { MinionStatus, MinionTypes } from "../../../infrastructure/generated/api/swagger/api";
 
 export interface EditStatusProps {
 	minionType: MinionTypes;

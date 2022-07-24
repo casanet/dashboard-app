@@ -1,6 +1,6 @@
 import { Grid, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
-import { Minion } from "../../infrastructure/generated/api";
+import { Minion } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionTechInfoProps {
 	fontRatio: number;

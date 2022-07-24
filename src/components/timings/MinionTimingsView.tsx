@@ -1,7 +1,6 @@
 import { Button, Grid, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
-import { Minion, MinionStatus, MinionTypes, Timing } from "../../infrastructure/generated/api";
 import { handleServerRestError } from "../../services/notifications.service";
 import { timingsService } from "../../services/timings.service";
 import { MinionStatusOverview, SwitchOverview } from "../minions/overviewMinionsStatus/MinionStatusOverview";
@@ -16,6 +15,7 @@ import { getModeColor, marginLeft } from "../../logic/common/themeUtils";
 import Collapse from '@mui/material/Collapse';
 import { Duration } from "unitsnet-js";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
+import { Minion, MinionStatus, MinionTypes, Timing } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionTimingsViewProps {
 	minion: Minion;
