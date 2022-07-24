@@ -1,15 +1,14 @@
 import { CircularProgress, Grid, IconButton, TextField, Typography } from "@material-ui/core";
-import { Minion } from "../../infrastructure/generated/api";
 import { useTranslation } from "react-i18next";
 import CloseIcon from '@material-ui/icons/Close';
 import '../../theme/styles/components/minions/minionEditableName.scss';
 import { Fragment, useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import { ApiFacade, Minion } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionMinionEditableNameProps {
 	minion: Minion;
@@ -31,7 +30,7 @@ export function MinionEditableName(props: MinionMinionEditableNameProps) {
 		}
 		setEditingName(true);
 		try {
-			await ApiFacade.MinionsApi.renameMinion({ name: editName }, minion.minionId || '');
+			await ApiFacade.MinionsApi.renameMinion(minion.minionId || '', { name: editName });
 			minion.name = editName;
 			minionsService.updateMinion(minion);
 		} catch (error) {

@@ -1,5 +1,4 @@
 import { Grid, Typography, useTheme } from "@material-ui/core";
-import { ACModeOptions, FanStrengthOptions, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../../infrastructure/generated/api";
 import { AcMode } from "./AcMode";
 import { AcSpeed } from "./AcSpeed";
 import { Fragment } from "react";
@@ -11,6 +10,7 @@ import PaletteIcon from '@mui/icons-material/Palette';
 import { RollerDir } from "./RollerDir";
 import { SwitchMode } from "./SwitchMode";
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
+import { ACModeOptions, FanStrengthOptions, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../../infrastructure/generated/api/swagger/api";
 
 interface StatusOverviewProps {
 	minionStatus: MinionStatus;

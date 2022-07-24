@@ -5,13 +5,13 @@ import { getModeColor } from "../../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { RollerDirection } from "../../../infrastructure/generated/api";
 import clonedeep from 'lodash.clonedeep';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { RollerDirection } from "../../../infrastructure/generated/api/swagger/api";
 
 export function RollerEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();

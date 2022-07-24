@@ -1,11 +1,9 @@
 import { Button, Grid, TextField, useTheme } from "@material-ui/core";
-import { DeviceKind, LocalNetworkDevice } from "../../infrastructure/generated/api";
 import { useHistory } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { DashboardRoutes, SERVER_REPO_URL, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import '../../theme/styles/components/minions/minionFullInfo.scss';
 import { useEffect, useState } from "react";
-import { ApiFacade } from "../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import Typography from '@mui/material/Typography';
@@ -19,6 +17,7 @@ import '../../theme/styles/components/minions/minionFullInfo.scss';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Link from '@mui/material/Link';
 import { compareIpByDevicePart } from "../../infrastructure/utils";
+import { ApiFacade, DeviceKind, LocalNetworkDevice } from "../../infrastructure/generated/api/swagger/api";
 
 const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 

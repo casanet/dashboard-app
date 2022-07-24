@@ -1,11 +1,9 @@
 import { CircularProgress, Grid, IconButton, TextField, Theme, Typography, useMediaQuery, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next"
-import { Minion } from "../../../infrastructure/generated/api";
 import InfoIcon from '@mui/icons-material/Info';
 import { useEffect, useState } from "react";
 import clonedeep from 'lodash.clonedeep';
 import { Duration } from 'unitsnet-js';
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { minionsService } from "../../../services/minions.service";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { HMS, HMStoMs, msToHMS } from "../../../logic/common/minionsUtils";
@@ -14,6 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../../global/ThemeSwitch";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { marginLeft } from "../../../logic/common/themeUtils";
+import { ApiFacade, Minion } from "../../../infrastructure/generated/api/swagger/api";
 
 interface MinionAutoTurnOffProps {
 	fontRatio: number;
@@ -36,7 +35,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 	async function setAutoTurnOff(duration: Duration) {
 		setSaving(true);
 		try {
-			await ApiFacade.MinionsApi.setMinionTimeout({ setAutoTurnOffMS: duration.Milliseconds }, minion.minionId || '');
+			await ApiFacade.MinionsApi.setMinionTimeout(minion.minionId || '', { setAutoTurnOffMS: duration.Milliseconds });
 			minion.minionAutoTurnOffMS = duration.Milliseconds;
 			minionsService.updateMinion(minion);
 		} catch (error) {

@@ -1,12 +1,12 @@
 import { Grid, IconButton } from "@material-ui/core";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import { SwitchOptions } from "../../../infrastructure/generated/api";
 import clonedeep from 'lodash.clonedeep';
 import { TypeEditStatusProps } from "./MinionEditStatus";
 import { SwitchMode } from "../overviewMinionsStatus/SwitchMode";
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { SwitchOptions } from "../../../infrastructure/generated/api/swagger/api";
 
 
 export function ToggleEditStatus(props: TypeEditStatusProps) {

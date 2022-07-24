@@ -1,4 +1,4 @@
-import { ACModeOptions, CleanerMode, FanStrengthOptions, MinionChangeTrigger, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api";
+import { ACModeOptions, CleanerMode, FanStrengthOptions, MinionChangeTrigger, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api/swagger/api";
 
 /** Map minions type to the display name i18n key */
 export const mapMinionTypeToDisplay: { [key in MinionTypes]: string } = {

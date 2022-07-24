@@ -2,12 +2,15 @@ name: casanet dashboard app CI CD
 
 on: [push]
 
+env:
+  SKIP_PREFLIGHT_CHECK: "true"    
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     steps:
     - uses: actions/checkout@v2
     - name: Install node
@@ -105,12 +108,48 @@ jobs:
         name: internal 
         path: internal
   
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - uses: actions/download-artifact@master
+    - name: Install node
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Run-Test
+      run: |
+        export PORT="9090"
+        export REACT_APP_API_URL="http://localhost:9090"
+        export FRONT_SERVE_PORT="3001"
+        export BUILD_PATH="temp-e2e"
+        export REACT_APP_MOCK_MODE="true"
+        export REACT_APP_LOCAL_DEV="true"
+        echo "Installing dependencies"
+        npm i -g yarn
+        yarn
+        echo "Preparing mock assets"
+        npm run prepare_mock
+        npm run build
+        echo "Run mock server"
+        node -v
+        cd temp-mock/mock-server
+        node index.js &
+        cd ../..
+        node node_modules/http-server/bin/http-server ./temp-e2e -p $FRONT_SERVE_PORT &
+        echo "Run tests"
+        npm run test
+
   release:
     needs: build 
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
     if: github.ref == 'refs/heads/main'
     steps:
     - name: Checkout repository

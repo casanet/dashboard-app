@@ -4,12 +4,10 @@ import { SettingItem } from "../../../pages/dashboard-pages/Settings";
 import { DASHBOARD_REPO_URL, DEFAULT_FONT_RATION, SERVER_REPO_URL } from "../../../infrastructure/consts";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { sessionManager } from "../../../infrastructure/session-manager";
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError, notificationsFeed, postApiError } from "../../../services/notifications.service";
 import { sleep } from "../../../infrastructure/utils";
 import { useEffect, useState } from "react";
 import { versionDataService, versionLatestService } from "../../../services/settings.service";
-import { ErrorResponse, ProgressStatus } from "../../../infrastructure/generated/api";
 import SecurityUpdateGoodIcon from '@mui/icons-material/SecurityUpdateGood';
 import SecurityUpdateIcon from '@mui/icons-material/SecurityUpdate';
 import { Duration } from "unitsnet-js";
@@ -22,6 +20,7 @@ import { AlertDialog } from "../../AlertDialog";
 import { useData } from "../../../hooks/useData";
 import { livelinessCheck } from "../../../services/liveliness.service";
 import { envFacade } from "../../../infrastructure/env-facade";
+import { ApiFacade, ErrorResponse, ProgressStatus } from "../../../infrastructure/generated/api/swagger/api";
 
 const useStyles = makeStyles((theme) => ({
 	iconBadge: {

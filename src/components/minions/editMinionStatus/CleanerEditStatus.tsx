@@ -4,7 +4,6 @@ import { getModeColor } from "../../../logic/common/themeUtils";
 import { useTranslation } from "react-i18next";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { FanStrengthOptions } from "../../../infrastructure/generated/api";
 import clonedeep from 'lodash.clonedeep';
 import AutoIcon from '@mui/icons-material/HdrAuto';
 import { TypeEditStatusProps } from "./MinionEditStatus";
@@ -13,6 +12,7 @@ import { ReactComponent as FanMedIcon } from '../../../theme/icons/fanMed.svg';
 import { ReactComponent as FanLowIcon } from '../../../theme/icons/fanLow.svg';
 import { defaultMinionStatus } from "../../../logic/common/minionsUtils";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
+import { FanStrengthOptions } from "../../../infrastructure/generated/api/swagger/api";
 
 export function CleanerEditStatus(props: TypeEditStatusProps) {
 	const { t } = useTranslation();

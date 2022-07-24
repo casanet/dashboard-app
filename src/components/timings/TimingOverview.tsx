@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from "react";
-import { DailySunTrigger, DailyTimeTrigger, DaysOptions, OnceTiming, SunTriggerOptions, TimeoutTiming, TimingProperties, TimingTypes } from "../../infrastructure/generated/api";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Grid, Theme, useTheme } from "@material-ui/core";
@@ -15,6 +14,7 @@ import TimerOffIcon from '@mui/icons-material/TimerOff';
 import { msToHMS } from "../../logic/common/minionsUtils";
 import { TFunction } from "i18next";
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import { DailySunTrigger, DailyTimeTrigger, DaysOptions, OnceTiming, SunTriggerOptions, TimeoutTiming, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
 
 interface TimingOverviewProps {
 	timingType: TimingTypes;

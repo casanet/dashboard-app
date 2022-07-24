@@ -1,6 +1,5 @@
-import { DeviceKind } from "../infrastructure/generated/api";
-import { ApiFacade } from "../infrastructure/generated/proxies/api-proxies";
 import { DataService } from "../infrastructure/data-service-base";
+import { ApiFacade, DeviceKind } from "../infrastructure/generated/api/swagger/api";
 
 class MinionsKindsService extends DataService<DeviceKind[]> {
 

@@ -3,12 +3,12 @@ import path from 'path';
 import jsZip from 'jszip';
 import nodeFetch from 'node-fetch';
 
-const BUILD_MODE = process.env.BUILD_PATH || 'www';
+const BUILD_MODE = process.env.BUILD_PATH === 'internal' ? 'internal' : 'www';
 const dashboardDist = path.join(BUILD_MODE, 'light-app');
 
 const ENV_BRANCH = (process.env.BRANCH !== 'main' && !process.env.BUILD_PROD) ? 'develop' : 'main';
 
-console.log(`[generate-api] Fetching light-app for branch "${process.env.BRANCH}" from server "${ENV_BRANCH}" branch...`);
+console.log(`[fetch-light-app] Fetching light-app for branch "${process.env.BRANCH}" from server "${ENV_BRANCH}" branch...`);
 
 async function downloadAndUnpackDashboard(dashboardArtifact, distDir) {
 	const latestArtifact = await nodeFetch(dashboardArtifact);

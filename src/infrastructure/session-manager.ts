@@ -1,7 +1,7 @@
 import { AppRoutes } from './consts';
 import { DataService } from './data-service-base';
 import { envFacade } from './env-facade';
-import { AuthScopes, User } from './generated/api';
+import { AuthScopes, User } from './generated/api/swagger/api';
 import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from './local-storage';
 
 class SessionManager {

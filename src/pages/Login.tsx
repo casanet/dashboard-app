@@ -5,7 +5,6 @@ import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import isEmail from 'isemail';
-import { ApiFacade } from '../infrastructure/generated/proxies/api-proxies';
 import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
 import { API_KEY_HEADER, AppRoutes, DEFAULT_FONT_RATION, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
@@ -19,6 +18,7 @@ import { isValidUrl } from '../infrastructure/utils';
 import { handleServerRestError } from '../services/notifications.service';
 import { ThemeTooltip } from '../components/global/ThemeTooltip';
 import { profileService } from '../services/users.service';
+import { ApiFacade } from '../infrastructure/generated/api/swagger/api';
 
 interface LocalServer {
 	displayName: string;
@@ -167,7 +167,7 @@ function LoginForm() {
 		envFacade.apiServerBaseUrl = serverUrl;
 	}
 
-	return <div className="login-form-container">
+	return <div id="login-form-container" className="login-form-container">
 		<div className="login-form-header">
 			<Grid
 				container
@@ -281,7 +281,7 @@ function LoginForm() {
 		<div className="login-form-submit">
 			{loading
 				? <LinearProgress />
-				: <Button onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
+				: <Button id="login-submit" onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
 					{t('login.sign.in').toUpperCase()}
 				</Button>}
 		</div>

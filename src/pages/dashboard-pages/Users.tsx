@@ -6,14 +6,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { CircularProgress, Grid, IconButton, Theme, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import { AuthScopes, RemoteConnectionStatus, User } from '../../infrastructure/generated/api';
 import { ComponentType, useEffect, useState } from 'react';
 import { handleServerRestError } from '../../services/notifications.service';
 import { Loader } from '../../components/Loader';
 import { useTranslation } from 'react-i18next';
 import { ThemeTooltip } from '../../components/global/ThemeTooltip';
 import { CREATE_USER_PATH, DashboardRoutes, DEFAULT_FONT_RATION } from '../../infrastructure/consts';
-import { ApiFacade } from '../../infrastructure/generated/proxies/api-proxies';
 import { DashboardPageInjectProps } from '../Dashboard';
 import { NoContent } from '../../components/NoContent';
 import RouterIcon from '@material-ui/icons/Router';
@@ -34,6 +32,7 @@ import { CreateUser } from '../../components/users/CreateUser';
 import { AlertDialog } from '../../components/AlertDialog';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { SensitiveContent } from '../../components/NoPermissions';
+import { ApiFacade, AuthScopes, RemoteConnectionStatus, User } from '../../infrastructure/generated/api/swagger/api';
 
 /**
  * The sort formula for sorting users by email
@@ -194,7 +193,7 @@ function Users(props: DashboardPageInjectProps) {
 	useEffect(() => {
 		(async () => {
 			// Every time the remote connection status is/changed  to OK, fetch registered users list. 
-			if (remoteConnection === RemoteConnectionStatus.ConnectionOK) {
+			if (remoteConnection === RemoteConnectionStatus.ConnectionOk) {
 				try {
 					const remoteRegisteredUsers = await remoteRegisteredUsersService.forceFetchData();
 					setRemoteRegisteredUsers(remoteRegisteredUsers);

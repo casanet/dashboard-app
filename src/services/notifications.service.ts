@@ -1,7 +1,7 @@
 
 import { SyncEvent } from 'ts-events';
 import { DEFAULT_ERROR_TOAST_DURATION } from '../infrastructure/consts';
-import { ErrorResponse } from '../infrastructure/generated/api';
+import { ErrorResponse } from '../infrastructure/generated/api/swagger/api';
 import { NotificationInfo } from '../infrastructure/symbols/global';
 
 export const notificationsFeed = new SyncEvent<NotificationInfo>();

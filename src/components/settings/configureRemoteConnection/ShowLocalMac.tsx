@@ -7,13 +7,13 @@ import { ThemeTooltip } from "../../global/ThemeTooltip";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { getModeColor } from "../../../logic/common/themeUtils";
-import { ApiFacade } from "../../../infrastructure/generated/proxies/api-proxies";
 import { handleServerRestError, notificationsFeed } from "../../../services/notifications.service";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { copyToClipboard } from "../../../infrastructure/utils";
 import { Duration } from "unitsnet-js";
 import { TitleButtonContent } from "../../layouts/TitleButtonContent";
+import { ApiFacade } from "../../../infrastructure/generated/api/swagger/api";
 
 export function ShowLocalMac() {
 	const { t } = useTranslation();
