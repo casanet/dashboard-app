@@ -11,10 +11,25 @@ import { daysOptions } from "./TimingOverview";
 import TimePicker from "@mui/lab/TimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import frLocale from 'date-fns/locale/fr';
+import enLocale from 'date-fns/locale/en-US';
+import heLocale from 'date-fns/locale/he';
+
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
+import { getLang } from "../../services/localization.service";
+
+// TODO: Once this logic will be used in other component too, move to to app index
+// get lang and set time picker to be shown with the correct lang
+const lang = getLang();
+
+let datePickerLocal = enLocale;
+
+switch (lang.langCode) {
+	case 'he':
+		datePickerLocal = heLocale;
+		break;
+}
 
 interface TimingEditProps {
 	timingType: TimingTypes;
@@ -157,7 +172,7 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 			alignItems="center"
 		>
 			{/* Use french time, since they use 24 hours clock */}
-			<LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+			<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
 				<TimePicker
 					disabled={props.disabled}
 					value={time}
@@ -218,7 +233,7 @@ export function OnceTimingEdit(props: TimingEditProps) {
 		alignItems="center"
 	>
 		{/* Use french time, since they use 24 hours clock */}
-		<LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+		<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
 			<DateTimePicker
 				disabled={props.disabled}
 				value={time}
@@ -267,7 +282,7 @@ export function TimeoutTimingEdit(props: TimingEditProps) {
 			justifyContent="center"
 			alignItems="center"
 		>
-			<LocalizationProvider dateAdapter={AdapterDateFns} locale={frLocale}>
+			<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
 				<DateTimePicker
 					disabled={props.disabled}
 					value={value}
