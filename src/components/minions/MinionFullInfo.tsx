@@ -1,5 +1,8 @@
 import { Button, Grid, IconButton } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import debounce from "lodash.debounce";
+import cloneDeep from "lodash.clonedeep";
+import { Duration } from "unitsnet-js";
 import { useTranslation } from "react-i18next";
 import { DashboardRoutes, DEFAULT_FONT_RATION, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
@@ -39,6 +42,35 @@ interface MinionFullInfoProps {
 	minion: Minion;
 }
 
+interface ApplyStatusChangeProps {
+	/** The set save status pf the view component */
+	setSaving: (saving: boolean) => void;
+	/** The minion with the new status to set */
+	minion: Minion;
+	/** The original status, to set in case of failure */
+	originalStatus: MinionStatus;
+}
+
+/**
+ * Apply minion status change via Rest call
+ */
+async function applyMinionStatusChange(props: ApplyStatusChangeProps) {
+	props.setSaving(true);
+	try {
+		await ApiFacade.MinionsApi.setMinion(props.minion.minionId || '', props.minion.minionStatus);
+	} catch (error) {
+		props.minion.minionStatus = props.originalStatus;
+		minionsService.updateMinion(props.minion);
+
+		handleServerRestError(error);
+	}
+	props.setSaving(false);
+}
+
+// In order to not apply changes immediately in case a user wants to click a few times till he gets the wanted status
+// This debounce is holding his last selection till the end of the changes, then applying the change via a Rest call
+const applyMinionStatusChangeDebounced = debounce(applyMinionStatusChange, Duration.FromSeconds(0.6).Milliseconds);
+
 export function MinionFullInfo(props: MinionFullInfoProps) {
 	const { t } = useTranslation();
 	const history = useHistory();
@@ -62,15 +94,17 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 	}
 
 	async function setMinionStatus(minionStatusToSet: MinionStatus) {
-		setSaving(true);
-		try {
-			await ApiFacade.MinionsApi.setMinion(minion.minionId || '', minionStatusToSet);
-			minion.minionStatus = minionStatusToSet;
-			minionsService.updateMinion(minion);
-		} catch (error) {
-			handleServerRestError(error);
-		}
-		setSaving(false);
+		// Copy original status, in case failure that will require a status revert.
+		const originalStatus = cloneDeep(minion.minionStatus);
+		// Set status in front
+		minion.minionStatus = minionStatusToSet;
+		minionsService.updateMinion(minion);
+		// Apply changes on server only after a debounced, to allow user make few changes in the same "clicks" session.
+		applyMinionStatusChangeDebounced({
+			minion,
+			originalStatus,
+			setSaving
+		});
 	}
 
 	return <div className={`page-full-info-area ${!desktopMode && 'hide-scroll'}`}>
@@ -131,7 +165,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					alignItems="center"
 				>
 					<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
-					<div style={{ marginTop: desktopMode ? -DEFAULT_FONT_SIZE : 0}}>
+					<div style={{ marginTop: desktopMode ? -DEFAULT_FONT_SIZE : 0 }}>
 						<MinionTimeoutOverview minion={minion} fontRatio={DEFAULT_FONT_SIZE * 0.25} />
 					</div>
 				</Grid>
