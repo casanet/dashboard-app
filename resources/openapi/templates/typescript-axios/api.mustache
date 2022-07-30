@@ -282,10 +282,11 @@ export const {{classname}}Fp = function(configuration?: Configuration) {
         {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
             const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
             {{! TEMPLATE EDIT: Use envFacade }}
-            return (fetch: FetchAPI = portableFetch, basePath: string = envFacade.apiUrl) => {
+            return (fetch: FetchAPI = portableFetch, basePath: string = '') => {
                 {{! TEMPLATE EDIT: Add logs }}
                 console.log(`[APIFacade][{{nickname}}] Invoking call  ...`);
-                return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                {{! TEMPLATE EDIT: Use envFacade }}
+                return fetch(envFacade.apiUrl + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
                     if (response.status >= 200 && response.status < 300) {
                         {{! TEMPLATE EDIT: Add logs }}
                         console.log(`[APIFacade][{{nickname}}] Invoking call done`);
