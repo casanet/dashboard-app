@@ -69,7 +69,7 @@ async function applyMinionStatusChange(props: ApplyStatusChangeProps) {
 
 // In order to not apply changes immediately in case a user wants to click a few times till he gets the wanted status
 // This debounce is holding his last selection till the end of the changes, then applying the change via a Rest call
-const applyMinionStatusChangeDebounced = debounce(applyMinionStatusChange, Duration.FromSeconds(0.6).Milliseconds);
+const applyMinionStatusChangeDebounced = debounce(applyMinionStatusChange, Duration.FromSeconds(1).Milliseconds);
 
 export function MinionFullInfo(props: MinionFullInfoProps) {
 	const { t } = useTranslation();
