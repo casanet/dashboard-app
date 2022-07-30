@@ -174,6 +174,11 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 			{/* Use french time, since they use 24 hours clock */}
 			<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
 				<TimePicker
+					cancelText={t('global.cancel')}
+					okText={t('global.apply')}
+					clearText={t('dashboard.timings.clear-time')}
+					todayText={t('dashboard.timings.today')}
+					toolbarTitle={t('dashboard.timings.select.time')}
 					disabled={props.disabled}
 					value={time}
 					onChange={(newTime) => {
@@ -210,6 +215,8 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 }
 
 export function OnceTimingEdit(props: TimingEditProps) {
+	const { t } = useTranslation();
+
 	const [time, setTime] = useState<Date>(new Date());
 
 	useEffect(() => {
@@ -235,6 +242,11 @@ export function OnceTimingEdit(props: TimingEditProps) {
 		{/* Use french time, since they use 24 hours clock */}
 		<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
 			<DateTimePicker
+				cancelText={t('global.cancel')}
+				okText={t('global.apply')}
+				clearText={t('dashboard.timings.clear-time')}
+				todayText={t('dashboard.timings.today')}
+				toolbarTitle={t('dashboard.timings.select.date.and.time')}
 				disabled={props.disabled}
 				value={time}
 				onChange={(newValue) => {
@@ -284,6 +296,11 @@ export function TimeoutTimingEdit(props: TimingEditProps) {
 		>
 			<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
 				<DateTimePicker
+					cancelText={t('global.cancel')}
+					okText={t('global.apply')}
+					clearText={t('dashboard.timings.clear-time')}
+					todayText={t('dashboard.timings.today')}
+					toolbarTitle={t('dashboard.timings.select.date.and.timed')}
 					disabled={props.disabled}
 					value={value}
 					onChange={(newValue) => {
