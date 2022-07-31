@@ -255,7 +255,13 @@ export function CreateMinion() {
 						<Autocomplete
 							options={devices}
 							disabled={creating}
-							getOptionLabel={(option: LocalNetworkDevice) => `${option.name} ${option.ip} ${option.mac}`}
+							getOptionLabel={(option: LocalNetworkDevice) => {
+								// If name is not empty or default value, show only it
+								if (option.name && option.name !== '------------') {
+									return option.name;
+								}
+								return `${option.ip} - ${option.mac}`;
+							}}
 							clearText={t('global.clear')}
 							closeText={t('global.close')}
 							noOptionsText={t('global.no.option')}
