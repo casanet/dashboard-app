@@ -21,6 +21,7 @@ export const mapMinionChangeTriggerDisplay: { [key in MinionChangeTrigger]: stri
 	[MinionChangeTrigger.Lock]: 'dashboard.minions.change.trigger.by.lock',
 	[MinionChangeTrigger.External]: 'dashboard.minions.change.trigger.by.external',
 	[MinionChangeTrigger.Device]: 'dashboard.minions.change.trigger.by.device',
+	[MinionChangeTrigger.Action]: 'dashboard.minions.change.trigger.by.action',
 }
 
 export interface HMS {
