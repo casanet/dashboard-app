@@ -186,6 +186,7 @@
 	"dashboard.minions.change.trigger.by.lock": "the lock module",
 	"dashboard.minions.change.trigger.by.external": "external module",
 	"dashboard.minions.change.trigger.by.device": "the physical device",
+	"dashboard.minions.change.trigger.by.action": "the action module",
 	"dashboard.minions.create.new.title": "Create New Minion",
 	"dashboard.minions.create.new.name": "Name",
 	"dashboard.minions.create.new.name.placeholder": "The new minion name",

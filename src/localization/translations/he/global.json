@@ -186,6 +186,7 @@
 	"dashboard.minions.change.trigger.by.lock": "מודול הנעילות",
 	"dashboard.minions.change.trigger.by.external": "מודול חיצוני",
 	"dashboard.minions.change.trigger.by.device": "המכשיר קצה הפיזי",
+	"dashboard.minions.change.trigger.by.action": "מודול הפעולות",
 	"dashboard.minions.create.new.title": "יצירת מכשיר חדש",
 	"dashboard.minions.create.new.name": "שם",
 	"dashboard.minions.create.new.name.placeholder": "שם המכשיר החדש",
