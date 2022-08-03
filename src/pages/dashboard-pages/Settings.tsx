@@ -103,7 +103,7 @@ export default function Settings() {
 						href={PROJECT_URL}>
 						Casanet Project
 					</Link>
-					- © Haim Kastner 2019-{new Date().getFullYear()}
+					- 2019-{new Date().getFullYear()}
 				</Typography>
 			</Grid>
 		</div>
