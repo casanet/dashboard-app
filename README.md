@@ -51,3 +51,11 @@ To build the mobile app using [cordova](https://cordova.apache.org/) first make 
 * `yarn run cordova:android` - To build & run the android app.
 
 In order to debug app in realtime, connect the device to the PC, and open debug-mode, then go to `chrome://inspect/#devices` page.
+
+## License
+
+This application is an open-source code, under the GNU license.
+
+In addition to the GNU terms of the license, any non-personal use requires full credit in a prominent position in the interface including a link to this page and [https://casanet.biz/](https://casanet.biz/)
+
+בנוסף לתנאי הרישיון של GNU, כל שימוש לא אישי מצריך קרדיט מלא במיקום בולט בממשק כולל קישור לעמוד זה ול [https://casanet.biz/](https://casanet.biz/)

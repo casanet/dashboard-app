@@ -8,16 +8,20 @@ import ModeNightIcon from '@mui/icons-material/ModeNight';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import TextField from "@mui/material/TextField";
 import { daysOptions } from "./TimingOverview";
-import TimePicker from "@mui/lab/TimePicker";
+import DesktopTimePicker from "@mui/lab/DesktopTimePicker";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import enLocale from 'date-fns/locale/en-US';
 import heLocale from 'date-fns/locale/he';
 
-import DateTimePicker from "@mui/lab/DateTimePicker";
+import DesktopDateTimePicker from "@mui/lab/DesktopDateTimePicker";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
 import { getLang } from "../../services/localization.service";
+
+// HACK to force desktop view for all, till this bug https://github.com/mui/mui-x/issues/5561 fix will be published
+const TimePicker = DesktopTimePicker as any;
+const DateTimePicker = DesktopDateTimePicker as any;
 
 // TODO: Once this logic will be used in other component too, move to to app index
 // get lang and set time picker to be shown with the correct lang
@@ -181,7 +185,7 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 					toolbarTitle={t('dashboard.timings.select.time')}
 					disabled={props.disabled}
 					value={time}
-					onChange={(newTime) => {
+					onChange={(newTime: Date) => {
 						if (!newTime) {
 							return;
 						}
@@ -249,7 +253,7 @@ export function OnceTimingEdit(props: TimingEditProps) {
 				toolbarTitle={t('dashboard.timings.select.date.and.time')}
 				disabled={props.disabled}
 				value={time}
-				onChange={(newValue) => {
+				onChange={(newValue: Date) => {
 					if (!newValue) {
 						return;
 					}
@@ -303,7 +307,7 @@ export function TimeoutTimingEdit(props: TimingEditProps) {
 					toolbarTitle={t('dashboard.timings.select.date.and.timed')}
 					disabled={props.disabled}
 					value={value}
-					onChange={(newValue) => {
+					onChange={(newValue: Date) => {
 						if (!newValue) {
 							return;
 						}
