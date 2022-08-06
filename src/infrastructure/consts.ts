@@ -31,6 +31,9 @@ export const DEFAULT_FONT_RATION = 20;
 /** The default minions page side view font size */
 export const SIDE_CONTAINER_DEFAULT_FONT_SIZE = 50;
 
+/** The battery percentage ti show warning mode */
+export const WARNING_AT_DEVICE_BATTERY_LEVEL = 20;
+
 /** The name of the authentication header  */
 export const API_KEY_HEADER = 'authentication';
 
