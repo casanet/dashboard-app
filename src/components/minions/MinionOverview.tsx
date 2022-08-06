@@ -9,6 +9,7 @@ import { MinionIndicators } from "./MinionIndicators";
 import { useTranslation } from "react-i18next";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
 import { Minion } from "../../infrastructure/generated/api/swagger/api";
+import { MinionBatteryOverview } from "./MinionBatteryOverview";
 
 interface MinionOverviewProps {
 	minion: Minion;
@@ -92,6 +93,9 @@ export function MinionOverview(props: MinionOverviewProps) {
 			</Grid>
 		</div>
 		<div className="minion-overview-footer-container" >
+			<div style={{ height: 0 }}>
+				<MinionBatteryOverview minion={minion} fontRatio={smallFontRatio} />
+			</div>
 			<Grid
 				className="minion-overview-footer-grid"
 				container
