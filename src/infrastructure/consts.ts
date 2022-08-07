@@ -34,6 +34,9 @@ export const SIDE_CONTAINER_DEFAULT_FONT_SIZE = 50;
 /** The battery percentage ti show warning mode */
 export const WARNING_AT_DEVICE_BATTERY_LEVEL = 20;
 
+/** Pull minions in activation in case of SSE missing updates */
+export const PULL_MINION_ACTIVATION = Duration.FromMinutes(1);
+
 /** The name of the authentication header  */
 export const API_KEY_HEADER = 'authentication';
 

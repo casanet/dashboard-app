@@ -1,15 +1,35 @@
 import { DataService } from "../infrastructure/data-service-base";
 import { envFacade } from "../infrastructure/env-facade";
 import { sessionManager } from "../infrastructure/session-manager";
-import { API_KEY_HEADER } from "../infrastructure/consts";
+import { API_KEY_HEADER, PULL_MINION_ACTIVATION } from "../infrastructure/consts";
 import { timelineService } from "./timeline.service";
 import { ApiFacade, FeedEvent, Minion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
+import { livelinessFlag } from "./liveliness.service";
 
 // Inherited from DataService
 class MinionsService extends DataService<Minion[]> {
 
 	// The minion SSE feed object
 	minionsServerFeed: EventSource;
+
+	constructor() {
+		super();
+		// Activate activation to pull miniona
+		setInterval(this.pullMinionsActivation, PULL_MINION_ACTIVATION.Milliseconds);
+	}
+
+	private async pullMinionsActivation() {
+		// Do nothing in case of not online / not logged on
+		if (!livelinessFlag.online || !sessionManager.isLoggedOn) {
+			return;
+		}
+		try {
+			// Trigger minions update
+			await minionsService.forceFetchData();
+		} catch (error) {
+			// TODO add logger
+		}
+	}
 
 	private onMinionFeedUpdate(minionFeedEvent: MessageEvent) {
 		// Ignore the init message
@@ -48,7 +68,7 @@ class MinionsService extends DataService<Minion[]> {
 		this.postNewData(this._data);
 
 		// On mock (only) mode, fetch timeline on every change
-		if(envFacade.mockMode || envFacade.isDemoApiUrl){
+		if (envFacade.mockMode || envFacade.isDemoApiUrl) {
 			timelineService.forceFetchData();
 		}
 	}
@@ -90,7 +110,7 @@ class MinionsService extends DataService<Minion[]> {
 			};
 		} catch (error) {
 			// TODO:LOG
-		}	
+		}
 
 		// TODO: on close/error?
 
