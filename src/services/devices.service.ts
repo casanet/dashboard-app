@@ -3,6 +3,10 @@ import { ApiFacade, LocalNetworkDevice } from "../infrastructure/generated/api/s
 
 class DevicesService extends DataService<LocalNetworkDevice[]> {
 
+	constructor() {
+		super([]);
+	}
+
 	fetchData(): Promise<LocalNetworkDevice[]> {
 		// Get the fetch data function (without activating it yet)
 		return ApiFacade.DevicesApi.getDevices();

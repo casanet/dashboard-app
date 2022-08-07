@@ -45,7 +45,7 @@ export default function Profile() {
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
 	const { remoteConnection } = useLiveliness();
-	const [remoteRegisteredUsers] = useData(remoteRegisteredUsersService, [], { skipErrorToastOnFailure: true });
+	const [remoteRegisteredUsers] = useData(remoteRegisteredUsersService, { skipErrorToastOnFailure: true });
 
 	const [loading, setLoading] = useState<boolean>(true);
 	const [profile, setProfile] = useState<User>();

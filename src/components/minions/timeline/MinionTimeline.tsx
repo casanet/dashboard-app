@@ -51,7 +51,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const { minion } = props;
-	const [minionsTimeline, loading] = useData(timelineService, []);
+	const [minionsTimeline, loading] = useData(timelineService);
 
 	// Filter out other minions nodes, and old nodes (without the trigger info)
 	const minionTimeline = minionsTimeline.filter(node => node.minionId === minion.minionId && node.trigger);

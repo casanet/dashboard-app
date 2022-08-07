@@ -15,7 +15,7 @@ import { envFacade } from "../../infrastructure/env-facade";
 
 export function ConnectivitySettings() {
 	const { t } = useTranslation();
-	const [remoteURL] = useData(remoteURLService, '', { skipErrorToastOnFailure: true });
+	const [remoteURL] = useData(remoteURLService, { skipErrorToastOnFailure: true });
 	const { remoteConnection } = useLiveliness();
 
 	return <Grid

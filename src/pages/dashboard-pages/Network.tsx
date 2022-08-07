@@ -192,7 +192,7 @@ export default function Network(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
-	const [devices, loading] = useData(devicesService, []);
+	const [devices, loading] = useData(devicesService);
 
 	const [saving, setSaving] = useState<boolean>(false);
 	const [filteredDevices, setFilteredDevices] = useState<LocalNetworkDevice[]>([]);

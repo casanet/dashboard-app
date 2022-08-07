@@ -63,8 +63,8 @@ export function ServerVersion() {
 	const { t } = useTranslation();
 	const classes = useStyles();
 
-	const [versionData] = useData(versionDataService, undefined, { skipErrorToastOnFailure: true });
-	const [newVersion] = useData(versionLatestService, undefined, { skipErrorToastOnFailure: true });
+	const [versionData] = useData(versionDataService, { skipErrorToastOnFailure: true });
+	const [newVersion] = useData(versionLatestService, { skipErrorToastOnFailure: true });
 
 	const [updating, setUpdating] = useState<boolean>();
 	const [showUpgradingAlert, setShowUpgradingAlert] = useState<boolean>(false);

@@ -40,7 +40,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 	const history = useHistory();
 
 	const { online, remoteConnection } = useLiveliness();
-	const [newVersion] = useData(versionLatestService, undefined, { skipErrorToastOnFailure: true });
+	const [newVersion] = useData(versionLatestService, { skipErrorToastOnFailure: true });
 
 	const [passwordChangeRequired, setPasswordChangeRequired] = useState<boolean>();
 	useEffect(() => {

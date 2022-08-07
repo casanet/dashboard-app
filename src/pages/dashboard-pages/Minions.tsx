@@ -60,7 +60,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const veryWideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
-	const [minions, loading] = useData(minionsService, []);
+	const [minions, loading] = useData(minionsService);
 
 	const [sizeRatio, setSizeRatio] = useState<number>(getMinionsCardRationRation(desktopMode, wideDesktopMode, veryWideDesktopMode));
 	const [filteredMinions, setFilteredMinion] = useState<Minion[]>([]);

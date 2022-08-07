@@ -13,7 +13,7 @@ class MinionsService extends DataService<Minion[]> {
 	minionsServerFeed: EventSource;
 
 	constructor() {
-		super();
+		super([]);
 		// Activate activation to pull miniona
 		setInterval(this.pullMinionsActivation, PULL_MINION_ACTIVATION.Milliseconds);
 	}
