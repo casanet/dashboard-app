@@ -108,6 +108,7 @@
 	"dashboard.minions.color.light": "Color Light",
 	"dashboard.minions.cleaner": "Cleaner",
 	"dashboard.minions.roller": "Roller",
+	"dashboard.minions.temperatureSensor": "Temperature Sensor",
 	"dashboard.minions.increase.card.ration": "Increase view size ration",
 	"dashboard.minions.decrease.card.ration": "Decrease view size ration",
 	"dashboard.minions.press.to.on": "Press to turn ON",

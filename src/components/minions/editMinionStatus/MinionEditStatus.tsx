@@ -7,6 +7,7 @@ import { RollerEditStatus } from "./RollerEditStatus";
 import { CleanerEditStatus } from "./CleanerEditStatus";
 import { isOnMode } from "../../../logic/common/minionsUtils";
 import { MinionStatus, MinionTypes } from "../../../infrastructure/generated/api/swagger/api";
+import { TemperatureSensorOverview } from "../overviewMinionsStatus/MinionStatusOverview";
 
 export interface EditStatusProps {
 	minionType: MinionTypes;
@@ -37,5 +38,7 @@ export function MinionEditStatus(props: EditStatusProps) {
 		{minionType === MinionTypes.AirConditioning && <EditAirConditioning {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
 		{minionType === MinionTypes.Roller && <RollerEditStatus {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
 		{minionType === MinionTypes.Cleaner && <CleanerEditStatus {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
+		{/* Temp sensor don't has ability to set so show the overview only */}
+		{minionType === MinionTypes.TemperatureSensor && <TemperatureSensorOverview {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
 	</div>
 }

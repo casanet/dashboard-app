@@ -201,6 +201,25 @@ function LightOverview(props: TypeStatusOverviewProps) {
 	</Fragment>;
 }
 
+export function TemperatureSensorOverview(props: TypeStatusOverviewProps) {
+	const theme = useTheme();
+
+	const temperature = props.minionStatus.temperatureSensor?.temperature || '--';
+	return <Fragment>
+		<Grid
+			className="minion-status-overview-grid"
+			container
+			direction={theme.direction === 'ltr' ? 'row' : 'row-reverse'}
+			justifyContent="center"
+			alignItems="center"
+		>
+			<div>
+				<Typography style={{ fontSize: props.fontRatio * OVERVIEW_ITEM_SIZE_FACTOR, color: getModeColor(props.isOn, theme) }}>{temperature}°</Typography>
+			</div>
+		</Grid>
+	</Fragment>;
+}
+
 function AirConditioningOverview(props: TypeStatusOverviewProps) {
 	const theme = useTheme();
 
@@ -240,6 +259,7 @@ export function MinionStatusOverview(props: MinionStatusOverviewProps) {
 	return <div className="minion-status-overview-container">
 		{props.showSwitches && (minionType === MinionTypes.Switch || minionType === MinionTypes.Toggle) && <SwitchOverview {...props} isOn={isOn} />}
 		{minionType === MinionTypes.Light && <LightOverview {...props} isOn={isOn} />}
+		{minionType === MinionTypes.TemperatureSensor && <TemperatureSensorOverview {...props} isOn={isOn} />}
 		{minionType === MinionTypes.TemperatureLight && <TemperatureLightOverview {...props} isOn={isOn} />}
 		{minionType === MinionTypes.ColorLight && <ColorLightOverview {...props} isOn={isOn} />}
 		{minionType === MinionTypes.AirConditioning && <AirConditioningOverview {...props} isOn={isOn} />}
