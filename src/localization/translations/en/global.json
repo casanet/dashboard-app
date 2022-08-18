@@ -173,6 +173,7 @@
 	"dashboard.minions.tech.info.device.name": "Device name",
 	"dashboard.minions.tech.info.device.model": "Device model",
 	"dashboard.minions.tech.info.device.brand": "Device brand",
+	"dashboard.minions.tech.info.device.deviceId": "Device ID",
 	"dashboard.minions.tech.info.device.ip.address": "Device IP address",
 	"dashboard.minions.tech.info.device.mac.address": "Device Physical (MAC) address",
 	"dashboard.minions.tech.info.device.vendor": "Device manufacture vendor",

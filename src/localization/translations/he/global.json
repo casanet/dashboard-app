@@ -173,6 +173,7 @@
 	"dashboard.minions.tech.info.device.name": "שם מכשיר קצה",
 	"dashboard.minions.tech.info.device.model": "דגם מכשיר קצה",
 	"dashboard.minions.tech.info.device.brand": "יצרן מכשיר קצה",
+	"dashboard.minions.tech.info.device.deviceId": "מזהה מכשיר",
 	"dashboard.minions.tech.info.device.ip.address": "כתובת ה-IP",
 	"dashboard.minions.tech.info.device.mac.address": "כתובת פיזית (MAC)",
 	"dashboard.minions.tech.info.device.vendor": "ספק המכשיר קצה",
