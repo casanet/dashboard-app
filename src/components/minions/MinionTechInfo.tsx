@@ -27,7 +27,7 @@ function MinionInfoLine(props: MinionInfoLineProps) {
 		alignItems="center"
 	>
 		<Typography style={{ fontSize: fontRatio * 0.25, width: desktopMode ?  `${fontRatio * 4}px` : '100%', color: theme.palette.text.hint }} >{title}</Typography>
-		<Typography style={{ fontSize: fontRatio * 0.3 }} >{value}</Typography>
+		<Typography style={{ fontSize: fontRatio * 0.3 }} >{value ?? '-' }</Typography>
 	</Grid>;
 }
 
@@ -45,6 +45,7 @@ export function MinionTechInfo(props: MinionTechInfoProps) {
 		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.name')} value={minion.device.pysicalDevice.name} />
 		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.model')} value={minion.device.model} />
 		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.brand')} value={minion.device.brand} />
+		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.deviceId')} value={minion.device.deviceId} />
 		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.ip.address')} value={minion.device.pysicalDevice.ip} />
 		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.mac.address')} value={minion.device.pysicalDevice.mac} />
 		<MinionInfoLine fontRatio={fontRatio} title={t('dashboard.minions.tech.info.device.vendor')} value={minion.device.pysicalDevice.vendor} />

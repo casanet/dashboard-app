@@ -176,7 +176,7 @@ function Users(props: DashboardPageInjectProps) {
 	const history = useHistory();
 	const location = useLocation();
 	const { remoteConnection } = useLiveliness();
-	const [users, loading] = useData(usersService, []);
+	const [users, loading] = useData(usersService);
 
 	const [deleting, setDeleting] = useState<boolean>(false);
 	const [showDeleteUserAlert, setShowDeleteUserAlert] = useState<boolean>(false);

@@ -31,7 +31,7 @@ export async function livelinessCheck() {
 		// Try send ack
 		const remoteConnectionStatus = await ApiFacade.RemoteApi.getConnectionStatus();
 
-		// If online mode changed, publish update
+		// If online was false change it back to true and publish update
 		if (!livelinessFlag.online) {
 			livelinessFlag.online = true;
 			livelinessFeed.post({

@@ -10,6 +10,7 @@ export const mapMinionTypeToDisplay: { [key in MinionTypes]: string } = {
 	[MinionTypes.ColorLight]: 'dashboard.minions.color.light',
 	[MinionTypes.Cleaner]: 'dashboard.minions.cleaner',
 	[MinionTypes.Roller]: 'dashboard.minions.roller',
+	[MinionTypes.TemperatureSensor]: 'dashboard.minions.temperatureSensor',
 }
 
 export const mapMinionChangeTriggerDisplay: { [key in MinionChangeTrigger]: string } = {

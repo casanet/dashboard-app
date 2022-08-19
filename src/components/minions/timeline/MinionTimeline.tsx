@@ -9,7 +9,7 @@ import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import { useTranslation } from "react-i18next";
 import { isOnMode, mapMinionChangeTriggerDisplay } from "../../../logic/common/minionsUtils";
 import ReactTimeAgo from 'react-time-ago';
-import TimeAgo from 'javascript-time-ago'
+import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
 import he from 'javascript-time-ago/locale/he.json';
 import Typography from "@mui/material/Typography";
@@ -51,7 +51,7 @@ export default function MinionTimeline(props: MinionAdvancedSettingsProps) {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const { minion } = props;
-	const [minionsTimeline, loading] = useData(timelineService, []);
+	const [minionsTimeline, loading] = useData(timelineService);
 
 	// Filter out other minions nodes, and old nodes (without the trigger info)
 	const minionTimeline = minionsTimeline.filter(node => node.minionId === minion.minionId && node.trigger);

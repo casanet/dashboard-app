@@ -51,7 +51,7 @@ export function CreateUser() {
 	const history = useHistory();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
-	const [users] = useData(usersService, [], { skipErrorToastOnFailure: true });
+	const [users] = useData(usersService, { skipErrorToastOnFailure: true });
 
 	const [creating, setCreating] = useState<boolean>();
 

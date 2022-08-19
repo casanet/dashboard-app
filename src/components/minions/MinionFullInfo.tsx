@@ -33,6 +33,7 @@ import { Loader } from "../Loader";
 import { MinionIndicators } from "./MinionIndicators";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
 import { ApiFacade, Minion, MinionStatus } from "../../infrastructure/generated/api/swagger/api";
+import { MinionBatteryOverview } from "./MinionBatteryOverview";
 
 const MinionTimeline = React.lazy(() => import('./timeline/MinionTimeline'));
 
@@ -160,13 +161,18 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 			<div className="minion-full-info-part">
 				<Grid
 					container
-					direction="row"
-					justifyContent="center"
+					direction="row-reverse"
+					justifyContent="space-between"
 					alignItems="center"
 				>
-					<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
-					<div style={{ marginTop: desktopMode ? -DEFAULT_FONT_SIZE : 0 }}>
+					<div>
+						<MinionBottomControls minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
+					</div>
+					<div >
 						<MinionTimeoutOverview minion={minion} fontRatio={DEFAULT_FONT_SIZE * 0.25} />
+					</div>
+					<div>
+						<MinionBatteryOverview minion={minion} fontRatio={DEFAULT_FONT_SIZE * 0.6} />
 					</div>
 				</Grid>
 				<div className="minion-advanced-option-container">

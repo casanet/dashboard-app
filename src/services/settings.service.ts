@@ -2,6 +2,11 @@
 import { DataService } from '../infrastructure/data-service-base';
 import { ApiFacade, VersionInfo } from '../infrastructure/generated/api/swagger/api';
 class RemoteURLService extends DataService<string> {
+
+	constructor() {
+		super('');
+	}
+
 	fetchData(): Promise<string> {
 		return ApiFacade.RemoteApi.getRemoteHost();
 	}

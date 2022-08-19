@@ -3,6 +3,11 @@ import { ApiFacade, User } from "../infrastructure/generated/api/swagger/api";
 import { LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 
 class UsersService extends DataService<User[]> {
+
+	constructor() {
+		super([]);
+	}
+
 	fetchData(): Promise<User[]> {
 		return ApiFacade.UsersApi.getUsers();
 	}
@@ -10,6 +15,11 @@ class UsersService extends DataService<User[]> {
 export const usersService = new UsersService();
 
 class RemoteRegisteredUsersService extends DataService<string[]> {
+
+	constructor() {
+		super([]);
+	}
+
 	fetchData(): Promise<string[]> {
 		return ApiFacade.UsersApi.getRegisteredUsers();
 	}

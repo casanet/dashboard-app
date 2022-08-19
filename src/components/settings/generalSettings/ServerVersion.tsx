@@ -63,8 +63,8 @@ export function ServerVersion() {
 	const { t } = useTranslation();
 	const classes = useStyles();
 
-	const [versionData] = useData(versionDataService, undefined, { skipErrorToastOnFailure: true });
-	const [newVersion] = useData(versionLatestService, undefined, { skipErrorToastOnFailure: true });
+	const [versionData] = useData(versionDataService, { skipErrorToastOnFailure: true });
+	const [newVersion] = useData(versionLatestService, { skipErrorToastOnFailure: true });
 
 	const [updating, setUpdating] = useState<boolean>();
 	const [showUpgradingAlert, setShowUpgradingAlert] = useState<boolean>(false);
@@ -177,25 +177,19 @@ export function ServerVersion() {
 					<div>
 						{t('dashboard.settings.general.update.server.version')}
 					</div>
-					{versionData?.version && <div style={{ display: 'flex' }}>
-						<Typography>{versionData?.version}</Typography>
-						<VersionSourceLink link={`${SERVER_REPO_URL}/releases/tag/${versionData?.version}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: versionData?.version })} />
+					{versionData?.version && <div>
+						{
+							process.env.REACT_APP_SHOW_VERSION_COMMIT !== 'true' ?
+								<div style={{ display: 'flex' }}>
+									<Typography>{versionData?.version}</Typography>
+									<VersionSourceLink link={`${SERVER_REPO_URL}/releases/tag/${versionData?.version}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: versionData?.version })} />
+								</div> :
+								<div style={{ display: 'flex' }}>
+									<Typography>{versionData.commitHash}</Typography>
+									<VersionSourceLink link={`${SERVER_REPO_URL}/commit/${versionData.commitHash}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: versionData?.commitHash })} />
+								</div>
+						}
 					</div>}
-				</Grid>
-				<Grid
-					style={{ maxWidth: '100%' }}
-					container
-					direction="row"
-					justifyContent="space-between"
-					alignItems="center"
-				>
-					<div>
-						{t('dashboard.settings.general.update.front.version')}
-					</div>
-					<div style={{ display: 'flex' }}>
-						<Typography>{envFacade.bundleVersion}</Typography>
-						<VersionSourceLink link={`${DASHBOARD_REPO_URL}/releases/tag/${envFacade.bundleVersion}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: envFacade.bundleVersion })} />
-					</div>
 				</Grid>
 				{!newVersion && <Grid
 					style={{ width: '100%' }}
@@ -228,6 +222,21 @@ export function ServerVersion() {
 						<VersionSourceLink link={`${SERVER_REPO_URL}/releases/tag/${newVersion}`} tip={t('dashboard.settings.general.update.available.version.link.tip', { version: newVersion })} />
 					</div>
 				</Grid>}
+				<Grid
+					style={{ maxWidth: '100%' }}
+					container
+					direction="row"
+					justifyContent="space-between"
+					alignItems="center"
+				>
+					<div>
+						{t('dashboard.settings.general.update.front.version')}
+					</div>
+					<div style={{ display: 'flex' }}>
+						<Typography>{envFacade.bundleVersion}</Typography>
+						<VersionSourceLink link={`${DASHBOARD_REPO_URL}/releases/tag/${envFacade.bundleVersion}`} tip={t('dashboard.settings.general.update.version.link.tip', { version: envFacade.bundleVersion })} />
+					</div>
+				</Grid>
 			</div>
 			<div style={{ width: '25%' }} >
 				<Grid
