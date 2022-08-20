@@ -62,7 +62,7 @@ export function InterfaceSettings() {
 				</a>
 			</Grid>
 		</SettingItem>}
-		<SettingItem title={t('dashboard.settings.interface.lightweight.dashboard')} >
+		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.interface.lightweight.dashboard')} >
 			<Grid
 				container
 				direction="column"
@@ -79,8 +79,8 @@ export function InterfaceSettings() {
 					{t('dashboard.settings.interface.lightweight.dashboard.info')}
 				</Typography>
 			</Grid>
-		</SettingItem>
-		<SettingItem title={t('dashboard.settings.interface.v3.dashboard')} >
+		</SettingItem>}
+		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.interface.v3.dashboard')} >
 			<Grid
 				container
 				direction="column"
@@ -97,7 +97,7 @@ export function InterfaceSettings() {
 					{t('dashboard.settings.interface.v3.dashboard.info')}
 				</Typography>
 			</Grid>
-		</SettingItem>
+		</SettingItem>}
 		<SettingItem title={t('dashboard.settings.interface.explorer.api')} >
 			<Grid
 				style={{ width: '100%' }}
