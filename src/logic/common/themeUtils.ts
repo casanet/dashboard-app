@@ -17,6 +17,18 @@ export function marginRight(theme: Theme): marginSide {
 	return theme.direction === "ltr" ? 'marginRight' : 'marginLeft';
 }
 
+type paddingSide = 'paddingLeft' | 'paddingRight';
+
+/** paddingLeft real key consider LTR vs RTL */
+export function paddingLeft(theme: Theme): paddingSide {
+	return theme.direction === "ltr" ? 'paddingLeft' : 'paddingRight';
+}
+
+/** paddingRight real key consider LTR vs RTL */
+export function paddingRight(theme: Theme): paddingSide {
+	return theme.direction === "ltr" ? 'paddingRight' : 'paddingLeft';
+}
+
 type side = 'left' | 'right';
 
 /** Left real key consider LTR vs RTL */

@@ -3,7 +3,7 @@ import Divider from "@mui/material/Divider";
 import { useEffect, useState } from "react";
 import { handleServerRestError } from "../../services/notifications.service";
 import { timingsService } from "../../services/timings.service";
-import { MinionStatusOverview, SwitchOverview } from "../minions/overviewMinionsStatus/MinionStatusOverview";
+import { MinionUnifiedStatusOverview } from "../minions/overviewMinionsStatus/MinionStatusOverview";
 import { TimingOverview } from "./TimingOverview";
 import { TimingOverviewControls } from "./TimingOverviewControls";
 import AddIcon from '@mui/icons-material/Add';
@@ -15,13 +15,13 @@ import { getModeColor, marginLeft } from "../../logic/common/themeUtils";
 import Collapse from '@mui/material/Collapse';
 import { Duration } from "unitsnet-js";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
-import { Minion, MinionStatus, MinionTypes, Timing } from "../../infrastructure/generated/api/swagger/api";
+import { Minion, MinionStatus, Timing } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionTimingsViewProps {
 	minion: Minion;
 }
 
-const PROPERTIES_OPEN_ANIMATION_DURATION =  Duration.FromSeconds(0.8);
+const PROPERTIES_OPEN_ANIMATION_DURATION = Duration.FromSeconds(0.8);
 
 export function MinionTimingsView(props: MinionTimingsViewProps) {
 	const { t } = useTranslation();
@@ -84,31 +84,15 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 							<TimingOverview timingType={timing.timingType} timingProperties={timing.timingProperties} fontRatio={DEFAULT_FONT_RATION} disabled={!timing.isActive} />
 						</div>
 						<div>
-							<Grid
-								container
-								direction="row"
-								justifyContent="center"
-								alignItems={'center'}
-							>
-								{/* For every complex minion show in addition the simple on/off option beside the advanced props */}
-								{props.minion.minionType !== MinionTypes.Toggle && props.minion.minionType !== MinionTypes.Switch && <div>
-									<SwitchOverview
-										minionType={props.minion.minionType}
-										minionStatus={timing.triggerDirectAction?.minionStatus as MinionStatus}
-										fontRatio={DEFAULT_FONT_RATION}
-										smallFontRatio={DEFAULT_FONT_RATION * 0.5}
-										isOn={timing.isActive && isOnMode(props.minion.minionType, timing.triggerDirectAction?.minionStatus)}
-									/>
-								</div>}
-								<MinionStatusOverview
-									minionType={props.minion.minionType}
-									minionStatus={timing.triggerDirectAction?.minionStatus as MinionStatus}
-									fontRatio={DEFAULT_FONT_RATION}
-									smallFontRatio={DEFAULT_FONT_RATION * 0.5}
-									showSwitches={true}
-									disabled={!timing.isActive}
-								/>
-							</Grid>
+							<MinionUnifiedStatusOverview
+								minionType={props.minion.minionType}
+								minionStatus={timing.triggerDirectAction?.minionStatus as MinionStatus}
+								fontRatio={DEFAULT_FONT_RATION * 0.8}
+								smallFontRatio={DEFAULT_FONT_RATION * 0.5}
+								showSwitches={true}
+								disabled={!timing.isActive}
+								isOn={timing.isActive && isOnMode(props.minion.minionType, timing.triggerDirectAction?.minionStatus)}
+							/>
 						</div>
 					</Grid>
 					<Grid

@@ -39,6 +39,7 @@ export function MinionEditStatus(props: EditStatusProps) {
 		{minionType === MinionTypes.Roller && <RollerEditStatus {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
 		{minionType === MinionTypes.Cleaner && <CleanerEditStatus {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
 		{/* Temp sensor don't has ability to set so show the overview only */}
+		{/* TODO: Need for actions edit mode */}
 		{minionType === MinionTypes.TemperatureSensor && <TemperatureSensorOverview {...props} isOn={isOn} smallFontRatio={smallFontRatio} />}
 	</div>
 }
