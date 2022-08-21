@@ -7,6 +7,10 @@ class EnvFacade {
 	/** The local server API URL */
 	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || process.env.REACT_APP_API_URL || '';
 
+	private _mockMode = (!!process.env.REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
+
+	private _mockModeConst = (!!process.env.REACT_APP_MOCK_API_URL) && !this.isMobileApp;
+
 	/** The current dashboard URI */
 	private _baseDashboardUri: string = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
 
@@ -16,18 +20,66 @@ class EnvFacade {
 	/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
 	private _lightweightUrl: string = process.env.REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
 
-	public get apiServerBaseUrl(): string {
-		// Use 'this._serverUrl' only edit URL is allowed 
-		if (this.allowSetApiServiceURL) {
-			return this._serverUrl;
-		}
-		return process.env.REACT_APP_API_URL || '';
-	}
+	private _localIP = getLocalStorageItem<string>(LocalStorageKey.LocalIP, { itemType: 'string' }) ?? '';
+
+	private _remoteConnection = getLocalStorageItem<boolean>(LocalStorageKey.RemoteConnection, { itemType: 'boolean' }) ?? false;
+
+	private _useLocalConnection = getLocalStorageItem<boolean>(LocalStorageKey.UseLocalConnection, { itemType: 'boolean' }) ?? false;
+
 
 	public set apiServerBaseUrl(serverUrl: string) {
 		// Keep the server URL in mobile apps for farther use
 		setLocalStorageItem<string>(LocalStorageKey.ServerURL, serverUrl, { itemType: 'string' });
 		this._serverUrl = serverUrl;
+	}
+
+	public set mockMode(mockMode: boolean) {
+		if (!process.env.REACT_APP_MOCK_API_URL) {
+			console.warn(`[EnvFacade.mockMode] Unable to set mock mode, not mock API URL provided via REACT_APP_MOCK_API_URL`);
+			return;
+		}
+		setLocalStorageItem<boolean>(LocalStorageKey.MockMode, mockMode, { itemType: 'boolean' });
+		this._mockMode = mockMode;
+	}
+
+	public set localIP(localIP: string) {
+		if (!this.isMobileApp) {
+			console.warn(`[EnvFacade.mockMode] Unable to set local mode in non application`);
+			return;
+		}
+		this._localIP = localIP;
+		setLocalStorageItem<string>(LocalStorageKey.LocalIP, localIP, { itemType: 'string' });
+	}
+
+	public set remoteConnection(remoteConnection: boolean) {
+		this._remoteConnection = remoteConnection;
+		setLocalStorageItem<boolean>(LocalStorageKey.RemoteConnection, remoteConnection, { itemType: 'boolean' });
+	}
+
+	public set useLocalConnection(useLocalConnection: boolean) {
+		if (!this.isMobileApp) {
+			console.warn(`[EnvFacade.mockMode] Unable to set useLocalConnection in non application`);
+			return;
+		}
+		this._useLocalConnection = useLocalConnection;
+		setLocalStorageItem<boolean>(LocalStorageKey.UseLocalConnection, useLocalConnection, { itemType: 'boolean' });
+	}
+
+	public get apiServerBaseUrl(): string {
+		// Communicate with the local service directly
+		if (this._localIP && this._remoteConnection && this._useLocalConnection) {
+			return `http://${this._localIP}/`;
+		}
+
+		if (this._mockMode || this._mockModeConst) {
+			return process.env.REACT_APP_MOCK_API_URL || '';
+		}
+
+		// Use 'this._serverUrl' only edit URL is allowed 
+		if (this.allowSetApiServiceURL) {
+			return this._serverUrl;
+		}
+		return process.env.REACT_APP_API_URL || '';
 	}
 
 	/**
@@ -51,7 +103,16 @@ class EnvFacade {
 
 	/** Is app running under MOCK MODE */
 	public get mockMode(): boolean {
-		return !!process.env.REACT_APP_MOCK_MODE;
+		return this._mockMode;
+	}
+
+	public get mockModeAvailable(): boolean {
+		return !!process.env.REACT_APP_MOCK_API_URL;
+	}
+
+	/** Force use only mock, block any attempt to use other URL */
+	public get mockModeConst(): boolean {
+		return this._mockModeConst;
 	}
 
 	/** Is app running under DEV MODE */
@@ -77,7 +138,7 @@ class EnvFacade {
 	 */
 	public get isDemoApiUrl(): boolean {
 		// If it's a mobile app, and the server URL doesn't changed yet by the user.
-		return this.isMobileApp && process.env.REACT_APP_API_URL === this.apiServerBaseUrl;
+		return this.isMobileApp && this.mockMode;
 	}
 
 	public get platform(): Platform {
