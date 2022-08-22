@@ -16,6 +16,7 @@ import RotateRightIcon from '@mui/icons-material/RotateRight';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { ApiFacade, CalibrationMode, Minion } from "../../../infrastructure/generated/api/swagger/api";
+import PhonelinkLockIcon from '@material-ui/icons/PhonelinkLock';
 
 interface MinionSyncProps {
 	fontRatio: number;
@@ -103,7 +104,7 @@ export function MinionSync(props: MinionSyncProps) {
 								direction="column"
 								justifyContent="center"
 								alignItems="flex-start"
-								style={{ [marginLeft(theme)]: fontRatio * (desktopMode ? 0.6 : 0), marginTop: fontRatio * 0.2 }}
+								style={{ [marginLeft(theme)]: fontRatio * (desktopMode ? 0.5 : 0), marginTop: fontRatio * 0.2 }}
 							>
 								<div>
 									<ToggleButtonGroup
@@ -132,6 +133,11 @@ export function MinionSync(props: MinionSyncProps) {
 										<ToggleButton value={CalibrationMode.LockOff} aria-label={t('dashboard.minions.advanced.settings.sync.lock.off.tip')} style={{ color: getModeColor(!isOff, theme) }}>
 											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.sync.lock.off.tip')}</span>}>
 												<LockOutlinedIcon style={calibrationModeStyle} />
+											</ThemeTooltip>
+										</ToggleButton>
+										<ToggleButton value={CalibrationMode.LockDashboard} aria-label={t('dashboard.minions.advanced.settings.lock.dashboard.tip')} style={{ color: getModeColor(!isOff, theme) }}>
+											<ThemeTooltip title={<span>{t('dashboard.minions.advanced.settings.lock.dashboard.tip')}</span>}>
+												<PhonelinkLockIcon style={calibrationModeStyle} />
 											</ThemeTooltip>
 										</ToggleButton>
 										<ToggleButton value={CalibrationMode.Shabbat} aria-label={t('dashboard.minions.advanced.settings.sync.shabbat.tip')} style={{ color: getModeColor(!isOff, theme) }}>

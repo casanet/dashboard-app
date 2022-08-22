@@ -28,6 +28,13 @@ interface MinionStatusOverviewProps extends StatusOverviewProps {
 	disabled?: boolean;
 }
 
+
+interface MinionUnifiedStatusOverviewProps extends StatusOverviewProps {
+	isOn: boolean;
+	showSwitches: boolean;
+	disabled?: boolean;
+}
+
 interface TemperatureLightStatusOverviewProps extends TypeStatusOverviewProps {
 	hideBrightness?: boolean;
 }
@@ -266,4 +273,34 @@ export function MinionStatusOverview(props: MinionStatusOverviewProps) {
 		{minionType === MinionTypes.Roller && <RollerOverview {...props} isOn={isOn} />}
 		{minionType === MinionTypes.Cleaner && <CleanerOverview {...props} isOn={isOn} />}
 	</div>
+}
+
+export function MinionUnifiedStatusOverview(props: MinionUnifiedStatusOverviewProps) {
+	const { minionStatus, minionType, isOn, disabled, fontRatio, smallFontRatio } = props;
+
+	return <Grid
+		container
+		direction="row"
+		justifyContent="center"
+		alignItems={'center'}
+	>
+		{/* For every complex minion show in addition the simple on/off option beside the advanced props */}
+		{minionType !== MinionTypes.Toggle && minionType !== MinionTypes.Switch && <div>
+			<SwitchOverview
+				minionType={minionType}
+				minionStatus={minionStatus}
+				fontRatio={fontRatio}
+				smallFontRatio={smallFontRatio}
+				isOn={isOn}
+			/>
+		</div>}
+		<MinionStatusOverview
+			minionType={minionType}
+			minionStatus={minionStatus}
+			fontRatio={fontRatio}
+			smallFontRatio={smallFontRatio}
+			showSwitches={true}
+			disabled={disabled}
+		/>
+	</Grid>
 }

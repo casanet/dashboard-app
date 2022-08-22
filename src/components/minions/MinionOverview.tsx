@@ -53,7 +53,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 				alignItems="flex-start"
 			>
 				{/* Set the name size as all card width, expect a place for the power icon. */}
-				<div className="minion-name-container" style={{ width: `calc(100% - ${fontRatio + 30}px`, marginTop: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.1  }} >
+				<div className="minion-name-container" style={{ width: `calc(100% - ${fontRatio * 1.6}px`, marginTop: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.1  }} >
 					<Grid
 						className="minion-name-container"
 						container

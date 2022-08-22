@@ -17,7 +17,8 @@ import AlarmIcon from '@mui/icons-material/Alarm';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import clonedeep from 'lodash.clonedeep';
-import { ApiFacade, Minion, MinionStatus, MinionTypes, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
+import { ApiFacade, CalibrationMode, Minion, MinionStatus, MinionTypes, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
+import { TimingLockControl } from "./TimingLockControl";
 
 interface CreateTimingProps {
 	minion: Minion;
@@ -35,6 +36,8 @@ export function CreateTiming(props: CreateTimingProps) {
 	const [timingType, setTimingType] = useState<TimingTypes>(TimingTypes.DailyTimeTrigger);
 	const [timingProperties, setTimingProperties] = useState<TimingProperties>(defaultTimingProperties(timingType));
 	const [minionStatus, setMinionStatus] = useState<MinionStatus>(defaultMinionStatus(props.minion.minionType));
+	const [lockMode, setLockMode] = useState<CalibrationMode | undefined>();
+
 
 	useEffect(() => {
 		// In order to show current minion status as a default timing set status mode, every time 
@@ -62,6 +65,8 @@ export function CreateTiming(props: CreateTimingProps) {
 				timingName: 'auto',
 				isActive: true,
 				timingId: '',
+				setLock: lockMode,
+				overrideLock: true, // Currently, all of the timings marked to override any lock
 				triggerDirectAction: {
 					minionStatus,
 					minionId: props.minion.minionId || '',
@@ -148,6 +153,9 @@ export function CreateTiming(props: CreateTimingProps) {
 					}
 				</div>
 			</Grid>
+		</div>
+		<div style={{ width: '100%' }}>
+			<TimingLockControl disabled={creating} fontRatio={fontRatio} setLockMode={setLockMode} lockMode={lockMode} />
 		</div>
 		<Grid
 			style={{ marginTop: fontRatio * 0.7 }}
