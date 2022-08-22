@@ -251,7 +251,7 @@
 	"dashboard.actions.action.apply.on": "הפעל ב:",
 	"dashboard.actions.action.apply.on.tip": "הפעל את טריגר הפעולה, ניתן לבחור שיופעל רק בשינוי הסטטוס של המכשיר או כל עוד הסטטוס תואם למה שהוגדר ",
 	"dashboard.actions.action.apply.status.changed": "שינוי סטטוס",
-	"dashboard.actions.action.apply.status.changed.tip": "הפעל את הפעולה רק כשטטוס המכשיר משתנה",
+	"dashboard.actions.action.apply.status.changed.tip": "הפעל את הפעולה רק כשסטטוס המכשיר משתנה",
 	"dashboard.actions.action.apply.permanent": "קבוע",
 	"dashboard.actions.action.apply.permanent.tip": "כל עוד הסטטוס תואם למה שהוגדר בפעולה, הפעולה תופעל על כל המכשירים שהוגדרו",
 	"dashboard.actions.action.trigger.status": "סטטוס להפעלה",
