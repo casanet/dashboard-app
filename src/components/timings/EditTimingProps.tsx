@@ -9,7 +9,8 @@ import { MinionEditStatus } from "../minions/editMinionStatus/MinionEditStatus";
 import clonedeep from 'lodash.clonedeep';
 import { SwitchEditStatus } from "../minions/editMinionStatus/SwitchEditStatus";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { ApiFacade, Minion, MinionStatus, MinionTypes, Timing, TimingProperties } from "../../infrastructure/generated/api/swagger/api";
+import { ApiFacade, CalibrationMode, Minion, MinionStatus, MinionTypes, Timing, TimingProperties } from "../../infrastructure/generated/api/swagger/api";
+import { TimingLockControl } from "./TimingLockControl";
 
 interface EditTimingPropsProps {
 	minion: Minion;
@@ -26,6 +27,7 @@ export function EditTimingProps(props: EditTimingPropsProps) {
 	const [editing, setEditing] = useState<boolean>(false);
 	const [timingProperties, setTimingProperties] = useState<TimingProperties>(clonedeep(props.timing.timingProperties)); // make sure to only copy (not ref) the original object
 	const [minionStatus, setMinionStatus] = useState<MinionStatus>(clonedeep(props.timing.triggerDirectAction?.minionStatus || defaultMinionStatus(props.minion.minionType)));
+	const [lockMode, setLockMode] = useState<CalibrationMode | undefined>(props.timing.setLock);
 
 	const { fontRatio } = props;
 	async function updateTiming() {
@@ -41,6 +43,7 @@ export function EditTimingProps(props: EditTimingPropsProps) {
 			} else {
 				editedTiming.triggerDirectAction = { minionStatus, minionId: props.minion.minionId || '', }
 			}
+			editedTiming.setLock = lockMode;
 			await ApiFacade.TimingsApi.setTiming(editedTiming.timingId, editedTiming);
 			timingsService.updateTiming(editedTiming);
 			props.onDone();
@@ -76,6 +79,9 @@ export function EditTimingProps(props: EditTimingPropsProps) {
 						<MinionEditStatus disabled={editing} minionStatus={minionStatus} setMinionStatus={setMinionStatus} minionType={props.minion.minionType} fontRatio={fontRatio * 1.7} />}
 				</div>
 			</Grid>
+		</div>
+		<div style={{ width: '100%' }}>
+			<TimingLockControl disabled={editing} fontRatio={fontRatio} setLockMode={setLockMode} lockMode={lockMode} />
 		</div>
 		<Grid
 			style={{ marginTop: fontRatio * 0.7 }}

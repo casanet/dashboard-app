@@ -7,6 +7,7 @@ import SyncIcon from '@mui/icons-material/Sync';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { CalibrationMode, Minion } from "../../infrastructure/generated/api/swagger/api";
+import PhonelinkLockIcon from '@material-ui/icons/PhonelinkLock';
 
 interface MinionIndicatorsProps {
 	minion: Minion;
@@ -48,6 +49,11 @@ export function MinionIndicators(props: MinionIndicatorsProps) {
 			{syncOn && minion.calibration?.calibrationMode === CalibrationMode.Shabbat && <Fragment>
 				<ThemeTooltip title={<span>{t(`dashboard.minions.rotating.mode.tip`, { minutes: minion.calibration?.calibrationCycleMinutes })}</span>} enterDelay={100}>
 					<RotateRightIcon style={indicatorsStyle} />
+				</ThemeTooltip>
+			</Fragment>}
+			{syncOn && minion.calibration?.calibrationMode === CalibrationMode.LockDashboard && <Fragment>
+				<ThemeTooltip title={<span>{t(`dashboard.minions.dashboard.lock.tip`, { minutes: minion.calibration?.calibrationCycleMinutes })}</span>} enterDelay={100}>
+					<PhonelinkLockIcon style={indicatorsStyle} />
 				</ThemeTooltip>
 			</Fragment>}
 		</Grid>

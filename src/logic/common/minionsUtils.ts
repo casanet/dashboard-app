@@ -126,6 +126,12 @@ export function defaultMinionStatus(minionType: MinionTypes): MinionStatus {
 				mode: CleanerMode.Clean,
 			};
 			break;
+		case MinionTypes.TemperatureSensor:
+				minionStatus.temperatureSensor = {
+					status: SwitchOptions.On,
+					temperature: 10
+				};
+				break;
 	}
 	return minionStatus;
 }

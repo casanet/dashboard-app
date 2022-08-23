@@ -36,6 +36,7 @@ import { ApiFacade, Minion, MinionStatus } from "../../infrastructure/generated/
 import { MinionBatteryOverview } from "./MinionBatteryOverview";
 
 const MinionTimeline = React.lazy(() => import('./timeline/MinionTimeline'));
+const MinionActionsView = React.lazy(() => import('../actions/MinionActionsView'));
 
 const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 
@@ -184,8 +185,22 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						</AccordionSummary>
 						<AccordionDetails>
 							{/* TODO: make it lazy loading */}
-							<div className="minion-timings-area">
+							<div className="minion-advanced-option-area">
 								<MinionTimingsView minion={minion} />
+							</div>
+						</AccordionDetails>
+					</Accordion>
+					<Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+						>
+							<Typography>{t('global.actions')}</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<div className="minion-advanced-option-area">
+								<Suspense fallback={<Loader fontRatio={DEFAULT_FONT_RATION * 2} />}>
+									<MinionActionsView minion={minion} />
+								</Suspense>
 							</div>
 						</AccordionDetails>
 					</Accordion>
@@ -196,10 +211,11 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<Typography>{t('dashboard.minions.timeline')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							{/* Load it async by lazy */}
-							<Suspense fallback={<Loader fontRatio={DEFAULT_FONT_RATION * 2} />}>
-								<MinionTimeline key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
-							</Suspense>
+							<div className="minion-advanced-option-area">
+								<Suspense fallback={<Loader fontRatio={DEFAULT_FONT_RATION * 2} />}>
+									<MinionTimeline key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
+								</Suspense>
+							</div>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
@@ -209,7 +225,9 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<Typography>{t('global.advanced.settings')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<MinionAdvancedSettings key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
+							<div className="minion-advanced-option-area">
+								<MinionAdvancedSettings key={minion.minionId} fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
+							</div>
 						</AccordionDetails>
 					</Accordion>
 					<Accordion>
@@ -219,7 +237,9 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							<Typography>{t('dashboard.minions.minion.tech.info')}</Typography>
 						</AccordionSummary>
 						<AccordionDetails>
-							<MinionTechInfo fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
+							<div className="minion-advanced-option-area">
+								<MinionTechInfo fontRatio={DEFAULT_FONT_SIZE} minion={minion} />
+							</div>
 						</AccordionDetails>
 					</Accordion>
 				</div>

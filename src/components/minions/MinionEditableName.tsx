@@ -50,7 +50,7 @@ export function MinionEditableName(props: MinionMinionEditableNameProps) {
 			alignItems="center"
 		>
 			{!editNameMode && <div style={{ maxWidth: `calc(100% - ${fontRatio * 0.5}px)` }}>
-				<Typography className="minion-name" style={{ fontSize: fontRatio * 0.7 }}>{minion.name}</Typography>
+				<Typography className="minion-name" style={{ fontSize: fontRatio * 0.55 }}>{minion.name}</Typography>
 			</div>}
 			{editNameMode && <div style={{ width: `calc(100% - ${fontRatio * 1.6}px)` }}>
 				<TextField

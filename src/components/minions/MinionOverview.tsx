@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
 import { Minion } from "../../infrastructure/generated/api/swagger/api";
 import { MinionBatteryOverview } from "./MinionBatteryOverview";
+import { marginLeft } from "../../logic/common/themeUtils";
 
 interface MinionOverviewProps {
 	minion: Minion;
@@ -39,7 +40,6 @@ export function MinionOverview(props: MinionOverviewProps) {
 	const smallFontRatio = ratio / 4;
 	const verySmallFontRatio = ratio / 8;
 	const fontSize: string = `${fontRatio}px`;
-	const smallFontSize: string = `${smallFontRatio}px`;
 
 	const subTitleColor = theme.palette.grey.A200;
 
@@ -53,7 +53,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 				alignItems="flex-start"
 			>
 				{/* Set the name size as all card width, expect a place for the power icon. */}
-				<div className="minion-name-container" style={{ width: `calc(100% - ${fontRatio + 30}px` }} >
+				<div className="minion-name-container" style={{ width: `calc(100% - ${fontRatio * 1.6}px`, marginTop: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.1  }} >
 					<Grid
 						className="minion-name-container"
 						container
@@ -61,8 +61,8 @@ export function MinionOverview(props: MinionOverviewProps) {
 						justifyContent="flex-start"
 						alignItems="flex-start"
 					>
-						<Typography className="minion-name" style={{ fontSize }}>{minion.name}</Typography>
-						<Typography className="minion-name" style={{ fontSize: smallFontSize, color: subTitleColor }}>{t(mapMinionTypeToDisplay[minion.minionType])}</Typography>
+						<Typography className="minion-name" style={{ fontSize: fontRatio * 0.6 }}>{minion.name}</Typography>
+						<Typography className="minion-name" style={{ fontSize: smallFontRatio * 0.8, color: subTitleColor }}>{t(mapMinionTypeToDisplay[minion.minionType])}</Typography>
 					</Grid>
 				</div>
 				<div className="quick-action-container">
