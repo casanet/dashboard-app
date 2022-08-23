@@ -336,7 +336,7 @@ function LoginForm() {
 			/>
 		</FormControl>}
 		<div style={{ textAlign: 'center', textOverflow: 'clip', marginTop: '3%' }}>
-			<div style={{ maxWidth: '288px' }}>
+			<div>
 				{(envFacade.mockModeConst || demoMode) && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
 					<Typography variant="body2" >
 						{t('general.demo.mode.tip')}
