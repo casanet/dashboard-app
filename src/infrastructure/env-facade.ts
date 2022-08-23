@@ -9,7 +9,7 @@ class EnvFacade {
 
 	private _mockMode = (!!process.env.REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
 
-	private _mockModeConst = (!!process.env.REACT_APP_MOCK_API_URL) && !this.isMobileApp;
+	private _mockModeConst = (!!process.env.REACT_APP_MOCK_MODE) || ((!!process.env.REACT_APP_MOCK_API_URL) && !this.isMobileApp);
 
 	/** The current dashboard URI */
 	private _baseDashboardUri: string = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
@@ -103,7 +103,7 @@ class EnvFacade {
 
 	/** Is app running under MOCK MODE */
 	public get mockMode(): boolean {
-		return this._mockMode;
+		return this._mockMode || this._mockModeConst;
 	}
 
 	public get mockModeAvailable(): boolean {

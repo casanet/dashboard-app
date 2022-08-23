@@ -70,8 +70,8 @@ jobs:
         cordova build android --$BUILD_TYPE -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=bundle
         cordova build android --$BUILD_TYPE -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=apk
         mkdir android
-        cp platforms/android/app/build/outputs/bundle/release/app-release.aab android/app-release.aab
-        cp platforms/android/app/build/outputs/apk/release/app-release.apk android/app-release.apk
+        cp platforms/android/app/build/outputs/bundle/$BUILD_TYPE/app-$BUILD_TYPE.aab android/app-$BUILD_TYPE.aab
+        cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk android/app-$BUILD_TYPE.apk
     - uses: actions/upload-artifact@v2
       with:
         name: android
