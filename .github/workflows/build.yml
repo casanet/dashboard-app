@@ -62,12 +62,13 @@ jobs:
       run: |
         export BRANCH=${GITHUB_REF##*/}
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_SHOW_VERSION_COMMIT='false' ; else export REACT_APP_SHOW_VERSION_COMMIT='true'; fi
+        if [[ $BRANCH == 'main' ]]; then export BUILD_TYPE='release' ; else export BUILD_TYPE='debug'; fi
         yarn run build
         npm i -g cordova
         node scripts/decode-key-store.js
         cordova platform add android
-        cordova build android --release -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=bundle
-        cordova build android --release -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=apk
+        cordova build android --$BUILD_TYPE -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=bundle
+        cordova build android --$BUILD_TYPE -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=apk
         mkdir android
         cp platforms/android/app/build/outputs/bundle/release/app-release.aab android/app-release.aab
         cp platforms/android/app/build/outputs/apk/release/app-release.apk android/app-release.apk
@@ -129,8 +130,10 @@ jobs:
       run: |
         export PORT="9090"
         export REACT_APP_MOCK_API_URL="http://localhost:9090"
+        export REACT_APP_API_URL="http://localhost:9090"
         export FRONT_SERVE_PORT="3001"
         export BUILD_PATH="temp-e2e"
+        export REACT_APP_MOCK_MODE="true"
         export REACT_APP_LOCAL_DEV="true"
         echo "Installing dependencies"
         npm i -g yarn
