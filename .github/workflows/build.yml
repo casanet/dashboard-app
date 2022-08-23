@@ -51,7 +51,8 @@ jobs:
       uses: android-actions/setup-android@v2
     - name: Bundle Android APP
       env:
-        REACT_APP_API_URL: '${{ secrets.API_URL_DEMO }}'
+        REACT_APP_API_URL: '${{ secrets.API_URL }}'
+        REACT_APP_MOCK_API_URL_: '${{ secrets.API_URL_DEMO }}'
         REACT_APP_V3_URL: '${{ secrets.V3_URL_APP }}'
         REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL_APP }}'
         CASANET_KEY_STORE: '${{ secrets.CASANET_KEY_STORE }}'
@@ -127,10 +128,9 @@ jobs:
     - name: Run-Test
       run: |
         export PORT="9090"
-        export REACT_APP_API_URL="http://localhost:9090"
+        export REACT_APP_MOCK_API_URL="http://localhost:9090"
         export FRONT_SERVE_PORT="3001"
         export BUILD_PATH="temp-e2e"
-        export REACT_APP_MOCK_MODE="true"
         export REACT_APP_LOCAL_DEV="true"
         echo "Installing dependencies"
         npm i -g yarn
