@@ -2,23 +2,35 @@ import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "./loc
 import { Platform } from "./symbols/global";
 import packageJson from "../../package.json";
 
+const {
+	REACT_APP_API_URL,
+	REACT_APP_MOCK_API_URL,
+	REACT_APP_MOCK_MODE,
+	REACT_APP_V3_URL,
+	REACT_APP_LIGHTWEIGHT_URL,
+	REACT_APP_LOCAL_DEV,
+} = process.env;
+
+
 class EnvFacade {
 
 	/** The local server API URL */
-	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || process.env.REACT_APP_API_URL || '';
+	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || REACT_APP_API_URL || '';
 
-	private _mockMode = (!!process.env.REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
+	private _mockMode = (!!REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
 
-	private _mockModeConst = (!!process.env.REACT_APP_MOCK_MODE) || ((!!process.env.REACT_APP_MOCK_API_URL) && !this.isMobileApp);
+	private _mockModeConst = (!!REACT_APP_MOCK_MODE) || ((!!REACT_APP_MOCK_API_URL) && !this.isMobileApp);
+
+	private _mockModeAvailable = (!!REACT_APP_MOCK_API_URL);
 
 	/** The current dashboard URI */
 	private _baseDashboardUri: string = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
 
 	/** The V3 dashboard path, see https://github.com/casanet/frontend-v3 */
-	private _v3DashboardUri: string = process.env.REACT_APP_V3_URL || `/v3`;
+	private _v3DashboardUri: string = REACT_APP_V3_URL || `/v3`;
 
 	/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
-	private _lightweightUrl: string = process.env.REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
+	private _lightweightUrl: string = REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
 
 	private _localIP = getLocalStorageItem<string>(LocalStorageKey.LocalIP, { itemType: 'string' }) ?? '';
 
@@ -34,7 +46,7 @@ class EnvFacade {
 	}
 
 	public set mockMode(mockMode: boolean) {
-		if (!process.env.REACT_APP_MOCK_API_URL) {
+		if (!REACT_APP_MOCK_API_URL) {
 			console.warn(`[EnvFacade.mockMode] Unable to set mock mode, not mock API URL provided via REACT_APP_MOCK_API_URL`);
 			return;
 		}
@@ -72,14 +84,14 @@ class EnvFacade {
 		}
 
 		if (this._mockMode || this._mockModeConst) {
-			return process.env.REACT_APP_MOCK_API_URL || '';
+			return REACT_APP_MOCK_API_URL || '';
 		}
 
 		// Use 'this._serverUrl' only edit URL is allowed 
 		if (this.allowSetApiServiceURL) {
 			return this._serverUrl;
 		}
-		return process.env.REACT_APP_API_URL || '';
+		return REACT_APP_API_URL || '';
 	}
 
 	/**
@@ -107,7 +119,7 @@ class EnvFacade {
 	}
 
 	public get mockModeAvailable(): boolean {
-		return !!process.env.REACT_APP_MOCK_API_URL;
+		return this._mockModeAvailable;
 	}
 
 	/** Force use only mock, block any attempt to use other URL */
@@ -117,7 +129,7 @@ class EnvFacade {
 
 	/** Is app running under DEV MODE */
 	public get devMode(): boolean {
-		return !!process.env.REACT_APP_LOCAL_DEV;
+		return !!REACT_APP_LOCAL_DEV;
 	}
 
 	public get allowSetApiServiceURL(): boolean {
@@ -142,7 +154,7 @@ class EnvFacade {
 	}
 
 	public get platform(): Platform {
-		return globalThis.device.platform as Platform;
+		return globalThis?.device?.platform as Platform;
 	}
 
 	public get isMobileApp(): boolean {
@@ -155,3 +167,26 @@ class EnvFacade {
 }
 
 export const envFacade = new EnvFacade();
+
+
+console.table(Object.entries(process.env));
+console.table({
+	isMobileApp: envFacade.isMobileApp,
+	platform: envFacade.platform,
+	bundleVersion: envFacade.bundleVersion,
+	isDemoApiUrl: envFacade.isDemoApiUrl,
+	isTokenAllowed: envFacade.isTokenAllowed,
+	allowSetApiServiceURL: envFacade.allowSetApiServiceURL,
+	devMode: envFacade.devMode,
+	mockModeConst: envFacade.mockModeConst,
+	apiServerBaseUrl: envFacade.apiServerBaseUrl,
+	apiUrl: envFacade.apiUrl,
+	baseDashboardUri: envFacade.baseDashboardUri,
+	lightweightUrl: envFacade.lightweightUrl,
+	localIP: envFacade.localIP,
+	mockMode: envFacade.mockMode,
+	mockModeAvailable: envFacade.mockModeAvailable,
+	remoteConnection: envFacade.remoteConnection,
+	v3DashboardUri: envFacade.v3DashboardUri,
+	useLocalConnection: envFacade.useLocalConnection,
+});
