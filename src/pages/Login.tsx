@@ -283,7 +283,7 @@ function LoginForm() {
 		<div className="login-form-submit">
 			{loading
 				? <LinearProgress />
-				: <Button id="login-submit" onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
+				: <Button disabled={loading} id="login-submit" onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
 					{t('login.sign.in').toUpperCase()}
 				</Button>}
 		</div>
@@ -299,10 +299,13 @@ function LoginForm() {
 
 					{t('general.demo.mode')}
 					{envFacade.isMobileApp && <ThemeSwitch
+						disabled={loading}
 						checked={demoMode}
 						onChange={() => {
 							setDemoMode(!demoMode);
 							envFacade.mockMode = !demoMode;
+							// Reset the API URL usings
+							setServerUrl(envFacade.apiServerBaseUrl);
 						}}
 						inputProps={{ 'aria-label': 'controlled' }}
 					/>}
