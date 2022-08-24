@@ -90,7 +90,7 @@ export function ColorLightEditStatus(props: TypeEditStatusProps) {
 			alignItems="center"
 		>
 			{/* Commit changes only when the mouseup (or touch out in mobile), and *do not* commit while still clicking and selecting the color  */}
-			<div onMouseUp={() => commitColor()}>
+			<div dir="ltr" onMouseUp={() => commitColor()}>
 				<ColorPicker width={desktopMode ? 250 : 200} height={props.fontRatio * 2} color={color} onChange={(c) => changeColor(c as Color)} hideHSV hideHEX hideRGB={false} dark />
 			</div>
 		</Grid>
