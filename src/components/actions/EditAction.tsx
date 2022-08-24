@@ -18,7 +18,6 @@ import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import { EditActionSet } from "./EditActionSet";
 import cloneDeep from "lodash.clonedeep";
 import AddIcon from '@mui/icons-material/Add';
-import { Duration } from "unitsnet-js";
 
 interface EditActionProps {
 	/** In edit mode, the action to modify */
@@ -44,8 +43,6 @@ export function EditAction(props: EditActionProps) {
 
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const [saving, setSaving] = useState<boolean>(false);
-	const [hide, setHide] = useState<boolean>(false);
-	const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout>();
 	const [actionApply, setActionApply] = useState<ActionApply>(ActionApply.StatusChange);
 	const [actionsSet, setActionsSet] = useState<ActionSet[]>([]);
 	const [name, setName] = useState<string>();
@@ -56,16 +53,6 @@ export function EditAction(props: EditActionProps) {
 	const applyActionStyle: CSSProperties = { fontSize: fontRatio * 0.8 };
 
 	useEffect(() => {
-		if (!props.collapse) {
-			setHide(false);
-			if (hideTimeout) {
-				clearTimeout(hideTimeout);
-			}
-		} else {
-			setHideTimeout(setTimeout(() => {
-				setHide(true);
-			}, Duration.FromSeconds(5).Milliseconds));
-		}
 		setActionApply((props.mode === 'edit' && actionCopy?.apply) || ActionApply.StatusChange);
 		setActionsSet((props.mode === 'edit' && actionCopy?.thenSet) || []);
 		setMinionStatus((props.mode === 'edit' && actionCopy?.ifStatus) || defaultMinionStatus(props.minion.minionType));
@@ -105,8 +92,11 @@ export function EditAction(props: EditActionProps) {
 		setSaving(false);
 	}
 
-	if (hide) {
-		return <div></div>
+	if (props.collapse) {
+		// Just place holder to collapse animation
+		return <div
+			style={{ height: fontRatio * 10 }}
+		></div>
 	}
 
 	return <div style={{ width: '100%' }}>

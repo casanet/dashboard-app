@@ -106,7 +106,7 @@ export default function MinionActionsView(props: MinionTimingsViewProps) {
 		})}
 		<div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
 			<Collapse in={showAddAction} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
-				<EditAction collapse={showAddAction} mode={'create'} minion={props.minion} onDone={() => setShowAddAction(false)} fontRatio={DEFAULT_FONT_RATION} />
+				<EditAction collapse={!showAddAction} mode={'create'} minion={props.minion} onDone={() => setShowAddAction(false)} fontRatio={DEFAULT_FONT_RATION} />
 			</Collapse>
 			{!showAddAction && <Grid
 				container
