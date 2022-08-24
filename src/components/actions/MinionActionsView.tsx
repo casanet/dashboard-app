@@ -98,7 +98,7 @@ export default function MinionActionsView(props: MinionTimingsViewProps) {
 				</div>
 				<Collapse in={showEditActionId === action.actionId} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
 					<div style={{ margin: DEFAULT_FONT_RATION }}>
-						<EditAction key={showEditActionId} mode={'edit'} action={action} showAddAction={showAddAction} minion={props.minion} onDone={() => setShowEditActionId(undefined)} fontRatio={DEFAULT_FONT_RATION} />
+						<EditAction key={showEditActionId} mode={'edit'} action={action} collapse={showEditActionId !== action.actionId} minion={props.minion} onDone={() => setShowEditActionId(undefined)} fontRatio={DEFAULT_FONT_RATION} />
 					</div>
 				</Collapse>
 				<Divider variant={'fullWidth'} flexItem />
@@ -106,7 +106,7 @@ export default function MinionActionsView(props: MinionTimingsViewProps) {
 		})}
 		<div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
 			<Collapse in={showAddAction} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
-				<EditAction mode={'create'} showAddAction={showAddAction} minion={props.minion} onDone={() => setShowAddAction(false)} fontRatio={DEFAULT_FONT_RATION} />
+				<EditAction collapse={!showAddAction} mode={'create'} minion={props.minion} onDone={() => setShowAddAction(false)} fontRatio={DEFAULT_FONT_RATION} />
 			</Collapse>
 			{!showAddAction && <Grid
 				container
