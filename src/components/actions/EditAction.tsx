@@ -1,5 +1,5 @@
 import { Button, Grid, Theme, useMediaQuery, useTheme } from "@material-ui/core";
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { handleServerRestError } from "../../services/notifications.service";
 import { useTranslation } from "react-i18next";
 import { defaultMinionStatus, isOnMode } from "../../logic/common/minionsUtils";
@@ -18,6 +18,7 @@ import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import { EditActionSet } from "./EditActionSet";
 import cloneDeep from "lodash.clonedeep";
 import AddIcon from '@mui/icons-material/Add';
+import { Duration } from "unitsnet-js";
 
 interface EditActionProps {
 	/** In edit mode, the action to modify */
@@ -25,9 +26,12 @@ interface EditActionProps {
 	minion: Minion;
 	onDone: () => void;
 	fontRatio: number;
-	/** Whenever need to show the create timing component */
-	showAddAction: boolean;
 	mode: 'edit' | 'create';
+	/** 
+	 * When the component on collapse mode
+	 * Since this component can be very heavy, need it to improve DOM on collapse
+	 */
+	collapse: boolean;
 }
 
 export function EditAction(props: EditActionProps) {
@@ -40,14 +44,34 @@ export function EditAction(props: EditActionProps) {
 
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const [saving, setSaving] = useState<boolean>(false);
-	const [actionApply, setActionApply] = useState<ActionApply>((props.mode === 'edit' && actionCopy?.apply) || ActionApply.StatusChange);
-	const [actionsSet, setActionsSet] = useState<ActionSet[]>((props.mode === 'edit' && actionCopy?.thenSet) || []);
-	const [name, setName] = useState<string>(props.mode === 'edit' ? (actionCopy?.name || '') : `${t('dashboard.actions.default.name')} ${Math.floor(Math.random() * 1000)}`);
-	const [minionStatus, setMinionStatus] = useState<MinionStatus>((props.mode === 'edit' && actionCopy?.ifStatus) || defaultMinionStatus(props.minion.minionType));
+	const [hide, setHide] = useState<boolean>(false);
+	const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout>();
+	const [actionApply, setActionApply] = useState<ActionApply>(ActionApply.StatusChange);
+	const [actionsSet, setActionsSet] = useState<ActionSet[]>([]);
+	const [name, setName] = useState<string>();
+	const [minionStatus, setMinionStatus] = useState<MinionStatus>(defaultMinionStatus(props.minion.minionType));
 
 	const { fontRatio } = props;
 
 	const applyActionStyle: CSSProperties = { fontSize: fontRatio * 0.8 };
+
+	useEffect(() => {
+		if (!props.collapse) {
+			setHide(false);
+			if (hideTimeout) {
+				clearTimeout(hideTimeout);
+			}
+		} else {
+			setHideTimeout(setTimeout(() => {
+				setHide(true);
+			}, Duration.FromSeconds(5).Milliseconds));
+		}
+		setActionApply((props.mode === 'edit' && actionCopy?.apply) || ActionApply.StatusChange);
+		setActionsSet((props.mode === 'edit' && actionCopy?.thenSet) || []);
+		setMinionStatus((props.mode === 'edit' && actionCopy?.ifStatus) || defaultMinionStatus(props.minion.minionType));
+		setName(props.mode === 'edit' ? (actionCopy?.name || '') : `${t('dashboard.actions.default.name')} ${Math.floor(Math.random() * 1000)}`);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [props.collapse]);
 
 	async function saveAction() {
 		setSaving(true);
@@ -79,6 +103,10 @@ export function EditAction(props: EditActionProps) {
 			handleServerRestError(error);
 		}
 		setSaving(false);
+	}
+
+	if (hide) {
+		return <div></div>
 	}
 
 	return <div style={{ width: '100%' }}>
