@@ -10,6 +10,10 @@ class TimingsService extends DataService<Timing[]> {
 	// The timing SSE feed object
 	timingsServerFeed: EventSource;
 
+	constructor() {
+		super([]);
+	}
+
 	private onTimingsFeedUpdate(timingFeedEvent: MessageEvent) {
 		// Ignore the init message
 		if (timingFeedEvent.data === '"init"') {

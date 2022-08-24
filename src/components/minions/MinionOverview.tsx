@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
 import { Minion } from "../../infrastructure/generated/api/swagger/api";
 import { MinionBatteryOverview } from "./MinionBatteryOverview";
-import { marginLeft } from "../../logic/common/themeUtils";
+import { marginLeft, marginRight, right } from "../../logic/common/themeUtils";
 
 interface MinionOverviewProps {
 	minion: Minion;
@@ -39,7 +39,6 @@ export function MinionOverview(props: MinionOverviewProps) {
 	const fontRatio = ratio / 2;
 	const smallFontRatio = ratio / 4;
 	const verySmallFontRatio = ratio / 8;
-	const fontSize: string = `${fontRatio}px`;
 
 	const subTitleColor = theme.palette.grey.A200;
 
@@ -53,7 +52,7 @@ export function MinionOverview(props: MinionOverviewProps) {
 				alignItems="flex-start"
 			>
 				{/* Set the name size as all card width, expect a place for the power icon. */}
-				<div className="minion-name-container" style={{ width: `calc(100% - ${fontRatio * 1.6}px`, marginTop: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.1  }} >
+				<div className="minion-name-container" style={{ width: `calc(100% - ${fontRatio * 1.6}px`, marginTop: fontRatio * 0.1, [marginLeft(theme)]: fontRatio * 0.1 }} >
 					<Grid
 						className="minion-name-container"
 						container
@@ -73,12 +72,14 @@ export function MinionOverview(props: MinionOverviewProps) {
 						alignItems="center"
 					>
 						<MinionPowerToggle minion={minion} fontRatio={fontRatio} />
-						<div className="indicators-overview-container" style={{ maxWidth: fontSize }}>
-							<MinionIndicators minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} />
-						</div>
 					</Grid>
 				</div>
 			</Grid>
+			<div className="indicators-overview-container" style={{ width: '100%', height: 0 }}>
+				<div style={{ float: right(theme), [marginRight(theme)]: fontRatio * 0.45, marginTop: -(fontRatio * 0.2) }}>
+					<MinionIndicators showAsRow={true} minion={minion} fontRatio={fontRatio} smallFontRatio={smallFontRatio} />
+				</div>
+			</div>
 		</div>
 		<div className="minion-overview-content-container" >
 			<Grid

@@ -19,6 +19,7 @@ import { handleServerRestError } from '../services/notifications.service';
 import { ThemeTooltip } from '../components/global/ThemeTooltip';
 import { profileService } from '../services/users.service';
 import { ApiFacade } from '../infrastructure/generated/api/swagger/api';
+import { ThemeSwitch } from '../components/global/ThemeSwitch';
 
 interface LocalServer {
 	displayName: string;
@@ -49,6 +50,7 @@ function LoginForm() {
 	const [serverUrl, setServerUrl] = useState<string>(envFacade.apiServerBaseUrl);
 	const [serverUrlEditMode, setServerUrlEditMode] = useState<boolean>(false);
 	const [serverUrlError, setServerUrlError] = useState<boolean>(false);
+	const [demoMode, setDemoMode] = useState<boolean>(envFacade.mockMode);
 
 	const [mfa, setMfa] = useState<string>('');
 
@@ -281,11 +283,36 @@ function LoginForm() {
 		<div className="login-form-submit">
 			{loading
 				? <LinearProgress />
-				: <Button id="login-submit" onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
+				: <Button disabled={loading} id="login-submit" onClick={submit} style={{ width: '100%' }} variant="contained" color="primary" >
 					{t('login.sign.in').toUpperCase()}
 				</Button>}
 		</div>
-		{envFacade.allowSetApiServiceURL && <FormControl className={'edit-server-url-container'}>
+		{envFacade.mockModeAvailable && <div style={{ marginTop: '5%', width: '100%' }}>
+			<Grid
+				style={{ width: '100%', height: '100%', textAlign: 'center' }}
+				container
+				direction="column"
+				justifyContent="center"
+				alignItems="center"
+			>
+				<Typography variant="body2" >
+
+					{t('general.demo.mode')}
+					{envFacade.isMobileApp && <ThemeSwitch
+						disabled={loading}
+						checked={demoMode}
+						onChange={() => {
+							setDemoMode(!demoMode);
+							envFacade.mockMode = !demoMode;
+							// Reset the API URL usings
+							setServerUrl(envFacade.apiServerBaseUrl);
+						}}
+						inputProps={{ 'aria-label': 'controlled' }}
+					/>}
+				</Typography>
+			</Grid>
+		</div>}
+		{!demoMode && !envFacade.mockModeConst && envFacade.allowSetApiServiceURL && <FormControl className={'edit-server-url-container'} style={{ marginTop: '5%', width: '100%' }}>
 			<InputLabel htmlFor="server-url-input">{t('global.server.url')}</InputLabel>
 			<Input
 				error={serverUrlError}
@@ -311,32 +338,31 @@ function LoginForm() {
 				}
 			/>
 		</FormControl>}
-		<div className="login-form-footer" style={{ textAlign: 'center' }}>
-			{envFacade.mockMode && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
-				<Typography variant="body2" >
-					- {t('general.demo.mode')} -
-				</Typography>
-				<Typography variant="body2" >
-					{t('general.demo.mode.tip')}
-				</Typography>
-			</div>}
-			{envFacade.isDemoApiUrl && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
+		<div style={{ textAlign: 'center', textOverflow: 'clip', marginTop: '3%' }}>
+			<div>
+				{(envFacade.mockModeConst || demoMode) && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
+					<Typography variant="body2" >
+						{t('general.demo.mode.tip')}
+					</Typography>
+				</div>}
+				{(envFacade.mockModeConst || demoMode) && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
 					<Typography variant="body2" style={{ fontSize: DEFAULT_FONT_RATION * 0.5 }} >
 						{t('general.mobile.demo.url.tip.title')}
-						<br/>
+						<br />
 						{t('general.mobile.demo.url.tip.info')}
-						<br/>
+						<br />
 						{t('general.mobile.demo.url.tip.use')}
 					</Typography>
-			</div>}
-			<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
-				{t('general.copyright.message', { year: new Date().getFullYear() })}
-			</Typography>
-			<Typography style={{ fontSize: DEFAULT_FONT_RATION * 0.5, marginTop: DEFAULT_FONT_RATION * 0.4 }} onClick={() => window.open('https://www.freepik.com/free-photos-vectors/technology-pattern', '_blank')}>
-				<Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
-					Background from  www.freepik.com
-				</Trans>
-			</Typography>
+				</div>}
+				<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
+					{t('general.copyright.message', { year: new Date().getFullYear() })}
+				</Typography>
+				<Typography style={{ fontSize: DEFAULT_FONT_RATION * 0.5, marginTop: DEFAULT_FONT_RATION * 0.4 }} onClick={() => window.open('https://www.freepik.com/free-photos-vectors/technology-pattern', '_blank')}>
+					<Trans i18nKey="login.background.credit.message" values={{ url: 'www.freepik.com' }}>
+						Background from  www.freepik.com
+					</Trans>
+				</Typography>
+			</div>
 		</div>
 	</div >
 }

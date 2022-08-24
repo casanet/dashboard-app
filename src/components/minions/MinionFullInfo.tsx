@@ -127,7 +127,9 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 				>
 					<div>
 						<MinionPowerToggle minion={minion} fontRatio={DEFAULT_FONT_SIZE} />
-						<MinionIndicators minion={minion} fontRatio={DEFAULT_FONT_SIZE} smallFontRatio={DEFAULT_FONT_SIZE * 0.5} />
+						<div style={{ height: 0, width: 0 }}>
+							<MinionIndicators showAsRow={false} minion={minion} fontRatio={DEFAULT_FONT_SIZE} smallFontRatio={DEFAULT_FONT_SIZE * 0.5} />
+						</div>
 					</div>
 					<div style={{ width: `calc(100% - ${(DEFAULT_FONT_SIZE + 15) * 2}px)` }}>
 						<MinionEditableName {...props} fontRatio={DEFAULT_FONT_SIZE} />
