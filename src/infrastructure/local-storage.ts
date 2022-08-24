@@ -8,6 +8,10 @@ export enum LocalStorageKey {
 	CollapsePageToolbar = 'COLLAPSE_PAGE_TOOLBAR',
 	MinionsCardRatio = 'MINION_CARD_RATIO',
 	ServerURL = 'SERVER_URL',
+	MockMode = 'MOCK_MODE',
+	RemoteConnection = 'REMOTE_CONNECTION',
+	LocalIP = 'LOCAL_IP',
+	UseLocalConnection = 'USE_LOCAL_CONNECTION',
 }
 
 export interface LocalStorageItemOptions {

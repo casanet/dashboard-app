@@ -389,7 +389,7 @@ export class {{classname}} extends BaseAPI {
      */
     {{! TEMPLATE EDIT: Do not allow pass options }}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}) {
-        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}})(this.fetch, this.basePath);
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}})(this.fetch, envFacade.apiUrl);
     }
 
     {{/operation}}
