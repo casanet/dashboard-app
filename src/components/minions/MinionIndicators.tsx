@@ -6,7 +6,7 @@ import NetworkIssueIcon from '@mui/icons-material/SignalWifiStatusbarConnectedNo
 import SyncIcon from '@mui/icons-material/Sync';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import { ThemeTooltip } from "../global/ThemeTooltip";
-import { CalibrationMode, Minion } from "../../infrastructure/generated/api/swagger/api";
+import { Action, CalibrationMode, Minion } from "../../infrastructure/generated/api/swagger/api";
 import PhonelinkLockIcon from '@material-ui/icons/PhonelinkLock';
 import { useData } from "../../hooks/useData";
 import { timingsService } from "../../services/timings.service";
@@ -24,29 +24,41 @@ interface MinionIndicatorsProps {
 	showAsRow: boolean;
 }
 
+function controllingMinionsByActions(actions: Action[]): (Minion | undefined)[] {
+	const ids: string[] = [];
+	// Collect all minions controlled by all actions
+	for (const action of actions) {
+		ids.push(...action.thenSet?.map(s => s?.minionId));
+	}
+	const uniqueIds = [...new Set(ids)];
+	return uniqueIds.map(id => minionsService.getMinion(id));
+}
+
+function controlledByActionsMinions(actions: Action[]): (Minion | undefined)[] {
+	const uniqueIds = [...new Set(actions.map(a => a.minionId))];
+	return uniqueIds.map(id => minionsService.getMinion(id));
+}
+
 export function MinionIndicators(props: MinionIndicatorsProps) {
 	const { t } = useTranslation();
 	const theme = useTheme();
 
 	const [timings] = useData(timingsService);
 	const [actions] = useData(actionsService);
-	const [minions] = useData(minionsService);
 
 	const { minion, smallFontRatio, showAsRow } = props;
 
 	const indicatorsStyle: CSSProperties = { [marginLeft(theme)]: smallFontRatio * (showAsRow ? 0.3 : 0.75), fontSize: smallFontRatio, marginTop: smallFontRatio * 0.3, color: theme.palette.grey[500] };
 	const hasTimings = timings.some((t) => t.isActive && t.triggerDirectAction?.minionId === minion?.minionId);
-	const hasActions = actions.filter((a) => a.active && a.minionId === minion?.minionId);
+	const minionActions = actions.filter((a) => a.active && a.minionId === minion?.minionId);
 	const managedByActions = actions.filter((a) => a.active && a.thenSet?.find(s => s.minionId === minion?.minionId));
 
 	const syncOn = !!minion.calibration?.calibrationCycleMinutes;
 
-	// TODO: for both, improve the performance by using map, instead of N*N walk.
-
 	// Build a string continues all the minions controlled by this minion by any actions.
-	const hasActionsNames = hasActions.map(a => a.thenSet?.map(s => minions.find(m => m.minionId === s?.minionId)?.name).join(',')).join(',');
+	const hasActionsNames = controllingMinionsByActions(minionActions).map(m => m?.name || '-').join(', ');
 	// Build a string of all minions controlling this minion by any action
-	const managedByActionsNames = managedByActions.map(a => minions.find(m => m.minionId === a.minionId)?.name).join(',');
+	const managedByActionsNames = controlledByActionsMinions(managedByActions).map(m => m?.name || '-').join(', ');
 
 	return <Grid
 		container
@@ -84,7 +96,7 @@ export function MinionIndicators(props: MinionIndicatorsProps) {
 				<AccessAlarmIcon style={indicatorsStyle} />
 			</ThemeTooltip>
 		</Fragment>}
-		{hasActions?.length > 0 && <Fragment>
+		{minionActions?.length > 0 && <Fragment>
 			<ThemeTooltip title={<span>{t(`dashboard.minions.dashboard.control.actions.tip`, { names: hasActionsNames })}</span>} enterDelay={100}>
 				<PlayCircleOutlineIcon style={indicatorsStyle} />
 			</ThemeTooltip>
