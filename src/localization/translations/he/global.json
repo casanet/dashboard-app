@@ -121,7 +121,7 @@
 	"dashboard.minions.lock.off.tip": "המכשיר נעול במצב כבוי",
 	"dashboard.minions.rotating.mode.tip": "מצב שבת פעיל, מחליף מצב בכל  {{minutes}} דקות",
 	"dashboard.minions.dashboard.lock.tip": "מנעול ממשק בלבד פעיל, מאפשר לשנות את הסטטוס רק בעזרת ממשק ה-Casanet",
-	"dashboard.minions.dashboard.timings.tip": "ישנם תזמונים פעילים המוגדרים למכשיר {{name}}",
+	"dashboard.minions.dashboard.timings.tip": "ישנם {{count}} תזמונים פעילים המוגדרים למכשיר {{name}}",
 	"dashboard.minions.dashboard.control.actions.tip": "מכשיר זה שולט בעזרת מערכת הפעולות במכשירים הבאים: {{names}}",
 	"dashboard.minions.dashboard.controlled.actions.tip": "מכשיר זה נשלט בעזרת מערכת הפעולות ע\"י המכשירים הבאים: {{names}}",
 	"dashboard.minions.delete.minion": "מחק מכשיר",

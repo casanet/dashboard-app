@@ -118,7 +118,9 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 			alignItems="stretch"
 		>
 			{/* Header: (status toggle, name and close) */}
-			<div className="minion-full-info-part">
+			<div className="minion-full-info-part" style={{
+				zIndex: 1 // The indicators, some time is higher then the overall div, and need to be shown above the other parts, to show the tooltip on over
+			}}>
 				<Grid
 					container
 					direction="row"

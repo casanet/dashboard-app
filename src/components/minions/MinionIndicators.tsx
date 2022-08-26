@@ -49,7 +49,7 @@ export function MinionIndicators(props: MinionIndicatorsProps) {
 	const { minion, smallFontRatio, showAsRow } = props;
 
 	const indicatorsStyle: CSSProperties = { [marginLeft(theme)]: smallFontRatio * (showAsRow ? 0.3 : 0.75), fontSize: smallFontRatio, marginTop: smallFontRatio * 0.3, color: theme.palette.grey[500] };
-	const hasTimings = timings.some((t) => t.isActive && t.triggerDirectAction?.minionId === minion?.minionId);
+	const hasTimings = timings.filter((t) => t.isActive && t.triggerDirectAction?.minionId === minion?.minionId);
 	const minionActions = actions.filter((a) => a.active && a.minionId === minion?.minionId);
 	const managedByActions = actions.filter((a) => a.active && a.thenSet?.find(s => s.minionId === minion?.minionId));
 
@@ -91,8 +91,8 @@ export function MinionIndicators(props: MinionIndicatorsProps) {
 				<PhonelinkLockIcon style={indicatorsStyle} />
 			</ThemeTooltip>
 		</Fragment>}
-		{hasTimings && <Fragment>
-			<ThemeTooltip title={<span>{t(`dashboard.minions.dashboard.timings.tip`, { name: minion?.name })}</span>} enterDelay={100}>
+		{hasTimings?.length > 0 && <Fragment>
+			<ThemeTooltip title={<span>{t(`dashboard.minions.dashboard.timings.tip`, { name: minion?.name, count: hasTimings?.length })}</span>} enterDelay={100}>
 				<AccessAlarmIcon style={indicatorsStyle} />
 			</ThemeTooltip>
 		</Fragment>}
