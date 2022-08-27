@@ -12,6 +12,9 @@ class MinionsService extends DataService<Minion[]> {
 	// The minion SSE feed object
 	minionsServerFeed: EventSource;
 
+	// Used to keep an O1 map to get minion by id
+	private _minionsMap: { [key in string]: Minion } = {}; 
+
 	constructor() {
 		super([]);
 		// Activate activation to pull miniona
@@ -63,6 +66,7 @@ class MinionsService extends DataService<Minion[]> {
 		const minionIndex = this._data.findIndex(m => m.minionId === minion.minionId);
 		if (minionIndex !== -1) {
 			this._data[minionIndex] = minion;
+			this._minionsMap[minion.minionId || ''] = minion;
 		}
 		// Publish the update
 		this.postNewData(this._data);
@@ -75,6 +79,7 @@ class MinionsService extends DataService<Minion[]> {
 
 	public createMinion(minion: Minion) {
 		this._data.push(minion);
+		this._minionsMap[minion.minionId || ''] = minion;
 		// Publish the update
 		this.postNewData(this._data);
 	}
@@ -84,15 +89,24 @@ class MinionsService extends DataService<Minion[]> {
 
 		if (minionIndex !== -1) {
 			this._data.splice(minionIndex, 1);
+			delete this._minionsMap[minion.minionId || ''];
 		}
 		// Publish the update
 		this.postNewData(this._data);
 	}
 
-	fetchData(): Promise<Minion[]> {
-		// Get the fetch data function (without activating it yet)
-		const minionsFetchFunc = ApiFacade.MinionsApi.getMinions();
+	/**
+	 * Get minion by id, this method used to avoid N*N find, use it, instead of running on the minions collection to find one
+	 * @param minionId 
+	 * @returns The minion, or undefined if not exists
+	 */
+	public getMinion(minionId: string): Minion | undefined {
+		return this._minionsMap[minionId];
+	}
 
+	async fetchData(): Promise<Minion[]> {
+
+		// Before feting, init the SSE feed
 		try {
 			// Restart SSE feed
 			if (this.minionsServerFeed) {
@@ -108,13 +122,19 @@ class MinionsService extends DataService<Minion[]> {
 			this.minionsServerFeed.onmessage = (minionFeedEvent: MessageEvent) => {
 				this.onMinionFeedUpdate(minionFeedEvent);
 			};
-		} catch (error) {
-			// TODO:LOG
+		} catch (error: any) {
+			console.error(`[MinionsService.fetchData] failed to open SSE feed, ${error?.message}`)
 		}
 
-		// TODO: on close/error?
+		// Get the fetch data function (without activating it yet)
+		const fetchedMinions = await ApiFacade.MinionsApi.getMinions();
+		
+		// Load the map
+		for (const minion of fetchedMinions) {
+			this._minionsMap[minion.minionId || ''] = minion;
+		}
 
-		return minionsFetchFunc;
+		return fetchedMinions;
 	}
 }
 
