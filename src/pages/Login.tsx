@@ -338,8 +338,13 @@ function LoginForm() {
 				}
 			/>
 		</FormControl>}
-		<div style={{ textAlign: 'center', textOverflow: 'clip', marginTop: '3%' }}>
-			<div>
+		<Grid
+			style={{ textAlign: 'center', textOverflow: 'clip', marginTop: '3%' }}
+			container
+			direction="row"
+			justifyContent="center"
+			alignItems="center">
+			<div style={{ maxWidth: '280px' }}>
 				{(envFacade.mockModeConst || demoMode) && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
 					<Typography variant="body2" >
 						{t('general.demo.mode.tip')}
@@ -363,7 +368,7 @@ function LoginForm() {
 					</Trans>
 				</Typography>
 			</div>
-		</div>
+		</Grid>
 	</div >
 }
 
