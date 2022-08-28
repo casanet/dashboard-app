@@ -3,6 +3,7 @@ import { Duration } from 'unitsnet-js';
 export const PROJECT_URL = 'https://github.com/casanet';
 export const SERVER_REPO_URL = 'https://github.com/casanet/casanet-server';
 export const DASHBOARD_REPO_URL = 'https://github.com/casanet/dashboard-app';
+export const LIGHTWEIGHT_DASHBOARD_REPO_URL = 'https://github.com/casanet/lightweight-dashboard';
 
 export const CONTACT_EMAIL = 'haim.kastner@gmail.com';
 export const CONTACT_TWITTER = 'https://twitter.com/hkastnet';

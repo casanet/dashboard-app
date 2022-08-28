@@ -338,8 +338,13 @@ function LoginForm() {
 				}
 			/>
 		</FormControl>}
-		<div style={{ textAlign: 'center', textOverflow: 'clip', marginTop: '3%' }}>
-			<div>
+		<Grid
+			style={{ textAlign: 'center', textOverflow: 'clip', marginTop: '3%' }}
+			container
+			direction="row"
+			justifyContent="center"
+			alignItems="center">
+			<div style={{ maxWidth: '280px' }}>
 				{(envFacade.mockModeConst || demoMode) && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
 					<Typography variant="body2" >
 						{t('general.demo.mode.tip')}
@@ -348,10 +353,8 @@ function LoginForm() {
 				{(envFacade.mockModeConst || demoMode) && <div style={{ color: theme.palette.text.hint, marginBottom: DEFAULT_FONT_RATION }}>
 					<Typography variant="body2" style={{ fontSize: DEFAULT_FONT_RATION * 0.5 }} >
 						{t('general.mobile.demo.url.tip.title')}
-						<br />
-						{t('general.mobile.demo.url.tip.info')}
-						<br />
-						{t('general.mobile.demo.url.tip.use')}
+						{envFacade.isMobileApp && <br />}
+						{envFacade.isMobileApp && t('general.mobile.demo.url.tip.switch.app.info')}
 					</Typography>
 				</div>}
 				<Typography variant="body2" onClick={() => window.open(PROJECT_URL, '_blank')}>
@@ -363,7 +366,7 @@ function LoginForm() {
 					</Trans>
 				</Typography>
 			</div>
-		</div>
+		</Grid>
 	</div >
 }
 

@@ -1,6 +1,7 @@
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "./local-storage";
 import { Platform } from "./symbols/global";
 import packageJson from "../../package.json";
+import { LIGHTWEIGHT_DASHBOARD_REPO_URL } from "./consts";
 
 const {
 	REACT_APP_API_URL,
@@ -110,7 +111,7 @@ class EnvFacade {
 	}
 
 	public get lightweightUrl(): string {
-		return this._lightweightUrl;
+		return this.mockMode ? LIGHTWEIGHT_DASHBOARD_REPO_URL : this._lightweightUrl;
 	}
 
 	/** Is app running under MOCK MODE */

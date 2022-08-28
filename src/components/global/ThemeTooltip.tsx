@@ -1,5 +1,6 @@
 import Tooltip, { TooltipProps } from "@mui/material/Tooltip";
 import { useState } from "react";
+import { Duration } from "unitsnet-js";
 import { isTouchScreenDevice } from "../../infrastructure/utils";
 
 interface ThemeTooltipProps extends TooltipProps {
@@ -21,7 +22,7 @@ export function ThemeTooltip(props: ThemeTooltipProps) {
 
 	// In touch devices, just use the original behavior.
 	if (isTouchScreenDevice()) {
-		return <div style={{ display: 'flex' }}><Tooltip {...props} /></div>;
+		return <div style={{ display: 'flex' }}><Tooltip {...props} leaveDelay={Duration.FromSeconds(10).Milliseconds} leaveTouchDelay={Duration.FromSeconds(15).Milliseconds} /></div>;
 	}
 	return <div
 		style={{ display: props.removeAutoFlex ? '' : 'flex' }}
@@ -31,6 +32,6 @@ export function ThemeTooltip(props: ThemeTooltipProps) {
 	>
 		{/* Show the original MUI Tooltip with all props. */}
 		{/* Just override the open attribute to be fully managed, and disable internal listeners */}
-		<Tooltip {...props} open={open} disableHoverListener disableFocusListener />
+		<Tooltip {...props} open={open} disableHoverListener disableFocusListener leaveDelay={Duration.FromSeconds(5).Milliseconds} />
 	</div>;
 }
