@@ -62,7 +62,7 @@ export function InterfaceSettings() {
 				</a>
 			</Grid>
 		</SettingItem>}
-		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.interface.lightweight.dashboard')} >
+		<SettingItem title={t('dashboard.settings.interface.lightweight.dashboard')} >
 			<Grid
 				container
 				direction="column"
@@ -79,7 +79,7 @@ export function InterfaceSettings() {
 					{t('dashboard.settings.interface.lightweight.dashboard.info')}
 				</Typography>
 			</Grid>
-		</SettingItem>}
+		</SettingItem>
 		{!envFacade.isMobileApp && <SettingItem title={t('dashboard.settings.interface.v3.dashboard')} >
 			<Grid
 				container

@@ -54,7 +54,7 @@ jobs:
         REACT_APP_API_URL: '${{ secrets.API_URL }}'
         REACT_APP_MOCK_API_URL: '${{ secrets.API_URL_DEMO }}'
         REACT_APP_V3_URL: '${{ secrets.V3_URL_APP }}'
-        REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL_APP }}'
+        REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL }}'
         CASANET_KEY_STORE: '${{ secrets.CASANET_KEY_STORE }}'
         CASANET_KEY_ALIAS: '${{ secrets.CASANET_KEY_ALIAS }}'
         CASANET_KEY_PASSWORD: '${{ secrets.CASANET_KEY_PASSWORD }}'
