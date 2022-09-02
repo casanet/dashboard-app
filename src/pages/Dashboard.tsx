@@ -259,7 +259,7 @@ export default function Dashboard(props: DashboardProps) {
 								}
 
 								{dashboardPage?.supportedSearch && <InputBase
-									style={{ position: 'fixed', zIndex: 5, marginTop: 3, [left(theme)]: '45px' }}
+									style={{ position: 'absolute', zIndex: 5, marginTop: 3, [left(theme)]: '45px' }}
 									sx={{ ml: 1, flex: 1 }}
 									placeholder={t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() })}
 									value={searchText}
