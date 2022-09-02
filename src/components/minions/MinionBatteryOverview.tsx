@@ -6,12 +6,12 @@ import BatteryAlertIcon from '@mui/icons-material/BatteryAlert';
 import { WARNING_AT_DEVICE_BATTERY_LEVEL } from "../../infrastructure/consts";
 import BatteryChargingFullIcon from '@mui/icons-material/BatteryChargingFull';
 
-interface MinionTimeoutOverviewProps {
+interface MinionBatteryOverviewProps {
 	minion: Minion;
 	fontRatio: number;
 }
 
-export function MinionBatteryOverview(props: MinionTimeoutOverviewProps) {
+export function MinionBatteryOverview(props: MinionBatteryOverviewProps) {
 	const theme = useTheme();
 
 	const { minion, fontRatio } = props;
