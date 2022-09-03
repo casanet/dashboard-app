@@ -18,7 +18,7 @@ class EnvFacade {
 	/** The local server API URL */
 	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || REACT_APP_API_URL || '';
 
-	private _mockMode = (!!REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? false);
+	private _mockMode = (!!REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
 
 	private _mockModeConst = (!!REACT_APP_MOCK_MODE) || ((!!REACT_APP_MOCK_API_URL) && !this.isMobileApp);
 
@@ -87,7 +87,7 @@ class EnvFacade {
 	}
 
 	public get localConnectionAvailable() {
-		return !!(this.isMobileApp && this.remoteConnection && this.localIP);
+		return !!(!this.mockMode && this.isMobileApp && this.remoteConnection && this.localIP);
 	}
 
 	public get localIP() {
@@ -96,7 +96,7 @@ class EnvFacade {
 
 	public get apiServerBaseUrl(): string {
 		// Communicate with the local service directly
-		if (this._localIP && this._remoteConnection && this._useLocalConnection) {
+		if (this.useLocalConnection) {
 			return `http://${this._localIP}`;
 		}
 
