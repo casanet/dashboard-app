@@ -61,10 +61,9 @@ class SessionManager {
 		removeLocalStorageItem(LocalStorageKey.Profile);
 		removeLocalStorageItem(LocalStorageKey.ApiToken);
 		removeLocalStorageItem(LocalStorageKey.LocalApiToken);
-		removeLocalStorageItem(LocalStorageKey.LocalIP);
-		removeLocalStorageItem(LocalStorageKey.RemoteConnection);
 		this.tokenCache = '';
 		this.localTokenCache = '';
+		envFacade.onLogout();
 		DataService.resetAppData();
 		window.location.href = `${envFacade.baseDashboardUri}/#${AppRoutes.login.path}`;
 	}

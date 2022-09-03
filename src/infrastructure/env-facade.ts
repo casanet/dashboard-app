@@ -1,4 +1,4 @@
-import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "./local-storage";
+import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from "./local-storage";
 import { Platform } from "./symbols/global";
 import packageJson from "../../package.json";
 import { LIGHTWEIGHT_DASHBOARD_REPO_URL } from "./consts";
@@ -94,12 +94,10 @@ class EnvFacade {
 		return this._localIP;
 	}
 
-	public get apiServerBaseUrl(): string {
-		// Communicate with the local service directly
-		if (this.useLocalConnection) {
-			return `http://${this._localIP}`;
-		}
-
+	/**
+	 * The API server URL, ignoring the local server IP while using remote connection
+	 */
+	public get apiNoneLocalServerBaseUrl(): string {
 		if (this._mockMode || this._mockModeConst) {
 			return REACT_APP_MOCK_API_URL || '';
 		}
@@ -109,6 +107,15 @@ class EnvFacade {
 			return this._serverUrl;
 		}
 		return REACT_APP_API_URL || '';
+	}
+
+	public get apiServerBaseUrl(): string {
+		// Communicate with the local service directly
+		if (this.useLocalConnection) {
+			return `http://${this._localIP}`;
+		}
+
+		return this.apiNoneLocalServerBaseUrl;
 	}
 
 	/**
@@ -180,6 +187,16 @@ class EnvFacade {
 
 	public get bundleVersion(): string {
 		return packageJson.version;
+	}
+
+	/**
+	 * Call it on logout to clean up session
+	 */
+	public onLogout() {
+		removeLocalStorageItem(LocalStorageKey.LocalIP);
+		removeLocalStorageItem(LocalStorageKey.RemoteConnection);
+		this.localIP = '';
+		this.remoteConnection = false;
 	}
 }
 

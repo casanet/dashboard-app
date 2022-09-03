@@ -24,10 +24,10 @@ export function ConnectivitySettings() {
 		justifyContent="space-between"
 		alignItems="stretch"
 	>
-		<Collapse in={!!envFacade.apiServerBaseUrl}>
+		<Collapse in={!!envFacade.apiNoneLocalServerBaseUrl}>
 			<SettingItem title={t('dashboard.settings.connectivity.casanet.server.url')} >
 				<Typography>
-					{envFacade.apiServerBaseUrl}
+					{envFacade.apiNoneLocalServerBaseUrl}
 				</Typography>
 			</SettingItem>
 		</Collapse>
