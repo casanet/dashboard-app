@@ -61,6 +61,8 @@ class EnvFacade {
 			return;
 		}
 		this._localIP = localIP;
+		// Reset useLocalConnection once the IP changed/set
+		this.useLocalConnection = false;
 		setLocalStorageItem<string>(LocalStorageKey.LocalIP, localIP, { itemType: 'string' });
 	}
 
