@@ -57,6 +57,12 @@ function LoginForm() {
 	async function applyLogin(authResponse: Response) {
 
 		try {
+			const loginPayload = await authResponse?.json?.() as { isRemote?: boolean, localAddress?: string };
+
+			// Keep login info 
+			envFacade.localIP = loginPayload?.localAddress || '';
+			envFacade.remoteConnection = !!loginPayload?.isRemote;
+
 			if (envFacade.isTokenAllowed) {
 				sessionManager.setToken(authResponse.headers.get(API_KEY_HEADER) || '');
 			}

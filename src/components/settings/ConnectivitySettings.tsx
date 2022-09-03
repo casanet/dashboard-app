@@ -31,6 +31,11 @@ export function ConnectivitySettings() {
 				</Typography>
 			</SettingItem>
 		</Collapse>
+		{envFacade.localIP && <SettingItem title={t('dashboard.settings.connectivity.casanet.local.server.ip')} >
+				<Typography>
+					{envFacade.localIP}
+				</Typography>
+			</SettingItem>}
 		<SettingItem title={t('dashboard.settings.connectivity.remote.server.status')} >
 			<Typography>
 				{t(remoteConnectionDisplayKey[remoteConnection])}

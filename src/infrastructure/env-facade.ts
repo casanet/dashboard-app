@@ -18,7 +18,7 @@ class EnvFacade {
 	/** The local server API URL */
 	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || REACT_APP_API_URL || '';
 
-	private _mockMode = (!!REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
+	private _mockMode = (!!REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? false);
 
 	private _mockModeConst = (!!REACT_APP_MOCK_MODE) || ((!!REACT_APP_MOCK_API_URL) && !this.isMobileApp);
 
@@ -78,10 +78,26 @@ class EnvFacade {
 		setLocalStorageItem<boolean>(LocalStorageKey.UseLocalConnection, useLocalConnection, { itemType: 'boolean' });
 	}
 
+	public get remoteConnection() {
+		return this._remoteConnection;
+	}
+
+	public get useLocalConnection() {
+		return this._useLocalConnection && this.localConnectionAvailable;
+	}
+
+	public get localConnectionAvailable() {
+		return !!(this.isMobileApp && this.remoteConnection && this.localIP);
+	}
+
+	public get localIP() {
+		return this._localIP;
+	}
+
 	public get apiServerBaseUrl(): string {
 		// Communicate with the local service directly
 		if (this._localIP && this._remoteConnection && this._useLocalConnection) {
-			return `http://${this._localIP}/`;
+			return `http://${this._localIP}`;
 		}
 
 		if (this._mockMode || this._mockModeConst) {
@@ -172,22 +188,22 @@ export const envFacade = new EnvFacade();
 
 console.table(Object.entries(process.env));
 console.table({
-	isMobileApp: envFacade.isMobileApp,
-	platform: envFacade.platform,
 	bundleVersion: envFacade.bundleVersion,
+	platform: envFacade.platform,
+	isMobileApp: envFacade.isMobileApp,
+	devMode: envFacade.devMode,
+	mockMode: envFacade.mockMode,
+	mockModeConst: envFacade.mockModeConst,
+	mockModeAvailable: envFacade.mockModeAvailable,
 	isDemoApiUrl: envFacade.isDemoApiUrl,
 	isTokenAllowed: envFacade.isTokenAllowed,
 	allowSetApiServiceURL: envFacade.allowSetApiServiceURL,
-	devMode: envFacade.devMode,
-	mockModeConst: envFacade.mockModeConst,
-	apiServerBaseUrl: envFacade.apiServerBaseUrl,
 	apiUrl: envFacade.apiUrl,
-	baseDashboardUri: envFacade.baseDashboardUri,
+	apiServerBaseUrl: envFacade.apiServerBaseUrl,
 	lightweightUrl: envFacade.lightweightUrl,
-	localIP: envFacade.localIP,
-	mockMode: envFacade.mockMode,
-	mockModeAvailable: envFacade.mockModeAvailable,
-	remoteConnection: envFacade.remoteConnection,
 	v3DashboardUri: envFacade.v3DashboardUri,
+	baseDashboardUri: envFacade.baseDashboardUri,
+	localIP: envFacade.localIP,
+	remoteConnection: envFacade.remoteConnection,
 	useLocalConnection: envFacade.useLocalConnection,
 });
