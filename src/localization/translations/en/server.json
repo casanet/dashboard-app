@@ -2,6 +2,7 @@
 	"-1": "unknown server error",
 	"-2": "unknown internal error",
 	"0": "Unable to access server, please check your connection",
+	"1": "Unable to access server in home mode, try to disable home mode and try again",
 	"1401": "unauthorized",
 	"1403": "access forbidden",
 	"2403": "user name or password incorrect",
