@@ -1,4 +1,4 @@
-import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography } from "@material-ui/core";
+import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem, LocalStorageKey } from "../../infrastructure/local-storage";
 import '../../theme/styles/components/profileAvatar.scss';
@@ -10,7 +10,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
 import { useHistory } from "react-router-dom";
-import { AppRoutes, DashboardRoutes } from "../../infrastructure/consts";
+import { AppRoutes, DashboardRoutes, DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { extractProfileAvatarText } from "../../logic/common/profileUtils";
 import Modal from '@mui/material/Modal';
 import { Help } from "../general/Help";
@@ -19,8 +19,10 @@ import { About } from "../general/About";
 import { modalBoxStyle } from "../../logic/common/modalUtils";
 import { ApiFacade, User } from "../../infrastructure/generated/api/swagger/api";
 import { envFacade } from "../../infrastructure/env-facade";
-import { Grid, useTheme } from "@mui/material";
+import { Grid } from "@mui/material";
 import { ThemeTooltip } from "../global/ThemeTooltip";
+import InfoIcon from '@mui/icons-material/Info';
+import { marginLeft } from "../../logic/common/themeUtils";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
@@ -86,7 +88,10 @@ export function ProfileAvatar() {
 			onClick={handleOpenMenu}
 			color="inherit"
 		>
-			<Avatar >{avatarLetters}</Avatar>
+			<Avatar
+				style={{ border: homeNetwork ? `0.3rem outset ${theme.palette.info.main}` : '', color: homeNetwork ? theme.palette.info.main : undefined }}
+			>{avatarLetters}
+			</Avatar>
 		</IconButton>
 
 		<Menu
@@ -111,26 +116,26 @@ export function ProfileAvatar() {
 				background: homeNetwork ? theme.palette.action.selected : undefined,
 				color: homeNetwork ? theme.palette.info.main : undefined
 			}}>
-				<ThemeTooltip title={<span>{t(`dashboard.appbar.use.home.network.${homeNetwork ? 'on' : 'off'}.tip`)}</span>}>
-
-					<Grid onClick={() => {
-						const newHomeNetworkMode = !homeNetwork;
-						setHomeNetwork(newHomeNetworkMode);
-						envFacade.useLocalConnection = newHomeNetworkMode;
-					}}
-						container
-						direction="row"
-						justifyContent="flex-start"
-						alignItems="center"
-					>
-						<ListItemIcon className="profile-menu-item-icon">
-							<HomeIcon fontSize="small" style={{ color: homeNetwork ?  theme.palette.info.main : undefined }} />
-						</ListItemIcon>
-						<Typography variant="inherit">
-							{t(`dashboard.appbar.use.home.network`)}
-						</Typography>
-					</Grid>
-				</ThemeTooltip>
+				<Grid onClick={() => {
+					const newHomeNetworkMode = !homeNetwork;
+					setHomeNetwork(newHomeNetworkMode);
+					envFacade.useLocalConnection = newHomeNetworkMode;
+				}}
+					container
+					direction="row"
+					justifyContent="flex-start"
+					alignItems="center"
+				>
+					<ListItemIcon className="profile-menu-item-icon">
+						<HomeIcon fontSize="small" style={{ color: homeNetwork ? theme.palette.info.main : undefined }} />
+					</ListItemIcon>
+					<Typography variant="inherit">
+						{t(`dashboard.appbar.use.home.network`)}
+					</Typography>
+					<ThemeTooltip title={<span>{t(`dashboard.appbar.use.home.network.${homeNetwork ? 'on' : 'off'}.tip`)}</span>}>
+						<InfoIcon style={{ fontSize: DEFAULT_FONT_RATION * 0.7, marginTop: DEFAULT_FONT_RATION * -0.2, [marginLeft(theme)]: DEFAULT_FONT_RATION * 0.2 }} />
+					</ThemeTooltip>
+				</Grid>
 			</MenuItem>}
 			<MenuItem>
 				<Grid onClick={goToProfile}
