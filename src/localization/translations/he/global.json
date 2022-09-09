@@ -390,6 +390,8 @@
 	"dashboard.settings.connectivity.edit.remote.url.helper": "כתובת השרת המרוחק בפרוטוקול WS",
 	"dashboard.settings.connectivity.edit.remote.key.placeholder": "מפתח החיבור לשרת המרוחק",
 	"dashboard.settings.connectivity.edit.remote.key.helper": "מפתח האימות ({{length}} תווים)",
+	"dashboard.settings.connectivity.edit.remote.allow.remote.to.fetch.logs": "אפשר לשרת המרוחק למשוך לוגים",
+	"dashboard.settings.connectivity.edit.remote.allow.remote.to.fetch.logs.tip": "אפשר לשרת המרוחק למשוך לוגים לצרכי תחקור בעיות, אם אינך מאפשר את זה, השרת המרוחק לא יכול למשוך לוגים מהשרת המקומי",
 	"dashboard.settings.connectivity.disconnect.remote": "התנתק מהשרת המרוחק",
 	"dashboard.settings.connectivity.disconnect.remote.tip": "נתק את השרת המקומי מהשרת המרוחק",
 	"dashboard.settings.connectivity.disconnect.remote.button": "התנתק",

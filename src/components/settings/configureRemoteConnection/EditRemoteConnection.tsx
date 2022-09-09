@@ -15,6 +15,8 @@ import { isValidUrl } from "../../../infrastructure/utils";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { livelinessCheck } from "../../../services/liveliness.service";
 import { ApiFacade } from "../../../infrastructure/generated/api/swagger/api";
+import { ThemeSwitch } from "../../global/ThemeSwitch";
+import InfoIcon from '@mui/icons-material/Info';
 
 export function EditRemoteConnection() {
 	const { t } = useTranslation();
@@ -31,6 +33,8 @@ export function EditRemoteConnection() {
 	const [remoteKeyError, setRemoteKeyError] = useState<boolean>();
 
 	const [showRemoteKey, setShowRemoteKey] = useState<boolean>(false);
+
+	const [blockLogsFetchByRemote, setBlockLogsFetchByRemote] = useState<boolean>(false);
 
 	useEffect(() => {
 		(async () => {
@@ -70,6 +74,7 @@ export function EditRemoteConnection() {
 		setSettingRemote(true);
 		try {
 			await ApiFacade.RemoteApi.setRemoteSettings({
+				blockLogsFetchByRemote,
 				host: editRemoteURL,
 				connectionKey: remoteKey,
 			});
@@ -160,6 +165,20 @@ export function EditRemoteConnection() {
 									</InputAdornment>
 								)
 							}}
+						/>
+					</div>
+					<div style={{ margin: DEFAULT_FONT_RATION * 0.7, marginTop: DEFAULT_FONT_RATION * 0.1, display: 'flex' }}>
+						<span style={{ display: 'flex', marginTop: DEFAULT_FONT_RATION * 0.4}}>
+							{t('dashboard.settings.connectivity.edit.remote.allow.remote.to.fetch.logs')}
+							<ThemeTooltip title={<span>{t('dashboard.settings.connectivity.edit.remote.allow.remote.to.fetch.logs.tip')}</span>}>
+								<InfoIcon style={{ fontSize: DEFAULT_FONT_RATION * 0.8 }} />
+							</ThemeTooltip>
+						</span>
+						<ThemeSwitch
+							disabled={settingRemote}
+							checked={!blockLogsFetchByRemote}
+							onChange={() => setBlockLogsFetchByRemote(!blockLogsFetchByRemote)}
+							inputProps={{ 'aria-label': 'controlled' }}
 						/>
 					</div>
 					<div style={{ marginLeft: DEFAULT_FONT_RATION * 0.7, marginRight: DEFAULT_FONT_RATION * 0.7 }}>

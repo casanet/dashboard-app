@@ -390,6 +390,8 @@
 	"dashboard.settings.connectivity.edit.remote.url.helper": "Remote server web-socket URL (ws protocol)",
 	"dashboard.settings.connectivity.edit.remote.key.placeholder": "The remote server connection key",
 	"dashboard.settings.connectivity.edit.remote.key.helper": "Authentication key ({{length}} characters)",
+	"dashboard.settings.connectivity.edit.remote.allow.remote.to.fetch.logs": "Allow remote server to fetch logs",
+	"dashboard.settings.connectivity.edit.remote.allow.remote.to.fetch.logs.tip": "Allow remote server to fetch logs for debugging issues, if you disable this, the remote server will not be allowed to access the local server logs",
 	"dashboard.settings.connectivity.disconnect.remote": "Disconnect from the remote server",
 	"dashboard.settings.connectivity.disconnect.remote.tip": "Disconnect the local server from the remote server",
 	"dashboard.settings.connectivity.disconnect.remote.button": "Disconnect",
