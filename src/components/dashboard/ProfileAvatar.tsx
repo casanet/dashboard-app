@@ -89,7 +89,7 @@ export function ProfileAvatar() {
 			color="inherit"
 		>
 			<Avatar
-				style={{ border: homeNetwork ? `0.3rem outset ${theme.palette.info.main}` : '', color: homeNetwork ? theme.palette.info.main : undefined }}
+				style={{ border: `0.3rem outset ${homeNetwork ? theme.palette.info.main : theme.palette.grey[500]}`, color: homeNetwork ? theme.palette.info.main : undefined }}
 			>{avatarLetters}
 			</Avatar>
 		</IconButton>
