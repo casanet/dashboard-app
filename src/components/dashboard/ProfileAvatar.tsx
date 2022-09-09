@@ -1,4 +1,4 @@
-import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography } from "@material-ui/core";
+import { Avatar, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography, useTheme } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem, LocalStorageKey } from "../../infrastructure/local-storage";
 import '../../theme/styles/components/profileAvatar.scss';
@@ -6,10 +6,11 @@ import InfoOutlined from '@material-ui/icons/InfoOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import HelpOutlineOutlined from '@material-ui/icons/HelpOutlineOutlined';
 import PermIdentityOutlined from '@material-ui/icons/PermIdentityOutlined';
+import HomeIcon from '@material-ui/icons/Home';
 import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
 import { useHistory } from "react-router-dom";
-import { AppRoutes, DashboardRoutes } from "../../infrastructure/consts";
+import { AppRoutes, DashboardRoutes, DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { extractProfileAvatarText } from "../../logic/common/profileUtils";
 import Modal from '@mui/material/Modal';
 import { Help } from "../general/Help";
@@ -17,13 +18,21 @@ import Box from '@mui/material/Box';
 import { About } from "../general/About";
 import { modalBoxStyle } from "../../logic/common/modalUtils";
 import { ApiFacade, User } from "../../infrastructure/generated/api/swagger/api";
+import { envFacade } from "../../infrastructure/env-facade";
+import { Grid } from "@mui/material";
+import { ThemeTooltip } from "../global/ThemeTooltip";
+import InfoIcon from '@mui/icons-material/Info';
+import { marginLeft } from "../../logic/common/themeUtils";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
 	const history = useHistory();
+	const theme = useTheme();
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [avatarLetters, setAvatarLetters] = useState<string>('');
 	const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
+	const [homeNetwork, setHomeNetwork] = useState<boolean>(envFacade.useLocalConnection);
 	const [showAboutModal, setShowAboutModal] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -79,7 +88,10 @@ export function ProfileAvatar() {
 			onClick={handleOpenMenu}
 			color="inherit"
 		>
-			<Avatar >{avatarLetters}</Avatar>
+			<Avatar
+				style={{ border: `0.3rem outset ${homeNetwork ? theme.palette.info.main : theme.palette.grey[500]}`, color: homeNetwork ? theme.palette.info.main : undefined }}
+			>{avatarLetters}
+			</Avatar>
 		</IconButton>
 
 		<Menu
@@ -99,15 +111,46 @@ export function ProfileAvatar() {
 			open={Boolean(anchorEl)}
 			onClose={handleClose}
 		>
+			{/* If local server is avialbe during a remote server session, show this item to allow use/disable it. */}
+			{envFacade.localConnectionAvailable && <MenuItem style={{
+				background: homeNetwork ? theme.palette.action.selected : undefined,
+				color: homeNetwork ? theme.palette.info.main : undefined
+			}}>
+				<Grid onClick={() => {
+					const newHomeNetworkMode = !homeNetwork;
+					setHomeNetwork(newHomeNetworkMode);
+					envFacade.useLocalConnection = newHomeNetworkMode;
+				}}
+					container
+					direction="row"
+					justifyContent="flex-start"
+					alignItems="center"
+				>
+					<ListItemIcon className="profile-menu-item-icon">
+						<HomeIcon fontSize="small" style={{ color: homeNetwork ? theme.palette.info.main : undefined }} />
+					</ListItemIcon>
+					<Typography variant="inherit">
+						{t(`dashboard.appbar.use.home.network`)}
+					</Typography>
+					<ThemeTooltip title={<span>{t(`dashboard.appbar.use.home.network.${homeNetwork ? 'on' : 'off'}.tip`)}</span>}>
+						<InfoIcon style={{ fontSize: DEFAULT_FONT_RATION * 0.7, marginTop: DEFAULT_FONT_RATION * -0.2, [marginLeft(theme)]: DEFAULT_FONT_RATION * 0.2 }} />
+					</ThemeTooltip>
+				</Grid>
+			</MenuItem>}
 			<MenuItem>
-				<div onClick={goToProfile}>
+				<Grid onClick={goToProfile}
+					container
+					direction="row"
+					justifyContent="flex-start"
+					alignItems="center"
+				>
 					<ListItemIcon className="profile-menu-item-icon">
 						<PermIdentityOutlined fontSize="small" />
 					</ListItemIcon>
 					<Typography variant="inherit">
 						{t('global.profile')}
 					</Typography>
-				</div>
+				</Grid>
 			</MenuItem>
 			<MenuItem onClick={() => { setShowHelpModal(true); handleClose(); }}>
 				<ListItemIcon className="profile-menu-item-icon">
