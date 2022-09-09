@@ -1,6 +1,7 @@
 
 import { SyncEvent } from 'ts-events';
 import { DEFAULT_ERROR_TOAST_DURATION } from '../infrastructure/consts';
+import { envFacade } from '../infrastructure/env-facade';
 import { ErrorResponse } from '../infrastructure/generated/api/swagger/api';
 import { NotificationInfo } from '../infrastructure/symbols/global';
 
@@ -36,8 +37,8 @@ export async function handleServerRestError(error: Response | any, showNotificat
 
 	// In case of TCP/Network failure
 	if (error.message === 'Failed to fetch') {
-		// Server is unreachable
-		messageKey = 'server:0';
+		// Server is unreachable, if it's in home mode show the proper message id, else show regular failed to fetch
+		messageKey = `server:${envFacade.useLocalConnection ? '1' : '0'}`;
 	} else {
 		messageKey = await parseErrorResponse(error);
 	}
@@ -59,7 +60,7 @@ export async function handleServerRestError(error: Response | any, showNotificat
  */
 export function postApiError(errorResponse: ErrorResponse) {
 	notificationsFeed.post({
-		messageKey : `server:${errorResponse.responseCode}`,
+		messageKey: `server:${errorResponse.responseCode}`,
 		duration: DEFAULT_ERROR_TOAST_DURATION,
 	});
 }

@@ -1,4 +1,4 @@
-import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "./local-storage";
+import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from "./local-storage";
 import { Platform } from "./symbols/global";
 import packageJson from "../../package.json";
 import { LIGHTWEIGHT_DASHBOARD_REPO_URL } from "./consts";
@@ -61,6 +61,8 @@ class EnvFacade {
 			return;
 		}
 		this._localIP = localIP;
+		// Reset useLocalConnection once the IP changed/set
+		this.useLocalConnection = false;
 		setLocalStorageItem<string>(LocalStorageKey.LocalIP, localIP, { itemType: 'string' });
 	}
 
@@ -78,12 +80,26 @@ class EnvFacade {
 		setLocalStorageItem<boolean>(LocalStorageKey.UseLocalConnection, useLocalConnection, { itemType: 'boolean' });
 	}
 
-	public get apiServerBaseUrl(): string {
-		// Communicate with the local service directly
-		if (this._localIP && this._remoteConnection && this._useLocalConnection) {
-			return `http://${this._localIP}/`;
-		}
+	public get remoteConnection() {
+		return this._remoteConnection;
+	}
 
+	public get useLocalConnection() {
+		return this._useLocalConnection && this.localConnectionAvailable;
+	}
+
+	public get localConnectionAvailable() {
+		return !!(!this.mockMode && this.isMobileApp && this.remoteConnection && this.localIP);
+	}
+
+	public get localIP() {
+		return this._localIP;
+	}
+
+	/**
+	 * The API server URL, ignoring the local server IP while using remote connection
+	 */
+	public get apiNoneLocalServerBaseUrl(): string {
 		if (this._mockMode || this._mockModeConst) {
 			return REACT_APP_MOCK_API_URL || '';
 		}
@@ -93,6 +109,15 @@ class EnvFacade {
 			return this._serverUrl;
 		}
 		return REACT_APP_API_URL || '';
+	}
+
+	public get apiServerBaseUrl(): string {
+		// Communicate with the local service directly
+		if (this.useLocalConnection) {
+			return `http://${this._localIP}`;
+		}
+
+		return this.apiNoneLocalServerBaseUrl;
 	}
 
 	/**
@@ -165,6 +190,16 @@ class EnvFacade {
 	public get bundleVersion(): string {
 		return packageJson.version;
 	}
+
+	/**
+	 * Call it on logout to clean up session
+	 */
+	public onLogout() {
+		removeLocalStorageItem(LocalStorageKey.LocalIP);
+		removeLocalStorageItem(LocalStorageKey.RemoteConnection);
+		this.localIP = '';
+		this.remoteConnection = false;
+	}
 }
 
 export const envFacade = new EnvFacade();
@@ -172,22 +207,22 @@ export const envFacade = new EnvFacade();
 
 console.table(Object.entries(process.env));
 console.table({
-	isMobileApp: envFacade.isMobileApp,
-	platform: envFacade.platform,
 	bundleVersion: envFacade.bundleVersion,
+	platform: envFacade.platform,
+	isMobileApp: envFacade.isMobileApp,
+	devMode: envFacade.devMode,
+	mockMode: envFacade.mockMode,
+	mockModeConst: envFacade.mockModeConst,
+	mockModeAvailable: envFacade.mockModeAvailable,
 	isDemoApiUrl: envFacade.isDemoApiUrl,
 	isTokenAllowed: envFacade.isTokenAllowed,
 	allowSetApiServiceURL: envFacade.allowSetApiServiceURL,
-	devMode: envFacade.devMode,
-	mockModeConst: envFacade.mockModeConst,
-	apiServerBaseUrl: envFacade.apiServerBaseUrl,
 	apiUrl: envFacade.apiUrl,
-	baseDashboardUri: envFacade.baseDashboardUri,
+	apiServerBaseUrl: envFacade.apiServerBaseUrl,
 	lightweightUrl: envFacade.lightweightUrl,
-	localIP: envFacade.localIP,
-	mockMode: envFacade.mockMode,
-	mockModeAvailable: envFacade.mockModeAvailable,
-	remoteConnection: envFacade.remoteConnection,
 	v3DashboardUri: envFacade.v3DashboardUri,
+	baseDashboardUri: envFacade.baseDashboardUri,
+	localIP: envFacade.localIP,
+	remoteConnection: envFacade.remoteConnection,
 	useLocalConnection: envFacade.useLocalConnection,
 });

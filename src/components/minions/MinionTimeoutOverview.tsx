@@ -23,6 +23,9 @@ export function MinionTimeoutOverview(props: MinionTimeoutOverviewProps) {
 	const autoOff = msToHMS(minion.minionAutoTurnOffMS);
 
 	return <Typography style={{ fontSize: fontRatio, color: subTitleColor }}>
-		{t('dashboard.minions.auto.turn.off.info', autoOff)}
+		{t('dashboard.minions.auto.turn.off.info')}
+		{!autoOff.hours ? '' : t('dashboard.minions.auto.turn.off.info.hours', { hours: autoOff.hours })}
+		{!autoOff.minutes ? '' : t('dashboard.minions.auto.turn.off.info.minutes', { minutes: autoOff.minutes })}
+		{!autoOff.seconds ? '' :  t('dashboard.minions.auto.turn.off.info.seconds', { seconds: autoOff.seconds })}
 	</Typography>;
 }

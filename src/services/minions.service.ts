@@ -6,6 +6,10 @@ import { timelineService } from "./timeline.service";
 import { ApiFacade, FeedEvent, Minion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
 import { livelinessFlag } from "./liveliness.service";
 
+function sortMinionsFormula(a: Minion, b: Minion): number {
+	return a.name?.toLowerCase() < b.name?.toLowerCase() ? -1 : 1;
+}
+
 // Inherited from DataService
 class MinionsService extends DataService<Minion[]> {
 
@@ -134,7 +138,9 @@ class MinionsService extends DataService<Minion[]> {
 			this._minionsMap[minion.minionId || ''] = minion;
 		}
 
-		return fetchedMinions;
+		const finalMinion = fetchedMinions.sort(sortMinionsFormula);
+
+		return finalMinion;
 	}
 }
 

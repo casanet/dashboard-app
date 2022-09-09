@@ -1,6 +1,7 @@
 export enum LocalStorageKey {
 	Profile = 'PROFILE',
 	ApiToken = 'API_TOKEN',
+	LocalApiToken = 'LOCAL_API_TOKEN',
 	Theme = 'THEME',
 	Lang = 'LANG',
 	CollapseMenu = 'COLLAPSE_MENU',
