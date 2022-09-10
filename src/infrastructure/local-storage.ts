@@ -11,7 +11,7 @@ export enum LocalStorageKey {
 	ServerURL = 'SERVER_URL',
 	MockMode = 'MOCK_MODE',
 	RemoteConnection = 'REMOTE_CONNECTION',
-	LocalIP = 'LOCAL_IP',
+	LocalFQDN = 'LOCAL_FQDN',
 	UseLocalConnection = 'USE_LOCAL_CONNECTION',
 }
 

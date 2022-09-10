@@ -365,7 +365,7 @@
 	"dashboard.settings.connectivity": "חיבוריות",
 	"dashboard.settings.connectivity.remote.server.status": "מצב שרת מרוחק",
 	"dashboard.settings.connectivity.casanet.server.url": "כתובת שרת ה-Casanet",
-	"dashboard.settings.connectivity.casanet.local.server.ip": "כתובת שרת ה-Casanet המקומי",
+	"dashboard.settings.connectivity.casanet.local.server.fqdn": "כתובת שרת ה-Casanet המקומי",
 	"dashboard.settings.connectivity.remote.server.url": "כתובת שרת מרוחק",
 	"dashboard.settings.connectivity.configure.remote.server": "הגדרות שרת מרוחק",
 	"dashboard.settings.connectivity.show.registered.users": "הצג משתמשים שהוגדרו לשרת המרוחק",

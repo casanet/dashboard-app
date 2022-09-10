@@ -33,7 +33,7 @@ class EnvFacade {
 	/** The lightweight dashboard path, see https://github.com/casanet/lightweight-dashboard */
 	private _lightweightUrl: string = REACT_APP_LIGHTWEIGHT_URL || `/light-app/index.html`;
 
-	private _localIP = getLocalStorageItem<string>(LocalStorageKey.LocalIP, { itemType: 'string' }) ?? '';
+	private _localFqdn = getLocalStorageItem<string>(LocalStorageKey.LocalFQDN, { itemType: 'string' }) ?? '';
 
 	private _remoteConnection = getLocalStorageItem<boolean>(LocalStorageKey.RemoteConnection, { itemType: 'boolean' }) ?? false;
 
@@ -55,15 +55,15 @@ class EnvFacade {
 		this._mockMode = mockMode;
 	}
 
-	public set localIP(localIP: string) {
+	public set localFqdn(localFqdn: string) {
 		if (!this.isMobileApp) {
 			console.warn(`[EnvFacade.mockMode] Unable to set local mode in non application`);
 			return;
 		}
-		this._localIP = localIP;
+		this._localFqdn = localFqdn;
 		// Reset useLocalConnection once the IP changed/set
 		this.useLocalConnection = false;
-		setLocalStorageItem<string>(LocalStorageKey.LocalIP, localIP, { itemType: 'string' });
+		setLocalStorageItem<string>(LocalStorageKey.LocalFQDN, localFqdn, { itemType: 'string' });
 	}
 
 	public set remoteConnection(remoteConnection: boolean) {
@@ -89,11 +89,11 @@ class EnvFacade {
 	}
 
 	public get localConnectionAvailable() {
-		return !!(!this.mockMode && this.isMobileApp && this.remoteConnection && this.localIP);
+		return !!(!this.mockMode && this.isMobileApp && this.remoteConnection && this.localFqdn);
 	}
 
-	public get localIP() {
-		return this._localIP;
+	public get localFqdn() {
+		return this._localFqdn;
 	}
 
 	/**
@@ -114,7 +114,7 @@ class EnvFacade {
 	public get apiServerBaseUrl(): string {
 		// Communicate with the local service directly
 		if (this.useLocalConnection) {
-			return `http://${this._localIP}`;
+			return this._localFqdn;
 		}
 
 		return this.apiNoneLocalServerBaseUrl;
@@ -195,9 +195,9 @@ class EnvFacade {
 	 * Call it on logout to clean up session
 	 */
 	public onLogout() {
-		removeLocalStorageItem(LocalStorageKey.LocalIP);
+		removeLocalStorageItem(LocalStorageKey.LocalFQDN);
 		removeLocalStorageItem(LocalStorageKey.RemoteConnection);
-		this.localIP = '';
+		this.localFqdn = '';
 		this.remoteConnection = false;
 	}
 }
@@ -222,7 +222,7 @@ console.table({
 	lightweightUrl: envFacade.lightweightUrl,
 	v3DashboardUri: envFacade.v3DashboardUri,
 	baseDashboardUri: envFacade.baseDashboardUri,
-	localIP: envFacade.localIP,
+	localFqdn: envFacade.localFqdn,
 	remoteConnection: envFacade.remoteConnection,
 	useLocalConnection: envFacade.useLocalConnection,
 });
