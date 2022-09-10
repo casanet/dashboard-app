@@ -59,7 +59,7 @@ function LoginForm() {
 		try {
 			const loginPayload = await authResponse?.json?.() as { isRemote?: boolean, localAddress?: string };
 			// Keep login info 
-			envFacade.localIP = loginPayload?.localAddress || '';
+			envFacade.localFqdn = loginPayload?.localAddress || '';
 			envFacade.remoteConnection = !!loginPayload?.isRemote;
 		} catch (error: any) {
 			console.warn(`[applyLogin] Unable to load service info ${error?.message}`);

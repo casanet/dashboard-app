@@ -365,7 +365,7 @@
 	"dashboard.settings.connectivity": "Connectivity",
 	"dashboard.settings.connectivity.remote.server.status": "Remote Server Status",
 	"dashboard.settings.connectivity.casanet.server.url": "Casanet Server URL",
-	"dashboard.settings.connectivity.casanet.local.server.ip": "Casanet Local Server IP",
+	"dashboard.settings.connectivity.casanet.local.server.fqdn": "Casanet Local Server FQDN",
 	"dashboard.settings.connectivity.remote.server.url": "Remote Server URL",
 	"dashboard.settings.connectivity.configure.remote.server": "Configure Remote Server",
 	"dashboard.settings.connectivity.show.registered.users": "Show remote registered users",
