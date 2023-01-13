@@ -1,6 +1,6 @@
 name: casanet dashboard app CI CD
 
-on: [push]
+on: [push, workflow_dispatch]
 
 env:
   SKIP_PREFLIGHT_CHECK: "true"    

@@ -13454,10 +13454,10 @@ unique-string@^1.0.0:
   dependencies:
     crypto-random-string "^1.0.0"
 
-unitsnet-js@^1.0.25:
-  version "1.0.25"
-  resolved "https://registry.npmjs.org/unitsnet-js/-/unitsnet-js-1.0.25.tgz"
-  integrity sha512-Q7mFbRfYRJLiOjt6oeW75vybfSsCIvbHIk28CzDfO6aIpkwa8tiTatij5EFUOjzE7FnuRPf1e4QzD8xgS2xZ7g==
+unitsnet-js@^1.0.42:
+  version "1.0.42"
+  resolved "https://registry.yarnpkg.com/unitsnet-js/-/unitsnet-js-1.0.42.tgz#a21046a8c20ac04718389ace6a643aea165906f5"
+  integrity sha512-NN5qOnLpg5rC/DoLf+5GSSldNtGvfTGli37dijGedLj2t70Wt8CgGpkNd544NohCTcaL07zEDOq5lSrDQVXzEQ==
 
 universalify@^0.1.0, universalify@^0.1.2:
   version "0.1.2"
