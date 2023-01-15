@@ -193,7 +193,7 @@
 	"dashboard.minions.timeline.trigger.by": "By ",
 	"dashboard.minions.change.trigger.by.user": "the user action",
 	"dashboard.minions.change.trigger.by.timing": "the timing module",
-	"dashboard.minions.change.trigger.by.timeout": "the physical device",
+	"dashboard.minions.change.trigger.by.timeout": "the timeout module",
 	"dashboard.minions.change.trigger.by.sync": "the sync module",
 	"dashboard.minions.change.trigger.by.rotation": "the rotation module",
 	"dashboard.minions.change.trigger.by.lock": "the lock module",
