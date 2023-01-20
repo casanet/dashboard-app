@@ -12,9 +12,9 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
   
@@ -30,13 +30,14 @@ jobs:
           npm run patch_version
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo $PACKAGE_VERSION
-          echo ::set-output name=version::$PACKAGE_VERSION
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
+  
     - name: Commit and push changes # Commit version update
       if: github.ref == 'refs/heads/main'
       uses: devops-infra/action-commit-push@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        commit_message: Bomb version to ${{ steps.bomb_version.outputs.version }} [ci skip]
+        commit_message: Bomb version to ${{ steps.bomb_version.outputs.PACKAGE_VERSION }} [ci skip]"
 
     - name: Configure DEV MODE # Set assets to build for DEV mode
       if: github.ref != 'refs/heads/main'
@@ -44,8 +45,9 @@ jobs:
           npm run dev_mode
 
     - name: Set up JDK 11
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v3
       with:
+        distribution: 'temurin'
         java-version: 11
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
@@ -72,7 +74,7 @@ jobs:
         mkdir android
         cp platforms/android/app/build/outputs/bundle/$BUILD_TYPE/app-$BUILD_TYPE.aab android/app-$BUILD_TYPE.aab
         cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk android/app-$BUILD_TYPE.apk
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: android
         path: android
@@ -93,7 +95,7 @@ jobs:
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_PROD ; else export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_DEV; fi
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_SHOW_VERSION_COMMIT='false' ; else export REACT_APP_SHOW_VERSION_COMMIT='true'; fi
         yarn run build
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: www
         path: www
@@ -108,7 +110,7 @@ jobs:
         export BRANCH=${GITHUB_REF##*/}
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_SHOW_VERSION_COMMIT='false' ; else export REACT_APP_SHOW_VERSION_COMMIT='true'; fi
         yarn run build
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: internal 
         path: internal
@@ -120,10 +122,10 @@ jobs:
         node-version: [16.x]
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - uses: actions/download-artifact@master
     - name: Install node
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: Run-Test
@@ -159,32 +161,35 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - uses: actions/download-artifact@master
       with:
         name: android
         path: android
+
     - name: Version Info
       id: version_info
       # "Build" the release title and text body from the latest pushed commit, then pull the version bombed version for the release version  
       run: |
-        echo ::set-output name=title::$(git log -1 --pretty=%B | sed -n '1p')
+        title=$(git log -1 --pretty=%B | sed -n '1p')
+        echo "TITLE=$title" >> $GITHUB_OUTPUT
         body=$(git log -1 --pretty=%B | sed 1d)
         body="${body//'%'/'%25'}"
         body="${body//$'\n'/'%0A'}"
         body="${body//$'\r'/'%0D'}"
-        echo ::set-output name=body::$body
-        git pull 
-        echo ::set-output name=version::$(node -p "require('./package.json').version")
+        echo "BODY=$body" >> $GITHUB_OUTPUT
+        git pull
+        version=$(node -p "require('./package.json').version")
+        echo "VERSION=$version" >> $GITHUB_OUTPUT
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.version_info.outputs.version }}
-        release_name: ${{  steps.version_info.outputs.title }}
-        body: ${{  steps.version_info.outputs.body }}
+        tag_name: ${{ steps.version_info.outputs.VERSION }}
+        release_name: ${{ steps.version_info.outputs.TITLE }}
+        body: ${{ steps.version_info.outputs.BODY }}
         draft: false
         prerelease: false
     - name: Upload Release Asset - Android AAB Bundle
