@@ -1,4 +1,4 @@
-import { DataService } from "../infrastructure/data-service-base";
+import { DataService } from 'frontal-data-manager';
 import { ApiFacade, MinionTimeline } from "../infrastructure/generated/api/swagger/api";
 
 class TimelineService extends DataService<MinionTimeline[]> {

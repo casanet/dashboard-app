@@ -1,4 +1,4 @@
-import { DataService } from "../infrastructure/data-service-base";
+import { DataService } from 'frontal-data-manager';
 import { Action, ApiFacade } from "../infrastructure/generated/api/swagger/api";
 
 class ActionsService extends DataService<Action[]> {

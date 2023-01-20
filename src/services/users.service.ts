@@ -1,4 +1,4 @@
-import { DataService } from "../infrastructure/data-service-base";
+import { DataService } from 'frontal-data-manager';
 import { ApiFacade, User } from "../infrastructure/generated/api/swagger/api";
 import { LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 
