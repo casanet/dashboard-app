@@ -16,6 +16,9 @@
 	<allow-intent href="sms:*"/>
 	<allow-intent href="mailto:*"/>
 	<allow-intent href="geo:*"/>
+
+	<icon src="assets/icons/android/mipmap-xxhdpi/ic_launcher.png" />
+	
 	<platform name="android">
 		<preference name="scheme" value="http"/>
 		<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
