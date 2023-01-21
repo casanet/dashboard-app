@@ -2730,13 +2730,6 @@
   dependencies:
     "@types/lodash" "*"
 
-"@types/lodash.clonedeep@^4.5.7":
-  version "4.5.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.7.tgz#0e119f582ed6f9e6b373c04a644651763214f197"
-  integrity sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==
-  dependencies:
-    "@types/lodash" "*"
-
 "@types/lodash.debounce@^4.0.7":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.7.tgz#0285879defb7cdb156ae633cecd62d5680eded9f"
@@ -6651,12 +6644,11 @@ from2@^2.1.0:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
 
-frontal-data-manager@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/frontal-data-manager/-/frontal-data-manager-1.0.3.tgz#c026640eedc62f07286d099e57610396433c5b34"
-  integrity sha512-s23Z3Iyfa8eBFdFK8YaDhhYgnuq2q0OfppA59P5pvI5N+5S85drGFLxQICJnx1XGQV+FM20lDSOU41ZJimu+Tw==
+frontal-data-manager@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/frontal-data-manager/-/frontal-data-manager-1.0.6.tgz#0552e06bc833b28b63678ae9e9af738c1a200331"
+  integrity sha512-GXYr9THVNUJ7ZjN6YrMJf7UNt+UIWwvsT3uwDb6R7J9B9CgeRr4WPT/6uFGQSsRHJxcbdWaoEq56vXTrwRF50Q==
   dependencies:
-    "@types/lodash.clonedeep" "^4.5.7"
     "@types/react" "^17.0.0"
     lodash.clonedeep "^4.5.0"
     react "^17.0.2"
