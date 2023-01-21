@@ -1,5 +1,5 @@
 
-import { DataService } from '../infrastructure/data-service-base';
+import { DataService } from 'frontal-data-manager';
 import { ApiFacade, VersionInfo } from '../infrastructure/generated/api/swagger/api';
 class RemoteURLService extends DataService<string> {
 
