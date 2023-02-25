@@ -30,7 +30,7 @@
 		<icon density="xxhdpi" src="assets/icons/android/drawable-xxhdpi-icon.png"/>
 		<icon density="xxxhdpi" src="assets/icons/android/drawable-xxxhdpi-icon.png"/>
 		
-		<splash  src="assets/icons/android/original.png"/>
+		<preference name="AndroidWindowSplashScreenAnimatedIcon" value="assets/icons/android/original.png"/>
 	</platform>
 	<platform name="ios">
 		<allow-intent href="itms:*"/>
