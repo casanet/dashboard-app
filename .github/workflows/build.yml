@@ -183,32 +183,15 @@ jobs:
         echo "VERSION=$version" >> $GITHUB_OUTPUT
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.version_info.outputs.VERSION }}
-        release_name: ${{ steps.version_info.outputs.TITLE }}
-        body: ${{ steps.version_info.outputs.BODY }}
-        draft: false
-        prerelease: false
-    - name: Upload Release Asset - Android AAB Bundle
-      id: upload-release-asset-android-bundle
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./android/app-release.aab
-        asset_name: casanet.aab
-        asset_content_type: application/octet-stream
-    - name: Upload Release Asset - Android APK Application
-      id: upload-release-asset-android-apk
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} 
-        asset_path: ./android/app-release.apk
-        asset_name: casanet.apk
-        asset_content_type: application/octet-stream
+          tag_name: ${{ steps.version_info.outputs.VERSION }}
+          name: ${{ steps.version_info.outputs.TITLE }}
+          body: ${{ steps.version_info.outputs.BODY }}
+          draft: false
+          prerelease: false
+          files: |
+            ./android/app-release.aab
+            ./android/app-release.apk
