@@ -17,20 +17,20 @@
 	<allow-intent href="mailto:*"/>
 	<allow-intent href="geo:*"/>
 
-	<icon src="assets/icons/android/mipmap-xxhdpi/ic_launcher.png" />
-	
 	<platform name="android">
 		<preference name="scheme" value="http"/>
 		<edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
 			<application android:usesCleartextTraffic="true"/>
 		</edit-config>
 		<allow-intent href="market:*"/>
-		<icon density="ldpi" src="assets/icons/android/mipmap-hdpi/ic_launcher.png"/>
-		<icon density="hdpi" src="assets/icons/android/mipmap-hdpi/ic_launcher.png"/>
-		<icon density="mdpi" src="assets/icons/android/mipmap-mdpi/ic_launcher.png"/>
-		<icon density="xhdpi" src="assets/icons/android/mipmap-xhdpi/ic_launcher.png"/>
-		<icon density="xxhdpi" src="assets/icons/android/mipmap-xxhdpi/ic_launcher.png"/>
-		<icon density="xxxhdpi" src="assets/icons/android/mipmap-xxxhdpi/ic_launcher.png"/>
+		<icon density="ldpi" src="assets/icons/android/drawable-ldpi-icon.png"/>
+		<icon density="mdpi" src="assets/icons/android/drawable-mdpi-icon.png"/>
+		<icon density="hdpi" src="assets/icons/android/drawable-hdpi-icon.png"/>
+		<icon density="xhdpi" src="assets/icons/android/drawable-xhdpi-icon.png"/>
+		<icon density="xxhdpi" src="assets/icons/android/drawable-xxhdpi-icon.png"/>
+		<icon density="xxxhdpi" src="assets/icons/android/drawable-xxxhdpi-icon.png"/>
+		
+		<splash  src="assets/icons/android/original.png"/>
 	</platform>
 	<platform name="ios">
 		<allow-intent href="itms:*"/>
