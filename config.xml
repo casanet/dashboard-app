@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget id="casa.casanet.dashboard" version="1.0.31" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<widget id="casa.casanet.dashboard" version="1.0.32" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 	<name>casanet</name>
 	<description>
         Cadasnet IoT Control Dashboard
@@ -28,7 +28,6 @@
 		<icon density="xhdpi" src="assets/icons/android/drawable-xhdpi-icon.png"/>
 		<icon density="xxhdpi" src="assets/icons/android/drawable-xxhdpi-icon.png"/>
 		<icon density="xxxhdpi" src="assets/icons/android/drawable-xxxhdpi-icon.png"/>
-		
 		<preference name="AndroidWindowSplashScreenAnimatedIcon" value="assets/icons/android/splash.png"/>
 	</platform>
 	<platform name="ios">
