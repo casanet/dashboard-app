@@ -15,7 +15,8 @@ import { getModeColor, marginLeft } from "../../logic/common/themeUtils";
 import Collapse from '@mui/material/Collapse';
 import { Duration } from "unitsnet-js";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
-import { Minion, MinionStatus, Timing } from "../../infrastructure/generated/api/swagger/api";
+import { MinionStatus, Timing } from "../../infrastructure/generated/api/swagger/api";
+import { Minion } from "../../services/minions.service";
 
 interface MinionTimingsViewProps {
 	minion: Minion;
@@ -90,7 +91,7 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 								fontRatio={DEFAULT_FONT_RATION * 0.8}
 								smallFontRatio={DEFAULT_FONT_RATION * 0.5}
 								showSwitches={true}
-								disabled={!timing.isActive}
+								disabled={!timing.isActive || props.minion?.readonly}
 								isOn={timing.isActive && isOnMode(props.minion.minionType, timing.triggerDirectAction?.minionStatus)}
 							/>
 						</div>
@@ -103,6 +104,7 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 						alignItems="center"
 					>
 						<TimingOverviewControls
+							disabled={props.minion?.readonly || false}
 							fontRatio={DEFAULT_FONT_RATION}
 							timing={timing}
 							editMode={showEditTimingId === timing.timingId}
@@ -118,7 +120,7 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 				<Divider variant={'fullWidth'} flexItem />
 			</div>;
 		})}
-		<div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
+		{!props.minion?.readonly && <div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
 			<Collapse in={showAddTiming} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
 				<CreateTiming showAddTiming={showAddTiming} minion={props.minion} onDone={() => setShowAddTiming(false)} fontRatio={DEFAULT_FONT_RATION} />
 			</Collapse>
@@ -132,6 +134,6 @@ export function MinionTimingsView(props: MinionTimingsViewProps) {
 					{t('dashboard.timings.create.timing')}
 				</Button>
 			</Grid>}
-		</div>
+		</div>}
 	</div>
 }

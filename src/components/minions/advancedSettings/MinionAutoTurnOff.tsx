@@ -4,7 +4,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { useEffect, useState } from "react";
 import clonedeep from 'lodash.clonedeep';
 import { Duration } from 'unitsnet-js';
-import { minionsService } from "../../../services/minions.service";
+import { Minion, minionsService } from "../../../services/minions.service";
 import { handleServerRestError } from "../../../services/notifications.service";
 import { HMS, HMStoMs, msToHMS } from "../../../logic/common/minionsUtils";
 import SaveIcon from '@material-ui/icons/Save';
@@ -12,7 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { ThemeSwitch } from "../../global/ThemeSwitch";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { marginLeft } from "../../../logic/common/themeUtils";
-import { ApiFacade, Minion } from "../../../infrastructure/generated/api/swagger/api";
+import { ApiFacade } from "../../../infrastructure/generated/api/swagger/api";
 
 interface MinionAutoTurnOffProps {
 	fontRatio: number;
@@ -53,6 +53,9 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 	// Detect if the turnOffIn changed by the user, if so, show it as 'edit mode'
 	const editMode = HMStoMs(turnOffIn) !== (minion.minionAutoTurnOffMS || 0);
 
+	const disableModify = saving || minion?.readonly;
+	const disableModifyProps = disableModify || isOff;
+
 	return <Grid
 		container
 		direction="row"
@@ -88,7 +91,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 					>
 						<div style={{ marginTop: props.fontRatio * 0.25, [marginLeft(theme)]: desktopMode ? props.fontRatio * 0.5 : 0 }}>
 							<TextField
-								disabled={saving || isOff}
+								disabled={disableModifyProps}
 								style={{ width: props.fontRatio }}
 								variant="standard"
 								id="outlined-number"
@@ -118,7 +121,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 								}}
 							/>
 							<TextField
-								disabled={saving || isOff}
+								disabled={disableModifyProps}
 								style={{ width: props.fontRatio }}
 								variant="standard"
 								id="outlined-number"
@@ -146,7 +149,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 								}}
 							/>
 							<TextField
-								disabled={saving || isOff}
+								disabled={disableModifyProps}
 								style={{ width: props.fontRatio }}
 								variant="standard"
 								id="outlined-number"
@@ -177,7 +180,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 						<div style={{ [marginLeft(theme)]: fontRatio * 0.3 }}>
 							{editMode && <ThemeTooltip title={<span>{t('global.save')}</span>} >
 								<IconButton
-									disabled={saving}
+									disabled={disableModify}
 									style={{ padding: fontRatio * 0.1 }}
 									onClick={applyTurnOffChanges}
 									color="inherit">
@@ -186,7 +189,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 							</ThemeTooltip>}
 							{editMode && <ThemeTooltip title={<span>{t('global.cancel')}</span>} >
 								<IconButton
-									disabled={saving}
+									disabled={disableModify}
 									style={{ padding: fontRatio * 0.1 }}
 									onClick={() => { setTurnOffIn(msToHMS(minion.minionAutoTurnOffMS)); }}
 									color="inherit">
@@ -202,7 +205,7 @@ export function MinionAutoTurnOff(props: MinionAutoTurnOffProps) {
 		<div style={{ width: '58px', height: '38px' }}>
 			{!saving && <ThemeSwitch
 				color="primary"
-				disabled={saving}
+				disabled={disableModify}
 				checked={!isOff}
 				size="medium"
 				onChange={() => { setAutoTurnOff(Duration.FromMinutes(!isOff ? 0 : 1)) }} />}

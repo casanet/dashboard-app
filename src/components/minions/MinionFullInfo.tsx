@@ -11,7 +11,7 @@ import '../../theme/styles/components/minions/minionFullInfo.scss';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Suspense, useState } from "react";
-import { minionsService } from "../../services/minions.service";
+import { Minion, minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import { MinionEditableName } from "./MinionEditableName";
 import { MinionEditStatus } from "./editMinionStatus/MinionEditStatus";
@@ -32,11 +32,13 @@ import React from "react";
 import { Loader } from "../Loader";
 import { MinionIndicators } from "./MinionIndicators";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
-import { ApiFacade, Minion, MinionStatus } from "../../infrastructure/generated/api/swagger/api";
+import { ApiFacade, MinionStatus } from "../../infrastructure/generated/api/swagger/api";
 import { MinionBatteryOverview } from "./MinionBatteryOverview";
+import { sessionManager } from "../../infrastructure/session-manager";
 
 const MinionTimeline = React.lazy(() => import('./timeline/MinionTimeline'));
 const MinionActionsView = React.lazy(() => import('../actions/MinionActionsView'));
+const MinionRestrictions = React.lazy(() => import('./restrictions/MinionRestrictions'));
 
 const DEFAULT_FONT_SIZE = SIDE_CONTAINER_DEFAULT_FONT_SIZE;
 
@@ -153,7 +155,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					minionStatus={minion.minionStatus}
 					minionType={minion.minionType}
 					setMinionStatus={setMinionStatus}
-					disabled={saving}
+					disabled={saving || minion.readonly}
 					fontRatio={desktopMode ? DEFAULT_FONT_SIZE : DEFAULT_FONT_SIZE * 0.7}
 					smallFontRatio={desktopMode ? DEFAULT_FONT_SIZE * 0.5 : DEFAULT_FONT_SIZE * 0.5 * 0.7} />
 				<div style={{ padding: `${DEFAULT_FONT_SIZE * 0.3}px` }}>
@@ -234,6 +236,20 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							</div>
 						</AccordionDetails>
 					</Accordion>
+					{sessionManager.isAdmin && <Accordion>
+						<AccordionSummary
+							expandIcon={<ExpandMoreIcon />}
+						>
+							<Typography>{t('global.minion.restrictions')}</Typography>
+						</AccordionSummary>
+						<AccordionDetails>
+							<div className="minion-advanced-option-area">
+								<Suspense fallback={<Loader fontRatio={DEFAULT_FONT_RATION * 2} />}>
+									<MinionRestrictions minion={minion} />
+								</Suspense>
+							</div>
+						</AccordionDetails>
+					</Accordion>}
 					<Accordion>
 						<AccordionSummary
 							expandIcon={<ExpandMoreIcon />}
@@ -247,7 +263,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 						</AccordionDetails>
 					</Accordion>
 				</div>
-				<div className="minion-delete-container">
+				{!minion?.readonly && <div className="minion-delete-container">
 					<AlertDialog
 						open={openDeleteAlert}
 						cancelText={t('global.cancel')}
@@ -264,7 +280,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 							{deleting && <LinearProgress color="error" />}
 						</Box>
 					</Button>
-				</div>
+				</div>}
 			</div>
 		</Grid>
 	</div>;

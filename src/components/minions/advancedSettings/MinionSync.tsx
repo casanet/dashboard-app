@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import InfoIcon from '@mui/icons-material/Info';
 import { CSSProperties, useEffect, useState } from "react";
 import { Duration } from 'unitsnet-js';
-import { minionsService } from "../../../services/minions.service";
+import { Minion, minionsService } from "../../../services/minions.service";
 import { handleServerRestError } from "../../../services/notifications.service";
 import SaveIcon from '@material-ui/icons/Save';
 import CloseIcon from '@material-ui/icons/Close';
@@ -15,7 +15,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import RotateRightIcon from '@mui/icons-material/RotateRight';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ThemeTooltip } from "../../global/ThemeTooltip";
-import { ApiFacade, CalibrationMode, Minion } from "../../../infrastructure/generated/api/swagger/api";
+import { ApiFacade, CalibrationMode } from "../../../infrastructure/generated/api/swagger/api";
 import PhonelinkLockIcon from '@material-ui/icons/PhonelinkLock';
 
 interface MinionSyncProps {
@@ -65,6 +65,9 @@ export function MinionSync(props: MinionSyncProps) {
 	// Calibration option size
 	const calibrationModeStyle: CSSProperties = { fontSize: fontRatio * 0.4 };
 
+	const disableModify = saving || minion?.readonly;
+	const disableModifyProps = disableModify || isOff;
+
 	return <Grid
 		container
 		direction="row"
@@ -108,7 +111,7 @@ export function MinionSync(props: MinionSyncProps) {
 							>
 								<div>
 									<ToggleButtonGroup
-										disabled={isOff}
+										disabled={disableModifyProps}
 										orientation="horizontal"
 										size="small"
 										value={calibration}
@@ -156,7 +159,7 @@ export function MinionSync(props: MinionSyncProps) {
 									>
 										<div style={{ marginTop: props.fontRatio * 0.2 }}>
 											<TextField
-												disabled={saving || isOff}
+												disabled={disableModifyProps}
 												style={{ width: props.fontRatio * 2.8 }}
 												variant="standard"
 												helperText={t('dashboard.minions.advanced.settings.sync.sync.minutes.helper')}
@@ -212,7 +215,7 @@ export function MinionSync(props: MinionSyncProps) {
 		<div style={{ width: '58px', height: '38px' }}>
 			{!saving && <ThemeSwitch
 				color="primary"
-				disabled={saving}
+				disabled={disableModify}
 				checked={!isOff}
 				size="medium"
 				onChange={() => { setMinionCalibration(Duration.FromMinutes(!isOff ? 0 : 10)) }} />}
