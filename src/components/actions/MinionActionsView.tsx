@@ -9,12 +9,12 @@ import { getModeColor, marginLeft } from "../../logic/common/themeUtils";
 import Collapse from '@mui/material/Collapse';
 import { Duration } from "unitsnet-js";
 import { DEFAULT_FONT_RATION } from "../../infrastructure/consts";
-import { Minion } from "../../infrastructure/generated/api/swagger/api";
 import { ActionOverviewControls } from "./ActionOverviewControls";
 import { EditAction } from "./EditAction";
 import { useData } from "../../hooks/useData";
 import { actionsService } from "../../services/actions.service";
 import { Loader } from "../Loader";
+import { Minion } from "../../services/minions.service";
 
 interface MinionTimingsViewProps {
 	minion: Minion;
@@ -89,6 +89,7 @@ export default function MinionActionsView(props: MinionTimingsViewProps) {
 						alignItems="center"
 					>
 						<ActionOverviewControls
+							disabled={props.minion?.readonly || false}
 							fontRatio={DEFAULT_FONT_RATION}
 							action={action}
 							editMode={showEditActionId === action.actionId}
@@ -104,7 +105,7 @@ export default function MinionActionsView(props: MinionTimingsViewProps) {
 				<Divider variant={'fullWidth'} flexItem />
 			</div>;
 		})}
-		<div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
+		{!props.minion.readonly && <div style={{ marginTop: DEFAULT_FONT_RATION, width: '100%' }}>
 			<Collapse in={showAddAction} timeout={PROPERTIES_OPEN_ANIMATION_DURATION.Milliseconds}>
 				<EditAction collapse={!showAddAction} mode={'create'} minion={props.minion} onDone={() => setShowAddAction(false)} fontRatio={DEFAULT_FONT_RATION} />
 			</Collapse>
@@ -118,6 +119,6 @@ export default function MinionActionsView(props: MinionTimingsViewProps) {
 					{t('dashboard.actions.create.action')}
 				</Button>
 			</Grid>}
-		</div>
+		</div>}
 	</div>
 }

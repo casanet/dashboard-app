@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import CloseIcon from '@material-ui/icons/Close';
 import '../../theme/styles/components/minions/minionEditableName.scss';
 import { Fragment, useState } from "react";
-import { minionsService } from "../../services/minions.service";
+import { Minion, minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import { ThemeTooltip } from "../global/ThemeTooltip";
-import { ApiFacade, Minion } from "../../infrastructure/generated/api/swagger/api";
+import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionMinionEditableNameProps {
 	minion: Minion;
@@ -66,8 +66,9 @@ export function MinionEditableName(props: MinionMinionEditableNameProps) {
 				/>
 			</div>}
 			<div>
-				{!editNameMode && <ThemeTooltip title={<span>{t('dashboard.minions.edit.name')}</span>} >
+				{!editNameMode && !minion.readonly && <ThemeTooltip title={<span>{t('dashboard.minions.edit.name')}</span>} >
 					<IconButton
+						disabled={minion.readonly}
 						style={{ padding: fontRatio * 0.1 }}
 						onClick={() => { setEditNameMode(true); setEditName(minion.name); }}
 						color="inherit">

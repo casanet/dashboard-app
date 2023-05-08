@@ -5,12 +5,12 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // import ErrorOutlineRoundedIcon from '@material-ui/icons/ErrorOutlineRounded';
 import { useTranslation } from "react-i18next";
 import { handleServerRestError } from "../../services/notifications.service";
-import { minionsService } from "../../services/minions.service";
+import { Minion, minionsService } from "../../services/minions.service";
 import clonedeep from 'lodash.clonedeep';
 import { getModeColor } from "../../logic/common/themeUtils";
 import { defaultMinionStatus, isOnMode } from "../../logic/common/minionsUtils";
 import { ThemeTooltip } from "../global/ThemeTooltip";
-import { ApiFacade, Minion, SwitchOptions } from "../../infrastructure/generated/api/swagger/api";
+import { ApiFacade, SwitchOptions } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionPowerToggleProps {
 	minion: Minion;
@@ -53,10 +53,10 @@ export function MinionPowerToggle(props: MinionPowerToggleProps) {
 		e.stopPropagation();
 	}}
 	>
-		<ThemeTooltip title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} disableFocusListener >
+		<ThemeTooltip hideTip={minion.readonly} title={<span>{t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}</span>} disableFocusListener >
 			<IconButton
 				style={{ padding: fontRatio / 5 }}
-				disabled={loading}
+				disabled={loading || minion.readonly}
 				aria-label={t(`dashboard.minions.press.to.${isOn ? 'off' : 'on'}`)}
 				onClick={toggleMinionStatus}
 				color="inherit"

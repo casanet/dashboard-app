@@ -14,7 +14,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 interface EditActionSetProps {
     actionSet: ActionSet;
     minionOwner: Minion;
-    disable: boolean;
+    disabled: boolean;
     onRemove: () => void;
     onUpdate: () => void;
 }
@@ -22,7 +22,7 @@ interface EditActionSetProps {
 export function EditActionSet(props: EditActionSetProps) {
     const { t } = useTranslation();
 
-    const { actionSet, disable } = props;
+    const { actionSet, disabled } = props;
 
     const [minions] = useData(minionsService);
 
@@ -51,7 +51,7 @@ export function EditActionSet(props: EditActionSetProps) {
             <div style={{ width: 'calc(100% - 20px)' }}>
                 <Autocomplete
                     options={availableMinions}
-                    disabled={disable}
+                    disabled={disabled}
                     getOptionLabel={(option: Minion) => {
                         return option.name;
                     }}
@@ -74,7 +74,7 @@ export function EditActionSet(props: EditActionSetProps) {
                         <TextField
                             {...params}
                             placeholder={t('dashboard.actions.select.minion.to.set')}
-                            disabled={disable}
+                            disabled={disabled}
                             variant="standard"
                         />
                     )}
@@ -90,11 +90,11 @@ export function EditActionSet(props: EditActionSetProps) {
         {setStatus && selectedMinion &&
             <div>
                 <div>
-                    <SwitchEditStatus disabled={disable} minionStatus={setStatus} setMinionStatus={updateStatus} minionType={selectedMinion.minionType} fontRatio={DEFAULT_FONT_RATION * 1.4} smallFontRatio={DEFAULT_FONT_RATION * 1.7 * 0.5} isOn={isOnMode(selectedMinion.minionType, setStatus)} />
+                    <SwitchEditStatus disabled={disabled} minionStatus={setStatus} setMinionStatus={updateStatus} minionType={selectedMinion.minionType} fontRatio={DEFAULT_FONT_RATION * 1.4} smallFontRatio={DEFAULT_FONT_RATION * 1.7 * 0.5} isOn={isOnMode(selectedMinion.minionType, setStatus)} />
                 </div>
                 <div>
                     {selectedMinion.minionType !== MinionTypes.Toggle && selectedMinion.minionType !== MinionTypes.Switch &&
-                        <MinionEditStatus disabled={disable} minionStatus={setStatus} setMinionStatus={updateStatus} minionType={selectedMinion.minionType} fontRatio={DEFAULT_FONT_RATION * 1.5} />
+                        <MinionEditStatus disabled={disabled} minionStatus={setStatus} setMinionStatus={updateStatus} minionType={selectedMinion.minionType} fontRatio={DEFAULT_FONT_RATION * 1.5} />
                     }
                 </div>
             </div>}

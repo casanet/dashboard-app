@@ -8,9 +8,9 @@ import { mapMinionTypeToDisplay } from "../../logic/common/minionsUtils";
 import { MinionIndicators } from "./MinionIndicators";
 import { useTranslation } from "react-i18next";
 import { MinionTimeoutOverview } from "./MinionTimeoutOverview";
-import { Minion } from "../../infrastructure/generated/api/swagger/api";
 import { MinionBatteryOverview } from "./MinionBatteryOverview";
 import { marginLeft, marginRight, right } from "../../logic/common/themeUtils";
+import { Minion } from "../../services/minions.service";
 
 interface MinionOverviewProps {
 	minion: Minion;

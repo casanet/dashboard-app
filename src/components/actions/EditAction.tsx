@@ -288,7 +288,7 @@ export function EditAction(props: EditActionProps) {
 						<List style={{ width: '100%' }}>
 							{actionsSet?.map((actionSet, index) => (<div>
 								<ListItem>
-									<EditActionSet key={actionsSet?.length} disable={saving} minionOwner={props.minion} actionSet={actionSet}
+									<EditActionSet key={actionsSet?.length} disabled={saving} minionOwner={props.minion} actionSet={actionSet}
 										onRemove={() => {
 											setActionsSet(actionsSet.filter((a, i) => i !== index));
 										}}

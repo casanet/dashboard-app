@@ -15,6 +15,7 @@ import { Action, ApiFacade } from "../../infrastructure/generated/api/swagger/ap
 import { actionsService } from "../../services/actions.service";
 
 interface ActionOverviewControlsProps {
+	disabled?: boolean;
 	action: Action;
 	fontRatio: number;
 	setEditMode: (editMode: boolean) => void;
@@ -75,13 +76,13 @@ export function ActionOverviewControls(props: ActionOverviewControlsProps) {
 		>
 			{/* The switch have fixed size, so just take the container with same dimensions */}
 			<div style={{ width: '58px', height: '38px' }}>
-				{!settingActive && <ThemeSwitch disabled={settingActive || deleting} checked={action.active} size="medium" onChange={() => changeActionActive()} />}
+				{!settingActive && <ThemeSwitch disabled={settingActive || deleting || props.disabled} checked={action.active} size="medium" onChange={() => changeActionActive()} />}
 				{settingActive && <div style={{ [marginLeft(theme)]: fontRatio, marginTop: 10 }}>
 					<CircularProgress thickness={5} size={fontRatio} />
 				</div>
 				}
 			</div>
-			<Grid
+			{!props.disabled && <Grid
 				style={{ minWidth: fontRatio * 2 }}
 				container
 				direction="row"
@@ -121,7 +122,7 @@ export function ActionOverviewControls(props: ActionOverviewControlsProps) {
 				{deleting && <div>
 					<CircularProgress thickness={5} size={fontRatio * 0.7} />
 				</div>}
-			</Grid>
+			</Grid>}
 		</Grid>
 	</div>;
 }
