@@ -15,6 +15,7 @@ import { marginLeft } from "../../logic/common/themeUtils";
 import { ApiFacade, Timing } from "../../infrastructure/generated/api/swagger/api";
 
 interface TimingOverviewControlsProps {
+	disabled?: boolean;
 	timing: Timing;
 	fontRatio: number;
 	setEditMode: (editMode: boolean) => void;
@@ -75,13 +76,13 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 		>
 			{/* The switch have fixed size, so just take the container with same dimensions */}
 			<div style={{ width: '58px', height: '38px' }}>
-				{!settingActive && <ThemeSwitch disabled={settingActive || deleting} checked={props.timing.isActive} size="medium" onChange={() => changeTimingActive()} />}
+				{!settingActive && <ThemeSwitch disabled={settingActive || deleting || props.disabled} checked={props.timing.isActive} size="medium" onChange={() => changeTimingActive()} />}
 				{settingActive && <div style={{ [marginLeft(theme)]: fontRatio, marginTop: 10 }}>
 					<CircularProgress thickness={5} size={fontRatio} />
 				</div>
 				}
 			</div>
-			<Grid
+			{!props.disabled && <Grid
 				style={{ minWidth: fontRatio * 2 }}
 				container
 				direction="row"
@@ -121,7 +122,7 @@ export function TimingOverviewControls(props: TimingOverviewControlsProps) {
 				{deleting && <div>
 					<CircularProgress thickness={5} size={fontRatio * 0.7} />
 				</div>}
-			</Grid>
+			</Grid>}
 		</Grid>
 	</div>;
 }

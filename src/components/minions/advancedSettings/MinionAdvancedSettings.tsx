@@ -5,7 +5,7 @@ import { MinionAutoTurnOff } from "./MinionAutoTurnOff";
 import { MinionSync } from "./MinionSync";
 import { MinionFetchCommands } from "./MinionFetchCommands";
 import { MinionRecordCommandCommands } from "./MinionRecordCommandCommands";
-import { Minion } from "../../../infrastructure/generated/api/swagger/api";
+import { Minion } from "../../../services/minions.service";
 
 interface MinionAdvancedSettingsProps {
 	fontRatio: number;
@@ -41,9 +41,9 @@ export function MinionAdvancedSettings(props: MinionAdvancedSettingsProps) {
 		<MinionAutoTurnOff minion={minion} fontRatio={fontRatio} />
 		<Divider style={{ width: '100%', marginTop: fontRatio * 0.2, marginBottom: fontRatio * 0.2 }} variant={'fullWidth'} />
 		<MinionSync minion={minion} fontRatio={fontRatio} />
-		{isFetchCommandsAvailable && <Divider style={{ width: '100%', marginTop: fontRatio * 0.2 }} variant={'fullWidth'} />}
-		{isFetchCommandsAvailable && <MinionFetchCommands minion={minion} fontRatio={fontRatio} />}
-		{isRecordingSupported && <Divider style={{ width: '100%', marginTop: fontRatio * 0.2 }} variant={'fullWidth'} />}
-		{isRecordingSupported && <MinionRecordCommandCommands minion={minion} fontRatio={fontRatio} />}
+		{!minion.readonly && isFetchCommandsAvailable && <Divider style={{ width: '100%', marginTop: fontRatio * 0.2 }} variant={'fullWidth'} />}
+		{!minion.readonly && isFetchCommandsAvailable && <MinionFetchCommands minion={minion} fontRatio={fontRatio} />}
+		{!minion.readonly && isRecordingSupported && <Divider style={{ width: '100%', marginTop: fontRatio * 0.2 }} variant={'fullWidth'} />}
+		{!minion.readonly && isRecordingSupported && <MinionRecordCommandCommands minion={minion} fontRatio={fontRatio} />}
 	</Grid>;
 }

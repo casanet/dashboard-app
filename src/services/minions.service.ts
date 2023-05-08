@@ -3,8 +3,12 @@ import { envFacade } from "../infrastructure/env-facade";
 import { sessionManager } from "../infrastructure/session-manager";
 import { API_KEY_HEADER, PULL_MINION_ACTIVATION } from "../infrastructure/consts";
 import { timelineService } from "./timeline.service";
-import { ApiFacade, FeedEvent, Minion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
+import { ApiFacade, FeedEvent, Minion as ApiMinion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
 import { livelinessFlag } from "./liveliness.service";
+
+export interface Minion extends ApiMinion {
+	readonly?: boolean;
+} 
 
 function sortMinionsFormula(a: Minion, b: Minion): number {
 	return a.name?.toLowerCase() < b.name?.toLowerCase() ? -1 : 1;

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import CloseIcon from '@material-ui/icons/Close';
 import '../../theme/styles/components/minions/minionEditableName.scss';
 import { Fragment, useState } from "react";
-import { minionsService } from "../../services/minions.service";
+import { Minion, minionsService } from "../../services/minions.service";
 import { handleServerRestError } from "../../services/notifications.service";
 import SaveIcon from '@material-ui/icons/Save';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -11,7 +11,7 @@ import { getModeColor } from "../../logic/common/themeUtils";
 import RepeatIcon from '@mui/icons-material/Repeat';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { ThemeTooltip } from "../global/ThemeTooltip";
-import { ApiFacade, Minion } from "../../infrastructure/generated/api/swagger/api";
+import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 
 interface MinionBottomControlsProps {
 	minion: Minion;
@@ -118,8 +118,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 					</div>
 				</Grid>}
 			</div>
-
-			<div>
+			{!minion?.readonly && <div>
 				<Grid
 					container
 					direction="row"
@@ -153,7 +152,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 						</IconButton>
 					</ThemeTooltip>
 				</Grid>
-			</div>
+			</div>}
 		</Grid>
 	</Fragment>
 }

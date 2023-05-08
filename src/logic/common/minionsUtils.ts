@@ -1,4 +1,4 @@
-import { ACModeOptions, CleanerMode, FanStrengthOptions, MinionChangeTrigger, MinionStatus, MinionTypes, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api/swagger/api";
+import { ACModeOptions, CleanerMode, FanStrengthOptions, MinionChangeTrigger, MinionStatus, MinionTypes, RestrictionType, RollerDirection, SwitchOptions } from "../../infrastructure/generated/api/swagger/api";
 
 /** Map minions type to the display name i18n key */
 export const mapMinionTypeToDisplay: { [key in MinionTypes]: string } = {
@@ -23,6 +23,12 @@ export const mapMinionChangeTriggerDisplay: { [key in MinionChangeTrigger]: stri
 	[MinionChangeTrigger.External]: 'dashboard.minions.change.trigger.by.external',
 	[MinionChangeTrigger.Device]: 'dashboard.minions.change.trigger.by.device',
 	[MinionChangeTrigger.Action]: 'dashboard.minions.change.trigger.by.action',
+}
+
+export const mapRestrictionsTypeToDisplay: { [key in RestrictionType]: string } = {
+	[RestrictionType.Block]: 'dashboard.restrictions.type.block',
+	[RestrictionType.Read]: 'dashboard.restrictions.type.read',
+	[RestrictionType.Write]: 'dashboard.restrictions.type.write',
 }
 
 export interface HMS {
