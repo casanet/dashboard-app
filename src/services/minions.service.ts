@@ -5,6 +5,15 @@ import { API_KEY_HEADER, PULL_MINION_ACTIVATION } from "../infrastructure/consts
 import { timelineService } from "./timeline.service";
 import { ApiFacade, FeedEvent, Minion as ApiMinion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
 import { livelinessFlag } from "./liveliness.service";
+import { timeOutService } from './timeout.service';
+
+export interface Minion extends ApiMinion {
+	readonly?: boolean;
+} 
+
+export interface Minion extends ApiMinion {
+	readonly?: boolean;
+} 
 
 export interface Minion extends ApiMinion {
 	readonly?: boolean;
@@ -55,8 +64,9 @@ class MinionsService extends DataService<Minion[]> {
 		switch (minionFeed.event) {
 			case FeedEvent.Update: {
 				this.updateMinion(minionFeed.minion);
-				// Fetch new timeline *after* update arrived from BE 
+				// Fetch new timeline and timeout countdown info *after* update arrived from BE 
 				timelineService.forceFetchData();
+				timeOutService.forceFetchData();
 				break;
 			}
 			case FeedEvent.Created: {

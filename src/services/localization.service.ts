@@ -1,6 +1,9 @@
 import { supportedLanguages } from "../localization/languages";
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 import { ViewLanguage, LangCode } from "../infrastructure/symbols/global";
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
+import he from 'javascript-time-ago/locale/he.json';
 
 /**
  * Get current user language info
@@ -46,3 +49,11 @@ export function setLang(langCode: LangCode, apply: boolean = true) {
 		window.location.reload();
 	}
 }
+
+// get lang and load TimeAgo module with the correct lang
+const lang = getLang();
+const supportedLangs: any = {
+	en,
+	he,
+};
+TimeAgo.addDefaultLocale(supportedLangs[lang.langCode]);
