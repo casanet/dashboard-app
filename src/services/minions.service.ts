@@ -11,6 +11,10 @@ export interface Minion extends ApiMinion {
 	readonly?: boolean;
 } 
 
+export interface Minion extends ApiMinion {
+	readonly?: boolean;
+} 
+
 function sortMinionsFormula(a: Minion, b: Minion): number {
 	return a.name?.toLowerCase() < b.name?.toLowerCase() ? -1 : 1;
 }

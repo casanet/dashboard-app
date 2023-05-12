@@ -15,6 +15,7 @@ import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { timeOutService } from "../../services/timeout.service";
 import { isOnMode } from "../../logic/common/minionsUtils";
+
 interface MinionBottomControlsProps {
 	minion: Minion;
 	fontRatio: number;
