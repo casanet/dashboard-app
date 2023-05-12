@@ -12,7 +12,9 @@ import RepeatIcon from '@mui/icons-material/Repeat';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { ApiFacade } from "../../infrastructure/generated/api/swagger/api";
-
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { timeOutService } from "../../services/timeout.service";
+import { isOnMode } from "../../logic/common/minionsUtils";
 interface MinionBottomControlsProps {
 	minion: Minion;
 	fontRatio: number;
@@ -28,6 +30,7 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 	const [editRoomNameError, setEditRoomNameError] = useState<boolean>(false);
 	const [editRoomName, setEditRoomName] = useState<string>(props.minion.room || t('global.not.configured'));
 	const [redoingStatus, setRedoingStatus] = useState<boolean>(false);
+	const [resettingTimeoutStatus, setResettingTimeoutStatus] = useState<boolean>(false);
 	const [refreshStatus, setRefreshStatus] = useState<boolean>(false);
 
 	const { minion, fontRatio } = props;
@@ -54,6 +57,17 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 		setRedoingStatus(false);
 	}
 
+	async function resetMinionTimeout() {
+		setResettingTimeoutStatus(true);
+		try {
+			await ApiFacade.MinionsApi.restartMinionTimeout(minion.minionId || '');
+			await timeOutService.forceFetchData();
+		} catch (error) {
+			handleServerRestError(error);
+		}
+		setResettingTimeoutStatus(false);
+	}
+
 	async function refreshMinionStatus() {
 		setRefreshStatus(true);
 		try {
@@ -65,6 +79,8 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 		}
 		setRefreshStatus(false);
 	}
+
+	const isOn = isOnMode(minion.minionType, minion.minionStatus);
 
 	return <Fragment>
 		<Grid
@@ -125,6 +141,18 @@ export function MinionBottomControls(props: MinionBottomControlsProps) {
 					justifyContent="center"
 					alignItems="center"
 				>
+					{minion.minionAutoTurnOffMS && isOn ? <ThemeTooltip title={<span>{t(`dashboard.minions.reset.timeout.tip`)}</span>} disableFocusListener >
+						<IconButton
+							style={{ padding: fontRatio * 0.2 }}
+							disabled={redoingStatus}
+							aria-label={t(`dashboard.minions.reset.timeout.tip`)}
+							onClick={resetMinionTimeout}
+							color="inherit"
+						>
+							{resettingTimeoutStatus && <MoreHorizIcon style={{ fontSize: fontRatio * 0.7, color: getModeColor(false, theme) }} />}
+							{!resettingTimeoutStatus && <RestartAltIcon style={{ fontSize: fontRatio * 0.7 }} />}
+						</IconButton>
+					</ThemeTooltip> : <div></div>}
 					<ThemeTooltip title={<span>{t(`dashboard.minions.redo.status.tip`)}</span>} disableFocusListener >
 						<IconButton
 							style={{ padding: fontRatio * 0.2 }}
