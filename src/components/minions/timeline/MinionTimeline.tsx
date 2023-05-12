@@ -9,9 +9,6 @@ import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
 import { useTranslation } from "react-i18next";
 import { isOnMode, mapMinionChangeTriggerDisplay } from "../../../logic/common/minionsUtils";
 import ReactTimeAgo from 'react-time-ago';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en.json';
-import he from 'javascript-time-ago/locale/he.json';
 import Typography from "@mui/material/Typography";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import { MinionStatusOverview } from "../overviewMinionsStatus/MinionStatusOverview";
@@ -20,18 +17,8 @@ import { useData } from "../../../hooks/useData";
 import { timelineService } from "../../../services/timeline.service";
 import { Loader } from "../../Loader";
 import { SwitchMode } from "../overviewMinionsStatus/SwitchMode";
-import { getLang } from "../../../services/localization.service";
 import { right } from "../../../logic/common/themeUtils";
 import { Minion, MinionChangeTrigger, MinionTypes, SwitchOptions } from "../../../infrastructure/generated/api/swagger/api";
-
-// TODO: Once this logic will be used in other component too, move to to app index
-// get lang and load TimeAgo module with the correct lang
-const lang = getLang();
-const supportedLangs: any = {
-	en,
-	he,
-};
-TimeAgo.addDefaultLocale(supportedLangs[lang.langCode]);
 
 interface MinionAdvancedSettingsProps {
 	fontRatio: number;
