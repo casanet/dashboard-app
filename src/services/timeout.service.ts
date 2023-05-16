@@ -1,10 +1,12 @@
-import { DataService } from 'frontal-data-manager';
 import { ApiFacade, MinionTimeout } from "../infrastructure/generated/api/swagger/api";
+import { DashboardService } from "./base.service";
 
-class TimeOutService extends DataService<MinionTimeout[]> {
+class TimeOutService extends DashboardService<MinionTimeout[]> {
 
 	constructor() {
-		super([]);
+		super([], {
+			useDashboardCache: true,
+		});
 	}
 
 	fetchData(): Promise<MinionTimeout[]> {

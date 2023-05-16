@@ -1,10 +1,12 @@
-import { DataService } from 'frontal-data-manager';
 import { Action, ApiFacade } from "../infrastructure/generated/api/swagger/api";
+import { DashboardService } from './base.service';
 
-class ActionsService extends DataService<Action[]> {
+class ActionsService extends DashboardService<Action[]> {
 
 	constructor() {
-		super([]);
+		super([], {
+			useDashboardCache: true,
+		});
 	}
 
 	fetchData(): Promise<Action[]> {

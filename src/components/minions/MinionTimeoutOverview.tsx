@@ -1,7 +1,7 @@
 import { Typography, useTheme } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { Minion } from "../../infrastructure/generated/api/swagger/api";
-import { msToHMS } from "../../logic/common/minionsUtils";
+import { isOnMode, msToHMS } from "../../logic/common/minionsUtils";
 import { useData } from "../../hooks/useData";
 import { timeOutService } from "../../services/timeout.service";
 import { useEffect, useState } from "react";
@@ -48,14 +48,16 @@ export function MinionTimeoutOverview(props: MinionTimeoutOverviewProps) {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+
 	if (!minion.minionAutoTurnOffMS) {
 		return <div></div>
 	}
 
 	const activeTimeoutData = timeoutMinions?.find(tom => tom.active && tom.minionId === minion?.minionId);
 	const subTitleColor = theme.palette.grey.A200;
+	const isOn = isOnMode(minion.minionType, minion.minionStatus);
 
-	if (activeTimeoutData) {
+	if (activeTimeoutData && isOn) {
 		const timeLeft = minion.minionAutoTurnOffMS - (now - activeTimeoutData.countdownTimestamp);
 		return <DrawDMS msTime={timeLeft} color={subTitleColor} fontRatio={fontRatio} prefixMessage={'dashboard.minions.auto.turn.off.countdown.info'} messageOn0={'dashboard.minions.auto.turn.off.countdown.now.info'} />
 	}

@@ -6644,12 +6644,11 @@ from2@^2.1.0:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
 
-frontal-data-manager@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/frontal-data-manager/-/frontal-data-manager-1.0.6.tgz#0552e06bc833b28b63678ae9e9af738c1a200331"
-  integrity sha512-GXYr9THVNUJ7ZjN6YrMJf7UNt+UIWwvsT3uwDb6R7J9B9CgeRr4WPT/6uFGQSsRHJxcbdWaoEq56vXTrwRF50Q==
+frontal-data-manager@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/frontal-data-manager/-/frontal-data-manager-1.0.13.tgz#4a1cdbdcab4a3e6a1926a1e937a75978d8192292"
+  integrity sha512-hxw4zX5A6TVIP5tjF+VweIpChVPIuZQFHMoI0x2V9KX6kcxPpVuw/ldS/CEfqg0pjn/mIb00wb7VBFiInmiReQ==
   dependencies:
-    "@types/react" "^17.0.0"
     lodash.clonedeep "^4.5.0"
     react "^17.0.2"
     ts-events "^3.4.1"
