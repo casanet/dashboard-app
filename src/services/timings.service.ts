@@ -13,6 +13,7 @@ class TimingsService extends DashboardService<Timing[]> {
 	constructor() {
 		super([], {
 			useDashboardCache: true,
+			cacheKey: 'TimingsService',
 		});
 	}
 

@@ -6,6 +6,7 @@ class TimeOutService extends DashboardService<MinionTimeout[]> {
 	constructor() {
 		super([], {
 			useDashboardCache: true,
+			cacheKey: 'TimeOutService',
 		});
 	}
 

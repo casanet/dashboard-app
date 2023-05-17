@@ -6,6 +6,7 @@ class ActionsService extends DashboardService<Action[]> {
 	constructor() {
 		super([], {
 			useDashboardCache: true,
+			cacheKey: 'ActionsService',
 		});
 	}
 

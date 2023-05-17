@@ -6,6 +6,7 @@ class MinionsKindsService extends DashboardService<DeviceKind[]> {
 	constructor() {
 		super([], {
 			useDashboardCache: true,
+			cacheKey: 'MinionsKindsService',
 		});
 	}
 

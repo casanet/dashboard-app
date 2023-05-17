@@ -34,7 +34,7 @@
 		"@mui/lab": "^5.0.0-alpha.48",
 		"@mui/material": "^5.0.0",
 		"date-fns": "^2.8.1",
-		"frontal-data-manager": "^1.0.13",
+		"frontal-data-manager": "^1.0.14",
 		"i18next": "^20.6.0",
 		"isemail": "^3.2.0",
 		"javascript-time-ago": "^2.3.10",

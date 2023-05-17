@@ -6,6 +6,7 @@ class TimelineService extends DashboardService<MinionTimeline[]> {
 	constructor() {
 		super([], {
 			useDashboardCache: true,
+			cacheKey: 'TimelineService',
 		});
 	}
 

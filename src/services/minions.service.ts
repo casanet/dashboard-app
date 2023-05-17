@@ -31,6 +31,7 @@ class MinionsService extends DashboardService<Minion[]> {
 	constructor() {
 		super([], {
 			useDashboardCache: true,
+			cacheKey: 'MinionsService',
 		});
 		// Activate activation to pull minions
 		setInterval(this.pullMinionsActivation, PULL_MINION_ACTIVATION.Milliseconds);
