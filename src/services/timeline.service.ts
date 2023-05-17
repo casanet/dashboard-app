@@ -1,10 +1,13 @@
-import { DataService } from 'frontal-data-manager';
 import { ApiFacade, MinionTimeline } from "../infrastructure/generated/api/swagger/api";
+import { DashboardService } from "./base.service";
 
-class TimelineService extends DataService<MinionTimeline[]> {
+class TimelineService extends DashboardService<MinionTimeline[]> {
 
 	constructor() {
-		super([]);
+		super([], {
+			useDashboardCache: true,
+			cacheKey: 'TimelineService',
+		});
 	}
 
 	fetchData(): Promise<MinionTimeline[]> {

@@ -1,4 +1,3 @@
-import { DataService } from 'frontal-data-manager';
 import { envFacade } from "../infrastructure/env-facade";
 import { sessionManager } from "../infrastructure/session-manager";
 import { API_KEY_HEADER, PULL_MINION_ACTIVATION } from "../infrastructure/consts";
@@ -6,6 +5,7 @@ import { timelineService } from "./timeline.service";
 import { ApiFacade, FeedEvent, Minion as ApiMinion, MinionFeed } from "../infrastructure/generated/api/swagger/api";
 import { livelinessFlag } from "./liveliness.service";
 import { timeOutService } from './timeout.service';
+import { DashboardService } from './base.service';
 
 export interface Minion extends ApiMinion {
 	readonly?: boolean;
@@ -24,7 +24,7 @@ function sortMinionsFormula(a: Minion, b: Minion): number {
 }
 
 // Inherited from DataService
-class MinionsService extends DataService<Minion[]> {
+class MinionsService extends DashboardService<Minion[]> {
 
 	// The minion SSE feed object
 	minionsServerFeed: EventSource;
@@ -33,8 +33,11 @@ class MinionsService extends DataService<Minion[]> {
 	private _minionsMap: { [key in string]: Minion } = {}; 
 
 	constructor() {
-		super([]);
-		// Activate activation to pull miniona
+		super([], {
+			useDashboardCache: true,
+			cacheKey: 'MinionsService',
+		});
+		// Activate activation to pull minions
 		setInterval(this.pullMinionsActivation, PULL_MINION_ACTIVATION.Milliseconds);
 	}
 

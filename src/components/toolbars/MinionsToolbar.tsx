@@ -15,6 +15,7 @@ import { CREATE_MINION_PATH } from "../../infrastructure/consts";
 import { ApiFacade, ErrorResponse, ProgressStatus } from "../../infrastructure/generated/api/swagger/api";
 import { timingsService } from "../../services/timings.service";
 import { actionsService } from "../../services/actions.service";
+import { timeOutService } from "../../services/timeout.service";
 
 export function MinionsToolbar() {
 	const { t } = useTranslation();
@@ -41,6 +42,7 @@ export function MinionsToolbar() {
 				minionsService.forceFetchData(),
 				timingsService.forceFetchData(),
 				actionsService.forceFetchData(),
+				timeOutService.forceFetchData(),
 			]);
 			succeed = true;
 		} catch (error) {

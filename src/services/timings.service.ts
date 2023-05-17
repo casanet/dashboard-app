@@ -1,17 +1,20 @@
-import { DataService } from 'frontal-data-manager';
 import { envFacade } from "../infrastructure/env-facade";
 import { sessionManager } from "../infrastructure/session-manager";
 import { API_KEY_HEADER } from "../infrastructure/consts";
 import { ApiFacade, Timing, TimingFeed } from "../infrastructure/generated/api/swagger/api";
+import { DashboardService } from './base.service';
 
 // Inherited from DataService
-class TimingsService extends DataService<Timing[]> {
+class TimingsService extends DashboardService<Timing[]> {
 
 	// The timing SSE feed object
 	timingsServerFeed: EventSource;
 
 	constructor() {
-		super([]);
+		super([], {
+			useDashboardCache: true,
+			cacheKey: 'TimingsService',
+		});
 	}
 
 	private onTimingsFeedUpdate(timingFeedEvent: MessageEvent) {
