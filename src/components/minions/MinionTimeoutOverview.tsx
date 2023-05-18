@@ -59,7 +59,8 @@ export function MinionTimeoutOverview(props: MinionTimeoutOverviewProps) {
 
 	if (activeTimeoutData && isOn) {
 		const timeLeft = minion.minionAutoTurnOffMS - (now - activeTimeoutData.countdownTimestamp);
-		return <DrawDMS msTime={timeLeft} color={subTitleColor} fontRatio={fontRatio} prefixMessage={'dashboard.minions.auto.turn.off.countdown.info'} messageOn0={'dashboard.minions.auto.turn.off.countdown.now.info'} />
+		const timeSpan = timeLeft < 0 ? 0 : timeLeft; // If time already passed, done show negative time, bot consider it as should be now,no time span for the turn off.
+		return <DrawDMS msTime={timeSpan} color={subTitleColor} fontRatio={fontRatio} prefixMessage={'dashboard.minions.auto.turn.off.countdown.info'} messageOn0={'dashboard.minions.auto.turn.off.countdown.now.info'} />
 	}
 	return <DrawDMS msTime={minion.minionAutoTurnOffMS} color={subTitleColor} fontRatio={fontRatio} prefixMessage={'dashboard.minions.auto.turn.off.info'} />
 }
