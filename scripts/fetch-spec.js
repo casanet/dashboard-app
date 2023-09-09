@@ -27,7 +27,7 @@ const SHARED_MODELS_PATH = `${SPEC_FILE_DEST_DIR}/sharedInterfaces.ts`;
  async function downloadSourceFile(fileURL, sourceDestination) {
 	const sharedModelsResponse = await nodeFetch(fileURL);
 	const sharedModelsResponseBuffer = Buffer.from(await sharedModelsResponse.text(), 'utf-8');
-	fse.appendFileSync(path.join(sourceDestination), sharedModelsResponseBuffer);
+	fse.writeFileSync(path.join(sourceDestination), sharedModelsResponseBuffer);
 }
 
 (async () => {
@@ -35,20 +35,19 @@ const SHARED_MODELS_PATH = `${SPEC_FILE_DEST_DIR}/sharedInterfaces.ts`;
     // Create generated dir if not yet exists
     await fse.promises.mkdir(SPEC_FILE_DEST_DIR, { recursive: true });
 
+    console.log(`[fetch-api] Fetching API Spec form server "${API_SERVER_SPEC_BRANCH}" branch...`);
+
     // If local path has been set, use it
     if (API_SERVER_SPEC_PATH) {
         console.log(`[fetch-api] Coping API Spec from local path "${API_SERVER_SPEC_PATH}"...`);
-
-        
-
         // And copy spec file
         await fse.promises.copyFile(path.join(API_SERVER_SPEC_PATH), path.join(SPEC_FILE_DEST_DIR, SPEC_FILE_NAME));
-        return;
+    } else {
+        await downloadSourceFile(`https://raw.githubusercontent.com/casanet/casanet-server/${API_SERVER_SPEC_BRANCH}/backend/src/generated/swagger.json`, path.join(SPEC_FILE_DEST_DIR, SPEC_FILE_NAME));
     }
 
-    console.log(`[fetch-api] Fetching API Spec form server "${API_SERVER_SPEC_BRANCH}" branch...`);
+    // Those are legacy way of sharing TS interfaces, all new interfaces should be part of the OpenAPI spec only
 	await downloadSourceFile(`https://raw.githubusercontent.com/casanet/casanet-server/${API_SERVER_SPEC_BRANCH}/backend/src/models/remote2localProtocol.ts`, CHANNEL_SPEC_PATH);
 	await downloadSourceFile(`https://raw.githubusercontent.com/casanet/casanet-server/${API_SERVER_SPEC_BRANCH}/backend/src/models/sharedInterfaces.d.ts`, SHARED_MODELS_PATH);
-	await downloadSourceFile(`https://raw.githubusercontent.com/casanet/casanet-server/${API_SERVER_SPEC_BRANCH}/backend/src/generated/swagger.json`, path.join(SPEC_FILE_DEST_DIR, SPEC_FILE_NAME));
     console.log(`[fetch-api] API Spec fetched successfully`);
 })();
