@@ -1,8 +1,13 @@
 import fse from 'fs-extra';
 import path from 'path';
-import jsZip from 'jszip';
-import nodeFetch from 'node-fetch';
+import util from 'util';
+import { exec } from 'child_process';
+import dotenv from 'dotenv';
+const execPromise = util.promisify(exec);
 
+dotenv.config();
+
+// Pull latest git, dont use artifacts at all, see run-mock server
 const BUILD_MODE = process.env.BUILD_PATH === 'internal' ? 'internal' : 'www';
 const dashboardDist = path.join(BUILD_MODE, 'light-app');
 
@@ -10,27 +15,41 @@ const ENV_BRANCH = (process.env.BRANCH !== 'main' && !process.env.BUILD_PROD) ? 
 
 console.log(`[fetch-light-app] Fetching light-app for branch "${process.env.BRANCH}" from server "${ENV_BRANCH}" branch...`);
 
-async function downloadAndUnpackDashboard(dashboardArtifact, distDir) {
-	const latestArtifact = await nodeFetch(dashboardArtifact);
-	const artifactBuffer = await latestArtifact.buffer();
+function copyDirectorySync(source, destination) {
+	// Create the destination directory if it doesn't exist
+	if (!fse.existsSync(destination)) {
+		fse.mkdirSync(destination);
+	}
 
-	const artifactZip = await jsZip.loadAsync(artifactBuffer);
+	// Read the contents of the source directory
+	const files = fse.readdirSync(source);
 
-	for (const [filename, file] of Object.entries(artifactZip.files)) {
-		if (file.dir) {
-			continue;
+	for (const file of files) {
+		const sourceFilePath = path.join(source, file);
+		const destinationFilePath = path.join(destination, file);
+
+		// Check if the current item is a directory
+		if (fse.statSync(sourceFilePath).isDirectory()) {
+			// If it's a directory, recursively copy its contents
+			copyDirectorySync(sourceFilePath, destinationFilePath);
+		} else {
+			// If it's a file, copy it to the destination directory
+			fse.copyFileSync(sourceFilePath, destinationFilePath);
 		}
-
-		const fileBuffer = await file.async('nodebuffer');
-
-
-		const fileDist = path.join(distDir, filename);
-		await fse.promises.mkdir(path.dirname(fileDist), { recursive: true });
-		fse.outputFileSync(fileDist, fileBuffer);
 	}
 }
 
 (async () => {
-	// Download the dashboard app
-	await downloadAndUnpackDashboard(`https://nightly.link/casanet/lightweight-dashboard/workflows/build/${ENV_BRANCH}/${BUILD_MODE}.zip`, dashboardDist);
+
+	try { await execPromise(`mkdir ${path.join('temp-mock')}`); } catch {}
+	try { await execPromise(`cd ${path.join('temp-mock')} && git clone https://github.com/casanet/lightweight-dashboard.git && git checkout ${ENV_BRANCH}`); } catch {}
+	await execPromise(`cd ${path.join('temp-mock', 'lightweight-dashboard')} && git checkout ${ENV_BRANCH} && git pull`); 
+	try {
+		const setEnvRes = await execPromise(`cd ${path.join('temp-mock', 'lightweight-dashboard')} && node scripts/set-environment.js`, { env: { API_URL: process.env.REACT_APP_API_URL } });
+		console.log(setEnvRes.stdout);
+	} catch (error) {
+		console.log(error);
+	}
+
+	copyDirectorySync(path.join('temp-mock', 'lightweight-dashboard', 'src'), dashboardDist);
 })();
