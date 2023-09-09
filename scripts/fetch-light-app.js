@@ -18,7 +18,7 @@ console.log(`[fetch-light-app] Fetching light-app for branch "${process.env.BRAN
 function copyDirectorySync(source, destination) {
 	// Create the destination directory if it doesn't exist
 	if (!fse.existsSync(destination)) {
-		fse.mkdirSync(destination);
+		fse.mkdirSync(destination, { recursive: true });
 	}
 
 	// Read the contents of the source directory
