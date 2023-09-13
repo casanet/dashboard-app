@@ -28,7 +28,7 @@ The dashboard design to fully support the following features:
 
 #### 💾 backward computability 💾
 
-You can still use the [v3 dashboard](https://github.com/casanet/frontend-v3) (should be server in `CASANET-URL/v3` URL). 
+You can still use the [v3 dashboard](https://github.com/casanet/frontend-v3). 
 
 ## DEVELOPMENT
 
@@ -38,7 +38,7 @@ The dashboard implemented using [react v17](https://reactjs.org/blog/2020/10/20/
 To set development environment, first set the environment variables, see [.env.example](./.env.example), then use the following commands:
 
 * `yarn` - to install all dependencies
-* `yarn run prebuild` - to fetch the [casanet server spec](https://github.com/casanet/casanet-server/blob/development/backend/src/swagger.json) and generate the API's calls using [Swagger online generate](https://generator3.swagger.io/index.html) API.
+* `yarn run prebuild` - to fetch the [casanet server spec](https://github.com/casanet/casanet-server/blob/development/backend/src/generated/swagger.json) and generate the API's calls using [Swagger online generate](https://generator3.swagger.io/index.html) API.
 * `yarn run start` - to start the development assets server.
 * `yarn run build` - To build the final bundle.
 
