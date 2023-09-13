@@ -41,12 +41,13 @@ function copyDirectorySync(source, destination) {
 
 (async () => {
 
-	try { await execPromise(`mkdir ${path.join('temp-mock')}`); } catch {}
-	try { await execPromise(`cd ${path.join('temp-mock')} && git clone https://github.com/casanet/lightweight-dashboard.git && git checkout ${ENV_BRANCH}`); } catch {}
-	await execPromise(`cd ${path.join('temp-mock', 'lightweight-dashboard')} && git checkout ${ENV_BRANCH} && git pull`); 
+	try { await execPromise(`mkdir ${path.join('temp-mock')}`); } catch { }
+	try { await execPromise(`cd ${path.join('temp-mock')} && git clone https://github.com/casanet/lightweight-dashboard.git && git checkout ${ENV_BRANCH}`); } catch { }
+	await execPromise(`cd ${path.join('temp-mock', 'lightweight-dashboard')} && git checkout ${ENV_BRANCH} && git pull`);
 	try {
-		const setEnvRes = await execPromise(`cd ${path.join('temp-mock', 'lightweight-dashboard')} && node scripts/set-environment.js`, { env: { API_URL: process.env.REACT_APP_API_URL } });
-		console.log(setEnvRes.stdout);
+		fse.writeFileSync(path.join('temp-mock', 'lightweight-dashboard', 'src/environments.json'), JSON.stringify({
+			API_URL: `${process.env.REACT_APP_API_URL || ''}/API`,
+		}));
 	} catch (error) {
 		console.log(error);
 	}
