@@ -74,7 +74,7 @@ jobs:
         mkdir android
         cp platforms/android/app/build/outputs/bundle/$BUILD_TYPE/app-$BUILD_TYPE.aab android/app-$BUILD_TYPE.aab
         cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk android/app-$BUILD_TYPE.apk
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: android
         path: android
@@ -95,7 +95,7 @@ jobs:
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_PROD ; else export REACT_APP_LIGHTWEIGHT_URL=$LIGHTWEIGHT_URL_DEV; fi
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_SHOW_VERSION_COMMIT='false' ; else export REACT_APP_SHOW_VERSION_COMMIT='true'; fi
         yarn run build
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: www
         path: www
@@ -110,7 +110,7 @@ jobs:
         export BRANCH=${GITHUB_REF##*/}
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_SHOW_VERSION_COMMIT='false' ; else export REACT_APP_SHOW_VERSION_COMMIT='true'; fi
         yarn run build
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: internal 
         path: internal
@@ -123,7 +123,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - uses: actions/download-artifact@master
+    - uses: actions/download-artifact@v4
     - name: Install node
       uses: actions/setup-node@v3
       with:
@@ -162,7 +162,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    - uses: actions/download-artifact@master
+    - uses: actions/download-artifact@v4
       with:
         name: android
         path: android
