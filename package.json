@@ -51,7 +51,7 @@
 		"stylis": "^4.0.10",
 		"stylis-plugin-rtl": "^2.1.0",
 		"ts-events": "^3.4.0",
-		"unitsnet-js": "^1.0.42",
+		"unitsnet-js": "^3.0.5",
 		"web-vitals": "^1.0.1"
 	},
 	"cordova": {
