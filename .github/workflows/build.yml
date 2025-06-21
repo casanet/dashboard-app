@@ -44,11 +44,11 @@ jobs:
       run: |
           npm run dev_mode
 
-    - name: Set up JDK 11
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
-        java-version: 11
+        java-version: 17
     - name: Setup Android SDK
       uses: android-actions/setup-android@v2
     - name: Bundle Android APP
