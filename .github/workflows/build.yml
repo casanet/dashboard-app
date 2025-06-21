@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [22.x]
     steps:
     - uses: actions/checkout@v3
     - name: Install node
@@ -119,7 +119,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [22.x]
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -157,7 +157,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [22.x]
     if: github.ref == 'refs/heads/main'
     steps:
     - name: Checkout repository
