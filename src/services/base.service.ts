@@ -1,4 +1,4 @@
-import { DataService, DataServiceOptions, LocalCacheMode } from "frontal-data-manager";
+import { DataService, DataServiceOptions, LocalCacheMode } from "../hooks/data-service-base";
 import { envFacade } from "../infrastructure/env-facade";
 
 export interface DashboardServiceOptions extends DataServiceOptions {

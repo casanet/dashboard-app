@@ -6,18 +6,18 @@ import { handleServerRestError } from "../../services/notifications.service";
 import { useState } from "react";
 import { usersService } from "../../services/users.service";
 import AddIcon from '@mui/icons-material/Add';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CREATE_USER_PATH, DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 
 export function UsersToolbar() {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
 	async function createUser(): Promise<boolean> {
 		// Route to the create user path
-		history.push(CREATE_USER_PATH);
+		navigate(CREATE_USER_PATH);
 		// Return false in order to not show the succeed icon, since it's pointless, only move route, yes? 
 		return false;
 	}

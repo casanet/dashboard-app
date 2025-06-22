@@ -1,5 +1,5 @@
 import { Button, Grid, IconButton } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import debounce from "lodash.debounce";
 import cloneDeep from "lodash.clonedeep";
 import { Duration } from "unitsnet-js";
@@ -77,7 +77,7 @@ const applyMinionStatusChangeDebounced = debounce(applyMinionStatusChange, Durat
 
 export function MinionFullInfo(props: MinionFullInfoProps) {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
 	const [deleting, setDeleting] = useState<boolean>(false);
@@ -141,7 +141,7 @@ export function MinionFullInfo(props: MinionFullInfoProps) {
 					<div>
 						<ThemeTooltip title={<span>{t('global.close')}</span>}>
 							<IconButton
-								onClick={() => { history.push(DashboardRoutes.minions.path); }}
+								onClick={() => { navigate(DashboardRoutes.minions.path); }}
 								color="inherit">
 								<CloseIcon style={{ fontSize: DEFAULT_FONT_SIZE * 0.70 }} />
 							</IconButton>

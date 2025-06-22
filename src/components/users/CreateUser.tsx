@@ -1,5 +1,5 @@
 import { Button, Grid, IconButton, InputAdornment, TextField, useTheme } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { DashboardRoutes, PASSWORD_MIN_LENGTH, SERVER_REPO_URL, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import { useState } from "react";
@@ -13,7 +13,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Link from '@mui/material/Link';
 import { usersService } from "../../services/users.service";
 import { useData } from "../../hooks/useData";
-import isEmail from 'isemail';
+import validator from 'validator';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { mapAuthScopeToDisplay } from "../../logic/common/usersUtils";
@@ -48,7 +48,7 @@ function CreateUserInput(props: CreateUserInputProps) {
 
 export function CreateUser() {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
 	const [users] = useData(usersService, { skipErrorToastOnFailure: true });
@@ -93,7 +93,7 @@ export function CreateUser() {
 			setNameError(true);
 		}
 
-		if (!email || !isEmail.validate(email)) {
+		if (!email || !validator.isEmail(email)) {
 			validated = false;
 			setEmailError(true);
 		} else if (users.some(u => u.email === email)) {
@@ -163,7 +163,7 @@ export function CreateUser() {
 
 	/** Close create user view  */
 	function close() {
-		history.push(DashboardRoutes.users.path);
+		navigate(DashboardRoutes.users.path);
 	}
 
 	// TODO: Rename class and scss file name

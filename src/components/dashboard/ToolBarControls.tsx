@@ -12,7 +12,7 @@ import { remoteConnectionDisplayKey } from "../../logic/common/settingsUtils";
 import Badge from '@mui/material/Badge';
 import { marginRight } from "../../logic/common/themeUtils";
 import SystemUpdateIcon from '@mui/icons-material/SystemUpdate';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
 import { getLocalStorageItem, LocalStorageKey } from "../../infrastructure/local-storage";
 import { profileService } from "../../services/users.service";
@@ -37,7 +37,7 @@ interface ToolBarControlsProps {
 export function ToolBarControls(props: ToolBarControlsProps) {
 	const { t } = useTranslation();
 	const classes = useStyles();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const { online, remoteConnection } = useLiveliness();
 	const [newVersion] = useData(versionLatestService, { skipErrorToastOnFailure: true });
@@ -79,7 +79,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 			{passwordChangeRequired && <div>
 				<ThemeTooltip title={<span>{t(`dashboard.toolbar.change.password.alert`)}</span>}>
 					<IconButton
-						onClick={() => history.push(DashboardRoutes.profile.path)}
+						onClick={() => navigate(DashboardRoutes.profile.path)}
 						color="inherit">
 						<Badge color="error" overlap={'circular'} variant="dot" classes={{ badge: classes.badge }}>
 							<AccountCircleIcon fontSize="small" />
@@ -90,7 +90,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 			{newVersion && <div>
 				<ThemeTooltip title={<span>{t(`dashboard.toolbar.new.version.available`, { newVersion })}</span>}>
 					<IconButton
-						onClick={() => history.push(DashboardRoutes.settings.path)}
+						onClick={() => navigate(DashboardRoutes.settings.path)}
 						color="inherit">
 						<Badge color="error" overlap={'circular'} variant="dot" classes={{ badge: classes.badge }}>
 							<SystemUpdateIcon fontSize="small" />
@@ -102,7 +102,7 @@ export function ToolBarControls(props: ToolBarControlsProps) {
 				{/* Do not show cloud indicator in case of remote not configured at all */}
 				{remoteConnection !== RemoteConnectionStatus.NotConfigured && <ThemeTooltip title={<span>{t(remoteConnectionDisplayKey[remoteConnection])}</span>}>
 					<IconButton
-						onClick={() => history.push(DashboardRoutes.settings.path)}
+						onClick={() => navigate(DashboardRoutes.settings.path)}
 						color="inherit">
 						{remoteConnection === RemoteConnectionStatus.ConnectionOk ? <CloudDoneIcon fontSize="small" /> : <CloudOffIcon fontSize="small" />}
 					</IconButton>

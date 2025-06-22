@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './theme/styles/index.css';
 import App from './App';
 import i18n from "i18next";
@@ -67,13 +67,16 @@ if (viewLanguage.direction === 'rtl') {
 }
 
 const startApp = () => {
-	ReactDOM.render(
+	const container = document.getElementById('root');
+	if (!container) throw new Error("Root container not found");
+
+	const root = createRoot(container);
+	root.render(
 		<React.StrictMode>
 			<DirectionWrapper>
 				<App />
 			</DirectionWrapper>
-		</React.StrictMode>,
-		document.getElementById('root')
+		</React.StrictMode>
 	);
 };
 

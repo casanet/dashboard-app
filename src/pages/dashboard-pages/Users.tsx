@@ -24,7 +24,7 @@ import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import Chip from '@mui/material/Chip';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLiveliness } from '../../hooks/useLiveliness';
 import { useData } from '../../hooks/useData';
 import { PageLayout } from '../../components/layouts/PageLayout';
@@ -173,7 +173,7 @@ function UsersMobileLayout(props: UsersLayoutProps) {
 function Users(props: DashboardPageInjectProps) {
 	const { t } = useTranslation();
 	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
-	const history = useHistory();
+	const navigate = useNavigate();
 	const location = useLocation();
 	const { remoteConnection } = useLiveliness();
 	const [users, loading] = useData(usersService);
@@ -222,7 +222,7 @@ function Users(props: DashboardPageInjectProps) {
 	}
 
 	function goToProfile(user: User) {
-		history.push(`${DashboardRoutes.profile.path}/${user.email}`);
+		navigate(`${DashboardRoutes.profile.path}/${user.email}`);
 	};
 
 	async function deleteUser() {

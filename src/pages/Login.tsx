@@ -4,11 +4,11 @@ import '../theme/styles/login.scss';
 import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import isEmail from 'isemail';
 import { sessionManager } from '../infrastructure/session-manager';
 import { envFacade } from '../infrastructure/env-facade';
+import validator from 'validator';
 import { API_KEY_HEADER, AppRoutes, DEFAULT_FONT_RATION, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ThemeToggle } from '../components/global/ThemeToggle';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -33,7 +33,7 @@ interface LoginProps {
 
 function LoginForm() {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const theme = useTheme();
 	const [loading, setLoading] = useState<boolean>();
 	const [mfaMode, setMfaMode] = useState<boolean>();
@@ -72,7 +72,7 @@ function LoginForm() {
 			}
 			const profile = await profileService.forceFetchData();
 			sessionManager.onLogin(profile);
-			history.push(AppRoutes.dashboard.path);
+			navigate(AppRoutes.dashboard.path);
 		} catch (error) {
 			handleServerRestError(error);
 		}
@@ -122,7 +122,7 @@ function LoginForm() {
 	async function submit() {
 		// First check the forms input that they OK, mark as error if case of not.
 		let ignoreSubmit = false;
-		if (!email || !isEmail.validate(email)) {
+		if (!email || !validator.isEmail(email)) {
 			ignoreSubmit = true;
 			setEmailError(true);
 		}

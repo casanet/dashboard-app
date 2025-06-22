@@ -6,10 +6,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import MuiCssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import {
+	Routes,
 	HashRouter,
-	Switch,
 	Route,
-	Redirect,
+	Navigate,
 } from "react-router-dom";
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from './infrastructure/local-storage';
 import { Loader } from './components/Loader';
@@ -69,17 +69,11 @@ function App() {
 						icon: DashboardIcon
 					}} />}>
 						<HashRouter>
-							<Switch>
-								<Route exact path={AppRoutes.login.path}>
-									<Login setDarkMode={applyThemeMode} theme={darkMode} />
-								</Route>
-								<Route path={AppRoutes.dashboard.path}>
-									<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />
-								</Route>
-								<Route exact path={["/", "/*"]}>
-									<Redirect to={AppRoutes.dashboard.path} />
-								</Route>
-							</Switch>
+							<Routes>
+								<Route path={AppRoutes.login.path} element={<Login setDarkMode={applyThemeMode} theme={darkMode} />}/>									
+								<Route path={AppRoutes.dashboard.path} element={<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />}/>
+								<Route path={"/*"}  element={<Navigate to={AppRoutes.dashboard.path} />} />
+							</Routes>
 						</HashRouter>
 					</Suspense>
 				</MuiThemeProvider>

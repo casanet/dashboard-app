@@ -12,11 +12,11 @@ import { ComponentType, LazyExoticComponent, Suspense, useEffect, useState } fro
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 import { getLang } from "../services/localization.service";
 import {
+	Routes,
 	HashRouter,
-	Switch,
+	Navigate,
+	useNavigate,
 	Route,
-	Redirect,
-	useHistory,
 	useLocation
 } from "react-router-dom";
 import React from "react";
@@ -150,7 +150,7 @@ export default function Dashboard(props: DashboardProps) {
 	const { t } = useTranslation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const theme = useTheme();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const classes = useStyles();
 	const liveliness = useLiveliness();
 	const location = useLocation();
@@ -197,7 +197,7 @@ export default function Dashboard(props: DashboardProps) {
 	const onTabSelected = (event: React.ChangeEvent<{}>, newValue: number) => {
 		// Once the page has changed, reset the search
 		setSearchText('');
-		history.push(dashboardPages[newValue].path);
+		navigate(dashboardPages[newValue].path);
 	};
 
 	// In case of user not logged on
@@ -389,19 +389,16 @@ export default function Dashboard(props: DashboardProps) {
 							{waitForCommunication && <Offline />}
 							{/* Show pages only in ONLINE mode */}
 							{!waitForCommunication && <HashRouter>
-								<Switch>
+								<Routes>
 									{/* Generate route for each page */}
 									{dashboardPages.map(dashboardPage =>
-										<Route exact path={dashboardPage.route}>
-											<dashboardPage.components searchText={searchText} />
-										</Route>)}
+										<Route path={dashboardPage.route} element={<dashboardPage.components searchText={searchText} />}/>
+									)}
 									{/* The profile page is not lined to any page tab */}
-									<Route exact path={`${DashboardRoutes.profile.path}/:${DashboardRoutes.profile.param}?`}><Profile /></Route>
+									<Route path={`${DashboardRoutes.profile.path}/:${DashboardRoutes.profile.param}?`}element={<Profile />}/>
 									{/* As fallback, redirect to the first page */}
-									<Route exact path={[AppRoutes.dashboard.path, `${AppRoutes.dashboard.path}/*`]}>
-										<Redirect to={dashboardPages[0].path} />
-									</Route>
-								</Switch>
+									<Route path={`${AppRoutes.dashboard.path}/*`} element={<Navigate to={dashboardPages[0].path} />}/>
+								</Routes>
 							</HashRouter>}
 						</Suspense>
 					</div>
