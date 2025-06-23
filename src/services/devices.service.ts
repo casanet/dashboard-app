@@ -1,4 +1,4 @@
-import { DataService } from 'frontal-data-manager';
+import { DataService } from "../hooks/data-service-base";
 import { ApiFacade, LocalNetworkDevice } from "../infrastructure/generated/api/swagger/api";
 
 class DevicesService extends DataService<LocalNetworkDevice[]> {

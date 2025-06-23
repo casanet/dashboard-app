@@ -9,7 +9,7 @@ import PermIdentityOutlined from '@material-ui/icons/PermIdentityOutlined';
 import HomeIcon from '@material-ui/icons/Home';
 import { useTranslation } from "react-i18next";
 import { sessionManager } from "../../infrastructure/session-manager";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppRoutes, DashboardRoutes, DEFAULT_FONT_RATION } from "../../infrastructure/consts";
 import { extractProfileAvatarText } from "../../logic/common/profileUtils";
 import Modal from '@mui/material/Modal';
@@ -26,7 +26,7 @@ import { marginLeft } from "../../logic/common/themeUtils";
 
 export function ProfileAvatar() {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const theme = useTheme();
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -54,12 +54,12 @@ export function ProfileAvatar() {
 			// TODO: LOG
 		});
 		sessionManager.onLogout();
-		history.push(AppRoutes.login.path);
+		navigate(AppRoutes.login.path);
 		handleClose();
 	};
 
 	function goToProfile() {
-		history.push(DashboardRoutes.profile.path);
+		navigate(DashboardRoutes.profile.path);
 		handleClose();
 	};
 

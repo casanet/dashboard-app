@@ -10,7 +10,7 @@ import { Minion, minionsService } from "../../../services/minions.service";
 import { getModeColor, marginLeft } from "../../../logic/common/themeUtils";
 import { ThemeTooltip } from "../../global/ThemeTooltip";
 import LaunchIcon from '@mui/icons-material/Launch';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { RestrictionMode } from "./RestrictionMode";
 import { ApiFacade, RestrictionItem, RestrictionType } from "../../../infrastructure/generated/api/swagger/api";
 import { handleServerRestError } from "../../../services/notifications.service";
@@ -30,7 +30,7 @@ export default function MinionRestrictions(props: MinionRestrictionsProps) {
     const [showAddRestrictionView, setShowAddRestrictionView] = useState<boolean>(false);
     const [savingRestrictions, setSavingRestrictions] = useState<string>();
     const [addingRestrictions, setAddingRestrictions] = useState<boolean>(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const minion = props?.minion;
     const restrictions = minion?.restrictions || [];
@@ -113,7 +113,7 @@ export default function MinionRestrictions(props: MinionRestrictionsProps) {
                             </div>
                             <ThemeTooltip title={<span>{t('dashboard.restrictions.see.user.info')}</span>} >
                                 <IconButton
-                                    onClick={() => history.push(`${DashboardRoutes.profile.path}/${restriction.userEmail}`)}
+                                    onClick={() => navigate(`${DashboardRoutes.profile.path}/${restriction.userEmail}`)}
                                     color="inherit">
                                     <LaunchIcon fontSize="small" />
                                 </IconButton>

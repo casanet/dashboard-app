@@ -1,6 +1,6 @@
 import { Grid, Typography, useTheme } from "@material-ui/core";
 import '../../theme/styles/components/minions/minionsOverview.scss';
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DashboardRoutes } from "../../infrastructure/consts";
 import { MinionPowerToggle } from "./MinionPowerToggle";
 import { MinionStatusOverview } from "./overviewMinionsStatus/MinionStatusOverview";
@@ -20,16 +20,16 @@ interface MinionOverviewProps {
 export function MinionOverview(props: MinionOverviewProps) {
 	const { t } = useTranslation();
 	const { id } = useParams<{ id: string }>();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const theme = useTheme();
 
 	async function onMinionSelection() {
 		if (minion.minionId === id) {
 			// If current minion already selected, unselect it
-			history.push(DashboardRoutes.minions.path)
+			navigate(DashboardRoutes.minions.path)
 		} else {
 			// Select the minion (by adding the id to the URL)
-			history.push(`${DashboardRoutes.minions.path}/${minion.minionId}`)
+			navigate(`${DashboardRoutes.minions.path}/${minion.minionId}`)
 		}
 	}
 

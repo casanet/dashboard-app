@@ -12,18 +12,15 @@ import { ComponentType, LazyExoticComponent, Suspense, useEffect, useState } fro
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 import { getLang } from "../services/localization.service";
 import {
-	HashRouter,
-	Switch,
-	Route,
-	Redirect,
-	useHistory,
-	useLocation
+	useNavigate,
+	useLocation,
+	Outlet
 } from "react-router-dom";
 import React from "react";
 import { Loader } from "../components/Loader";
 import { ProfileAvatar } from "../components/dashboard/ProfileAvatar";
 import SearchIcon from '@mui/icons-material/Search';
-import { AppRoutes, DashboardRoutes } from "../infrastructure/consts";
+import { DashboardRoutes } from "../infrastructure/consts";
 import { ToolBarControls } from "../components/dashboard/ToolBarControls";
 import { sessionManager } from "../infrastructure/session-manager";
 import InputBase from "@mui/material/InputBase";
@@ -41,12 +38,13 @@ import { livelinessCheck, livelinessFlag } from "../services/liveliness.service"
 import { envFacade } from "../infrastructure/env-facade";
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { RemoteConnectionStatus } from "../infrastructure/generated/api/swagger/api";
+import { textSearchService } from "../services/text.serach.service";
+import { useData } from "../hooks/data-hooks";
 
 const Minions = React.lazy(() => import('./dashboard-pages/Minions'));
 const Network = React.lazy(() => import('./dashboard-pages/Network'));
 const Users = React.lazy(() => import('./dashboard-pages/Users'));
 const Settings = React.lazy(() => import('./dashboard-pages/Settings'));
-const Profile = React.lazy(() => import('./dashboard-pages/Profile'));
 const Offline = React.lazy(() => import('../components/Offline'));
 
 // Detect the direction, and use the correct arrow direction for extend/collapse side menu
@@ -56,7 +54,7 @@ const RightArrowIcon = direction === 'rtl' ? ArrowForwardIosIcon : ArrowBackIosI
 
 /** Any dashboard page, wants to get the dashboard search input value, required to add this to his props */
 export interface DashboardPageInjectProps {
-	searchText?: string;
+
 }
 
 interface DashboardProps {
@@ -108,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 /** The dashboard pages collection */
-const dashboardPages: DashboardPage[] = [
+export const dashboardPages: DashboardPage[] = [
 	{
 		icon: <WbIncandescentIcon />,
 		nameKey: 'global.minions',
@@ -150,15 +148,15 @@ export default function Dashboard(props: DashboardProps) {
 	const { t } = useTranslation();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 	const theme = useTheme();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const classes = useStyles();
 	const liveliness = useLiveliness();
 	const location = useLocation();
+	const [searchText] = useData(textSearchService)
 	const [waitForCommunication, setWaitForCommunication] = useState<boolean>(false);
 	const [collapseMenu, setCollapseMenu] = useState<boolean>(!!getLocalStorageItem<boolean>(LocalStorageKey.CollapseMenu, { itemType: 'boolean' }));
 	const [collapseToolbar, setCollapseToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapseAppToolbar, { itemType: 'boolean' }) ?? envFacade.isMobileApp);
 	const [collapsePageToolbar, setCollapsePageToolbar] = useState<boolean>(getLocalStorageItem<boolean>(LocalStorageKey.CollapsePageToolbar, { itemType: 'boolean' }) ?? true);
-	const [searchText, setSearchText] = useState<string>();
 
 	useEffect(() => {
 		(async () => {
@@ -196,8 +194,8 @@ export default function Dashboard(props: DashboardProps) {
 
 	const onTabSelected = (event: React.ChangeEvent<{}>, newValue: number) => {
 		// Once the page has changed, reset the search
-		setSearchText('');
-		history.push(dashboardPages[newValue].path);
+		textSearchService.postNewData('')
+		navigate(dashboardPages[newValue].path);
 	};
 
 	// In case of user not logged on
@@ -264,7 +262,7 @@ export default function Dashboard(props: DashboardProps) {
 									placeholder={t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() })}
 									value={searchText}
 									onChange={(e) => {
-										setSearchText(e.target.value)
+										textSearchService.postNewData(e.target.value)
 									}}
 									inputProps={{ 'aria-label': t('dashboard.toolbar.search.in.page.content', { pageName: t(dashboardPage.nameKey).toLowerCase() }) }}
 								/>}
@@ -388,21 +386,9 @@ export default function Dashboard(props: DashboardProps) {
 							{/* Show offline page in case of OFFLINE mode */}
 							{waitForCommunication && <Offline />}
 							{/* Show pages only in ONLINE mode */}
-							{!waitForCommunication && <HashRouter>
-								<Switch>
-									{/* Generate route for each page */}
-									{dashboardPages.map(dashboardPage =>
-										<Route exact path={dashboardPage.route}>
-											<dashboardPage.components searchText={searchText} />
-										</Route>)}
-									{/* The profile page is not lined to any page tab */}
-									<Route exact path={`${DashboardRoutes.profile.path}/:${DashboardRoutes.profile.param}?`}><Profile /></Route>
-									{/* As fallback, redirect to the first page */}
-									<Route exact path={[AppRoutes.dashboard.path, `${AppRoutes.dashboard.path}/*`]}>
-										<Redirect to={dashboardPages[0].path} />
-									</Route>
-								</Switch>
-							</HashRouter>}
+							{!waitForCommunication &&
+								 <Outlet />
+							}
 						</Suspense>
 					</div>
 				</div>

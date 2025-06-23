@@ -1,5 +1,5 @@
 import { Button, Grid, TextField, useTheme } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 import { DashboardRoutes, SERVER_REPO_URL, SIDE_CONTAINER_DEFAULT_FONT_SIZE } from "../../infrastructure/consts";
 import '../../theme/styles/components/minions/minionFullInfo.scss';
@@ -77,7 +77,7 @@ function CreateMinionInput(props: CreateMinionInputProps) {
 
 export function CreateMinion() {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const desktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
 
 	const [creating, setCreating] = useState<boolean>();
@@ -211,7 +211,7 @@ export function CreateMinion() {
 
 	/** Close create minion view  */
 	function close() {
-		history.push(DashboardRoutes.minions.path);
+		navigate(DashboardRoutes.minions.path);
 	}
 
 	// Hold selected minion kind to create (if selected)

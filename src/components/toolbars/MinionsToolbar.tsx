@@ -10,7 +10,7 @@ import { handleServerRestError, postApiError } from "../../services/notification
 import { useState } from "react";
 import { sleep } from "../../infrastructure/utils";
 import { Duration } from "unitsnet-js";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CREATE_MINION_PATH } from "../../infrastructure/consts";
 import { ApiFacade, ErrorResponse, ProgressStatus } from "../../infrastructure/generated/api/swagger/api";
 import { timingsService } from "../../services/timings.service";
@@ -19,7 +19,7 @@ import { timeOutService } from "../../services/timeout.service";
 
 export function MinionsToolbar() {
 	const { t } = useTranslation();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	// TODO use effect as in version to detect nscaning progress
 
@@ -29,7 +29,7 @@ export function MinionsToolbar() {
 
 	async function createMinion(): Promise<boolean> {
 		// Route to the create minion path
-		history.push(CREATE_MINION_PATH);
+		navigate(CREATE_MINION_PATH);
 		// Return false in order to not show the succeed icon, since it's pointless, only move route, yes? 
 		return false;
 	}

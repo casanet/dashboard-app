@@ -1,5 +1,6 @@
 import { handleServerRestError } from '../services/notifications.service';
-import { DataService, useData as originalUseData } from 'frontal-data-manager';
+import { DataService } from './data-service-base';
+import { useData as originalUseData } from './data-hooks';
 
 export interface DataHookOptions {
 	/** Don't show toast message on data fetch failure */
@@ -7,7 +8,7 @@ export interface DataHookOptions {
 }
 
 /**
- * Data hook, wrapping the @see useData from 'frontal-data-manager' package, just with injection to generic errorHandler by @see handleServerRestError
+ * Data hook, wrapping the @see useData just with injection to generic errorHandler by @see handleServerRestError
  * @param dataService The data service to get.
  * @param options The hook options
  * @returns A a collection of data and the loading mode, as [data, loading, error].

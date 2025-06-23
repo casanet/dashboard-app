@@ -28,6 +28,12 @@
       </head>
       <body id="body-root">
         <div id="root" />
-        <script src="cordova.js"></script>
+        <script>
+          if (window.location.protocol === 'file:') {
+            var script = document.createElement('script');
+            script.src = 'cordova.js';
+            document.head.appendChild(script);
+          }
+        </script>
     </body>
 </html>

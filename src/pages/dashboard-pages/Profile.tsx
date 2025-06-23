@@ -10,7 +10,7 @@ import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import CloudOffIcon from '@mui/icons-material/CloudOff';
 import { NoPermissions } from '../../components/NoPermissions';
 import { sessionManager } from '../../infrastructure/session-manager';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PermIdentityOutlined from '@material-ui/icons/PermIdentityOutlined';
 import { marginRight } from '../../logic/common/themeUtils';
 import BlockIcon from '@mui/icons-material/Block';
@@ -37,7 +37,7 @@ export default function Profile() {
 
 	const { t } = useTranslation();
 	const { id } = useParams<{ id: string }>();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const theme = useTheme();
 
 	const veryWideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
@@ -90,7 +90,7 @@ export default function Profile() {
 	}
 
 	function goBack() {
-		history.goBack();
+		navigate(-1)
 	}
 
 	// non admin is allowed to see self profile only

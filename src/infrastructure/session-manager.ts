@@ -1,4 +1,4 @@
-import { DataService } from 'frontal-data-manager';
+import { DataService } from '../hooks/data-service-base';
 import { AppRoutes } from './consts';
 import { envFacade } from './env-facade';
 import { AuthScopes, User } from './generated/api/swagger/api';
