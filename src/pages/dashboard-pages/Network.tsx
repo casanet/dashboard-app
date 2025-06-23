@@ -25,6 +25,7 @@ import { marginLeft } from '../../logic/common/themeUtils';
 import { useData } from '../../hooks/useData';
 import { PageLayout } from '../../components/layouts/PageLayout';
 import { ApiFacade, LocalNetworkDevice } from '../../infrastructure/generated/api/swagger/api';
+import { textSearchService } from '../../services/text.serach.service';
 
 /**
  * The sort formula for sorting devices by ip -> name
@@ -193,6 +194,7 @@ export default function Network(props: DashboardPageInjectProps) {
 	const theme = useTheme();
 	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const [devices, loading] = useData(devicesService);
+	const [searchText] = useData(textSearchService)
 
 	const [saving, setSaving] = useState<boolean>(false);
 	const [filteredDevices, setFilteredDevices] = useState<LocalNetworkDevice[]>([]);
@@ -202,10 +204,10 @@ export default function Network(props: DashboardPageInjectProps) {
 		// every time the devices collection has changed or the search term changed, re-calc the filtered minions
 		calcDevicesFilter(devices);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [devices, props.searchText]);
+	}, [devices, searchText]);
 
 	function calcDevicesFilter(devices: LocalNetworkDevice[]) {
-		const searchString = props.searchText?.trim().toLowerCase() || '';
+		const searchString = searchText?.trim().toLowerCase() || '';
 		// In case of empty search term, "clone" collection anyway to avoid sort cache issue
 		const filteredDevices = !searchString ? [...devices] : devices.filter(d => {
 			// If the name match, return true

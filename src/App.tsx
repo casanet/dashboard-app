@@ -15,13 +15,15 @@ import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from './inf
 import { Loader } from './components/Loader';
 import { NotificationContainer } from './components/NotificationContainer';
 import { getLang } from './services/localization.service';
-import { AppRoutes } from './infrastructure/consts';
+import { AppRoutes, DashboardRoutes } from './infrastructure/consts';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import { useTranslation } from 'react-i18next';
 import { envFacade } from './infrastructure/env-facade';
+import { dashboardPages } from './pages/Dashboard';
 
 const Login = React.lazy(() => import('./pages/Login'));
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const Profile = React.lazy(() => import('./pages/dashboard-pages/Profile'));
 
 function App() {
 	const { t } = useTranslation();
@@ -71,7 +73,17 @@ function App() {
 						<HashRouter>
 							<Routes>
 								<Route path={AppRoutes.login.path} element={<Login setDarkMode={applyThemeMode} theme={darkMode} />}/>									
-								<Route path={AppRoutes.dashboard.path} element={<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />}/>
+								<Route path={AppRoutes.dashboard.path} element={<Dashboard setDarkMode={applyThemeMode} theme={darkMode} />}>
+									{/* Generate route for each page */}
+									{dashboardPages.map(dashboardPage =>
+										<Route key={dashboardPage.route} path={dashboardPage.route} element={<dashboardPage.components searchText={""} />}/>
+									)}
+									{/* The profile page is not lined to any page tab */}
+									<Route path={`${DashboardRoutes.profile.path}/:${DashboardRoutes.profile.param}?`} element={<Profile />}/>
+									{/* As fallback, redirect to the first page */}
+									<Route path={`${AppRoutes.dashboard.path}/`} element={<Navigate to={dashboardPages[0].path} replace />}/>
+									<Route path={`${AppRoutes.dashboard.path}/*`} element={<Navigate to={dashboardPages[0].path} replace />}/>
+								</Route>
 								<Route path={"/*"}  element={<Navigate to={AppRoutes.dashboard.path} />} />
 							</Routes>
 						</HashRouter>

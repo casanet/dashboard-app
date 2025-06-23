@@ -20,6 +20,7 @@ import { CreateMinion } from "../../components/minions/CreateMinion";
 import { useData } from "../../hooks/useData";
 import { PageLayout } from "../../components/layouts/PageLayout";
 import { Minion } from "../../infrastructure/generated/api/swagger/api";
+import { textSearchService } from "../../services/text.serach.service";
 
 // The default minion card size
 const defaultWidth = 410;
@@ -61,6 +62,7 @@ export default function Minions(props: DashboardPageInjectProps) {
 	const wideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
 	const veryWideDesktopMode = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'));
 	const [minions, loading] = useData(minionsService);
+	const [searchText] = useData(textSearchService)
 
 	const [sizeRatio, setSizeRatio] = useState<number>(getMinionsCardRationRation(desktopMode, wideDesktopMode, veryWideDesktopMode));
 	const [filteredMinions, setFilteredMinion] = useState<Minion[]>([]);
@@ -69,10 +71,10 @@ export default function Minions(props: DashboardPageInjectProps) {
 		// every time the minion collection has changed or the search term changed, re-calc the filtered minions
 		calcMinionsFilter(minions);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [minions, props.searchText]);
+	}, [minions, searchText]);
 
 	function calcMinionsFilter(minions: Minion[]) {
-		const searchString = props.searchText?.trim().toLowerCase() || '';
+		const searchString = searchText?.trim().toLowerCase() || '';
 		// In case of empty search term, "clone" collection anyway to avoid sort cache issue
 		const filteredMinions = !searchString ? [...minions] : minions.filter(m => {
 			// If the name match, return true

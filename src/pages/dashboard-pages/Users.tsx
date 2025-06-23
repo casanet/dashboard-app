@@ -33,6 +33,7 @@ import { AlertDialog } from '../../components/AlertDialog';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { SensitiveContent } from '../../components/NoPermissions';
 import { ApiFacade, AuthScopes, RemoteConnectionStatus, User } from '../../infrastructure/generated/api/swagger/api';
+import { textSearchService } from '../../services/text.serach.service';
 
 /**
  * The sort formula for sorting users by email
@@ -177,6 +178,7 @@ function Users(props: DashboardPageInjectProps) {
 	const location = useLocation();
 	const { remoteConnection } = useLiveliness();
 	const [users, loading] = useData(usersService);
+	const [searchText] = useData(textSearchService)
 
 	const [deleting, setDeleting] = useState<boolean>(false);
 	const [showDeleteUserAlert, setShowDeleteUserAlert] = useState<boolean>(false);
@@ -188,7 +190,7 @@ function Users(props: DashboardPageInjectProps) {
 		// every time the devices collection has changed or the search term changed, re-calc the filtered minions
 		calcDevicesFilter(users);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [users, props.searchText]);
+	}, [users, searchText]);
 
 	useEffect(() => {
 		(async () => {
@@ -205,7 +207,7 @@ function Users(props: DashboardPageInjectProps) {
 	}, [remoteConnection]);
 
 	function calcDevicesFilter(users: User[]) {
-		const searchString = props.searchText?.trim().toLowerCase() || '';
+		const searchString = searchText?.trim().toLowerCase() || '';
 		// In case of empty search term, "clone" collection anyway to avoid sort cache issue
 		const filteredUsers = !searchString ? [...users] : users.filter(user => {
 			// If the name match, return true
