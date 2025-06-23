@@ -12,11 +12,7 @@ import { ComponentType, LazyExoticComponent, Suspense, useEffect, useState } fro
 import { getLocalStorageItem, LocalStorageKey, setLocalStorageItem } from "../infrastructure/local-storage";
 import { getLang } from "../services/localization.service";
 import {
-	Routes,
-	HashRouter,
-	Navigate,
 	useNavigate,
-	Route,
 	useLocation,
 	Outlet
 } from "react-router-dom";
@@ -24,7 +20,7 @@ import React from "react";
 import { Loader } from "../components/Loader";
 import { ProfileAvatar } from "../components/dashboard/ProfileAvatar";
 import SearchIcon from '@mui/icons-material/Search';
-import { AppRoutes, DashboardRoutes } from "../infrastructure/consts";
+import { DashboardRoutes } from "../infrastructure/consts";
 import { ToolBarControls } from "../components/dashboard/ToolBarControls";
 import { sessionManager } from "../infrastructure/session-manager";
 import InputBase from "@mui/material/InputBase";
