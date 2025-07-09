@@ -403,7 +403,8 @@ export default function Login(props: LoginProps) {
 					</div>
 				</Paper>
 				{JSON.stringify(logs, null, 2)}
-				Status: {envFacade.statusis}
+				Status: {envFacade.statusis.join(',')}
+				Mobile: {envFacade.isMobileApp}
 			</Grid>
 		</div>
 	</div>

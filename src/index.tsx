@@ -82,17 +82,4 @@ const startApp = () => {
 	);
 };
 
-declare var window: Window & {
-	cordova: unknown;
-};
-
-if (window.cordova) {
-	envFacade.statusis.push('Android');
-	globalThis.device = { platform: 'Android' } as Device;
-	document.addEventListener('deviceready', startApp, false);
-} else {
-	envFacade.statusis.push('Browser');
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	globalThis.device = { platform: 'Browser' } as Device;
-	startApp();
-}
+startApp();
