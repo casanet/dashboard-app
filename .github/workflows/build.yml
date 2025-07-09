@@ -75,6 +75,7 @@ jobs:
         mkdir android
         cp platforms/android/app/build/outputs/bundle/$BUILD_TYPE/app-$BUILD_TYPE.aab android/app-$BUILD_TYPE.aab
         cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk android/app-$BUILD_TYPE.apk
+        export REACT_APP_ANDROID_MODE='false'
     - uses: actions/upload-artifact@v4
       with:
         name: android
