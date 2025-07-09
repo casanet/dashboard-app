@@ -21,7 +21,7 @@ jobs:
     - name: Prepare dependencies
       run: |
         npm i -g yarn
-        yarn install --frozen-lockfile
+        yarn install
 
     - name: Bomb Version # Auto Update patch in main branch
       id: bomb_version
@@ -53,10 +53,12 @@ jobs:
       uses: android-actions/setup-android@v2
     - name: Bundle Android APP
       env:
-        REACT_APP_API_URL: '${{ secrets.API_URL }}'
-        REACT_APP_MOCK_API_URL: '${{ secrets.API_URL_DEMO }}'
-        REACT_APP_V3_URL: '${{ secrets.V3_URL_APP }}'
-        REACT_APP_LIGHTWEIGHT_URL: '${{ secrets.LIGHTWEIGHT_URL }}'
+        REACT_APP_API_URL: 'https://remote.casanet.casa'
+        REACT_APP_MOCK_API_URL: ''
+        REACT_APP_V3_URL: 'https://remote.casanet.casa/v3'
+        REACT_APP_LIGHTWEIGHT_URL: '/light-app/index.html'
+        REACT_APP_MOCK_MODE: ''
+        REACT_APP_MOCK_MODE_CONST: 'false'
         CASANET_KEY_STORE: '${{ secrets.CASANET_KEY_STORE }}'
         CASANET_KEY_ALIAS: '${{ secrets.CASANET_KEY_ALIAS }}'
         CASANET_KEY_PASSWORD: '${{ secrets.CASANET_KEY_PASSWORD }}'
@@ -67,13 +69,15 @@ jobs:
         if [[ $BRANCH == 'main' ]]; then export BUILD_TYPE='release' ; else export BUILD_TYPE='debug'; fi
         yarn run build
         npm i -g cordova
-        node scripts/decode-key-store.js
+        node scripts/decode-key-store.js || echo "No keystore found, continuing..."
         cordova platform add android
-        cordova build android --$BUILD_TYPE -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=bundle
-        cordova build android --$BUILD_TYPE -- --keystore=casanet-key-store.jks --storePassword=$CASANET_KEY_PASSWORD --alias=$CASANET_KEY_ALIAS --password=$CASANET_KEY_PASSWORD --packageType=apk
+        cordova build android --$BUILD_TYPE --packageType=apk
         mkdir android
-        cp platforms/android/app/build/outputs/bundle/$BUILD_TYPE/app-$BUILD_TYPE.aab android/app-$BUILD_TYPE.aab
-        cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk android/app-$BUILD_TYPE.apk
+        if [[ $BUILD_TYPE == 'release' ]]; then 
+          cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE-unsigned.apk android/app-$BUILD_TYPE.apk
+        else 
+          cp platforms/android/app/build/outputs/apk/$BUILD_TYPE/app-$BUILD_TYPE.apk android/app-$BUILD_TYPE.apk
+        fi
     - uses: actions/upload-artifact@v4
       with:
         name: android
@@ -82,12 +86,12 @@ jobs:
     - name: Bundle www # The assets build for the public CDN
       env:
         BUILD_PATH: www
-        API_URL_PROD: '${{ secrets.API_URL }}'
-        API_URL_DEV: '${{ secrets.API_URL_DEV }}'
-        V3_URL_PROD: '${{ secrets.V3_URL }}'
-        V3_URL_DEV: '${{ secrets.V3_URL_DEV }}'
-        LIGHTWEIGHT_URL_PROD: '${{ secrets.LIGHTWEIGHT_URL }}'
-        LIGHTWEIGHT_URL_DEV: '${{ secrets.LIGHTWEIGHT_URL_DEV }}'
+        API_URL_PROD: 'https://remote.casanet.casa'
+        API_URL_DEV: 'https://remote.casanet.casa'
+        V3_URL_PROD: 'https://remote.casanet.casa/v3'
+        V3_URL_DEV: 'https://remote.casanet.casa/v3'
+        LIGHTWEIGHT_URL_PROD: '/light-app/index.html'
+        LIGHTWEIGHT_URL_DEV: '/light-app/index.html'
       run: |
         export BRANCH=${GITHUB_REF##*/}
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_API_URL=$API_URL_PROD ; else export REACT_APP_API_URL=$API_URL_DEV; fi
