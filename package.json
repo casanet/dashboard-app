@@ -33,6 +33,7 @@
 		"@mui/icons-material": "^5.0.0",
 		"@mui/lab": "^5.0.0-alpha.48",
 		"@mui/material": "^5.0.0",
+		"@mui/x-date-pickers": "^5.0.0-alpha.7",
 		"date-fns": "^2.8.1",
 		"i18next": "^20.6.0",
 		"javascript-time-ago": "^2.3.10",

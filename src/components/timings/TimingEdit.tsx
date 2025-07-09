@@ -8,30 +8,24 @@ import ModeNightIcon from '@mui/icons-material/ModeNight';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import TextField from "@mui/material/TextField";
 import { daysOptions } from "./TimingOverview";
-import DesktopTimePicker from "@mui/lab/DesktopTimePicker";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import enLocale from 'date-fns/locale/en-US';
-import heLocale from 'date-fns/locale/he';
-
-import DesktopDateTimePicker from "@mui/lab/DesktopDateTimePicker";
+import { DesktopTimePicker } from "@mui/x-date-pickers/DesktopTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { enUS, he } from 'date-fns/locale';
+import { DesktopDateTimePicker } from "@mui/x-date-pickers/DesktopDateTimePicker";
 import { ThemeTooltip } from "../global/ThemeTooltip";
 import { DaysOptions, SunTriggerOptions, TimingProperties, TimingTypes } from "../../infrastructure/generated/api/swagger/api";
 import { getLang } from "../../services/localization.service";
-
-// HACK to force desktop view for all, till this bug https://github.com/mui/mui-x/issues/5561 fix will be published
-const TimePicker = DesktopTimePicker as any;
-const DateTimePicker = DesktopDateTimePicker as any;
 
 // TODO: Once this logic will be used in other component too, move to to app index
 // get lang and set time picker to be shown with the correct lang
 const lang = getLang();
 
-let datePickerLocal = enLocale;
+let datePickerLocal = enUS;
 
 switch (lang.langCode) {
 	case 'he':
-		datePickerLocal = heLocale;
+		datePickerLocal = he;
 		break;
 }
 
@@ -176,16 +170,11 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 			alignItems="center"
 		>
 			{/* Use french time, since they use 24 hours clock */}
-			<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
-				<TimePicker
-					cancelText={t('global.cancel')}
-					okText={t('global.apply')}
-					clearText={t('dashboard.timings.clear-time')}
-					todayText={t('dashboard.timings.today')}
-					toolbarTitle={t('dashboard.timings.select.time')}
+			<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={datePickerLocal}>
+				<DesktopTimePicker
 					disabled={props.disabled}
 					value={time}
-					onChange={(newTime: Date) => {
+					onChange={(newTime: Date | null) => {
 						if (!newTime) {
 							return;
 						}
@@ -219,8 +208,6 @@ export function DailyTimeTriggerEdit(props: TimingEditProps) {
 }
 
 export function OnceTimingEdit(props: TimingEditProps) {
-	const { t } = useTranslation();
-
 	const [time, setTime] = useState<Date>(new Date());
 
 	useEffect(() => {
@@ -244,16 +231,11 @@ export function OnceTimingEdit(props: TimingEditProps) {
 		alignItems="center"
 	>
 		{/* Use french time, since they use 24 hours clock */}
-		<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
-			<DateTimePicker
-				cancelText={t('global.cancel')}
-				okText={t('global.apply')}
-				clearText={t('dashboard.timings.clear-time')}
-				todayText={t('dashboard.timings.today')}
-				toolbarTitle={t('dashboard.timings.select.date.and.time')}
+		<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={datePickerLocal}>
+			<DesktopDateTimePicker
 				disabled={props.disabled}
 				value={time}
-				onChange={(newValue: Date) => {
+				onChange={(newValue: Date | null) => {
 					if (!newValue) {
 						return;
 					}
@@ -298,16 +280,11 @@ export function TimeoutTimingEdit(props: TimingEditProps) {
 			justifyContent="center"
 			alignItems="center"
 		>
-			<LocalizationProvider dateAdapter={AdapterDateFns} locale={datePickerLocal}>
-				<DateTimePicker
-					cancelText={t('global.cancel')}
-					okText={t('global.apply')}
-					clearText={t('dashboard.timings.clear-time')}
-					todayText={t('dashboard.timings.today')}
-					toolbarTitle={t('dashboard.timings.select.date.and.timed')}
+			<LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={datePickerLocal}>
+				<DesktopDateTimePicker
 					disabled={props.disabled}
 					value={value}
-					onChange={(newValue: Date) => {
+					onChange={(newValue: Date | null) => {
 						if (!newValue) {
 							return;
 						}
