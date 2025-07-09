@@ -65,6 +65,7 @@ jobs:
         export BRANCH=${GITHUB_REF##*/}
         if [[ $BRANCH == 'main' ]]; then export REACT_APP_SHOW_VERSION_COMMIT='false' ; else export REACT_APP_SHOW_VERSION_COMMIT='true'; fi
         if [[ $BRANCH == 'main' ]]; then export BUILD_TYPE='release' ; else export BUILD_TYPE='debug'; fi
+        export REACT_APP_ANDROID_MODE='true'
         yarn run build
         npm i -g cordova
         node scripts/decode-key-store.js
