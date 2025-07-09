@@ -201,7 +201,7 @@ class EnvFacade {
 		this.remoteConnection = false;
 	}
 
-	public statusis = 'default';
+	public statusis = ["default"];
 }
 
 export const envFacade = new EnvFacade();
@@ -248,4 +248,5 @@ export const logs =  {...Object.entries(process.env),
 	localFqdn: envFacade.localFqdn,
 	remoteConnection: envFacade.remoteConnection,
 	useLocalConnection: envFacade.useLocalConnection,
+	statusis: JSON.stringify(envFacade.statusis)
 }

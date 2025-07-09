@@ -54,6 +54,8 @@ function LoginForm() {
 
 	const [mfa, setMfa] = useState<string>('');
 
+	envFacade.statusis.push('Login Render');
+
 	async function applyLogin(authResponse: Response) {
 
 		try {

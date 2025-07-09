@@ -70,6 +70,7 @@ if (viewLanguage.direction === 'rtl') {
 const startApp = () => {
 	const container = document.getElementById('root');
 	if (!container) throw new Error("Root container not found");
+	envFacade.statusis.push('Render');
 
 	const root = createRoot(container);
 	root.render(
@@ -86,11 +87,11 @@ declare var window: Window & {
 };
 
 if (window.cordova) {
-	envFacade.statusis = 'Android';
+	envFacade.statusis.push('Android');
 	globalThis.device = { platform: 'Android' } as Device;
 	document.addEventListener('deviceready', startApp, false);
 } else {
-	envFacade.statusis = 'Browser';
+	envFacade.statusis.push('Browser');
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	globalThis.device = { platform: 'Browser' } as Device;
 	startApp();
