@@ -401,7 +401,7 @@ export default function Login(props: LoginProps) {
 					</div>
 				</Paper>
 				{JSON.stringify(logs, null, 2)}
-
+				Status: {envFacade.statusis}
 			</Grid>
 		</div>
 	</div>

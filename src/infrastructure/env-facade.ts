@@ -200,6 +200,8 @@ class EnvFacade {
 		this.localFqdn = '';
 		this.remoteConnection = false;
 	}
+
+	public statusis = 'default';
 }
 
 export const envFacade = new EnvFacade();

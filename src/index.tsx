@@ -15,6 +15,7 @@ import translationEN from './localization/translations/en/global.json';
 import serverEN from './localization/translations/en/server.json';
 import translationHE from './localization/translations/he/global.json';
 import serverHE from './localization/translations/he/server.json';
+import { envFacade } from './infrastructure/env-facade';
 
 // Configure JSS with RTL enables
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -85,9 +86,11 @@ declare var window: Window & {
 };
 
 if (window.cordova) {
+	envFacade.statusis = 'Android';
 	globalThis.device = { platform: 'Android' } as Device;
 	document.addEventListener('deviceready', startApp, false);
 } else {
+	envFacade.statusis = 'Browser';
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	globalThis.device = { platform: 'Browser' } as Device;
 	startApp();
