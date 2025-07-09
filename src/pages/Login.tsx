@@ -5,7 +5,7 @@ import casanetLogo from '../static/logo-app.png';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { sessionManager } from '../infrastructure/session-manager';
-import { envFacade } from '../infrastructure/env-facade';
+import { envFacade, logs } from '../infrastructure/env-facade';
 import validator from 'validator';
 import { API_KEY_HEADER, AppRoutes, DEFAULT_FONT_RATION, PROJECT_URL, SERVER_REPO_URL } from '../infrastructure/consts';
 import { useNavigate } from 'react-router-dom';
@@ -395,10 +395,13 @@ export default function Login(props: LoginProps) {
 					<div className="login-content-container">
 						<LoginForm />
 					</div>
+				
 					<div className="login-content-paper-theme" >
 						<ThemeToggle theme={props.theme} setDarkMode={props.setDarkMode} />
 					</div>
 				</Paper>
+				{JSON.stringify(logs, null, 2)}
+
 			</Grid>
 		</div>
 	</div>
