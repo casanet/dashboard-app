@@ -1,5 +1,4 @@
 import { getLocalStorageItem, LocalStorageKey, removeLocalStorageItem, setLocalStorageItem } from "./local-storage";
-import { Platform } from "./symbols/global";
 import packageJson from "../../package.json";
 import { LIGHTWEIGHT_DASHBOARD_REPO_URL } from "./consts";
 
@@ -10,6 +9,7 @@ const {
 	REACT_APP_V3_URL,
 	REACT_APP_LIGHTWEIGHT_URL,
 	REACT_APP_LOCAL_DEV,
+	REACT_APP_ANDROID_MODE,
 } = process.env;
 
 
@@ -39,6 +39,7 @@ class EnvFacade {
 
 	private _useLocalConnection = getLocalStorageItem<boolean>(LocalStorageKey.UseLocalConnection, { itemType: 'boolean' }) ?? false;
 
+	private _isAndroidMode = REACT_APP_ANDROID_MODE === 'true'
 
 	public set apiServerBaseUrl(serverUrl: string) {
 		// Keep the server URL in mobile apps for farther use
@@ -179,12 +180,8 @@ class EnvFacade {
 		return this.isMobileApp && this.mockMode;
 	}
 
-	public get platform(): Platform {
-		return globalThis?.device?.platform as Platform;
-	}
-
 	public get isMobileApp(): boolean {
-		return this.platform !== 'Browser';
+		return this._isAndroidMode;
 	}
 
 	public get bundleVersion(): string {
@@ -208,7 +205,6 @@ export const envFacade = new EnvFacade();
 console.table(Object.entries(process.env));
 console.table({
 	bundleVersion: envFacade.bundleVersion,
-	platform: envFacade.platform,
 	isMobileApp: envFacade.isMobileApp,
 	devMode: envFacade.devMode,
 	mockMode: envFacade.mockMode,
