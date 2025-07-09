@@ -398,15 +398,8 @@ export default function Login(props: LoginProps) {
 					<div className="login-content-paper-theme" >
 						<ThemeToggle theme={props.theme} setDarkMode={props.setDarkMode} />
 					</div>
-					<div>
-						REACT_APP_ANDROID_MODE:{process.env.REACT_APP_ANDROID_MODE}
-						<br/>
-						isMobileApp: {envFacade.isMobileApp ? 'on' : 'off'}
-					</div>
 				</Paper>
-
 			</Grid>
-
 		</div>
 	</div>
 }

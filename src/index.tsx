@@ -80,14 +80,4 @@ const startApp = () => {
 	);
 };
 
-declare var window: Window & {
-	cordova: unknown;
-};
-
-if (window.cordova) {
-	document.addEventListener('deviceready', startApp, false);
-} else {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	globalThis.device = { platform: 'Browser' } as Device;
-	startApp();
-}
+startApp();
