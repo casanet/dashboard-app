@@ -15,12 +15,14 @@ const {
 
 class EnvFacade {
 
+	private _isAndroidMode = REACT_APP_ANDROID_MODE === 'true'
+
 	/** The local server API URL */
 	private _serverUrl = getLocalStorageItem<string>(LocalStorageKey.ServerURL, { itemType: 'string' }) || REACT_APP_API_URL || '';
 
 	private _mockMode = (!!REACT_APP_MOCK_API_URL) && (getLocalStorageItem<boolean>(LocalStorageKey.MockMode, { itemType: 'boolean' }) ?? true);
 
-	private _mockModeConst = (!!REACT_APP_MOCK_MODE) || ((!!REACT_APP_MOCK_API_URL) && !this.isMobileApp);
+	private _mockModeConst = (!!REACT_APP_MOCK_MODE) || ((!!REACT_APP_MOCK_API_URL) && !this._isAndroidMode);
 
 	private _mockModeAvailable = (!!REACT_APP_MOCK_API_URL);
 
@@ -39,7 +41,6 @@ class EnvFacade {
 
 	private _useLocalConnection = getLocalStorageItem<boolean>(LocalStorageKey.UseLocalConnection, { itemType: 'boolean' }) ?? false;
 
-	private _isAndroidMode = REACT_APP_ANDROID_MODE === 'true'
 
 	public set apiServerBaseUrl(serverUrl: string) {
 		// Keep the server URL in mobile apps for farther use
