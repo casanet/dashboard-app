@@ -85,6 +85,7 @@ declare var window: Window & {
 };
 
 if (window.cordova) {
+	globalThis.device = { platform: 'Android' } as Device;
 	document.addEventListener('deviceready', startApp, false);
 } else {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
